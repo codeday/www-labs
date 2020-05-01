@@ -10,7 +10,7 @@ export default () => (
     <Content>
       <Heading as="h2" size="xl" marginBottom={3}>Student Application</Heading>
       <Text color="red.700" fontWeight="700">
-        Our student application has not opened. Check back May 10, or leave your email below.
+        Our student application has not opened. Check back May 11, or leave your email below.
       </Text>
       <CognitoForm id="62" />
     </Content>
