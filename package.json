@@ -8,8 +8,15 @@
     "start": "next start"
   },
   "dependencies": {
+    "@codeday/topo": "^1.2.14",
+    "@codeday/topocons": "^1.3.0",
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "emotion-theming": "^10.0.27",
     "next": "9.3.6",
+    "prop-types": "^15.7.2",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "react-load-script": "^0.0.6"
   }
 }
