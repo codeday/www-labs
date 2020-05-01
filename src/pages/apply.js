@@ -8,11 +8,10 @@ import Page from '../components/Page';
 export default () => (
   <Page title="Mentor">
     <Content>
-      <Box maxHeight="300px" overflow="hidden" borderRadius="md" marginBottom={4}>
-        <Image width="100%" src="https://picsum.photos/1000/400" />
-      </Box>
       <Heading as="h2" size="xl" marginBottom={3}>Student Application</Heading>
-      <Text color="red.700" fontWeight="700">Our student application has not opened; it will open May 10.</Text>
+      <Text color="red.700" fontWeight="700">
+        Our student application has not opened. Check back May 10, or leave your email below.
+      </Text>
       <CognitoForm id="62" />
     </Content>
   </Page>

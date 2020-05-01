@@ -20,7 +20,7 @@ export default ({ children, title, darkHeader, ...props }) => (
           </a>
         </SiteLogo>
         <Menu>
-          <Link href="/companies">Companies</Link>
+          <Link display={{base: 'none', sm: 'initial'}} href="/companies">Companies</Link>
           <Button variant="outline" variantColor="green" as="a" href="/mentor">Mentor</Button>
           <Button variantColor="green" as="a" href="/apply">Apply</Button>
         </Menu>

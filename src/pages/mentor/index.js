@@ -9,17 +9,18 @@ import Page from '../../components/Page';
 export default () => (
   <Page title="Mentor">
     <Content>
-      <Box height="300px" overflow="hidden" borderRadius="md" marginBottom={4}>
-        <Image
-          width="100%"
-          src="https://img.codeday.org/1024x300/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg"
-        />
-      </Box>
+      <Image
+        width="100%"
+        maxHeight="300px"
+        borderRadius="md"
+        marginBottom={4}
+        src="https://img.codeday.org/1024x300/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg"
+      />
       <Heading as="h2" size="xl">Become a Mentor</Heading>
     </Content>
     <Content>
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "3fr 1fr" }} gap={6}>
-        <Box>
+        <Box marginBottom={4}>
           <Text>
             Due to the Covid-19 lockdown, many students in CS, EECS, CSE, and other tech majors are without
             opportunities to further their CS journeys this summer as they normally would. In response to this need,

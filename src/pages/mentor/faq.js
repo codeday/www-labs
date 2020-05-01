@@ -8,12 +8,13 @@ import Page from '../../components/Page';
 export default () => (
   <Page title="Mentor">
     <Content>
-      <Box height="300px" overflow="hidden" borderRadius="md" marginBottom={4}>
-        <Image
-          width="100%"
-          src="https://img.codeday.org/1024x300/b/s/bsi4mxy595o46b8qufi5xa4c3oisfhz5to8x1c3t7yz9j9d4utrwdrov4zhihtdxc5.jpg"
-        />
-      </Box>
+      <Image
+        width="100%"
+        maxHeight="300px"
+        borderRadius="md"
+        marginBottom={4}
+        src="https://img.codeday.org/1024x300/b/s/bsi4mxy595o46b8qufi5xa4c3oisfhz5to8x1c3t7yz9j9d4utrwdrov4zhihtdxc5.jpg"
+      />
     </Content>
     <Content>
       <Grid templateColumns={{ base: "1fr", sm: "1fr 4fr" }} gap={6}>
