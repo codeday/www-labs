@@ -7,9 +7,11 @@ import { WithText } from '@codeday/topo/Logo';
 import Text, { Link } from '@codeday/topo/Text';
 import Button from '@codeday/topo/Button';
 import Chatra from './Chatra';
+import Analytics from './Analytics';
 
 export default ({ children, title, darkHeader, slug, ...props }) => (
   <Theme>
+    <Analytics />
     <DefaultSeo
       title={`${title ? title + ' ~ ' : ''}CodeDay Labs`}
       description="CodeLabs is the 100% online tech internship for everyone. July 4 - 31, 2020."
