@@ -4,9 +4,11 @@ import Image from '@codeday/topo/Image';
 import CognitoForm from '@codeday/topo/CognitoForm';
 import Text, { Heading, Link } from '@codeday/topo/Text';
 import Page from '../../components/Page';
+import MentorSeo from '../../components/MentorSeo';
 
 export default () => (
-  <Page title="Mentor">
+  <Page slug="/mentor/apply" title="Mentor Application">
+    <MentorSeo />
     <Content>
       <Box height="300px" overflow="hidden" borderRadius="md" marginBottom={4}>
         <Image

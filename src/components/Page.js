@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { DefaultSeo } from 'next-seo';
 import Theme from '@codeday/topo/Theme';
 import Box, { Content } from '@codeday/topo/Box';
 import Header, { SiteLogo, Menu } from '@codeday/topo/Header';
@@ -7,11 +8,29 @@ import Text, { Link } from '@codeday/topo/Text';
 import Button from '@codeday/topo/Button';
 import Chatra from './Chatra';
 
-export default ({ children, title, darkHeader, ...props }) => (
+export default ({ children, title, darkHeader, slug, ...props }) => (
   <Theme>
-    <Head>
-      <title>{title && title + ' ~ '}CodeDay Labs</title>
-    </Head>
+    <DefaultSeo
+      title={`${title ? title + ' ~ ' : ''}CodeDay Labs`}
+      description="CodeLabs is the 100% online tech internship for everyone. July 4 - 31, 2020."
+      canonical={`https://labs.codeday.org${slug}`}
+      openGraph={{
+        type: 'website',
+        locale: 'en_US',
+        site_name: 'CodeDay Labs',
+        url: `https://labs.codeday.org${slug}`,
+        images: [
+          {
+            url: 'https://img.codeday.org/o/v/y/vyby6cz2rqr5b5x99dptzzrgbdqh9iem49qhkc71uf1vzvbgq9oskiiuym5ryxwycx.jpg',
+          }
+        ]
+      }}
+      twitter={{
+        handle: '@codeday',
+        site: '@codeday',
+        cardType: 'summary_large_image',
+      }}
+    />
     <Box position="relative">
       <Header darkBackground={darkHeader} gradAmount={darkHeader && 'lg'} underscore position="relative" zIndex="1000">
         <SiteLogo>

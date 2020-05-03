@@ -1,15 +1,15 @@
 import { Grid, Content } from '@codeday/topo/Box';
 import Image from '@codeday/topo/Image';
-import Page from '../../components/Page';
-import Header from '../../components/index/header';
-import Intro from '../../components/index/intro';
-import Tracks from '../../components/index/tracks';
-import Calendar from '../../components/index/calendar';
-import Legitimizer from '../../components/index/legitimizer';
+import Page from '../components/Page';
+import Header from '../components/index/header';
+import Intro from '../components/index/intro';
+import Tracks from '../components/index/tracks';
+import Calendar from '../components/index/calendar';
+import Legitimizer from '../components/index/legitimizer';
 
 export default function Home() {
   return (
-    <Page darkHeader>
+    <Page slug="/" darkHeader>
       <Header />
       <Intro />
       <Tracks />

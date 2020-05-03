@@ -4,9 +4,11 @@ import Image from '@codeday/topo/Image';
 import Button from '@codeday/topo/Button';
 import Text, { Heading, Link } from '@codeday/topo/Text';
 import Page from '../../components/Page';
+import MentorSeo from '../../components/MentorSeo';
 
 export default () => (
-  <Page title="Mentor">
+  <Page slug="/mentor/faq" title="Mentor FAQ">
+    <MentorSeo />
     <Content>
       <Image
         width="100%"
@@ -35,14 +37,14 @@ export default () => (
           <Text>
             No, the mentors are industry professionals who want to pay forward their experiences and help current CS
             students get a taste of some of the real-world challenges faced by professionals in the tech industry. However,
-            if the company you work for has a non-profit hour match donation program, matching your 30 hours for CodeDay
+            if the company you work for has a non-profit hour match donation program, matching your 20 hours for CodeDay
             will help us offset some of the cost of running this program.
           </Text>
 
           <Heading as="h3" size="md">How big should the projects be?</Heading>
 
           <Text>
-            We expect each student to spend ~10 hours on this project per week, so around 60 hours per student, ~180 hours
+            We expect each student to spend ~10 hours on this project per week, so around 40 hours per student, ~120 hours
             for your student team. Think of something you can do in approximately 1 week or so. Since every team is
             different, you can shrink or expand the scope of the project as you get to know your team.
           </Text>
@@ -50,10 +52,10 @@ export default () => (
           <Heading as="h3" size="md">How much CS do these students know?</Heading>
 
           <Text>
-            Our minimum requirement for students is to have passed a 2nd semester college data structures course. They
-            should be expert in an industry standard language and proficient in building a project of a few hundred lines,
-            and be able to learn new things put in front of them. You might have students that are more advanced or newer
-            to the CS field.
+            Our minimum requirement for students is to have passed a 2nd semester college data structures course or have
+            equivalent projects-based experience. They should have a high level of proficiency in an industry standard
+            language, have experience in building a project of a few hundred lines, and be able to learn new things put
+            in front of them. You might have students that are more advanced or newer to the CS field.
           </Text>
 
           <Heading as="h3" size="md">

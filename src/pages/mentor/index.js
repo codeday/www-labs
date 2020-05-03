@@ -5,9 +5,11 @@ import Image from '@codeday/topo/Image';
 import Text, { Heading, Link } from '@codeday/topo/Text';
 import List, { Item, Icon } from '@codeday/topo/List';
 import Page from '../../components/Page';
+import MentorSeo from '../../components/MentorSeo';
 
 export default () => (
-  <Page title="Mentor">
+  <Page slug="/mentor" title="Mentor">
+    <MentorSeo />
     <Content>
       <Image
         width="100%"
@@ -23,18 +25,17 @@ export default () => (
         <Box marginBottom={4}>
           <Text>
             Due to the Covid-19 lockdown, many students in CS, EECS, CSE, and other tech majors are without
-            opportunities to further their CS journeys this summer as they normally would. In response to this need,
-            CodeDay and Mentors in Tech are offering a virtual internship experience lead by industry volunteers
-            for current CS majors.
+            opportunities to further their CS journeys this summer as they normally would. In response,
+            CodeDay and Mentors in Tech (MinT) are offering a virtual internship experience lead by industry volunteers.
           </Text>
           <Text>
-            Each industry volunteer will lead a group of 3 students, helping them build a project based on the
-            volunteer’s experience and expertise, in 6 weeks. Volunteers will lead the students through design,
-            implementation, test, completion, and presentation of the project.
+            As a mentor, you will lead a group of 3 students, helping them build a project based on your experience and
+            expertise, in 4 weeks. Volunteers will lead the students through design, implementation, test, completion,
+            and presentation of the project.
           </Text>
           <Text>
-            As an industry expert, the volunteer will guide the student team through the project facing real world
-            challenges faced by real engineers working on real projects.
+            You will guide your student team through real world challenges faced by real engineers working on real
+            projects.
           </Text>
           <Button as="a" href="/mentor/apply" variantColor="green">Apply Now</Button>{' '}
           <Button as="a" href="/mentor/faq">FAQ</Button>
@@ -42,7 +43,7 @@ export default () => (
         <Box backgroundColor="red.50" padding={6} marginTop="-2rem">
           <Heading as="h3" size="lg" paddingBottom={2}>Timeline</Heading>
           <Heading as="h4" size="sm">Application opens:</Heading>
-          <Text>May 11</Text>
+          <Text>May 1</Text>
           <Heading as="h4" size="sm">Mentor interviews:</Heading>
           <Text>May-June (rolling)</Text>
           <Heading as="h4" size="sm">Mentor Training:</Heading>
@@ -56,7 +57,7 @@ export default () => (
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
         <Box paddingTop={6}>
           <Heading as="h3" size="lg" paddingBottom={2}>Mentor Time Commitment</Heading>
-          <Text><Text as="span" fontWeight="700">Approximately 20 hours,</Text> as follows:</Text>
+          <Text><Text as="span" fontWeight="700">Approximately 20 hours total,</Text> across 4 weeks, as follows:</Text>
           <List styleType="disc" stylePos="outside" paddingLeft={4}>
             <Item>Training, project scoping, and preparations:<br />2 hours</Item>
             <Item>
@@ -88,12 +89,11 @@ export default () => (
 
           <Heading as="h3" size="lg" paddingBottom={2}>More ways to Help</Heading>
           <Text>
-            Volunteers can also participate in various program activities designed for students including tech talks,
-            career panels, and other mentoring opportunities.
+            We're looking for volunteers who can also help host program activities including tech talks, career panels,
+            and other mentoring opportunities. (We need non-technical volunteers too!)
           </Text>
           <Text>
-            Volunteers of participating companies and organizations can also use their volunteer hour matching programs
-            to donate to CodeDay.
+            As a volunteer, your company may also provide a donation to CodeDay as part of hour matching programs!
           </Text>
         </Box>
       </Grid>

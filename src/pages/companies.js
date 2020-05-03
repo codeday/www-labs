@@ -7,7 +7,7 @@ import Deck from '@codeday/topo/Deck';
 import Page from '../components/Page';
 
 export default () => (
-  <Page title="For Companies">
+  <Page slug="/companies" title="For Companies">
     <Content>
       <Deck src="https://f1.srnd.org/labs/virtual-internship-2020-companies.pdf?v2" allowDownload />
     </Content>

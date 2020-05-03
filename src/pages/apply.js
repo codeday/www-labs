@@ -6,7 +6,7 @@ import Text, { Heading, Link } from '@codeday/topo/Text';
 import Page from '../components/Page';
 
 export default () => (
-  <Page title="Mentor">
+  <Page slug="/apply" title="Student Application">
     <Content>
       <Heading as="h2" size="xl" marginBottom={3}>Student Application</Heading>
       <Text color="red.700" fontWeight="700">

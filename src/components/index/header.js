@@ -8,7 +8,7 @@ export default () => (
     height="600px"
     marginTop="-150px"
     marginBottom={16}
-    duration={5}
+    duration={15}
     srcs={[
       'https://img.codeday.org/o/v/y/vyby6cz2rqr5b5x99dptzzrgbdqh9iem49qhkc71uf1vzvbgq9oskiiuym5ryxwycx.jpg',
       'https://img.codeday.org/o/e/g/eg5pd1gpsrrf8496pbz7s2eqetthaomcdg74tmumzcyy3nwtb92i144axcpi149kjh.jpg',
