@@ -34,7 +34,7 @@ export default () => (
           <Box padding={4} fontSize="lg">
             <Text>
               This track is the most similar to a traditional in-person internship, for those students who have
-              higher-level CS experience or significant prior experience.
+              higher-level CS knowledge or significant experience building projects.
             </Text>
             <Text>
               This is the right track for you if you're a college student with experience beyond the 101/102-level

@@ -29,8 +29,8 @@ export default () => (
           &ldquo;Kubernetes&rdquo; is? Or how real companies set up a GraphQL backend?)
         </Text>
         <Text>
-          (Worried an online internship might not be right for you? Don't be! <Feature>This is the fourth year we've
-          done this.</Feature> You're in for an amazing summer.)
+          (We know so much is uncertain right now. Luckily, you won't need to worry about your summer plans by signing
+          up for CodeLabs. <Feature>This is the fourth year we've done this.</Feature>)
         </Text>
       </Box>
     </Grid>
