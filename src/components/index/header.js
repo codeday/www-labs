@@ -10,14 +10,14 @@ export default () => (
     marginBottom={16}
     duration={15}
     srcs={[
-      'https://img.codeday.org/o/v/y/vyby6cz2rqr5b5x99dptzzrgbdqh9iem49qhkc71uf1vzvbgq9oskiiuym5ryxwycx.jpg',
-      'https://img.codeday.org/o/e/g/eg5pd1gpsrrf8496pbz7s2eqetthaomcdg74tmumzcyy3nwtb92i144axcpi149kjh.jpg',
+      'https://img.codeday.org/w=1920;h=600;fit=crop;crop=faces,edges/v/y/vyby6cz2rqr5b5x99dptzzrgbdqh9iem49qhkc71uf1vzvbgq9oskiiuym5ryxwycx.jpg',
+      'https://img.codeday.org/w=1920;h=600;fit=crop;crop=faces,edges/e/g/eg5pd1gpsrrf8496pbz7s2eqetthaomcdg74tmumzcyy3nwtb92i144axcpi149kjh.jpg',
     ]}
   >
     <Content marginTop="150px">
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }}>
         <Box textAlign={{ base: "center", md: "left" }}>
-          <Heading paddingBottom={8} fontFamily="accent" size="2xl" color="white" textShadow="0 0 5px rgba(0,0,0,0.5)">
+          <Heading paddingBottom={8} fontFamily="accent" size="2xl" color="white" textShadow="0 0 5px rgba(0,0,0,0.7)">
             CodeLabs is the 100% online tech internship for everyone.
           </Heading>
           <Button
@@ -32,15 +32,15 @@ export default () => (
           <Button
             as="a"
             href="/mentor"
-            variant="outline"
-            variantColor="green"
+            variantColor="gray"
+            color="green.600"
             size="lg"
             boxShadow="md"
             marginLeft={2}
           >
-            Apply to Mentor
+            Be a Mentor
           </Button>
-          <Text marginTop={8} fontWeight="700" color="white" textShadow="0 0 5px rgba(0,0,0,0.7)">Early acceptance deadline: June 1</Text>
+          <Text marginTop={8} fontWeight="700" color="white" textShadow="0 0 5px rgba(0,0,0,0.8)">Early acceptance deadline: June 1</Text>
         </Box>
       </Grid>
     </Content>

@@ -22,7 +22,7 @@ export default function MentorApplyPage () {
             maxHeight="300px"
             borderRadius="md"
             marginBottom={4}
-            src="https://img.codeday.org/1024x300/w/v/wvs5jzy36vt5hw1y71pnn7hsfupbh2v9ew3v7fc4z9otg265zzejg9iq97an9aszfa.jpg"
+            src="https://img.codeday.org/w=1024;h=300;fit=crop;crop=faces,edges/w/v/wvs5jzy36vt5hw1y71pnn7hsfupbh2v9ew3v7fc4z9otg265zzejg9iq97an9aszfa.jpg"
           />
         </Box>
         <Heading as="h2" size="xl" marginBottom={3}>Mentor Application</Heading>

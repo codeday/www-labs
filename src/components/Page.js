@@ -18,7 +18,7 @@ export default ({ children, title, darkHeader, slug, ...props }) => (
         url: `https://labs.codeday.org${slug}`,
         images: [
           {
-            url: 'https://img.codeday.org/o/v/y/vyby6cz2rqr5b5x99dptzzrgbdqh9iem49qhkc71uf1vzvbgq9oskiiuym5ryxwycx.jpg',
+            url: 'https://img.codeday.org/o/s/h/sh1wzznzdvcwuu23rosvieifnabsfiaemvf6ejk5a65wjxguvgnzbkk1axjhg6p5je.png',
           }
         ]
       }}

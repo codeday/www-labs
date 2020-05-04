@@ -15,7 +15,7 @@ export default () => (
         maxHeight="300px"
         borderRadius="md"
         marginBottom={4}
-        src="https://img.codeday.org/1024x300/b/s/bsi4mxy595o46b8qufi5xa4c3oisfhz5to8x1c3t7yz9j9d4utrwdrov4zhihtdxc5.jpg"
+        src="https://img.codeday.org/w=1024;h=300;fit=crop;crop=faces,edges/b/s/bsi4mxy595o46b8qufi5xa4c3oisfhz5to8x1c3t7yz9j9d4utrwdrov4zhihtdxc5.jpg"
       />
     </Content>
     <Content>

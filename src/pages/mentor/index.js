@@ -16,7 +16,7 @@ export default () => (
         maxHeight="300px"
         borderRadius="md"
         marginBottom={4}
-        src="https://img.codeday.org/1024x300/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg"
+        src="https://img.codeday.org/w=1024;h=300;fit=crop;crop=faces,edges/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg"
       />
       <Heading as="h2" size="xl">Become a Mentor</Heading>
     </Content>

@@ -16,7 +16,7 @@ export default () => (
           borderRadius="sm"
           boxShadow="sm"
           width="100%"
-          src="https://img.codeday.org/600x400/z/c/zc84reqxyyqnj63hhkaucdm3df6spjnnv195zeizq9yreaqjhcmdk1ju3u94wgkuo7.jpg"
+          src="https://img.codeday.org/w=600;h=450;fit=crop;crop=edges/z/c/zc84reqxyyqnj63hhkaucdm3df6spjnnv195zeizq9yreaqjhcmdk1ju3u94wgkuo7.jpg"
         />
       </Box>
       <Box fontSize="lg">

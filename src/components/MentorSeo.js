@@ -7,7 +7,7 @@ export default () => (
     openGraph={{
       images: [
         {
-          url: "https://img.codeday.org/1200x700/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg",
+          url: 'https://img.codeday.org/o/7/c/7cmscrccv78tysrpf3vtozre96bgg7a3emnqeq16iw7ytghuj296w6r9d8pnvahkfa.png',
         }
       ]
     }}
