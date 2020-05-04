@@ -947,14 +947,14 @@
     toasted-notes "3.2.0"
     use-dark-mode "2.3.1"
 
-"@codeday/topo@^1.3.4":
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/@codeday/topo/-/topo-1.3.4.tgz#1999d6490c2fb39e1d164b90622c7feb134bc1d7"
-  integrity sha512-1Wm83m89JyqOkb3Y84suiZirjZIeHvT76V/fW4eo5OjE00H1I+5yW/D7lGbbnMg4BqGhbpdzrqgZpVvwlXnVOQ==
+"@codeday/topo@^1.3.5":
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/@codeday/topo/-/topo-1.3.5.tgz#459f2a281b28eb0d2bfbbc7244ea0b378c487fba"
+  integrity sha512-R3gnytUP98TCw+9ahiTL8rdNwhjCUkuAzVHoV9JUDo0XJQS+b/H2WUCpQjaLNAFbsZiKGt4IV//VdE3RE6STfg==
   dependencies:
     "@chakra-ui/core" "^0.7.0"
     "@tylermenezes/cognitoforms-react" "^1.1.0"
-    fathom-react "^1.0.0"
+    fathom-react "^1.0.1"
     react-load-script "^0.0.6"
     react-pdf "^4.1.0"
     react-syntax-highlighter "^12.2.1"
@@ -2816,10 +2816,10 @@ fast-json-stable-stringify@^2.0.0:
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz#874bf69c6f404c2b5d99c481341399fd55892633"
   integrity sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
 
-fathom-react@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/fathom-react/-/fathom-react-1.0.0.tgz#414d465ce5814a2e0ebdedbc51792f359b02e89b"
-  integrity sha512-YB7VCA+IqDI4hiLyZV8Gixy2iWUgN4VJcYLwtZs0LorkXVi3gnwtM0d/LG0pUgXsmO46ht0Qc11fS4zt5CsWsg==
+fathom-react@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/fathom-react/-/fathom-react-1.0.1.tgz#036235eba3b00aa70afb0d8b1fec52ac02b43ada"
+  integrity sha512-/wjkYm7Z4jTg9rWw41H4ybX1spnqLFkPPjSSd3JlvaTQTq7TjKjzDR4ykOe3VVbH9fp7att2adk9ecq1lwepwg==
   dependencies:
     prop-types "^15.7.2"
 
