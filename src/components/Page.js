@@ -1,17 +1,12 @@
-import Head from 'next/head'
 import { DefaultSeo } from 'next-seo';
-import Theme from '@codeday/topo/Theme';
 import Box, { Content } from '@codeday/topo/Box';
 import Header, { SiteLogo, Menu } from '@codeday/topo/Header';
 import { WithText } from '@codeday/topo/Logo';
 import Text, { Link } from '@codeday/topo/Text';
 import Button from '@codeday/topo/Button';
-import Chatra from './Chatra';
-import Analytics from './Analytics';
 
 export default ({ children, title, darkHeader, slug, ...props }) => (
-  <Theme>
-    <Analytics />
+  <>
     <DefaultSeo
       title={`${title ? title + ' ~ ' : ''}CodeDay Labs`}
       description="CodeLabs is the 100% online tech internship for everyone. July 4 - 31, 2020."
@@ -42,8 +37,8 @@ export default ({ children, title, darkHeader, slug, ...props }) => (
         </SiteLogo>
         <Menu>
           <Link display={{base: 'none', sm: 'initial'}} href="/companies">Companies</Link>
-          <Button variant="outline" variantColor="green" as="a" href="/mentor">Mentor</Button>
-          <Button variantColor="green" as="a" href="/apply">Apply</Button>
+          <Button variant="outline" variantColor="brand" as="a" href="/mentor">Mentor</Button>
+          <Button variantColor="brand" as="a" href="/apply">Apply</Button>
         </Menu>
       </Header>
       {children}
@@ -51,6 +46,5 @@ export default ({ children, title, darkHeader, slug, ...props }) => (
         <Text fontSize="sm" color="gray.200">&copy; 2020 CodeDay, in partnership with MinT.</Text>
       </Content>
     </Box>
-    <Chatra />
-  </Theme>
+  </>
 );
