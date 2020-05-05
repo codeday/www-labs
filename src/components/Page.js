@@ -43,7 +43,9 @@ export default ({ children, title, darkHeader, slug, ...props }) => (
       </Header>
       {children}
       <Content paddingTop={4}>
-        <Text fontSize="sm" color="gray.200">&copy; 2020 CodeDay, in partnership with MinT.</Text>
+        <Text fontSize="sm" color="gray.400">
+          &copy; 2020 CodeDay, in partnership with <Link target="_blank" href="https://mentorsintech.com">MinT</Link>.
+        </Text>
       </Content>
     </Box>
   </>

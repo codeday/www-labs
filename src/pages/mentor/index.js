@@ -26,7 +26,8 @@ export default () => (
           <Text>
             Due to the Covid-19 lockdown, many students in CS, EECS, CSE, and other tech majors are without
             opportunities to further their CS journeys this summer as they normally would. In response,
-            CodeDay and Mentors in Tech (MinT) are offering a virtual internship experience lead by industry volunteers.
+            CodeDay and <Link href="https://mentorsintech.com" target="_blank">MinT</Link> are offering a virtual
+            internship experience lead by industry volunteers.
           </Text>
           <Text>
             As a mentor, you will lead a group of 3 students, helping them build a project based on your experience and
@@ -38,7 +39,8 @@ export default () => (
             projects.
           </Text>
           <Button as="a" href="/mentor/apply" variantColor="green">Apply Now</Button>{' '}
-          <Button as="a" href="/mentor/faq">FAQ</Button>
+          <Button as="a" href="/mentor/faq" variant="ghost" variantColor="green">FAQs</Button>
+          <Button as="a" href="mailto:labs@codeday.org" variant="ghost" variantColor="green">Email Us</Button>
         </Box>
         <Box backgroundColor="red.50" padding={6} marginTop="-2rem">
           <Heading as="h3" size="lg" paddingBottom={2}>Timeline</Heading>
