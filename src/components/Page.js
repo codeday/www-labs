@@ -9,7 +9,7 @@ export default ({ children, title, darkHeader, slug, ...props }) => (
   <>
     <DefaultSeo
       title={`${title ? title + ' ~ ' : ''}CodeDay Labs`}
-      description="CodeLabs is the 100% online tech internship for everyone. July 4 - 31, 2020."
+      description="CodeLabs is the 100% online tech internship for everyone. July 6 - 31, 2020."
       canonical={`https://labs.codeday.org${slug}`}
       openGraph={{
         type: 'website',
