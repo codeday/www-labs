@@ -31,8 +31,8 @@ export default () => (
           </Text>
           <Text>
             As a mentor, you will lead a group of 3 students, helping them build a project based on your experience and
-            expertise, in 4 weeks. Volunteers will lead the students through design, implementation, test, completion,
-            and presentation of the project.
+            expertise, in 4 weeks. You propose the project, and lead the students through design, implementation, test,
+            completion, and presentation of the project.
           </Text>
           <Text>
             You will guide your student team through real world challenges faced by real engineers working on real
