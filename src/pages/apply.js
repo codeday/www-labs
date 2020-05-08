@@ -12,13 +12,11 @@ export default () => {
     <Page slug="/apply" title="Student Application">
       <Content>
         <Heading as="h2" size="xl" marginBottom={3}>Student Application</Heading>
-        <Text color="red.700" fontWeight="700">
-          Our student application has not opened. Check back May 11, or leave your email below.
-        </Text>
+        <Text>Questions? Email us at <Link href="mailto:labs@codeday.org">labs@codeday.org</Link></Text>
         <CognitoForm
-          formId="62"
+          formId="60"
           onFirstPageChange={() => goal('KLA6SYAR')}
-          onSubmit={() => goal('TDG3BSHH')}
+          onSubmit={() => goal('LITUQMOL')}
         />
       </Content>
     </Page>
