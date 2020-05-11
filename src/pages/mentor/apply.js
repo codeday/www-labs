@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head'
 import Box, { Content } from '@codeday/topo/Box';
 import Image from '@codeday/topo/Image';
@@ -11,6 +11,7 @@ import MentorSeo from '../../components/MentorSeo';
 
 export default function MentorApplyPage () {
   const { goal } = useAnalytics();
+  const [hasStarted, setHasStarted] = useState(false);
 
   return (
     <Page slug="/mentor/apply" title="Mentor Application">
@@ -26,10 +27,19 @@ export default function MentorApplyPage () {
         <Heading as="h2" size="xl" marginBottom={3}>Mentor Application</Heading>
         <CognitoForm
           formId="57"
-          onFirstPageChange={() => goal('VA6TNIKN')}
+          onFirstPageChange={() => { goal('VA6TNIKN'); setHasStarted(true); }}
           onSubmit={() => goal('FQKVLN2E')}
         />
       </Content>
+      {hasStarted && (
+        <img
+          height="1"
+          width="1"
+          style={{ 'display': 'none' }}
+          alt=""
+          src="https://px.ads.linkedin.com/collect/?pid=1831116&fmt=gif"
+        />
+      )}
     </Page>
   );
 };
