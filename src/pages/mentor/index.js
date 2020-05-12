@@ -23,6 +23,16 @@ export default () => (
     <Content>
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "3fr 1fr" }} gap={6}>
         <Box marginBottom={4}>
+          <Text
+            color="green.800"
+            backgroundColor="green.200"
+            borderColor="green.500"
+            borderWidth={1}
+            borderRadius={2}
+            bold
+            padding={4}>
+            Apply by 6/5, and receive a code to guarantee acceptance for one student upon acceptance.
+          </Text>
           <Text>
             Due to the Covid-19 lockdown, many students in CS, EECS, CSE, and other tech majors are without
             opportunities to further their CS journeys this summer as they normally would. In response,
@@ -41,6 +51,7 @@ export default () => (
           <Button as="a" href="/mentor/apply" variantColor="green">Apply Now</Button>{' '}
           <Button as="a" href="/mentor/faq" variant="ghost" variantColor="green">FAQs</Button>
           <Button as="a" href="mailto:labs@codeday.org" variant="ghost" variantColor="green">Email Us</Button>
+          <Button as="a" href="/volunteer" variant="ghost" variantColor="green">More Ways to Help</Button>
         </Box>
         <Box backgroundColor="red.50" padding={6} marginTop="-2rem">
           <Heading as="h3" size="lg" paddingBottom={2}>Timeline</Heading>
