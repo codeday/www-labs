@@ -31,8 +31,8 @@ export default () => (
             borderRadius={2}
             bold
             padding={4}>
-            Apply by 6/5, and receive a code to guarantee acceptance for one student upon acceptance, to share with
-            your child (or any other student who could benefit).
+            Apply by 6/5, and receive a code to guarantee acceptance for one advanced-track student upon acceptance, to
+            share with a family member.
           </Text>
           <Text>
             Due to the Covid-19 lockdown, many students in CS, EECS, CSE, and other tech majors are without
