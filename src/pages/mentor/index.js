@@ -93,21 +93,29 @@ export default () => (
           </List>
         </Box>
         <Box paddingTop={6}>
+          <Heading as="h3" size="lg" paddingBottom={2}>About CodeDay and MinT</Heading>
+          <Text>
+            CodeLabs is a program of CodeDay, an non-profit known for its in-person, hackathon-style events for high
+            school and college students. More than 50,000 students have attended CodeDays since 2011, a majority of
+            which are underrepresented in the tech industry. This will be the fourth year CodeDay has run CodeLabs.
+          </Text>
+          <Text>
+            This year, CodeLabs is presented in partnership with MinT, a new education initiative created by Kevin Wang.
+            Kevin previously founded Microsoft's TEALS program, which helps high schools launch CS courses in
+            partnership with tech industry mentors, reaching over 20,000 students per year.
+          </Text>
+
           <Heading as="h3" size="lg" paddingBottom={2}>How students benefit</Heading>
+          <Text>
+            Tens of thousands of internships have been revoked as a result of COVID-19. The hardest hit are those
+            students who don't attend a top CS university, who rely on internships to show their skills. Mentors have
+            the chance to make a significant impact on these students careers.
+          </Text>
           <Text>
             Through this virtual internship experience, the student participants will have had their first sustained
             hands on experience of working with an industry professional. Students will learn from the industry
             volunteer: project management, team work, communications, modern technical skills, and standard industry
             practices.
-          </Text>
-
-          <Heading as="h3" size="lg" paddingBottom={2}>More ways to Help</Heading>
-          <Text>
-            We're looking for volunteers who can also help host program activities including tech talks, career panels,
-            and other mentoring opportunities. (We need non-technical volunteers too!)
-          </Text>
-          <Text>
-            As a volunteer, your company may also provide a donation to CodeDay as part of hour matching programs!
           </Text>
         </Box>
       </Grid>
