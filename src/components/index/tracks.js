@@ -45,7 +45,7 @@ export default () => (
               internships, and will build a polished app/feature.
             </Text>
             <Text color="gray.500">
-              (May receive a stipend if selected by our sponsors.)
+              (Not a paid internship.)
             </Text>
             <Button as="a" href="/apply" variantColor="green" size="lg">Apply for the Advanced Track</Button>
           </Box>
