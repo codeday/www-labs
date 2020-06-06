@@ -40,7 +40,7 @@ export default () => (
           >
             Be a Mentor
           </Button>
-          <Text marginTop={8} fontWeight="700" color="white" textShadow="0 0 5px rgba(0,0,0,0.8)">Early acceptance deadline: June 1</Text>
+          <Text marginTop={8} fontWeight="700" color="white" textShadow="0 0 5px rgba(0,0,0,0.8)">Deadline: June 24</Text>
         </Box>
       </Grid>
     </Content>
