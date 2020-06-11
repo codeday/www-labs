@@ -1,13 +1,24 @@
+import moment from 'moment-timezone';
 import { Grid, Content } from '@codeday/topo/Box';
 import Image from '@codeday/topo/Image';
 import Page from '../components/Page';
 import Header from '../components/index/header';
 import Intro from '../components/index/intro';
 import Tracks from '../components/index/tracks';
+import SimpleCalendar from '../components/index/simple-calendar';
 import Calendar from '../components/index/calendar';
 import Legitimizer from '../components/index/legitimizer';
+import { getCalendar } from '../utils/airtable';
 
-export default function Home() {
+export const getServerSideProps = async () => ({
+  props: {
+    calendar: (await getCalendar()).map((item) => item.fields),
+  }
+})
+
+export default function Home({ calendar }) {
+  const calendarHydrated = calendar.map((e) => ({ ...e, Date: moment.utc(e.Date).tz('America/Los_Angeles') }));
+
   return (
     <Page slug="/" darkHeader>
       <Header />
@@ -20,7 +31,7 @@ export default function Home() {
           <Image boxShadow="sm" borderRadius="sm" src="https://img.codeday.org/w=600;h=300;fit=crop;crop=faces,edges/7/m/7mp4vzp3jxr5m9hufqfzwxuqjs256wv626xruspxjdqsy6ftchfa7k73xze1uyu8tz.jpg" />
         </Grid>
       </Content>
-      <Calendar />
+      { calendar && calendar.length > 0 ? <Calendar calendar={calendarHydrated} /> : <SimpleCalendar /> }
       <Legitimizer />
     </Page>
   )

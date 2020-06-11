@@ -1,83 +1,102 @@
 import Box, { Grid, Content } from '@codeday/topo/Box';
 import Text, { Heading, Link } from '@codeday/topo/Text';
-import Image, { Slideshow } from '@codeday/topo/Image';
-import Button from '@codeday/topo/Button';
-import FaceVeryHappy from '@codeday/topocons/Icon/FaceVeryHappy';
-import BuildingOffice from '@codeday/topocons/Icon/BuildingOffice';
-import Keyboard from '@codeday/topocons/Icon/Keyboard';
-import FoodMeat from '@codeday/topocons/Icon/FoodMeat';
-import Experiment from '@codeday/topocons/Icon/Experiment';
-import Trophy from '@codeday/topocons/Icon/Trophy';
+import moment from 'moment-timezone';
 
-const eventSchedule = [
-  ['Kickoff', 'Career Panel', 'Tech Talk', 'Expert Lunch', 'Tech Talk'],
-  ['Tech Talk', 'Expert Lunch', 'Tech Talk', 'Career Panel', 'Prototype Day'],
-  ['Tech Talk', 'Career Panel', 'Tech Talk', 'Expert Lunch', 'Tech Talk'],
-  ['Tech Talk', 'Expert Lunch', 'Tech Talk', 'Career Panel', 'Presentations'],
-];
+export default ({ calendar }) => {
+  const eventsByDay = {};
+  calendar.forEach((e) => {
+    const day = e.Date.clone().startOf('day').format('YYYY-MM-DD');
+    if (!(day in eventsByDay)) eventsByDay[day] = [];
+    eventsByDay[day].push(e);
+  });
 
-const weekStarts = 6;
+  const displayStarts = moment('2020-07-06T12:00:00-05:00');
+  const displayEnds = moment('2020-07-31T12:00:00-05:00');
+  const drawDays = [];
+  let day = displayStarts.clone();
+  while(day.isSameOrBefore(displayEnds)) {
+    if (day.isoWeekday() < 6)
+      drawDays.push(day.startOf('day'));
+    day = day.clone().add(1, 'day');
+  }
 
-const eventConfig = {
-  'Kickoff': {
-    icon: FaceVeryHappy,
-    color: 'gray.300',
-  },
-  'Prototype Day': {
-    icon: Experiment,
-    color: 'gray.300',
-  },
-  'Presentations': {
-    icon: Trophy,
-    color: 'gray.300',
-  },
-  'Career Panel': {
-    icon: BuildingOffice,
-    color: 'purple.300',
-  },
-  'Expert Lunch': {
-    icon: FoodMeat,
-    color: 'blue.300',
-  },
-  'Tech Talk': {
-    icon: Keyboard,
-    color: 'orange.300',
-  },
+  return (
+    <>
+      <Content>
+        <Heading paddingBottom={3} textAlign="center">A full calendar of events.</Heading>
+        <Text textAlign="center" paddingBottom={6}>
+          It's not all project work, you'll get to talk to leaders from the tech industry.
+        </Text>
+      </Content>
+      <Content maxWidth="containers.xl">
+        <Grid
+          templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }}
+          borderWidth={{ base: 0, md: 1 }}
+          borderBottom={0}
+          borderColor="gray.100">
+            {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day) => (
+              <Box
+                fontSize="sm"
+                display={{base: 'none', md: 'block'}}
+                textAlign="center"
+                color="gray.500"
+                borderColor="gray.100"
+                borderLeftWidth={day === 'Monday' ? 0 : 1}
+              >
+                {day}
+              </Box>
+            ))}
+            {drawDays.map((date) => (
+              <Box
+                borderColor="gray.100"
+                borderBottomWidth={1}
+                marginTop={{ base: 4, md: 0 }}
+                borderLeftWidth={{ base: 0, md: date.isoWeekday() === 1 ? 0 : 1}}
+              >
+                <Box fontSize="sm" color="gray.500" textAlign="center">{date.format('MMM D')}</Box>
+                {eventsByDay[date.format('YYYY-MM-DD')].sort((a, b) => a.Date.isAfter(b.Date) ? 1 : -1).map((event) => {
+                  const baseColor = {
+                    'Event': 'gray',
+                    'Tech Talk': 'orange',
+                    'Career Panel/Workshop': 'purple',
+                    'Expert Lunch': 'blue',
+                    'Watch Party': 'yellow',
+                  }[event.Type || ''] || 'gray';
+
+                  return (
+                    <Box
+                      m={4}
+                      borderWidth={1}
+                      borderRadius="sm"
+                      borderColor={`${baseColor}.200`}
+                      backgroundColor={`${baseColor}.50`}
+                    >
+                      <Box
+                        p={2}
+                        pb={1}
+                        color={`${baseColor}.800`}
+                        fontSize="xs"
+                        fontWeight="bold"
+                        backgroundColor={`${baseColor}.200`}
+                        marginBottom={2}
+                        borderBottomWidth={1}
+                        borderColor={`${baseColor}.200`}
+                      >
+                        {event.Type}
+                      </Box>
+                      <Box pl={2} pr={2} pb={1} fontSize="sm" fontWeight="bold" color={`${baseColor}.900`}>
+                        {event.Title || 'TBA'}
+                      </Box>
+                      <Box pl={2} pr={2} pb={3} fontSize="sm" color={`${baseColor}.700`}>
+                        {event.Speakers && event.Speakers.split("\n").filter((e) => e).join(', ')}
+                      </Box>
+                    </Box>
+                  );
+                })}
+              </Box>
+            ))}
+        </Grid>
+      </Content>
+    </>
+  )
 };
-
-export default () => (
-  <Content>
-    <Heading paddingBottom={3} textAlign="center">A full calendar of events.</Heading>
-    <Text textAlign="center" paddingBottom={6}>
-      It's not all project work, you'll get to talk to leaders from the tech industry.
-    </Text>
-    <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(5, 1fr)" }} borderWidth={1} borderColor="gray.100">
-      {eventSchedule.map((wk, wkNumber) => wk.map((event, dayNumber) => {
-        const Icon = eventConfig[event].icon;
-        return (
-          <Box margin={0} borderColor="gray.100" borderWidth={1} padding={4} paddingLeft={2}>
-            <Grid templateColumns="1fr 3fr">
-              <Box>
-                <Box
-                  borderRadius="full"
-                  width="3rem"
-                  height="3rem"
-                  bg={eventConfig[event].color}
-                  color="white"
-                  fontSize="2rem"
-                  textAlign="center"
-                >
-                  <Icon/>
-                </Box>
-              </Box>
-              <Box paddingLeft={2}>
-                <Text margin={0} color="gray.500">7/{weekStarts + (wkNumber * 7) + dayNumber}</Text>
-                <Text margin={0} fontWeight="700">{event}</Text>
-              </Box>
-            </Grid>
-          </Box>
-        )
-      }))}
-    </Grid>
-  </Content>
-);
