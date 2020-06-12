@@ -31,7 +31,7 @@ export default function Home({ calendar }) {
           <Image boxShadow="sm" borderRadius="sm" src="https://img.codeday.org/w=600;h=300;fit=crop;crop=faces,edges/7/m/7mp4vzp3jxr5m9hufqfzwxuqjs256wv626xruspxjdqsy6ftchfa7k73xze1uyu8tz.jpg" />
         </Grid>
       </Content>
-      { calendar && calendar.length > 0 ? <Calendar calendar={calendarHydrated} /> : <SimpleCalendar /> }
+      { calendar && calendar.length > 0 ? <Calendar title border calendar={calendarHydrated} /> : <SimpleCalendar /> }
       <Legitimizer />
     </Page>
   )

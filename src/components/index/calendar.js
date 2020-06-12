@@ -2,7 +2,7 @@ import Box, { Grid, Content } from '@codeday/topo/Box';
 import Text, { Heading, Link } from '@codeday/topo/Text';
 import moment from 'moment-timezone';
 
-export default ({ calendar }) => {
+export default ({ calendar, title, border }) => {
   const eventsByDay = {};
   calendar.forEach((e) => {
     const day = e.Date.clone().startOf('day').format('YYYY-MM-DD');
@@ -22,16 +22,18 @@ export default ({ calendar }) => {
 
   return (
     <>
-      <Content>
-        <Heading paddingBottom={3} textAlign="center">A full calendar of events.</Heading>
-        <Text textAlign="center" paddingBottom={6}>
-          It's not all project work, you'll get to talk to leaders from the tech industry.
-        </Text>
-      </Content>
+      { title && (
+        <Content>
+          <Heading paddingBottom={3} textAlign="center">A full calendar of events.</Heading>
+          <Text textAlign="center" paddingBottom={6}>
+            It's not all project work, you'll get to talk to leaders from the tech industry.
+          </Text>
+        </Content>
+      )}
       <Content maxWidth="containers.xl">
         <Grid
           templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }}
-          borderWidth={{ base: 0, md: 1 }}
+          borderWidth={{ base: 0, md: border ? 1 : 0 }}
           borderBottom={0}
           borderColor="gray.100">
             {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day) => (
@@ -52,6 +54,7 @@ export default ({ calendar }) => {
                 borderBottomWidth={1}
                 marginTop={{ base: 4, md: 0 }}
                 borderLeftWidth={{ base: 0, md: date.isoWeekday() === 1 ? 0 : 1}}
+                pt={1}
               >
                 <Box fontSize="sm" color="gray.500" textAlign="center">{date.format('MMM D')}</Box>
                 {eventsByDay[date.format('YYYY-MM-DD')].sort((a, b) => a.Date.isAfter(b.Date) ? 1 : -1).map((event) => {
