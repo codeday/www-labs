@@ -1,15 +1,11 @@
 
 import Box, { Grid, Content } from '@codeday/topo/Box';
-import Image from '@codeday/topo/Image';
-import Button from '@codeday/topo/Button';
 import Text, { Heading, Link } from '@codeday/topo/Text';
 import List, { Item as ListItem, Icon as ListIcon } from '@codeday/topo/List';
 import Page from '../../components/Page';
-import MentorSeo from '../../components/MentorSeo';
 
 export default () => (
   <Page slug="/info/accepted" title="Information For Accepted Students">
-    <MentorSeo />
     <Content>
       <Heading as="h2" size="xl">Information for Accepted Students</Heading>
       <Grid templateColumns={{ base: "1fr", sm: "3fr 1fr" }}>
