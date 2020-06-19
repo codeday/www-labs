@@ -12,7 +12,10 @@ export default () => (
         <Box>
           <Box mb={12} mt={8}>
             <Heading as="h3" size="lg" mb={2}>Share your acceptance!</Heading>
-            <Text>You can use the following text and your choice of image to share that you've been accepted on LinkedIn:</Text>
+            <Text>
+              You can use the following text and your choice of image to share that you've been accepted on LinkedIn
+              (or feel free to write your own):
+            </Text>
             <Text ml={4} pl={4} mr={4} pr={4} borderLeftColor="gray" borderLeftWidth={2} fontStyle="italic">
               I'm excited to share that I'll be working on a tech project at @CodeDay's CodeLabs program this summer!<br /><br />
               CodeLabs is a part of the non-profit group CodeDay, and pairs up students like me with mentors from leading
