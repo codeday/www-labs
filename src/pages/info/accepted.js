@@ -164,6 +164,42 @@ export default () => (
               </ListItem>
             </List>
           </Box>
+
+
+          <Box mb={12}>
+            <Heading as="h3" size="lg" mb={2}>The Team Behind CodeLabs</Heading>
+            <Text>During CodeLabs you're likely to hear from a few folks. Here's who they are and what they do:</Text>
+            <List styleType="disc" mb={4}>
+              <ListItem mb={2}>
+                <Text as="span" bold>Alex Parra:</Text> CodeLabs Mentor Manager
+              </ListItem>
+              <ListItem mb={2}>
+                <Text as="span" bold>Mingjie Jiang:</Text> CodeLabs Mentor Manager
+              </ListItem>
+              <ListItem mb={2}>
+                <Text as="span" bold>Cora Lewis:</Text> CodeLabs Online Learning Manager
+              </ListItem>
+              <ListItem mb={2}>
+                <Text as="span" bold>Kevin Wang:</Text> MinT Founder and Mentoring Advisor to CodeLabs
+              </ListItem>
+              <ListItem mb={2}>
+                <Text as="span" bold>Tyler Menezes:</Text> CodeDay Executive Director
+              </ListItem>
+              <ListItem mb={2}>
+                <Text as="span" bold>Erika Lamothe:</Text> CodeDay Marketing Manager
+              </ListItem>
+              <ListItem mb={2}>
+                <Text as="span" bold>Tyler Menezes:</Text> CodeDay Executive Director
+              </ListItem>
+              <ListItem mb={2}>
+                <Text as="span" bold>Lola, Jake, James, Nikolas, Otto:</Text> CodeDay Tech Team
+              </ListItem>
+            </List>
+            <Text>
+              CodeLabs is a program of CodeDay, a 501(c)(3) non-profit running events and programs, both online and
+              offline, since 2009.
+            </Text>
+          </Box>
         </Box>
       </Grid>
     </Content>
