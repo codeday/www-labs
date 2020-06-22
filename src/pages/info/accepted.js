@@ -183,9 +183,6 @@ export default () => (
                 <Text as="span" bold>Kevin Wang:</Text> MinT Founder and Mentoring Advisor to CodeLabs
               </ListItem>
               <ListItem mb={2}>
-                <Text as="span" bold>Tyler Menezes:</Text> CodeDay Executive Director
-              </ListItem>
-              <ListItem mb={2}>
                 <Text as="span" bold>Erika Lamothe:</Text> CodeDay Marketing Manager
               </ListItem>
               <ListItem mb={2}>
