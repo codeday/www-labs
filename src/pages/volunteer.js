@@ -22,37 +22,31 @@ export default () => (
       <Text color="gray.700" fontSize="xl">We need more than coding mentors to make this summer a success.</Text>
     </Content>
     <Content paddingTop={8} paddingBottom={8}>
-      <Grid templateColumns={{ base: "1fr", sm: "1fr 1fr 1fr" }} gap={6}>
-        <Box>
-          <Heading as="h3" size="md">Operations and Marketing</Heading>
-          <Text>
-            Use your experience to give back by helping <Text as="span" bold>recruit, schedule, and support mentors and
-            volunteers.</Text>
-          </Text>
-          <Text>May-July 2020 (flexible)</Text>
-        </Box>
+      <Grid templateColumns={{ base: "1fr", sm: "1fr 1fr" }} gap={6} textAlign="center">
         <Box>
           <Heading as="h3" size="md">People Ops/HR</Heading>
           <Text>
-            Help students transition into the workforce by <Text as="span" bold>sharing what companies look for through
-            workshops, resume review, and panels.</Text>
+            Provide feedback on student resumes, or host calls to answer individual questions about hiring and careers
+            in the tech industry.
           </Text>
           <Text>July 2020 (flexible)</Text>
         </Box>
         <Box>
-          <Heading as="h3" size="md">Engineers, PMs, and UX/Designers</Heading>
+          <Heading as="h3" size="md">Engineers</Heading>
           <Text>
-            <Text as="span" bold>Share modern best practices and techniques</Text> which make your company's product
-            teams successful.
+            Provide feedback on student resumes, or host mock-technical interviews.
           </Text>
           <Text>July 2020 (flexible)</Text>
         </Box>
       </Grid>
+      <Text bold textAlign="center" mt={4}>
+        You're welcome to keep in touch with any talented students you meet. There is no cost to participate.
+      </Text>
     </Content>
     <Content>
       <Divider marginBottom={8} />
       <Heading as="h3" size="md" marginBottom={4}>Ready to give back? Express your interest below:</Heading>
-      <CognitoForm formId={64} />
+      <CognitoForm formId={69} />
     </Content>
   </Page>
 );
