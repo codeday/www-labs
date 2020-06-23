@@ -13,11 +13,7 @@ export default () => {
       <Content>
         <Heading as="h2" size="xl" marginBottom={3}>Student Application</Heading>
         <Text>Questions? Email us at <Link href="mailto:labs@codeday.org">labs@codeday.org</Link></Text>
-        <CognitoForm
-          formId="60"
-          onFirstPageChange={() => goal('KLA6SYAR')}
-          onSubmit={() => goal('LITUQMOL')}
-        />
+        <Text color="red.800">Applications are now closed! You should hear back by June 26.</Text>
       </Content>
     </Page>
   );
