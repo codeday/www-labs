@@ -2,6 +2,14 @@ import Box, { Grid, Content } from '@codeday/topo/Box';
 import Text, { Heading, Link } from '@codeday/topo/Text';
 import moment from 'moment-timezone';
 
+export const eventColors = {
+  'Event': 'gray',
+  'Tech Talk': 'orange',
+  'Career Panel/Workshop': 'purple',
+  'Expert Lunch': 'blue',
+  'Watch Party': 'yellow',
+};
+
 export default ({ calendar, title, border }) => {
   const eventsByDay = {};
   calendar.forEach((e) => {
@@ -58,16 +66,13 @@ export default ({ calendar, title, border }) => {
               >
                 <Box fontSize="sm" color="gray.500" textAlign="center">{date.format('MMM D')}</Box>
                 {eventsByDay[date.format('YYYY-MM-DD')].sort((a, b) => a.Date.isAfter(b.Date) ? 1 : -1).map((event) => {
-                  const baseColor = {
-                    'Event': 'gray',
-                    'Tech Talk': 'orange',
-                    'Career Panel/Workshop': 'purple',
-                    'Expert Lunch': 'blue',
-                    'Watch Party': 'yellow',
-                  }[event.Type || ''] || 'gray';
+                  const baseColor = eventColors[event.Type || ''] || 'gray';
 
                   return (
                     <Box
+                      as="a"
+                      d="block"
+                      href={`/schedule/e/${event.id}`}
                       m={4}
                       borderWidth={1}
                       borderRadius="sm"

@@ -12,7 +12,7 @@ import { getCalendar } from '../utils/airtable';
 
 export const getServerSideProps = async () => ({
   props: {
-    calendar: (await getCalendar()).map((item) => item.fields),
+    calendar: await getCalendar(),
   }
 })
 

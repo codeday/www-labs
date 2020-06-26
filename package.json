@@ -13,7 +13,10 @@
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "airtable": "^0.8.1",
+    "axios": "^0.19.2",
     "emotion-theming": "^10.0.27",
+    "libphonenumber-js": "^1.7.53",
+    "lru-cache": "^5.1.1",
     "moment": "^2.26.0",
     "moment-timezone": "^0.5.31",
     "next": "9.3.6",
@@ -21,6 +24,7 @@
     "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-load-script": "^0.0.6"
+    "react-load-script": "^0.0.6",
+    "swr": "^0.2.3"
   }
 }
