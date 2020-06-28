@@ -5806,6 +5806,11 @@ static-extend@^0.1.1:
     define-property "^0.2.5"
     object-copy "^0.1.0"
 
+str_shorten@^1.0.18:
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/str_shorten/-/str_shorten-1.0.18.tgz#bba215ce45135f820bb85851480dab97808e7ff7"
+  integrity sha512-r97LddCXSwamlPRbqzkNBRxjLqUsI2SMRDdGgNYWmAMkZCEHV3UASN1x0WH+/AEqEqhhffMRiOt/JZA18H3mcQ==
+
 stream-browserify@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/stream-browserify/-/stream-browserify-2.0.2.tgz#87521d38a44aa7ee91ce1cd2a47df0cb49dd660b"

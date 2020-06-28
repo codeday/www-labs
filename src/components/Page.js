@@ -36,10 +36,9 @@ export default ({ children, title, darkHeader, slug, ...props }) => (
           </a>
         </SiteLogo>
         <Menu>
-          <Link display={{base: 'none', sm: 'initial'}} href="/companies">Companies</Link>
           <Link href="/volunteer">Volunteer</Link>
-          <Button variant="outline" variantColor="brand" as="a" href="/mentor">Mentor</Button>
-          <Button variantColor="brand" as="a" href="/apply">Apply</Button>
+          <Button variant="outline" variantColor="brand" as="a" href="/schedule">Schedule</Button>
+          <Button variant="outline" variantColor="brand" as="a" href="/gallery">Projects</Button>
         </Menu>
       </Header>
       {children}
