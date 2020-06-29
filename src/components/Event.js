@@ -59,11 +59,15 @@ export default function Event({ event }) {
         >
           {event.Type}
         </Box>
-        <Text>
-          {localStart.format(combinedFormat)}
-          {!localIdentical && ` (${start.format(localDateMatches ? timeFormat : combinedFormat)} Pacific)`}
-          {fromNow && ` - ${fromNow}`}
-        </Text>
+        {event['Confirmed Time'] ? (
+          <Text>
+            {localStart.format(combinedFormat)}
+            {!localIdentical && ` (${start.format(localDateMatches ? timeFormat : combinedFormat)} Pacific)`}
+            {fromNow && ` - ${fromNow}`}
+          </Text>
+        ) : (
+          <Text>TBA</Text>
+        )}
         <Heading as="h2" fontSize="4xl">{event.Title || 'TBA'}</Heading>
         <Text fontSize="xl" mb={8} fontStyle="italic">{speakers.join(', ')}</Text>
 

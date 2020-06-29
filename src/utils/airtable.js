@@ -10,7 +10,7 @@ const base = new Airtable({ apiKey: serverRuntimeConfig.airtable.key })
 .base(serverRuntimeConfig.airtable.base);
 
 export const calendarTable = base.table(serverRuntimeConfig.airtable.table);
-const calendarPublicFields = ['Title', 'Date', 'Type', 'Track', 'Public', 'Description', 'Speakers', 'Speaker Bios', 'Meeting Type'];
+const calendarPublicFields = ['Title', 'Date', 'Type', 'Track', 'Public', 'Description', 'Speakers', 'Speaker Bios', 'Meeting Type', 'Confirmed Time'];
 
 export const notifyTable = base.table(serverRuntimeConfig.airtable.tableNotify);
 
@@ -29,7 +29,7 @@ export const fetchAll = async (select) => {
   return allRecords;
 };
 
-const toFields = (item) => ({ id: item.id || null, ...item.fields, Public: item.fields.Public !== 'No' });
+const toFields = (item) => ({ id: item.id || null, ...item.fields, Public: item.fields.Public !== 'No', ['Confirmed Time']: Boolean(item.fields['Confirmed Time']) });
 
 export const getProjects = async () => {
   if (!cache.has('projects')) {

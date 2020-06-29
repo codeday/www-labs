@@ -93,7 +93,7 @@ export default ({ calendar, title, border }) => {
                         borderBottomWidth={1}
                         borderColor={`${baseColor}.200`}
                       >
-                        {event.Type}&thinsp;&mdash;&thinsp;{start.format('h:mma')}
+                        {event.Type}&thinsp;&mdash;&thinsp;{event['Confirmed Time'] ? start.format('h:mma') : 'TBA'}
                       </Box>
                       <Box pl={2} pr={2} pb={1} fontSize="sm" fontWeight="bold" color={`${baseColor}.900`} textDecoration="underline">
                         {event.Title || 'TBA'}
