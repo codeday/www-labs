@@ -5,7 +5,7 @@ import moment from 'moment-timezone';
 export const eventColors = {
   'Event': 'gray',
   'Tech Talk': 'orange',
-  'Career Panel/Workshop': 'purple',
+  'Career Talk': 'purple',
   'Expert Lunch': 'blue',
   'Watch Party': 'yellow',
 };
@@ -68,6 +68,9 @@ export default ({ calendar, title, border }) => {
                 {eventsByDay[date.format('YYYY-MM-DD')].sort((a, b) => a.Date.isAfter(b.Date) ? 1 : -1).map((event) => {
                   const baseColor = eventColors[event.Type || ''] || 'gray';
 
+                  const timezone = typeof window !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Los_Angeles' : 'America/Los_Angeles';
+                  const start = moment.utc(event.Date).tz(timezone);
+
                   return (
                     <Box
                       as="a"
@@ -90,14 +93,19 @@ export default ({ calendar, title, border }) => {
                         borderBottomWidth={1}
                         borderColor={`${baseColor}.200`}
                       >
-                        {event.Type}
+                        {event.Type}&thinsp;&mdash;&thinsp;{start.format('h:mma')}
                       </Box>
-                      <Box pl={2} pr={2} pb={1} fontSize="sm" fontWeight="bold" color={`${baseColor}.900`}>
+                      <Box pl={2} pr={2} pb={1} fontSize="sm" fontWeight="bold" color={`${baseColor}.900`} textDecoration="underline">
                         {event.Title || 'TBA'}
                       </Box>
                       <Box pl={2} pr={2} pb={3} fontSize="sm" color={`${baseColor}.700`}>
                         {event.Speakers && event.Speakers.split("\n").filter((e) => e).join(', ')}
                       </Box>
+                      {start.format('MMMM-DD-YYYY') !== start.clone().tz('America/Los_Angeles').format('MMMM-DD-YYYY') && (
+                        <Box pl={2} pr={2} pb={2} fontSize="xs" color={`red.700`} fontStyle="italic" fontWeight="bold">
+                          ({start.format('MMMM D')} in your timezone)
+                        </Box>
+                      )}
                     </Box>
                   );
                 })}
