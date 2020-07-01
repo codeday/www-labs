@@ -223,6 +223,7 @@ export default function StudentPrep({
           <Box>
             <Text fontSize="xl">
               You can use this page to request feedback from professionals who make hiring decisions for their company.
+              Immediately after you submit your request, we will introduce you over email.
             </Text>
             <Text>
               <Text as="span" bold>Resume Feedback:</Text> We&apos;ll send your resume to your selected advisor, and
@@ -237,7 +238,8 @@ export default function StudentPrep({
               We&apos;ll connect you to set up a 15-30 minute call to learn about the application and interview process,
               and get advice on how to stand out.
             </Text>
-            <Text color="red.700" bold>Limit one request each day. (Resets midnight PT.)</Text>
+            <Text color="red.700" bold>Limit one request each day (resets at midnight, pacific time).</Text>
+            <Text color="red.700" bold>We will send introduction emails to {student.Email}</Text>
           </Box>
           <Box>
             <ResumeUpdate student={student} onResumeChanged={() => setHasResume(true)} />

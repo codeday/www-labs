@@ -17,12 +17,12 @@ const intro = (type, student, advisor) => {
     Advising: `learn more about how the hiring process companies go through, and how they can stand out as a candidate`,
   }[type];
   let cta = `${student['First Name']} would like to set up a meeting with you to ${reason}. Could you suggest a few`
-          + ` times you are available?`;
+          + ` times you are available? (Make sure to include timezone!)`;
   if (type === 'Resume') {
     cta = `${student['First Name']} would like your feedback on their resume, available here: ${student.Resume}`;
   }
 
-  const outro = `**Please remember to reply-all.**`;
+  const outro = `Please remember to reply-all :)`;
 
   return `${greeting}\n\n${cta}\n\n${outro}`;
 };
