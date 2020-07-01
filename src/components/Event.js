@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import Box, { Grid, Content } from '@codeday/topo/Box';
-import Text, { Heading, Link } from '@codeday/topo/Text';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Box, { Content } from '@codeday/topo/Box';
+import Text, { Heading } from '@codeday/topo/Text';
 import { default as Input } from '@codeday/topo/Input/Text';
 import Button from '@codeday/topo/Button';
 import moment from 'moment-timezone';
@@ -18,8 +19,11 @@ export default function Event({ event }) {
   const [fromNow, setFromNow] = useState('');
   const [hasSubscribed, setHasSubscribed] = useState(false);
   const [error, setError] = useState(null);
-  const localTimezone = typeof window !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Los_Angeles' : 'America/Los_Angeles';
+
   const timezone = 'America/Los_Angeles';
+  const localTimezone = typeof window !== 'undefined'
+    ? Intl.DateTimeFormat().resolvedOptions().timeZone || timezone
+    : timezone;
 
   const localStart = moment.utc(event.Date).tz(localTimezone);
   const start = moment.utc(event.Date).tz(timezone);
@@ -32,14 +36,14 @@ export default function Event({ event }) {
   const localDateMatches = localStart.format(dateFormat) === start.format(dateFormat);
 
   const baseColor = eventColors[event.Type || ''] || 'gray';
-  const speakers = (event.Speakers || '').split("\n").filter(a => a);
+  const speakers = (event.Speakers || '').split('\n').filter((a) => a);
 
-  let momentRefreshInterval = null;
+  const momentRefreshInterval = null;
   useEffect(() => {
     setFromNow(start.fromNow());
     setInterval(() => setFromNow(start.fromNow()), 60000);
     return () => clearInterval(momentRefreshInterval);
-  }, [start.format(combinedFormat)])
+  }, [start.format(combinedFormat)]);
 
   return (
     <Content>
@@ -108,7 +112,7 @@ export default function Event({ event }) {
               Join{event['Meeting Type'] ? ` on ${event['Meeting Type']}` : ''}
             </Button>
           </Box>
-        ) : (start.clone().add(2, 'hours').isAfter(moment.now()) && (
+          ) : (start.clone().add(2, 'hours').isAfter(moment.now()) && (
           <Box mb={12}>
             <Input
               placeholder="Phone Number"
@@ -154,13 +158,18 @@ export default function Event({ event }) {
               Text Me When This Starts
             </Button>
             {error && <Text color="red.700" bold mt={2}>{error.toString()}</Text>}
-            {hasSubscribed && <Text color="green.700" bold mt={2}>We'll text you when this starts!</Text>}
+            {hasSubscribed && <Text color="green.700" bold mt={2}>We&apos;ll text you when this starts!</Text>}
           </Box>
-        ))}
+          ))}
 
-        <Heading as="h3" fontSize="xl" mb={2} bold>{event['Speaker Bios'] && `About the Speaker${speakers.length > 1 ? 's' : ''}`}</Heading>
+        <Heading as="h3" fontSize="xl" mb={2} bold>
+          {event['Speaker Bios'] && `About the Speaker${speakers.length > 1 ? 's' : ''}`}
+        </Heading>
         <Text dangerouslySetInnerHTML={{ __html: renderMultiline(event['Speaker Bios']) }} />
       </Box>
     </Content>
   );
 }
+Event.propTypes = {
+  event: PropTypes.object.isRequired,
+};

@@ -15,8 +15,6 @@ export default async ({ query: { id, password } }, res) => {
     return res.send('Sorry, that password was wrong.');
   }
 
-  console.log(event);
-
   let url = 'https://twitch.tv/codeday_org';
   if (event['Meeting Type'] === 'Zoom') {
     url = `https://zoom.us/j/${event['Meeting ID']}`;
@@ -26,5 +24,4 @@ export default async ({ query: { id, password } }, res) => {
 
   res.writeHead(302, { Location: url });
   return res.send();
-
-}
+};

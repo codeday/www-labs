@@ -3,20 +3,33 @@ import Airtable from 'airtable';
 import moment from 'moment-timezone';
 import LruCache from 'lru-cache';
 
-const cache = new LruCache({ max: 60 });
+const cache = new LruCache({ max: 60, maxAge: 60 * 1000 });
 const { serverRuntimeConfig } = getConfig();
 
 const base = new Airtable({ apiKey: serverRuntimeConfig.airtable.key })
-.base(serverRuntimeConfig.airtable.base);
+  .base(serverRuntimeConfig.airtable.base);
 
 export const calendarTable = base.table(serverRuntimeConfig.airtable.table);
-const calendarPublicFields = ['Title', 'Date', 'Type', 'Track', 'Public', 'Description', 'Speakers', 'Speaker Bios', 'Meeting Type', 'Confirmed Time'];
+const calendarPublicFields = [
+  'Title',
+  'Date',
+  'Type',
+  'Track',
+  'Public',
+  'Description',
+  'Speakers',
+  'Speaker Bios',
+  'Meeting Type',
+  'Confirmed Time',
+];
 
 export const notifyTable = base.table(serverRuntimeConfig.airtable.tableNotify);
 
 export const projectsTable = base.table(serverRuntimeConfig.airtable.tableProjects);
 export const mentorsTable = base.table(serverRuntimeConfig.airtable.tableMentors);
 export const studentsTable = base.table(serverRuntimeConfig.airtable.tableStudents);
+export const careerAdvisorsTable = base.table(serverRuntimeConfig.airtable.tableCareerAdvisors);
+export const advisingRequestsTable = base.table(serverRuntimeConfig.airtable.tableAdvisingRequests);
 
 export const fetchAll = async (select) => {
   let allRecords = [];
@@ -29,22 +42,26 @@ export const fetchAll = async (select) => {
   return allRecords;
 };
 
-const toFields = (item) => ({ id: item.id || null, ...item.fields, Public: item.fields.Public !== 'No', ['Confirmed Time']: Boolean(item.fields['Confirmed Time']) });
+const toFields = (item) => ({
+  id: item.id || null,
+  ...item.fields,
+  Public: item.fields.Public !== 'No',
+  'Confirmed Time': Boolean(item.fields['Confirmed Time']),
+});
 
 export const getProjects = async () => {
   if (!cache.has('projects')) {
     const rawProjects = await fetchAll(projectsTable.select({
       fields: ['Description', 'Team', 'Mentors', 'Track'],
       filterByFormula: `OR({Mentor Status} = "Finalized", {Mentor Status} = "Matched", {Mentor Status} = "Introduced")`,
-      sort: [{ field: "Track", direction: "asc"}, { field: "Mentor Status", direction: "desc"}],
+      sort: [{ field: 'Track', direction: 'asc' }, { field: 'Mentor Status', direction: 'desc' }],
     }));
 
     const students = (await fetchAll(studentsTable.select({
       fields: ['Display Name'],
-      filterByFormula: `OR({Status} = "Confirmed", {Status} = "Accepted - Normal", {Status} = "Accepted - Early")`
+      filterByFormula: `OR({Status} = "Confirmed", {Status} = "Accepted - Normal", {Status} = "Accepted - Early")`,
     })))
-    .reduce((accum, student) => ({ ...accum, [student.id]: student.fields }), {});
-
+      .reduce((accum, student) => ({ ...accum, [student.id]: student.fields }), {});
 
     const mentors = (await fetchAll(mentorsTable.select({
       fields: ['Name', 'Role', 'Company'],
@@ -60,7 +77,7 @@ export const getProjects = async () => {
     cache.set('projects', projects);
   }
   return cache.get('projects');
-}
+};
 
 export const getCalendar = async () => {
   if (!cache.has('calendar')) {
@@ -68,7 +85,7 @@ export const getCalendar = async () => {
   }
 
   return cache.get('calendar');
-}
+};
 
 export const getEvent = async (eventId, withPrivate) => {
   const wantedKeys = ['id', ...calendarPublicFields, ...(!withPrivate ? [] : ['Meeting ID', 'Recording URL'])];
@@ -78,23 +95,92 @@ export const getEvent = async (eventId, withPrivate) => {
   }
 
   const raw = cache.get(key);
-  var filtered = {}
-  Object.keys(raw).forEach( key => {
-    if(wantedKeys.includes(key)){
-        filtered[key] = raw[key]
+  const filtered = {};
+  Object.keys(raw).forEach((key) => {
+    if (wantedKeys.includes(key)) {
+      filtered[key] = raw[key];
     }
   });
 
   return filtered;
-}
+};
 
-export const addNotification = async (eventId, phone) => {
-  return notifyTable.create([
-    {
-      fields: {
-        Phone: phone,
-        Event: [ eventId ],
-      },
+export const addNotification = async (eventId, phone) => notifyTable.create([
+  {
+    fields: {
+      Phone: phone,
+      Event: [eventId],
     },
-  ]);
-}
+  },
+]);
+
+export const getStudent = async (id) => {
+  const student = await studentsTable.find(id);
+  return {
+    id: student.id,
+    ...student.fields,
+  };
+};
+
+export const getCareerAdvisor = async (id) => {
+  const advisor = await careerAdvisorsTable.find(id);
+  return {
+    id: advisor.id,
+    ...advisor.fields,
+  };
+};
+
+export const updateStudentResume = async (id, url) => studentsTable.update([{
+  id,
+  fields: {
+    Resume: url,
+  },
+}]);
+
+export const getCareerAdvisors = async (withPrivate = false) => {
+  if (!cache.has('careerAdvisors')) {
+    const advisors = await fetchAll(careerAdvisorsTable.select({
+      fields: [
+        'Name',
+        'Employer',
+        'Title',
+        'Remaining Resumes',
+        'Remaining Interviews',
+        'Remaining Advising',
+        'Email',
+      ],
+    }));
+    cache.set('careerAdvisors', advisors.map((f) => ({ id: f.id, ...f.fields })));
+  }
+
+  return cache.get('careerAdvisors').map((f) => {
+    const out = JSON.parse(JSON.stringify(f));
+    if (!withPrivate) {
+      delete out.Email;
+    }
+    return out;
+  });
+};
+
+export const getStudentOutstandingAdvisingRequests = async (id) => {
+  const advisors = await getCareerAdvisors(true);
+  const requests = await fetchAll(advisingRequestsTable.select({ fields: ['Student', 'Type', 'Advisor', 'Created'] }));
+
+  return requests
+    .filter((r) => r.fields.Student.includes(id))
+    .map((r) => ({
+      id: r.id,
+      ...r.fields,
+      Advisor: advisors.filter((a) => a.id === r.fields.Advisor[0])[0] || null,
+    }))
+    .sort((a, b) => (moment.utc(a.Created).isBefore(moment.utc(b.Created)) ? -1 : 1));
+};
+
+export const insertStudentAdvisingRequest = async (studentId, advisorId, type) => advisingRequestsTable
+  .create([{
+    fields: {
+      Student: [studentId],
+      Advisor: [advisorId],
+      Type: type,
+    },
+  }]);

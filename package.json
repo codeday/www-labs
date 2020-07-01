@@ -10,12 +10,14 @@
   "dependencies": {
     "@codeday/topo": "^1.3.5",
     "@codeday/topocons": "^1.3.0",
+    "@codeday/uploader-node": "^1.0.1",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "airtable": "^0.8.1",
     "atob": "^2.1.2",
     "axios": "^0.19.2",
     "emotion-theming": "^10.0.27",
+    "formidable": "^1.2.2",
     "ics": "^2.22.1",
     "libphonenumber-js": "^1.7.53",
     "lru-cache": "^5.1.1",
@@ -23,11 +25,16 @@
     "moment-timezone": "^0.5.31",
     "next": "9.3.6",
     "next-seo": "^4.4.0",
+    "postmark": "^2.5.4",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-load-script": "^0.0.6",
     "str_shorten": "^1.0.18",
     "swr": "^0.2.3"
+  },
+  "devDependencies": {
+    "@codeday/eslint-config": "^1.3.0",
+    "eslint": "^7.3.1"
   }
 }

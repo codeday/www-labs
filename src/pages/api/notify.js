@@ -1,4 +1,4 @@
-import { parsePhoneNumberFromString } from 'libphonenumber-js'
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { addNotification } from '../../utils/airtable';
 
 export default async ({ body: { id, phone } }, res) => {
@@ -10,4 +10,4 @@ export default async ({ body: { id, phone } }, res) => {
 
   await addNotification(id, phoneNumber.formatInternational());
   return res.send({ ok: true });
-}
+};
