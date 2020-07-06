@@ -3,7 +3,7 @@ import Text, { Heading, Link } from '@codeday/topo/Text';
 import moment from 'moment-timezone';
 
 export const eventColors = {
-  'Event': 'gray',
+  Event: 'gray',
   'Tech Talk': 'orange',
   'Career Talk': 'purple',
   'Expert Lunch': 'blue',
@@ -22,9 +22,8 @@ export default ({ calendar, title, border }) => {
   const displayEnds = moment('2020-07-31T12:00:00-05:00');
   const drawDays = [];
   let day = displayStarts.clone();
-  while(day.isSameOrBefore(displayEnds)) {
-    if (day.isoWeekday() < 6)
-      drawDays.push(day.startOf('day'));
+  while (day.isSameOrBefore(displayEnds)) {
+    if (day.isoWeekday() < 6) { drawDays.push(day.startOf('day')); }
     day = day.clone().add(1, 'day');
   }
 
@@ -40,79 +39,80 @@ export default ({ calendar, title, border }) => {
       )}
       <Content maxWidth="containers.xl">
         <Grid
-          templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }}
+          templateColumns={{ base: '1fr', md: 'repeat(5, 1fr)' }}
           borderWidth={{ base: 0, md: border ? 1 : 0 }}
           borderBottom={0}
-          borderColor="gray.100">
-            {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day) => (
-              <Box
-                fontSize="sm"
-                display={{base: 'none', md: 'block'}}
-                textAlign="center"
-                color="gray.500"
-                borderColor="gray.100"
-                borderLeftWidth={day === 'Monday' ? 0 : 1}
-              >
-                {day}
-              </Box>
-            ))}
-            {drawDays.map((date) => (
-              <Box
-                borderColor="gray.100"
-                borderBottomWidth={1}
-                marginTop={{ base: 4, md: 0 }}
-                borderLeftWidth={{ base: 0, md: date.isoWeekday() === 1 ? 0 : 1}}
-                pt={1}
-              >
-                <Box fontSize="sm" color="gray.500" textAlign="center">{date.format('MMM D')}</Box>
-                {eventsByDay[date.format('YYYY-MM-DD')].sort((a, b) => a.Date.isAfter(b.Date) ? 1 : -1).map((event) => {
-                  const baseColor = eventColors[event.Type || ''] || 'gray';
+          borderColor="gray.100"
+        >
+          {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day) => (
+            <Box
+              fontSize="sm"
+              display={{ base: 'none', md: 'block' }}
+              textAlign="center"
+              color="gray.500"
+              borderColor="gray.100"
+              borderLeftWidth={day === 'Monday' ? 0 : 1}
+            >
+              {day}
+            </Box>
+          ))}
+          {drawDays.map((date) => (
+            <Box
+              borderColor="gray.100"
+              borderBottomWidth={1}
+              marginTop={{ base: 4, md: 0 }}
+              borderLeftWidth={{ base: 0, md: date.isoWeekday() === 1 ? 0 : 1 }}
+              pt={1}
+            >
+              <Box fontSize="sm" color="gray.500" textAlign="center">{date.format('MMM D')}</Box>
+              {eventsByDay[date.format('YYYY-MM-DD')].sort((a, b) => (a.Date.isAfter(b.Date) ? 1 : -1)).map((event) => {
+                const baseColor = eventColors[event.Type || ''] || 'gray';
 
-                  const timezone = typeof window !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Los_Angeles' : 'America/Los_Angeles';
-                  const start = moment.utc(event.Date).tz(timezone);
+                const timezone = typeof window !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Los_Angeles' : 'America/Los_Angeles';
+                const start = moment.utc(event.Date).tz(timezone);
 
-                  return (
+                return (
+                  <Box
+                    as="a"
+                    d="block"
+                    href={`/schedule/e/${event.id}`}
+                    m={4}
+                    borderWidth={1}
+                    borderRadius="sm"
+                    borderColor={`${baseColor}.200`}
+                    backgroundColor={`${baseColor}.50`}
+                  >
                     <Box
-                      as="a"
-                      d="block"
-                      href={`/schedule/e/${event.id}`}
-                      m={4}
-                      borderWidth={1}
-                      borderRadius="sm"
+                      p={2}
+                      pb={1}
+                      color={`${baseColor}.800`}
+                      fontSize="xs"
+                      fontWeight="bold"
+                      backgroundColor={`${baseColor}.200`}
+                      marginBottom={2}
+                      borderBottomWidth={1}
                       borderColor={`${baseColor}.200`}
-                      backgroundColor={`${baseColor}.50`}
                     >
-                      <Box
-                        p={2}
-                        pb={1}
-                        color={`${baseColor}.800`}
-                        fontSize="xs"
-                        fontWeight="bold"
-                        backgroundColor={`${baseColor}.200`}
-                        marginBottom={2}
-                        borderBottomWidth={1}
-                        borderColor={`${baseColor}.200`}
-                      >
-                        {event.Type}&thinsp;&mdash;&thinsp;{event['Confirmed Time'] ? start.format('h:mma') : 'TBA'}
-                      </Box>
-                      <Box pl={2} pr={2} pb={1} fontSize="sm" fontWeight="bold" color={`${baseColor}.900`} textDecoration="underline">
-                        {event.Title || 'TBA'}
-                      </Box>
-                      <Box pl={2} pr={2} pb={3} fontSize="sm" color={`${baseColor}.700`}>
-                        {event.Speakers && event.Speakers.split("\n").filter((e) => e).join(', ')}
-                      </Box>
-                      {start.format('MMMM-DD-YYYY') !== start.clone().tz('America/Los_Angeles').format('MMMM-DD-YYYY') && (
-                        <Box pl={2} pr={2} pb={2} fontSize="xs" color={`red.700`} fontStyle="italic" fontWeight="bold">
-                          ({start.format('MMMM D')} in your timezone)
-                        </Box>
-                      )}
+                      {event.Type}&thinsp;&mdash;&thinsp;{event['Confirmed Time'] ? `${start.format('h:mma')} your time` : 'TBA'}
                     </Box>
-                  );
-                })}
-              </Box>
-            ))}
+                    <Box pl={2} pr={2} pb={1} fontSize="sm" fontWeight="bold" color={`${baseColor}.900`} textDecoration="underline">
+                      {event.Title || 'TBA'}
+                    </Box>
+                    <Box pl={2} pr={2} pb={3} fontSize="sm" color={`${baseColor}.700`}>
+                      {event.Speakers && event.Speakers.split('\n').filter((e) => e).join(', ')}
+                    </Box>
+                    {start.format('MMMM-DD-YYYY') !== start.clone().tz('America/Los_Angeles').format('MMMM-DD-YYYY') && (
+                    <Box pl={2} pr={2} pb={2} fontSize="xs" color="red.700" fontStyle="italic" fontWeight="bold">
+                      ({start.format('MMMM D')} in your timezone)
+                    </Box>
+                    )}
+                  </Box>
+                );
+              })}
+            </Box>
+          ))}
         </Grid>
       </Content>
     </>
-  )
+  );
 };

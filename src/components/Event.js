@@ -83,7 +83,7 @@ export default function Event({ event }) {
         <Text fontSize="xl" mb={8} dangerouslySetInnerHTML={{ __html: renderMultiline(event.Description) }} />
 
         {(
-          start.clone().subtract(30, 'minutes').isBefore(moment.now())
+          start.clone().subtract(1, 'hours').isBefore(moment.now())
           && start.clone().add(2, 'hours').isAfter(moment.now())
         ) ? (
           <Box mb={12}>

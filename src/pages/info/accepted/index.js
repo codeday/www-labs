@@ -1,14 +1,27 @@
-
+import React from 'react';
 import Box, { Grid, Content } from '@codeday/topo/Box';
+import Button from '@codeday/topo/Button';
 import Text, { Heading, Link } from '@codeday/topo/Text';
 import List, { Item as ListItem, Icon as ListIcon } from '@codeday/topo/List';
-import Page from '../../components/Page';
+import Page from '../../../components/Page';
 
-export default () => (
-  <Page slug="/info/accepted" title="Information For Accepted Students">
+export default ({ student }) => (
+  <Page
+    slug={`/info/accepted${student ? `/${student.id}` : ''}`}
+    title={`Information for ${student ? student.Name : 'Accepted Students'}`}
+  >
     <Content>
-      <Heading as="h2" size="xl">Information for Accepted Students</Heading>
-      <Grid templateColumns={{ base: "1fr", sm: "3fr 1fr" }}>
+      <Heading as="h2" size="xl">Information for {student ? student.Name : 'Accepted Students'}</Heading>
+      <Grid templateColumns={{ base: '1fr', sm: (student ? '1fr 2fr' : '3fr 1fr') }}>
+        {student && (
+          <Box mb={12} mt={8}>
+            <Heading as="h3" size="lg" mb={2}>Your Links</Heading>
+            <Button as="a" mb={2} href="/schedule" target="_blank" variantColor="green">Schedule</Button><br />
+            <Button as="a" mb={2} href={`/advisors/${student.id}`} target="_blank" variantColor="green">Career Advisors</Button><br />
+            <Button as="a" mb={2} href="https://codeday.to/discord" target="_blank" variantColor="green">Discord</Button><br />
+            <Button as="a" mb={2} href="https://calendly.com/codelabs/tech-help" target="_blank" variantColor="green">Request Tech Help Call</Button><br />
+          </Box>
+        )}
         <Box>
           <Box mb={12} mt={8}>
             <Heading as="h3" size="lg" mb={2}>Share your acceptance!</Heading>
@@ -21,15 +34,15 @@ export default () => (
               CodeLabs is a part of the non-profit group CodeDay, and pairs up students like me with mentors from leading
               tech companies to work on free/open-source projects for a summer.
             </Text>
-            <Grid templateColumns={{ base: "1fr", sm: "repeat(3, 1fr)" }} gap={6} mb={4}>
-                {['lime', 'orange', 'black'].map((color) => (
-                  <a href={`https://f1.codeday.org/labs/2020-accepted-${color}.png`} target="_blank" download={`${color}.png`}>
-                    <img
-                      src={`https://f1.codeday.org/labs/2020-accepted-${color}.png`}
-                      alt={`Labs acceptance message in ${color}`}
-                    />
-                  </a>
-                ))}
+            <Grid templateColumns={{ base: '1fr', sm: 'repeat(3, 1fr)' }} gap={6} mb={4}>
+              {['lime', 'orange', 'black'].map((color) => (
+                <a href={`https://f1.codeday.org/labs/2020-accepted-${color}.png`} target="_blank" download={`${color}.png`}>
+                  <img
+                    src={`https://f1.codeday.org/labs/2020-accepted-${color}.png`}
+                    alt={`Labs acceptance message in ${color}`}
+                  />
+                </a>
+              ))}
             </Grid>
             <Text>If you choose to list CodeLabs on your LinkedIn or resume, we request that you use the following format:</Text>
             <List>
@@ -42,7 +55,6 @@ export default () => (
             </List>
             <Text mt={4}>You can also join the <Link href="https://www.linkedin.com/groups/4732099/">CodeDay Alums group.</Link></Text>
           </Box>
-
 
           <Box mb={12}>
             <Heading as="h3" size="lg" mb={2}>Your Project Team</Heading>
@@ -60,8 +72,6 @@ export default () => (
               rank your favorites. (We can't promise any specific project.)
             </Text>
           </Box>
-
-
 
           <Box
             mb={12}
@@ -100,7 +110,6 @@ export default () => (
             </List>
           </Box>
 
-
           <Box mb={12}>
             <Heading as="h3" size="lg" mb={2}>Scheduled Meetings</Heading>
             <Text>During CodeLabs you can expect the following meetings:</Text>
@@ -116,7 +125,6 @@ export default () => (
             </Text>
           </Box>
 
-
           <Box mb={12}>
             <Heading as="h3" size="lg" mb={2}>Getting Help Outside of Meetings</Heading>
             <Text>
@@ -131,7 +139,6 @@ export default () => (
             </Text>
             <Text>Remember, too, that you're part of a team! Be sure to ask for help from your group mentors too!</Text>
           </Box>
-
 
           <Box mb={12}>
             <Heading as="h3" size="lg" mb={2}>Events</Heading>
@@ -164,7 +171,6 @@ export default () => (
               </ListItem>
             </List>
           </Box>
-
 
           <Box mb={12}>
             <Heading as="h3" size="lg" mb={2}>The Team Behind CodeLabs</Heading>
