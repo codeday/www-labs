@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Box, { Content } from '@codeday/topo/Box';
 import Text, { Heading } from '@codeday/topo/Text';
 import { default as Input } from '@codeday/topo/Input/Text';
+import Form from '@codeday/topo/CognitoForm';
 import Button from '@codeday/topo/Button';
 import moment from 'moment-timezone';
 import axios from 'axios';
@@ -161,6 +162,16 @@ export default function Event({ event }) {
             {hasSubscribed && <Text color="green.700" bold mt={2}>We&apos;ll text you when this starts!</Text>}
           </Box>
           ))}
+
+        {event.Type === 'Expert Lunch' && (
+          <Box mb={8}>
+            <Heading as="h3" fontSize="xl" mb={2} bold>Submit a Question</Heading>
+            <Form
+              formId={70}
+              prefill={{ Title: event.Title }}
+            />
+          </Box>
+        )}
 
         <Heading as="h3" fontSize="xl" mb={2} bold>
           {event['Speaker Bios'] && `About the Speaker${speakers.length > 1 ? 's' : ''}`}
