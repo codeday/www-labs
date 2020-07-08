@@ -122,6 +122,22 @@ export const getStudent = async (id) => {
   };
 };
 
+export const getMentor = async (id) => {
+  const mentor = await mentorsTable.find(id);
+  return {
+    id: mentor.id,
+    ...mentor.fields,
+  };
+};
+
+export const getProject = async (id) => {
+  const project = await projectsTable.find(id);
+  return {
+    id: project.id,
+    ...project.fields,
+  };
+};
+
 export const getCareerAdvisor = async (id) => {
   const advisor = await careerAdvisorsTable.find(id);
   return {
