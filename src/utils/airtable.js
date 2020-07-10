@@ -102,7 +102,7 @@ export const getEvent = async (eventId, withPrivate) => {
     }
   });
 
-  return filtered;
+  return { 'Recording URL': Boolean(raw['Recording URL']), ...filtered };
 };
 
 export const addNotification = async (eventId, phone) => notifyTable.create([

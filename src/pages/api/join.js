@@ -22,6 +22,10 @@ export default async ({ query: { id, password } }, res) => {
     url = `https://codeday.to/discord`;
   }
 
+  if (event['Recording URL']) {
+    url = event['Recording URL'];
+  }
+
   res.writeHead(302, { Location: url });
   return res.send();
 };

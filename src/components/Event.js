@@ -40,13 +40,14 @@ export default function Event({ event }) {
   const speakers = (event.Speakers || '').split('\n').filter((a) => a);
 
   const calendarEventStart = moment.utc(event.Date);
-  const calendarEventFormat = "YYYYMMDDTHHmmSS"
-  const calendarDescription = 
-    `With ${speakers.join(', ')}%0D%0A${event.Description}`
-  const calendarInviteURL = 
-    `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${event.Title}` + 
-    `&dates=${calendarEventStart.format(calendarEventFormat)}Z/${calendarEventStart.add(1, "hour").format(calendarEventFormat)}Z` + 
-    `&details=${calendarDescription}&location=Discord&sprop=website:www.santa.org`;
+  const calendarEventFormat = 'YYYYMMDDTHHmmSS';
+  const calendarDescription = `With ${speakers.join(', ')}%0D%0A${event.Description}`;
+  const calendarInviteURL = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${event.Title}`
+    + `&dates=${calendarEventStart.format(calendarEventFormat)}Z`
+    + `/${calendarEventStart.add(1, 'hour').format(calendarEventFormat)}Z`
+    + `&details=${calendarDescription}`
+    + `&location=${encodeURIComponent(`https://labs.codeday.org/schedule/e/${event.id}`)}`
+    + `&sprop=website:labs.codeday.org`;
 
   const momentRefreshInterval = null;
   useEffect(() => {
@@ -91,7 +92,6 @@ export default function Event({ event }) {
           </Box>
         )}
         <Text fontSize="xl" mb={8} dangerouslySetInnerHTML={{ __html: renderMultiline(event.Description) }} />
-        {/* <Link href={calendarInviteURL}>test</Link> */}
 
         {(
           start.clone().subtract(1, 'hours').isBefore(moment.now())
@@ -170,8 +170,40 @@ export default function Event({ event }) {
             </Button>
             {error && <Text color="red.700" bold mt={2}>{error.toString()}</Text>}
             {hasSubscribed && <Text color="green.700" bold mt={2}>We&apos;ll text you when this starts!</Text>}
+            <Text>
+              or <Link href={calendarInviteURL} target="_blank">add to Google Calendar</Link>
+            </Text>
           </Box>
           ))}
+
+        { start.clone().add(2, 'hours').isBefore(moment.now()) && event['Recording URL'] && (
+          <Box mb={12}>
+            {!event.Public && (
+              <Input
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                size="lg"
+                d="inline-block"
+                w="md"
+                verticalAlign="top"
+                borderTopRightRadius={0}
+                borderBottomRightRadius={0}
+                borderRightWidth={0}
+              />
+            )}
+            <Button
+              as="a"
+              variantColor="green"
+              href={`/api/join?id=${event.id}&password=${password || ''}`}
+              size="lg"
+              borderTopLeftRadius={event.Public ? null : 0}
+              borderBottomLeftRadius={event.Public ? null : 0}
+            >
+              Watch Recording
+            </Button>
+          </Box>
+        )}
 
         {event.Type === 'Expert Lunch' && (
           <Box mb={8}>
