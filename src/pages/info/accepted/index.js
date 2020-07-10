@@ -21,6 +21,7 @@ export default ({ student }) => (
             <Button as="a" mb={2} href="https://codeday.to/discord" target="_blank" variantColor="green">Discord</Button><br />
             <Button as="a" mb={2} href="https://calendly.com/codelabs/tech-help" target="_blank" variantColor="green">Request Tech Help Call</Button><br />
             <Button as="a" mb={2} href={`/api/offer?id=${student.id}`} target="_blank" variantColor="green">Download Internship Letter</Button><br />
+            <Button as="a" mb={2} href={`/reflect/${student.id}`} target="_blank" variantColor="green">Weekly Reflection</Button><br />
           </Box>
         )}
         <Box>
