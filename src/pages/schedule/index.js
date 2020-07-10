@@ -5,12 +5,19 @@ import Page from '../../components/Page';
 import Calendar from '../../components/index/calendar';
 import { getCalendar } from '../../utils/airtable';
 
-
-export const getServerSideProps = async () => ({
-  props: {
-    calendar: await getCalendar(),
+export const getServerSideProps = async () => {
+  let calendar;
+  try {
+    calendar = await getCalendar();
+  } catch (err) {
+    console.error('airtable is down (again) and the cache is empty.');
   }
-})
+  return {
+    props: {
+      calendar,
+    },
+  };
+};
 
 export default function Home({ calendar }) {
   const calendarHydrated = calendar.map((e) => ({ ...e, Date: moment.utc(e.Date).tz('America/Los_Angeles') }));
@@ -26,4 +33,4 @@ export default function Home({ calendar }) {
       <Calendar calendar={calendarHydrated} />
     </Page>
   );
- }
+}

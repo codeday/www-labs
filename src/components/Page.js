@@ -1,3 +1,4 @@
+import React from 'react';
 import { DefaultSeo } from 'next-seo';
 import Box, { Content } from '@codeday/topo/Box';
 import Header, { SiteLogo, Menu } from '@codeday/topo/Header';
@@ -5,10 +6,12 @@ import { WithText } from '@codeday/topo/Logo';
 import Text, { Link } from '@codeday/topo/Text';
 import Button from '@codeday/topo/Button';
 
-export default ({ children, title, darkHeader, slug, ...props }) => (
+export default ({
+  children, title, darkHeader, slug, ...props
+}) => (
   <>
     <DefaultSeo
-      title={`${title ? title + ' ~ ' : ''}CodeDay Labs`}
+      title={`${title ? `${title} ~ ` : ''}CodeDay Labs`}
       description="CodeLabs is the 100% online tech internship for everyone. July 6 - 31, 2020."
       canonical={`https://labs.codeday.org${slug}`}
       openGraph={{
@@ -19,8 +22,8 @@ export default ({ children, title, darkHeader, slug, ...props }) => (
         images: [
           {
             url: 'https://img.codeday.org/o/s/h/sh1wzznzdvcwuu23rosvieifnabsfiaemvf6ejk5a65wjxguvgnzbkk1axjhg6p5je.png',
-          }
-        ]
+          },
+        ],
       }}
       twitter={{
         handle: '@codeday',
