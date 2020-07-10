@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Box, { Content } from '@codeday/topo/Box';
-import Text, { Heading } from '@codeday/topo/Text';
+import Text, { Heading, Link } from '@codeday/topo/Text';
 import { default as Input } from '@codeday/topo/Input/Text';
 import Form from '@codeday/topo/CognitoForm';
 import Button from '@codeday/topo/Button';
@@ -38,6 +38,15 @@ export default function Event({ event }) {
 
   const baseColor = eventColors[event.Type || ''] || 'gray';
   const speakers = (event.Speakers || '').split('\n').filter((a) => a);
+
+  const calendarEventStart = moment.utc(event.Date);
+  const calendarEventFormat = "YYYYMMDDTHHmmSS"
+  const calendarDescription = 
+    `With ${speakers.join(', ')}%0D%0A${event.Description}`
+  const calendarInviteURL = 
+    `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${event.Title}` + 
+    `&dates=${calendarEventStart.format(calendarEventFormat)}Z/${calendarEventStart.add(1, "hour").format(calendarEventFormat)}Z` + 
+    `&details=${calendarDescription}&location=Discord&sprop=website:www.santa.org`;
 
   const momentRefreshInterval = null;
   useEffect(() => {
@@ -82,6 +91,7 @@ export default function Event({ event }) {
           </Box>
         )}
         <Text fontSize="xl" mb={8} dangerouslySetInnerHTML={{ __html: renderMultiline(event.Description) }} />
+        {/* <Link href={calendarInviteURL}>test</Link> */}
 
         {(
           start.clone().subtract(1, 'hours').isBefore(moment.now())
