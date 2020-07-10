@@ -27,7 +27,7 @@ jobs:
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker push $DOCKER_REPO:$TAG
           docker push $DOCKER_REPO:latest
-      - slack/status:
+      - slack/status
 
   build_test:
     docker:
