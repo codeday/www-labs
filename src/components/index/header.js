@@ -22,13 +22,12 @@ export default () => (
           </Heading>
           <Button
             as="a"
-            href="/apply"
-            variantColor="gray"
-            disabled
+            href="/gallery"
+            variantColor="green"
             size="lg"
             boxShadow="md"
           >
-            Applications Are Closed
+            Explore the Projects
           </Button>
         </Box>
       </Grid>
