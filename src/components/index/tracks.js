@@ -25,7 +25,7 @@ export default () => (
             <Text color="gray.500">
               (Not a paid internship.)
             </Text>
-            <Button as="a" href="/apply" variantColor="green" size="lg">Apply for the Beginner Track</Button>
+            <Button as="a" href="/apply" variantColor="gray" size="lg" disabled>Applications Closed</Button>
           </Box>
       </Box>
 
@@ -47,7 +47,7 @@ export default () => (
             <Text color="gray.500">
               (Not a paid internship.)
             </Text>
-            <Button as="a" href="/apply" variantColor="green" size="lg">Apply for the Advanced Track</Button>
+            <Button as="a" href="/apply" variantColor="gray" size="lg" disabled>Applications Closed</Button>
           </Box>
       </Box>
     </Grid>
