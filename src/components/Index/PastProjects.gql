@@ -1,0 +1,16 @@
+fragment IndexPastProjects on Query {
+  showcase {
+    pastProjects: projects(where: { program:"labs", media: VIDEOS, featured: true }) {
+      id
+      name
+      description
+      track: metadataValue(key: "labs.track")
+      mentorName: metadataValue(key: "labs.mentor.name")
+      mentorTitle: metadataValue(key: "labs.mentor.title")
+      mentorCompany: metadataValue(key: "labs.mentor.company")
+      media {
+        image(width: 800, height: 500)
+      }
+    }
+  }
+}

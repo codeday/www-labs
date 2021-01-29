@@ -1,0 +1,10 @@
+#import "./ProjectImagePreview.gql"
+
+fragment ProjectFader on Query {
+  showcase {
+    faderProjects: projects(where: { event:"codeday-labs-2020-advanced", media: VIDEOS }) {
+      ...ProjectImagePreview
+      id
+    }
+  }
+}

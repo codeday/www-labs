@@ -1,0 +1,4 @@
+#import "../ProjectFader.gql"
+fragment IndexExplainer on Query {
+  ...ProjectFader
+}

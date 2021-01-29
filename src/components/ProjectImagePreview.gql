@@ -1,0 +1,10 @@
+fragment ProjectImagePreview on ShowcaseProject {
+  id
+  name
+  mentorName: metadataValue(key: "labs.mentor.name")
+  mentorTitle: metadataValue(key: "labs.mentor.title")
+  mentorCompany: metadataValue(key: "labs.mentor.company")
+  media {
+    image(width: 400, height: 250)
+  }
+}

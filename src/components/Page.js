@@ -1,10 +1,15 @@
 import React from 'react';
 import { DefaultSeo } from 'next-seo';
-import Box, { Content } from '@codeday/topo/Box';
-import Header, { SiteLogo, Menu } from '@codeday/topo/Header';
-import { WithText } from '@codeday/topo/Logo';
-import Text, { Link } from '@codeday/topo/Text';
-import Button from '@codeday/topo/Button';
+import Box from '@codeday/topo/Atom/Box';
+import Text, { Link } from '@codeday/topo/Atom/Text';
+import Header, { SiteLogo, Menu } from '@codeday/topo/Organism/Header';
+import Image from '@codeday/topo/Atom/Image';
+import Footer from '@codeday/topo/Organism/Footer';
+import { CodeDay } from '@codeday/topo/Atom/Logo';
+import Button from '@codeday/topo/Atom/Button';
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
 
 export default ({
   children, title, darkHeader, slug, ...props
@@ -12,18 +17,13 @@ export default ({
   <>
     <DefaultSeo
       title={`${title ? `${title} ~ ` : ''}CodeDay Labs`}
-      description="CodeLabs is the 100% online tech internship for everyone. July 6 - 31, 2020."
+      description="Online internship-like experience working on open source projects."
       canonical={`https://labs.codeday.org${slug}`}
       openGraph={{
         type: 'website',
         locale: 'en_US',
         site_name: 'CodeDay Labs',
         url: `https://labs.codeday.org${slug}`,
-        images: [
-          {
-            url: 'https://img.codeday.org/o/s/h/sh1wzznzdvcwuu23rosvieifnabsfiaemvf6ejk5a65wjxguvgnzbkk1axjhg6p5je.png',
-          },
-        ],
       }}
       twitter={{
         handle: '@codeday',
@@ -34,22 +34,33 @@ export default ({
     <Box position="relative">
       <Header darkBackground={darkHeader} gradAmount={darkHeader && 'lg'} underscore position="relative" zIndex="1000">
         <SiteLogo>
+          <a href="https://www.codeday.org/">
+            <CodeDay withText />
+          </a>
           <a href="/">
-            <WithText text="CodeLabs" />
+            <Text
+              as="span"
+              d="inline"
+              letterSpacing="-2px"
+              fontFamily="heading"
+              position="relative"
+              top={1}
+              ml={1}
+              textDecoration="underline"
+              bold
+            >
+              Labs
+            </Text>
           </a>
         </SiteLogo>
         <Menu>
-          <Link href="/volunteer">Volunteer</Link>
-          <Button variant="outline" variantColor="brand" as="a" href="/schedule">Schedule</Button>
-          <Button variant="outline" variantColor="brand" as="a" href="/gallery">Projects</Button>
+          <Button variant="ghost" as="a" href="/mentor">Mentor</Button>
+          <Button variant="solid" variantColor="green" as="a" href="/apply">Student Application</Button>
         </Menu>
       </Header>
       {children}
-      <Content paddingTop={4}>
-        <Text fontSize="sm" color="gray.400">
-          &copy; 2020 CodeDay, in partnership with <Link target="_blank" href="https://mentorsintech.com">MinT</Link>.
-        </Text>
-      </Content>
+      <Box mb={16} />
+      <Footer />
     </Box>
   </>
 );

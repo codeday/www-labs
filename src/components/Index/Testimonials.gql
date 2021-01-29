@@ -1,0 +1,15 @@
+fragment IndexTestimonials on Query {
+  cms {
+    testimonials(where: { program: { webname: "labs" }, featured: true, type: "Student", image_exists: true }, limit: 10) {
+      items {
+        quote
+        firstName
+        lastName
+        experience
+        image {
+          url(transform: { resizeStrategy: FILL, width: 64, height: 64 })
+        }
+      }
+    }
+  }
+}

@@ -1,38 +1,33 @@
-import moment from 'moment-timezone';
-import { Grid, Content } from '@codeday/topo/Box';
-import Image from '@codeday/topo/Image';
+import { print } from 'graphql';
+import { apiFetch } from '@codeday/topo/utils';
 import Page from '../components/Page';
-import Header from '../components/index/header';
-import Intro from '../components/index/intro';
-import Tracks from '../components/index/tracks';
-import SimpleCalendar from '../components/index/simple-calendar';
-import Calendar from '../components/index/calendar';
-import Legitimizer from '../components/index/legitimizer';
-import { getCalendar } from '../utils/airtable';
+import Header from '../components/Index/Header';
+import Explainer from '../components/Index/Explainer';
+import PastProjects from '../components/Index/PastProjects';
+import Testimonials from '../components/Index/Testimonials';
+import Tracks from '../components/Index/Tracks';
+import { IndexQuery } from './index.gql';
 
-export const getServerSideProps = async () => ({
-  props: {
-    calendar: await getCalendar(),
-  }
-})
-
-export default function Home({ calendar }) {
-  const calendarHydrated = calendar.map((e) => ({ ...e, Date: moment.utc(e.Date).tz('America/Los_Angeles') }));
-
+export default function Home() {
   return (
-    <Page slug="/" darkHeader>
-      <Header />
-      <Intro />
+    <Page darkHeader slug="/">
+      <Header mt={-40} pt={32} pb={16} mb={16} />
+      <Explainer />
       <Tracks />
-      <Content paddingBottom={10}>
-        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-          <Image boxShadow="sm" borderRadius="sm" src="https://img.codeday.org/w=600;h=300;fit=crop;crop=faces,edges/b/q/bq6ta6ptxijo1hbfqztp83wkz97c5a25u7cm9ug51ipgkea17b6fpy9dhzrmjopzu9.jpg" />
-          <Image boxShadow="sm" borderRadius="sm" src="https://img.codeday.org/w=600;h=300;fit=crop;crop=faces,edges/b/s/bsi4mxy595o46b8qufi5xa4c3oisfhz5to8x1c3t7yz9j9d4utrwdrov4zhihtdxc5.jpg" />
-          <Image boxShadow="sm" borderRadius="sm" src="https://img.codeday.org/w=600;h=300;fit=crop;crop=faces,edges/7/m/7mp4vzp3jxr5m9hufqfzwxuqjs256wv626xruspxjdqsy6ftchfa7k73xze1uyu8tz.jpg" />
-        </Grid>
-      </Content>
-      { calendar && calendar.length > 0 ? <Calendar title border calendar={calendarHydrated} /> : <SimpleCalendar /> }
-      <Legitimizer />
+      <Testimonials />
+      <PastProjects mt={16} />
     </Page>
-  )
+  );
+}
+
+export async function getStaticProps() {
+  const data = await apiFetch(print(IndexQuery));
+
+  return {
+    props: {
+      query: data || {},
+      random: Math.random(),
+    },
+    revalidate: 240,
+  };
 }

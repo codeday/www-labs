@@ -1,0 +1,13 @@
+#import "../components/Index/Explainer.gql"
+#import "../components/Index/Header.gql"
+#import "../components/Index/PastProjects.gql"
+#import "../components/Index/Testimonials.gql"
+#import "../providers/ProgramDates.gql"
+
+query IndexQuery {
+  ...IndexExplainer
+  ...IndexHeader
+  ...IndexPastProjects
+  ...IndexTestimonials
+  ...ProgramDates
+}

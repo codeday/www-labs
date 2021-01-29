@@ -1,0 +1,12 @@
+fragment ProgramDates on Query {
+  cms {
+    programDates: events (where: { program: { webname: "labs" } }, order: startsAt_DESC, limit: 1) {
+      items {
+        registrationsOpenAt
+        registrationsCloseAt
+        startsAt
+        endsAt
+      }
+    }
+  }
+}

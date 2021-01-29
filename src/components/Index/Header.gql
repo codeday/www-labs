@@ -1,0 +1,17 @@
+fragment IndexHeader on Query {
+  cms {
+    headerEvents: events (where: { program: { webname: "labs" } }, order: startsAt_DESC, limit: 1) {
+      items {
+        registrationsOpenAt
+        registrationsCloseAt
+        startsAt
+        endsAt
+        themeBackgrounds {
+          items {
+            url(transform: {width:1920, height: 800, resizeStrategy: FILL, resizeFocus: FACES})
+          }
+        }
+      }
+    }
+  }
+}
