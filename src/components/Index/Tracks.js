@@ -25,15 +25,15 @@ export default function Tracks() {
                 experience working on complex projects.
               </Text>
               <Text>
-                This is probably the right track for you if you're a high school student who's taken AP CS A, or a
-                college student with 101-level experience.
+                This is probably the right track for you if you're a high school student who's taken AP CS A, a
+                college student with 101-level experience in CS or Engineering.
               </Text>
               <Text>
                 You'll work with a seasoned member of CodeDay staff who will guide you through your first experience
                 building something with real-world implications.
               </Text>
               <Text color="gray.500">
-                ($250 fee if accepted, scholarships available.)
+                ($250 fee if accepted; many scholarships available.)
               </Text>
               {applyButton}
             </Box>
@@ -48,7 +48,7 @@ export default function Tracks() {
               </Text>
               <Text>
                 This is the right track for you if you're a college student with experience beyond the 101/102-level
-                CS classes, or a student who has built projects on your own time.
+                CS or Engineering classes, or a student who has built projects on your own time.
               </Text>
               <Text>
                 You'll be matched with a mentor from the technology industry, like at most traditional in-person
