@@ -25,8 +25,8 @@ export default function Tracks() {
                 experience working on complex projects.
               </Text>
               <Text>
-                This is probably the right track for you if you're a high school student who's taken AP CS A, a
-                college student with 101-level experience in CS or Engineering.
+                This is probably the right track for you if you're a high school student who's taken AP CS A or
+                equivalent course, or a college student with 101-level experience in CS or Engineering.
               </Text>
               <Text>
                 You'll work with a seasoned member of CodeDay staff who will guide you through your first experience
