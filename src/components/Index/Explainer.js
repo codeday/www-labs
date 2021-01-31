@@ -13,9 +13,9 @@ export default function Explainer() {
         Dream of working at a top tech company? Join us!
       </Heading>
 
-      <Grid templateColumns="1fr 4fr" gap={8} mb={16} alignItems="center">
-        <Box>
-          <Image src="/explainer-1.png" alt="" />
+      <Grid templateColumns={{ base: '1fr', md: '1fr 3fr' }} gap={8} mb={16} alignItems="center">
+        <Box order={{ base: -1, md: 'unset' }}>
+          <Image src="/explainer-1.png" maxWidth={64} alt="" />
         </Box>
         <Box>
           <Heading as="h3" fontSize="2xl" mb={4}>Work with your mentor &amp; two other students.</Heading>
@@ -30,7 +30,7 @@ export default function Explainer() {
         </Box>
       </Grid>
 
-      <Grid templateColumns="3fr 1fr" gap={8} mb={16} alignItems="center">
+      <Grid templateColumns={{ base: '1fr', md: '3fr 1fr' }} gap={8} mb={16} alignItems="center">
         <Box>
           <Heading as="h3" fontSize="2xl" mb={4}>Create or contribute to real-world, open-source projects.</Heading>
           <Text fontSize="lg">
@@ -42,12 +42,14 @@ export default function Explainer() {
             It's like a real-world internship at a leading tech company, but 100% online.
           </Text>
         </Box>
-        <ProjectFader duration="10000" />
+        <Box order={{ base: -1, md: 'unset' }}>
+          <ProjectFader maxWidth={64} duration="10000" />
+        </Box>
       </Grid>
 
-      <Grid templateColumns="1fr 3fr" gap={8} mb={16} alignItems="center">
-        <Box>
-          <Image src="/explainer-3.png" alt="" />
+      <Grid templateColumns={{ base: '1fr', md: '1fr 3fr' }} gap={8} mb={16} alignItems="center">
+        <Box order={{ base: -1, md: 'unset' }}>
+          <Image src="/explainer-3.png" maxWidth={64} alt="" />
         </Box>
         <Box>
           <Heading as="h3" fontSize="2xl" mb={4}>Daily tech talks, career panels, and more.</Heading>
@@ -62,7 +64,7 @@ export default function Explainer() {
         </Box>
       </Grid>
 
-      <Grid templateColumns="3fr 1fr" gap={8} mb={16} alignItems="center">
+      <Grid templateColumns={{ base: '1fr', md: '3fr 1fr' }} gap={8} mb={16} alignItems="center">
         <Box>
           <Heading as="h3" fontSize="2xl" mb={4}>Get ready to land your dream job or internship next year.</Heading>
           <Text fontSize="lg">
@@ -72,8 +74,8 @@ export default function Explainer() {
           <Text fontSize="lg">
           </Text>
         </Box>
-        <Box>
-          <Image src="/explainer-4.png" alt="" rounded="md" />
+        <Box order={{ base: -1, md: 'unset' }}>
+          <Image src="/explainer-4.png" maxWidth={64} alt="" rounded="md" />
         </Box>
       </Grid>
     </Content>
