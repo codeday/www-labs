@@ -7,6 +7,7 @@ import Image from '@codeday/topo/Atom/Image';
 import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
 import List, { Item } from '@codeday/topo/Atom/List';
 import Highlight from '../../components/Highlight';
+import Testimonials from '../../components/Mentor/Testimonials';
 import Page from '../../components/Page';
 import { useProgramDates } from '../../providers';
 import { IndexQuery } from './index.gql';
@@ -73,6 +74,9 @@ export default function Mentor() {
             <Text>{mentoringStartsAt?.toLocaleString(f)} &mdash; {endsAt?.toLocaleString(f)}</Text>
           </Box>
         </Grid>
+      </Content>
+      <Content>
+        <Testimonials />
       </Content>
       <Content>
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>

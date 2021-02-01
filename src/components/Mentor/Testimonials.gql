@@ -1,0 +1,17 @@
+fragment MentorTestimonials on Query {
+  cms {
+    mentorTestimonials: testimonials(where: { program: { webname: "labs" }, type: "Mentor", image_exists: true }, limit: 10) {
+      items {
+        quote
+        firstName
+        lastName
+        experience
+        title
+        company
+        image {
+          url(transform: { resizeStrategy: FILL, width: 64, height: 64 })
+        }
+      }
+    }
+  }
+}

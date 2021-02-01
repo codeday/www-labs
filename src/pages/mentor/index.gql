@@ -1,4 +1,6 @@
 #import "../../providers/ProgramDates.gql"
+#import "../../components/Mentor/Testimonials.gql"
 query IndexQuery {
   ...ProgramDates
+  ...MentorTestimonials
 }
