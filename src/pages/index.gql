@@ -2,12 +2,19 @@
 #import "../components/Index/Header.gql"
 #import "../components/Index/PastProjects.gql"
 #import "../components/Index/Testimonials.gql"
+#import "../components/Index/Calendar.gql"
 #import "../providers/ProgramDates.gql"
 
-query IndexQuery {
+query IndexQuery (
+  $thisYearCalendarStart: CalendarDateTime!,
+  $thisYearCalendarEnd: CalendarDateTime!,
+  $lastYearCalendarStart: CalendarDateTime!,
+  $lastYearCalendarEnd: CalendarDateTime!,
+) {
   ...IndexExplainer
   ...IndexHeader
   ...IndexPastProjects
   ...IndexTestimonials
+  ...IndexCalendar
   ...ProgramDates
 }

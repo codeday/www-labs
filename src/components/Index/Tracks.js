@@ -29,8 +29,8 @@ export default function Tracks() {
                 equivalent course, or a college student with 101-level experience in CS or Engineering.
               </Text>
               <Text>
-                You'll work with a seasoned member of CodeDay staff who will guide you through your first experience
-                building something with real-world implications.
+                You'll work with an older student, a current/former tech intern, who will guide you through your first
+                experience building something with real-world implications.
               </Text>
               <Text color="gray.500">
                 ($250 fee if accepted; many scholarships available.)
