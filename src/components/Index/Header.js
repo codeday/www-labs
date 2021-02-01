@@ -60,7 +60,7 @@ export default function Header(props) {
               as={applicationsOpen ? "a" : undefined}
               href="/apply"
               variantColor={applicationsOpen ? 'green' : 'gray'}
-              bg={!applicationsOpen ? 'black' : 'undefined'}
+              {...!applicationsOpen ? {backgroundColor: 'black'} : {}}
               mr={4}
               shadow="md"
             >
