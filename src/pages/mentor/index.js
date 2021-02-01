@@ -14,6 +14,7 @@ import { IndexQuery } from './index.gql';
 
 export default function Mentor() {
   const { mentorApplicationEndsAt, startsAt, endsAt, mentoringStartsAt } = useProgramDates();
+  const weeks = Math.round(endsAt.diff(mentoringStartsAt, 'weeks').weeks);
   const f = { day: 'numeric', month: 'long' };
 
   return (
@@ -37,9 +38,9 @@ export default function Mentor() {
               talented students who just need someone like you to give them a chance to show what they can do.
             </Text>
             <Text>
-              As a mentor, you will lead a group of 3 students, helping them build a project based on your experience and
-              expertise, in 4 weeks. You propose the project, and lead the students through design, implementation, test,
-              completion, and presentation of the project.
+              As a mentor, you will lead a group of 3 students, helping them build a project based on your experience
+              and expertise, in {weeks} weeks. You propose the project, and lead the students through design,
+              implementation, test, completion, and presentation of the project.
             </Text>
             <Text>
               You will guide your student team through real world challenges faced by real engineers working on real
@@ -83,8 +84,8 @@ export default function Mentor() {
           <Box paddingTop={6}>
             <Heading as="h3" size="lg" paddingBottom={2}>Mentor Time Commitment</Heading>
             <Text>
-              Approximately <Highlight>30 hours</Highlight> of mentorship over <Highlight>five-weeks,</Highlight>{' '}
-              with a <Highlight>flexible schedule:</Highlight>
+              Approximately <Highlight>{5 + (5 * weeks)} hours</Highlight> of mentorship over <Highlight>{weeks}
+              weeks, </Highlight>with a <Highlight>flexible schedule:</Highlight>
             </Text>
             <List styleType="disc" stylePos="outside" paddingLeft={4}>
               <Item mb={2}>
