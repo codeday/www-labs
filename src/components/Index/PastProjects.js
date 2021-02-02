@@ -1,7 +1,7 @@
 import nl2br from 'react-nl2br';
 import Box, { RatioBox, Grid } from '@codeday/topo/Atom/Box';
 import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
+import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
 import MediaPlay from '@codeday/topocons/Icon/MediaPlay';
 import { useQuery, useShuffled } from '../../providers';
 
@@ -16,21 +16,30 @@ function fixDescription(description) {
   return description
     .split(`\n`)
     .filter((line) => !line.startsWith('Mentor: '))
-    .filter((line) => !line.startsWith('Student'))
+    .filter((line) => !line.startsWith('Team members: '))
     .join(`\n`)
     .trim();
 }
 
 export default function PastProjects(props) {
-  const projects = useShuffled(useQuery('showcase.pastProjects', [])).filter(Boolean).slice(0, MAX_PROJECTS);
+  const projects = useShuffled(useQuery('showcase.pastProjects', [])).filter(Boolean);
 
   if (projects.length === 0) return <></>;
 
+  // We'll always show 2/3 advanced projects, and 1/3 beginner projects.
+  const advancedProjects = projects.filter((project) => project.track === 'advanced')
+    .slice(0, Math.round(MAX_PROJECTS * 0.66));
+  const beginnerProjects = projects.filter((project) => project.track === 'beginner')
+    .slice(0, Math.round(MAX_PROJECTS * 0.33));
+
+  const displayProjects = useShuffled([...advancedProjects, ...beginnerProjects]);
+
   return (
     <Content {...props}>
-      <Heading as="h3" fontSize="4xl" textAlign="center" mb={8}>Past Student Projects</Heading>
+      <Heading as="h3" fontSize="4xl" textAlign="center">Past Student Projects</Heading>
+      <Text mb={8} textAlign="center"><Link href="https://showcase.codeday.org/p/labs">See All</Link></Text>
 
-      {projects.map((project) => (
+      {displayProjects.map((project) => (
         <Grid
           as="a"
           href={`https://showcase.codeday.org/project/${project.id}`}
