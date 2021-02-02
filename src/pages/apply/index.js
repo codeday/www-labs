@@ -43,7 +43,7 @@ const TRACK_COMPARISON_FACTORS = [
     title: `Prerequisites`,
     left:  `You must have taken AP CS, more advanced HS engineering course, a college CS or Engineering 1/101 course,`
           + ` or be able to demonstrate similar knowledge or interest in tech. (If you have significant project-based`
-          + ` experience outside of calss, the intermediate track may be a better fit.)`,
+          + ` experience outside of class, the intermediate track may be a better fit.)`,
     right: `All applicants should be comfortable with solving problems without step-by-step guidance. Intermediate`
           + ` track requires a college-level intro series and some project experience. Advanced track requires`
           + ` upper-level college courses. We'll recommend which track you are qualified for after you apply.`,
