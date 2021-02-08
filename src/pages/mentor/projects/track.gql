@@ -1,0 +1,10 @@
+query MentorProjectsQuery {
+  showcase {
+    projects (where: { program: "labs" }, take: 500) {
+      id
+      name
+      description
+      track: metadataValue(key: "labs.track")
+    }
+  }
+}
