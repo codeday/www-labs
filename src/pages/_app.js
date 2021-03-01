@@ -7,7 +7,7 @@ import 'react-responsive-modal/styles.css';
 
 export default function CustomApp({ Component, pageProps: { query, random, ...pageProps } }) {
   return (
-    <Theme analyticsId="PRGLXIXB" brandColor="red">
+    <Theme analyticsId="LTQXJNQN" brandColor="red">
       <QueryProvider value={query || {}}>
         <RandomProvider value={random || 0}>
           <Component {...pageProps} />
