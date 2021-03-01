@@ -84,8 +84,8 @@ export default function Mentor() {
           <Box paddingTop={6}>
             <Heading as="h3" size="lg" paddingBottom={2}>Mentor Time Commitment</Heading>
             <Text>
-              Approximately <Highlight>{5 + (5 * weeks)} hours</Highlight> of mentorship over <Highlight>{weeks}
-              weeks, </Highlight>with a <Highlight>flexible schedule:</Highlight>
+              Approximately <Highlight>{5 + (5 * weeks)} hours</Highlight> of mentorship over <Highlight>
+              {weeks} weeks, </Highlight>with a <Highlight>flexible schedule:</Highlight>
             </Text>
             <List styleType="disc" stylePos="outside" paddingLeft={4}>
               <Item mb={2}>
