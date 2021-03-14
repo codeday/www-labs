@@ -3,6 +3,7 @@ import { DefaultSeo } from 'next-seo';
 import Box from '@codeday/topo/Atom/Box';
 import Text, { Link } from '@codeday/topo/Atom/Text';
 import Header, { SiteLogo, Menu } from '@codeday/topo/Organism/Header';
+import Announcement from '@codeday/topo/Organism/Announcement';
 import Image from '@codeday/topo/Atom/Image';
 import Footer from '@codeday/topo/Organism/Footer';
 import { CodeDay } from '@codeday/topo/Atom/Logo';
@@ -36,6 +37,7 @@ export default ({
         cardType: 'summary_large_image',
       }}
     />
+    <Announcement zIndex={7000} position="relative" />
     <Box position="relative">
       <Header darkBackground={darkHeader} gradAmount={darkHeader && 'lg'} underscore position="relative" zIndex="1000">
         <SiteLogo>
