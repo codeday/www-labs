@@ -1,0 +1,4 @@
+#import "../providers/ProgramDates.gql"
+query SchoolsQuery {
+  ...ProgramDates
+}
