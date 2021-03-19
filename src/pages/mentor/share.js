@@ -1,13 +1,10 @@
 import { print } from 'graphql';
+import { useRouter } from 'next/router';
 import { apiFetch } from '@codeday/topo/utils';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
 import Content from '@codeday/topo/Molecule/Content';
-import Button from '@codeday/topo/Atom/Button';
 import Image from '@codeday/topo/Atom/Image';
 import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import List, { Item } from '@codeday/topo/Atom/List';
-import Highlight from '../../components/Highlight';
-import Testimonials from '../../components/Mentor/Testimonials';
 import Page from '../../components/Page';
 import { useProgramDates } from '../../providers';
 import { ShareQuery } from './share.gql';
@@ -25,18 +22,36 @@ function Copyable({ children }) {
 }
 
 export default function Share() {
+  const router = useRouter()
+  const { applied } = router.query;
   const { mentorApplicationEndsAt, startsAt, endsAt, mentoringStartsAt } = useProgramDates();
   const weeks = Math.round(endsAt.diff(mentoringStartsAt, 'weeks').weeks);
   const f = { day: 'numeric', month: 'long' };
 
   return (
     <Page slug="/mentor/share" title="Spread the Word">
+      {typeof applied !== 'undefined' && (
+        <Content mb={12} mt={-8}>
+          <Box bg="green.50" borderWidth={1} borderColor="green.800" color="green.900" p={4}>
+            <Text>
+              <Text as="span" bold>Thanks for applying!</Text> We'll review your application, then reach out to set
+              up a call where we can finalize your project proposal. Usually it only takes a few days before you'll
+              hear from us next.
+            </Text>
+            <Text>
+              In the meantime, would you consider sharing CodeDay Labs with you co-workers or on LinkedIn? Every year
+              we have to reject thousands of qualified students simply because we don't have enough mentors.
+            </Text>
+          </Box>
+        </Content>
+      )}
+
       <Content mt={-8}>
         <Heading as="h2" fontSize="4xl" marginBottom={3}>Spread the Word</Heading>
       </Content>
 
       <Content mb={8}>
-        <Heading as="h3" fontSize="lg" mb={4}>LinkedIn, Twitter, or Facebook (click image to download)</Heading>
+        <Heading as="h3" fontSize="lg" mb={4}>Email, LinkedIn, Twitter, or Facebook (click image to download)</Heading>
         <Grid templateColumns={{ base: '1fr', lg: 'repeat(2, 1fr)' }} gap={8}>
           <Copyable>
             CodeDay Labs is looking for mentors to help students get an internship-style experience this summer

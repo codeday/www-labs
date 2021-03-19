@@ -46,7 +46,7 @@ export default function MentorApplyPage () {
             <CognitoForm
               formId="57"
               onFirstPageChange={() => { goal('VA6TNIKN'); setHasStarted(true); }}
-              onSubmit={() => goal('FQKVLN2E')}
+              onSubmit={() => { goal('FQKVLN2E'); window.location = '/mentor/share?applied'; } }
             />
           </>
         )}
