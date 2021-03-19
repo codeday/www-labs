@@ -58,7 +58,8 @@ export default function Share() {
             working on open source software. The aspiring software engineers are talented, but aren't recruited because
             they attend small local schools instead of the big-names.
             <br /><br />
-            Mentoring requires a few hours a week in from{' '}
+            Make a difference in someone's career by giving them a jump start this summer. Mentoring requires a few
+            hours a week in from{' '}
             {mentoringStartsAt.toLocaleString({ month: 'long', day: 'numeric' })}{' - '}
             {endsAt.toLocaleString({ month: 'long', day: 'numeric' })}.
             Apply @ https://labs.codeday.org/mentor
@@ -72,7 +73,8 @@ export default function Share() {
             {mentoringStartsAt.toLocaleString({ month: 'long', day: 'numeric' })}{' - '}
             {endsAt.toLocaleString({ month: 'long', day: 'numeric' })}.
             <br /><br />
-            Apply @ https://labs.codeday.org/mentor
+            Make a difference in someone's career by giving them a jump start this summer. Apply @
+            https://labs.codeday.org/mentor
           </Copyable>
         </Grid>
         <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(3, 1fr)' }} gap={8}>
@@ -123,6 +125,7 @@ export default function Share() {
           valuable real-world work experience. The time commitment is only around 5 hours a week over the summer, and
           flexible with your schedule.
           <br /><br />
+          Make a difference in someone's career by giving them a jump start this summer.
           Apply by {mentorApplicationEndsAt.toLocaleString({ month: 'numeric', day: 'numeric'})} at{' '}
           <Link href="https://labs.codeday.org/mentor">https://labs.codeday.org/mentor</Link>
         </Copyable>
