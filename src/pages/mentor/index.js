@@ -57,6 +57,7 @@ export default function Mentor() {
               FAQs
             </Button>
             <Button as="a" href="mailto:labs@codeday.org" variant="ghost" variantColor="green">Email Us</Button>
+            <Button as="a" href="/mentor/share" variant="ghost" variantColor="green">Share With Your Company</Button>
           </Box>
           <Box backgroundColor="red.50" padding={6} marginTop="-2rem">
             <Heading as="h3" size="lg" paddingBottom={2}>Timeline</Heading>
