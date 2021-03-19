@@ -1,0 +1,5 @@
+#import "../../providers/ProgramDates.gql"
+#import "../../components/Mentor/Testimonials.gql"
+query ShareQuery {
+  ...ProgramDates
+}

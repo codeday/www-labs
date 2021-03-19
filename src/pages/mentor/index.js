@@ -18,7 +18,7 @@ export default function Mentor() {
   const f = { day: 'numeric', month: 'long' };
 
   return (
-    <Page slug="/mentor" title="Mentor">
+    <Page slug="/mentor" title="Tech Industry Mentor Volunteering">
       <Content>
         <Image
           width="100%"
