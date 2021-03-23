@@ -37,7 +37,7 @@ export default function Edu() {
             </Text>
             <Box mt={8}>
               <Button as="a" href="mailto:labs@codeday.org" variantColor="green" mb={2}>Email Us</Button><br />
-              <Link href="https://showcase.codeday.org/p/labs/1" target="_blank">Past Project Examples</Link><br />
+              <Link href="https://showcase.codeday.org/projects/labs/1" target="_blank">Past Project Examples</Link><br />
               <Link href="/deck-schools.pdf">Download Slide Deck</Link>
             </Box>
           </Box>
