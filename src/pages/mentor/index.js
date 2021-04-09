@@ -1,4 +1,5 @@
 import { print } from 'graphql';
+import dynamic from 'next/dynamic';
 import { apiFetch } from '@codeday/topo/utils';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
 import Content from '@codeday/topo/Molecule/Content';
@@ -11,6 +12,11 @@ import Testimonials from '../../components/Mentor/Testimonials';
 import Page from '../../components/Page';
 import { useProgramDates } from '../../providers';
 import { IndexQuery } from './index.gql';
+
+const ReactPlayer = dynamic(
+  () => import('react-player/lazy'),
+  { ssr: false },
+);
 
 export default function Mentor() {
   const { mentorApplicationEndsAt, startsAt, endsAt, mentoringStartsAt } = useProgramDates();
@@ -61,8 +67,6 @@ export default function Mentor() {
           </Box>
           <Box backgroundColor="red.50" padding={6} marginTop="-2rem">
             <Heading as="h3" size="lg" paddingBottom={2}>Timeline</Heading>
-            <Heading as="h4" size="sm">Mentor onboarding:</Heading>
-            <Text>On a rolling basis</Text>
             <Heading as="h4" size="sm">Mentor application due:</Heading>
             <Text>{mentorApplicationEndsAt?.toLocaleString(f)}</Text>
             <Heading as="h4" size="sm">Mentor training:</Heading>
@@ -74,6 +78,36 @@ export default function Mentor() {
             </Text>
             <Heading as="h4" size="sm">Mentored program:</Heading>
             <Text>{mentoringStartsAt?.toLocaleString(f)} &mdash; {endsAt?.toLocaleString(f)}</Text>
+          </Box>
+        </Grid>
+      </Content>
+      <Content>
+        <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={8}>
+          <Box>
+            <Heading as="h3" fontSize="md" mb={2}>Why students think CodeDay Labs is important:</Heading>
+            <ReactPlayer
+              url="https://stream.mux.com/bD6wcyrGiJ01aijjv3H00Dl7PzjKFxK53v.m3u8"
+              controls={true}
+              config={{
+                attributes: {
+                  poster: "https://image.mux.com/bD6wcyrGiJ01aijjv3H00Dl7PzjKFxK53v/thumbnail.jpg?width=628&fit_mode=pad&time=7.5884"
+                }
+              }}
+              width="100%"
+            />
+          </Box>
+          <Box>
+            <Heading as="h3" fontSize="md" mb={2}>What mentors think of CodeDay Labs:</Heading>
+            <ReactPlayer
+              url="https://stream.mux.com/zkKtHqXgY3OfmZ6tC5hmrc1ePdT02DzOx.m3u8"
+              controls={true}
+              config={{
+                attributes: {
+                  poster: "https://image.mux.com/zkKtHqXgY3OfmZ6tC5hmrc1ePdT02DzOx/thumbnail.jpg?width=628&fit_mode=pad&time=9.6564"
+                }
+              }}
+              width="100%"
+            />
           </Box>
         </Grid>
       </Content>
