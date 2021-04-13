@@ -39,7 +39,7 @@ export default function PastProjects(props) {
       <Heading as="h3" fontSize="4xl" textAlign="center">Past Student Projects</Heading>
       <Text mb={8} textAlign="center"><Link href="https://showcase.codeday.org/projects/labs">See All</Link></Text>
 
-      {displayProjects.map((project) => (
+      {displayProjects.filter(Boolean).map((project) => (
         <Grid
           as="a"
           href={`https://showcase.codeday.org/project/${project.id}`}

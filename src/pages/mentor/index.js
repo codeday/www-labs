@@ -25,6 +25,18 @@ export default function Mentor() {
 
   return (
     <Page slug="/mentor" title="Tech Industry Mentor Volunteering">
+        <Content mb={4} mt={-8}>
+          <Box bg="green.50" borderWidth={1} borderColor="green.800" color="green.900" p={4} rounded="sm">
+            <Text mb={0}>
+              <Text as="span" bold>
+                Engineering leader looking to reach CS talent from non-target schools?
+              </Text>{' '}
+              Help us admit more bright students, and grow your talent pipeline by sponsoring CodeDay Labs.
+              Reach out at <Link href="mailto:sponsor@codeday.org">sponsor@codeday.org</Link> or{' '}
+              <Link href="tel:+12062799026">206-279-9026</Link>.
+            </Text>
+          </Box>
+        </Content>
       <Content>
         <Image
           width="100%"
