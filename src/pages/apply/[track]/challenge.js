@@ -4,28 +4,30 @@ import { Heading } from '@codeday/topo/Atom/Text';
 import CognitoForm from '@codeday/topo/Molecule/CognitoForm';
 import Content from '@codeday/topo/Molecule/Content';
 import { apiFetch } from '@codeday/topo/utils';
-import Page from '../../components/Page';
-import CheckApplicationsOpen from '../../components/CheckApplicationsOpen';
-import CheckLoggedIn from '../../components/CheckLoggedIn';
+import Page from '../../../components/Page';
+import CheckApplicationsOpen from '../../../components/CheckApplicationsOpen';
+import CheckLoggedIn from '../../../components/CheckLoggedIn';
 import { TrackQuery } from './track.gql';
 
 const TRACK_NAMES = {
   beginner: 'Beginner',
-  advanced: 'Intermediate/Advanced',
+  intermeidate: 'Intermediate',
+  advanced: 'Advanced',
 }
 
-export default function ApplyTrack({ track }) {
+export default function ChallengeTrack({ track }) {
   return (
-    <Page slug={`/apply/${track}`} title={`Apply for ${TRACK_NAMES[track] || track}`}>
+    <Page slug={`/apply/${track}/challenge`} title={`Coding Challenge for ${TRACK_NAMES[track] || track}-Track`}>
       <Content mt={-8}>
-        <Heading as="h2" fontSize="4xl" marginBottom={12}>Student Application: {TRACK_NAMES[track] || track}</Heading>
+        <Heading as="h2" fontSize="4xl" marginBottom={12}>Coding Challenge: {TRACK_NAMES[track] || track}-Track</Heading>
         <CheckApplicationsOpen>
           <CheckLoggedIn>
             {(session) => (
               <CognitoForm
-                formId="87"
+                formId="90"
                 prefill={{
                   Track: TRACK_NAMES[track] || track,
+                  TrackId: track,
                   Username: session?.user?.nickname,
                   Name: { First: session?.user?.given_name, Last: session?.user?.family_name },
                   Email: session?.user?.email,
@@ -41,7 +43,7 @@ export default function ApplyTrack({ track }) {
 
 export function getStaticPaths() {
   return {
-    paths: [{ params: { track: 'beginner' } }, { params: { track: 'advanced' } }],
+    paths: Object.keys(TRACK_NAMES).map((track) => ({ params: { track } })),
     fallback: false,
   };
 }

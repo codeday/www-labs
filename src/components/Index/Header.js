@@ -24,6 +24,7 @@ export default function Header(props) {
   const i = useSlideshow(bgs.length, 5000);
 
   const applicationsOpen = registrationsOpenAt < DateTime.local() && registrationsCloseAt > DateTime.local();
+  const hearBackBy = registrationsCloseAt.plus({ days: 3 });
 
   return (
     <Box position="relative" {...props}>
@@ -93,7 +94,14 @@ export default function Header(props) {
                   minute: '2-digit',
                   timeZoneName: 'short',
                 })}
-                <br />Rolling admissions
+                <br />Last decisions: {hearBackBy.toLocaleString({
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                  hour: 'numeric',
+                  minute: '2-digit',
+                  timeZoneName: 'short',
+                })} (most will be earlier)
               </Text>
             )}
           </Box>
