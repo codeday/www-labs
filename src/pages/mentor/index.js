@@ -1,5 +1,6 @@
 import { print } from 'graphql';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { apiFetch } from '@codeday/topo/utils';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
 import Content from '@codeday/topo/Molecule/Content';
@@ -7,7 +8,6 @@ import Button from '@codeday/topo/Atom/Button';
 import Image from '@codeday/topo/Atom/Image';
 import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
 import List, { Item } from '@codeday/topo/Atom/List';
-import Highlight from '../../components/Highlight';
 import Testimonials from '../../components/Mentor/Testimonials';
 import Page from '../../components/Page';
 import { useProgramDates } from '../../providers';
@@ -18,9 +18,14 @@ const ReactPlayer = dynamic(
   { ssr: false },
 );
 
+function Highlight({children}) {
+  return <Text as="span" bg="yellow.200" p={1}>{children}</Text>;
+}
+
 export default function Mentor() {
   const { mentorApplicationEndsAt, startsAt, endsAt, mentoringStartsAt } = useProgramDates();
   const weeks = Math.round(endsAt.diff(mentoringStartsAt, 'weeks').weeks);
+  const { query } = useRouter();
   const f = { day: 'numeric', month: 'long' };
 
   return (
@@ -43,29 +48,37 @@ export default function Mentor() {
           maxHeight="300px"
           borderRadius="md"
           marginBottom={4}
-          src="https://img.codeday.org/w=1024;h=300;fit=crop;crop=faces,edges/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg"
+          src="https://img.codeday.org/w=1024;h=220;fit=crop;crop=faces,edges/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg"
         />
         <Heading as="h2" size="xl">Become a Mentor</Heading>
-        <Text bold>Only ~5 hours a week for 5 weeks.</Text>
+        <Text bold>(~5 hours a week for 5 weeks, flexible schedule)</Text>
       </Content>
       <Content>
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "3fr 1fr" }} gap={6}>
           <Box marginBottom={4}>
             <Text>
-              Students who don't attend a top CS university rely on internships to gain real-world skills and build a
-              resume, but most companies focus their internships on the ivy-leagues and other brand-name schools. These
-              talented students who just need someone like you to give them a chance to show what they can do.
+              Students who attend affordable local colleges rely on internships to gain real-world skills and build a
+              resume, but most companies focus their internships on brand-name schools.{' '}
+              <Highlight>These talented students need someone like you to give them the chance to show what they
+                can do.</Highlight>
             </Text>
             <Text>
-              As a mentor, you will lead a group of 3 students, helping them build a project based on your experience
-              and expertise, in {weeks} weeks. You propose the project, and lead the students through design,
+              Mentors <Highlight>guide a team of 3 students as they build an open-source project in{' '}
+              {weeks} weeks.</Highlight> You propose the project, and lead the students through design,
               implementation, test, completion, and presentation of the project.
             </Text>
             <Text>
-              You will guide your student team through real world challenges faced by real engineers working on real
-              projects.
+              Like a manager in a real internship, you'll be there for supervision &amp; guidance. (We have staff
+              to help the students with day-to-day debugging!)
             </Text>
-            <Button as="a" href="/mentor/apply" variantColor="green">Apply Now</Button>{' '}
+            <Button
+              as="a"
+              href={`/mentor/apply${query.r ? `?r=${query.r}` : ''}`}
+              variantColor="green"
+              size="lg"
+            >
+              Sign Up Now
+            </Button>{' '}
             <Button
               as="a"
               href="https://www.codeday.org/help/labs/volunteer"
@@ -133,7 +146,7 @@ export default function Mentor() {
             <Heading as="h3" size="lg" paddingBottom={2}>Mentor Time Commitment</Heading>
             <Text>
               Approximately <Highlight>{5 + (5 * weeks)} hours</Highlight> of mentorship over <Highlight>
-              {weeks} weeks, </Highlight>with a <Highlight>flexible schedule:</Highlight>
+              {weeks} weeks,</Highlight> with a <Highlight>flexible schedule:</Highlight>
             </Text>
             <List styleType="disc" stylePos="outside" paddingLeft={4}>
               <Item mb={2}>

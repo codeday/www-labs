@@ -5,6 +5,7 @@ import Box, { Grid } from '@codeday/topo/Atom/Box';
 import Content from '@codeday/topo/Molecule/Content';
 import Image from '@codeday/topo/Atom/Image';
 import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
+import Button from '@codeday/topo/Atom/Button';
 import Page from '../../components/Page';
 import { useProgramDates } from '../../providers';
 import { ShareQuery } from './share.gql';
@@ -30,7 +31,7 @@ export default function Share() {
 
   return (
     <Page slug="/mentor/share" title="Spread the Word">
-      {typeof applied !== 'undefined' && (
+      {typeof applied !== 'undefined' ? (
         <Content mb={12} mt={-8}>
           <Box bg="green.50" borderWidth={1} borderColor="green.800" color="green.900" p={4}>
             <Text>
@@ -44,10 +45,18 @@ export default function Share() {
             </Text>
           </Box>
         </Content>
+      ) : (
+        <Content mt={-8} mb={12}>
+          <Button as="a" href="/mentor" variantColor="green">&laquo; Back to Mentor Information</Button>
+        </Content>
       )}
 
-      <Content mt={-8}>
-        <Heading as="h2" fontSize="4xl" marginBottom={3}>Spread the Word</Heading>
+      <Content mt={-8} mb={12}>
+        <Heading as="h2" fontSize="4xl" marginBottom={3}>Spread the Word &mdash; CodeDay Labs Blurbs</Heading>
+        <Text>
+          Thank you for helping us share our call-for-volunteers! You can use the blurbs below to share CodeDay Labs
+          with your colleagues.
+        </Text>
       </Content>
 
       <Content mb={8}>
@@ -62,7 +71,7 @@ export default function Share() {
             hours a week in from{' '}
             {mentoringStartsAt.toLocaleString({ month: 'long', day: 'numeric' })}{' - '}
             {endsAt.toLocaleString({ month: 'long', day: 'numeric' })}.
-            Apply @ https://labs.codeday.org/mentor
+            Apply @ <Link href="https://labs.codeday.org/mentor" color="blue.800">https://labs.codeday.org/mentor</Link>
           </Copyable>
           <Copyable>
             CodeDay Labs is a program which provides an internship-style experience working on open-source projects.
@@ -73,8 +82,8 @@ export default function Share() {
             {mentoringStartsAt.toLocaleString({ month: 'long', day: 'numeric' })}{' - '}
             {endsAt.toLocaleString({ month: 'long', day: 'numeric' })}.
             <br /><br />
-            Make a difference in someone's career by giving them a jump start this summer. Apply @
-            https://labs.codeday.org/mentor
+            Make a difference in someone's career by giving them a jump start this summer. Apply @{' '}
+            <Link href="https://labs.codeday.org/mentor" color="blue.800">https://labs.codeday.org/mentor</Link>
           </Copyable>
         </Grid>
         <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', xl: 'repeat(3, 1fr)' }} gap={8}>
@@ -127,7 +136,7 @@ export default function Share() {
           <br /><br />
           Make a difference in someone's career by giving them a jump start this summer.
           Apply by {mentorApplicationEndsAt.toLocaleString({ month: 'numeric', day: 'numeric'})} at{' '}
-          <Link href="https://labs.codeday.org/mentor">https://labs.codeday.org/mentor</Link>
+          <Link href="https://labs.codeday.org/mentor" color="blue.800">https://labs.codeday.org/mentor</Link>
         </Copyable>
       </Content>
     </Page>

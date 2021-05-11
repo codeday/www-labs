@@ -1,6 +1,7 @@
 import { print } from 'graphql';
 import { apiFetch } from '@codeday/topo/utils';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import Box from '@codeday/topo/Atom/Box';
 import Content from '@codeday/topo/Molecule/Content';
 import Image from '@codeday/topo/Atom/Image';
@@ -15,6 +16,7 @@ import { DateTime } from 'luxon';
 export default function MentorApplyPage () {
   const { goal } = useAnalytics();
   const [hasStarted, setHasStarted] = useState(false);
+  const { query, isReady } = useRouter();
   const { mentorApplicationWarningAt, mentorApplicationEndsAt } = useProgramDates();
 
   return (
@@ -43,11 +45,14 @@ export default function MentorApplyPage () {
                 </Text>
               </Box>
             )}
-            <CognitoForm
-              formId="57"
-              onFirstPageChange={() => { goal('VA6TNIKN'); setHasStarted(true); }}
-              onSubmit={() => { goal('FQKVLN2E'); window.location = '/mentor/share?applied'; } }
-            />
+            {isReady && (
+              <CognitoForm
+                formId="57"
+                prefill={{ Referrer: query.r || '' }}
+                onFirstPageChange={() => { goal('VA6TNIKN'); setHasStarted(true); }}
+                onSubmit={() => { goal('FQKVLN2E'); window.location = '/mentor/share?applied'; } }
+              />
+            )}
           </>
         )}
       {hasStarted && (
