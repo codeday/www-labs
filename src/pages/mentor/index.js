@@ -46,6 +46,7 @@ export default function Mentor() {
           src="https://img.codeday.org/w=1024;h=300;fit=crop;crop=faces,edges/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg"
         />
         <Heading as="h2" size="xl">Become a Mentor</Heading>
+        <Text bold>Only ~5 hours a week for 5 weeks.</Text>
       </Content>
       <Content>
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "3fr 1fr" }} gap={6}>
