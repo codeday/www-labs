@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { print } from 'graphql';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import LinkedInTag from 'react-linkedin-insight';
 import { apiFetch } from '@codeday/topo/utils';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
 import Content from '@codeday/topo/Molecule/Content';
@@ -27,6 +29,7 @@ export default function Mentor() {
   const weeks = Math.round(endsAt.diff(mentoringStartsAt, 'weeks').weeks);
   const { query } = useRouter();
   const f = { day: 'numeric', month: 'long' };
+  useEffect(() => typeof window !== 'undefined' && LinkedInTag.init('1831116', null, false), typeof window);
 
   return (
     <Page slug="/mentor" title="Tech Industry Mentor Volunteering">

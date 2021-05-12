@@ -1,7 +1,8 @@
 import { print } from 'graphql';
 import { apiFetch } from '@codeday/topo/utils';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import LinkedInTag from 'react-linkedin-insight';
 import Box from '@codeday/topo/Atom/Box';
 import Content from '@codeday/topo/Molecule/Content';
 import Image from '@codeday/topo/Atom/Image';
@@ -18,6 +19,7 @@ export default function MentorApplyPage () {
   const [hasStarted, setHasStarted] = useState(false);
   const { query, isReady } = useRouter();
   const { mentorApplicationWarningAt, mentorApplicationEndsAt } = useProgramDates();
+  useEffect(() => typeof window !== 'undefined' && LinkedInTag.init('1831116', null, false), typeof window);
 
   return (
     <Page slug="/mentor/apply" title="Mentor Application">
@@ -50,20 +52,15 @@ export default function MentorApplyPage () {
                 formId="57"
                 prefill={{ Referrer: query.r || '' }}
                 onFirstPageChange={() => { goal('VA6TNIKN'); setHasStarted(true); }}
-                onSubmit={() => { goal('FQKVLN2E'); window.location = '/mentor/share?applied'; } }
+                onSubmit={() => {
+                  goal('FQKVLN2E');
+                  LinkedInTag.track('4864865');
+                  window.location = '/mentor/share?applied';
+                }}
               />
             )}
           </>
         )}
-      {hasStarted && (
-        <img
-          height="1"
-          width="1"
-          style={{ 'display': 'none' }}
-          alt=""
-          src="https://px.ads.linkedin.com/collect/?pid=1831116&fmt=gif"
-        />
-      )}
       </Content>
     </Page>
   );
