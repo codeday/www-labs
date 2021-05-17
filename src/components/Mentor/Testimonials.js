@@ -40,7 +40,8 @@ export default function Testimonials(props) {
                 <Image src={t.image?.url} alt="" w="100%" />
               </Box>
               <Text mb={0}>
-                {t.firstName} {t.lastName}, {t.title} at {t.company}<br />
+                {t.firstName} {t.lastName}<br />
+                {t.title}, {t.company}<br />
                 CodeDay Labs {t.experience}-Track Mentor
               </Text>
             </Grid>

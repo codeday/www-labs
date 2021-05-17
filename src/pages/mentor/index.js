@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { DateTime } from 'luxon';
 import { print } from 'graphql';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -25,7 +26,7 @@ function Highlight({children}) {
 }
 
 export default function Mentor() {
-  const { mentorApplicationEndsAt, startsAt, endsAt, mentoringStartsAt } = useProgramDates();
+  const { mentorApplicationFocusAt, mentorApplicationEndsAt, startsAt, endsAt, mentoringStartsAt } = useProgramDates();
   const weeks = Math.round(endsAt.diff(mentoringStartsAt, 'weeks').weeks);
   const { query } = useRouter();
   const f = { day: 'numeric', month: 'long' };
@@ -33,19 +34,21 @@ export default function Mentor() {
 
   return (
     <Page slug="/mentor" title="Tech Industry Mentor Volunteering">
-        <Content mb={4} mt={-8}>
-          <Box bg="green.50" borderWidth={1} borderColor="green.800" color="green.900" p={4} rounded="sm">
-            <Text mb={0}>
-              <Text as="span" bold>
-                Engineering leader looking to reach CS talent from non-target schools?
-              </Text>{' '}
-              Help us admit more bright students, and grow your talent pipeline by sponsoring CodeDay Labs.
-              Reach out at <Link href="mailto:sponsor@codeday.org">sponsor@codeday.org</Link> or{' '}
-              <Link href="tel:+12062799026">206-279-9026</Link>.
-            </Text>
-          </Box>
-        </Content>
-      <Content>
+        {mentorApplicationFocusAt < DateTime.local() && (
+          <Content mb={12} mt={-8}>
+            <Box bg="green.50" borderWidth={1} borderColor="green.800" color="green.900" p={4} rounded="sm">
+              <Text mb={0}>
+                <Text as="span" bold>
+                  Engineering leader looking to reach CS talent from non-target schools?
+                </Text>{' '}
+                Help us admit more bright students, and grow your talent pipeline by sponsoring CodeDay Labs.
+                Reach out at <Link href="mailto:sponsor@codeday.org">sponsor@codeday.org</Link> or{' '}
+                <Link href="tel:+12062799026">206-279-9026</Link>.
+              </Text>
+            </Box>
+          </Content>
+        )}
+      <Content mt={-8}>
         <Image
           width="100%"
           maxHeight="300px"
@@ -53,7 +56,7 @@ export default function Mentor() {
           marginBottom={4}
           src="https://img.codeday.org/w=1024;h=220;fit=crop;crop=faces,edges/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg"
         />
-        <Heading as="h2" size="xl">Become a Mentor</Heading>
+        <Heading as="h2" size="xl">Help students break into tech as a Labs mentor!</Heading>
         <Text bold>(~5 hours a week for 5 weeks, flexible schedule)</Text>
       </Content>
       <Content>
@@ -71,8 +74,8 @@ export default function Mentor() {
               implementation, test, completion, and presentation of the project.
             </Text>
             <Text>
-              Like a manager in a real internship, you'll be there for supervision &amp; guidance. (We have staff
-              to help the students with day-to-day debugging!)
+              Like a manager in a job, you'll be there for supervision &amp; guidance. Our staff will help students with
+              day-to-day debugging if they need it!
             </Text>
             <Button
               as="a"
@@ -113,19 +116,6 @@ export default function Mentor() {
       <Content>
         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={8}>
           <Box>
-            <Heading as="h3" fontSize="md" mb={2}>Why students think CodeDay Labs is important:</Heading>
-            <ReactPlayer
-              url="https://stream.mux.com/bD6wcyrGiJ01aijjv3H00Dl7PzjKFxK53v.m3u8"
-              controls={true}
-              config={{
-                attributes: {
-                  poster: "https://image.mux.com/bD6wcyrGiJ01aijjv3H00Dl7PzjKFxK53v/thumbnail.jpg?width=628&fit_mode=pad&time=7.5884"
-                }
-              }}
-              width="100%"
-            />
-          </Box>
-          <Box>
             <Heading as="h3" fontSize="md" mb={2}>What mentors think of CodeDay Labs:</Heading>
             <ReactPlayer
               url="https://stream.mux.com/zkKtHqXgY3OfmZ6tC5hmrc1ePdT02DzOx.m3u8"
@@ -138,10 +128,10 @@ export default function Mentor() {
               width="100%"
             />
           </Box>
+          <Box mt={8}>
+            <Testimonials />
+          </Box>
         </Grid>
-      </Content>
-      <Content>
-        <Testimonials />
       </Content>
       <Content>
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>

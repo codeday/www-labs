@@ -22,7 +22,7 @@ export default function MentorApplyPage () {
   useEffect(() => typeof window !== 'undefined' && LinkedInTag.init('1831116', null, false), typeof window);
 
   return (
-    <Page slug="/mentor/apply" title="Mentor Application">
+    <Page slug="/mentor/apply" title="Sign Up to Mentor">
       <Content>
         <Image
           width="100%"
@@ -31,7 +31,7 @@ export default function MentorApplyPage () {
           marginBottom={4}
           src="https://img.codeday.org/w=1024;h=300;fit=crop;crop=faces,edges/w/v/wvs5jzy36vt5hw1y71pnn7hsfupbh2v9ew3v7fc4z9otg265zzejg9iq97an9aszfa.jpg"
         />
-        <Heading as="h2" size="xl" marginBottom={3}>Mentor Application</Heading>
+        <Heading as="h2" size="xl" marginBottom={3}>Sign Up to Mentor</Heading>
         {mentorApplicationEndsAt < DateTime.local() ? (
           <>
             <Text>The mentor application is now closed. Check back for a future cycle of CodeDay Labs.</Text>

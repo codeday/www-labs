@@ -9,6 +9,7 @@ export const useProgramDates = () => {
     mentoringStartsAt: dates.startsAt.plus({ weeks: 1 }),
     extendedProgramEndsAt: dates.startsAt.plus({ weeks: 12 }),
     mentorApplicationEndsAt: dates.startsAt.plus({ weeks: -2 }),
-    mentorApplicationWarningAt: dates.startsAt.plus({ weeks: -3 }),
+    mentorApplicationFocusAt: dates.startsAt.plus({ weeks: -6 }),
+    mentorApplicationWarningAt: dates.startsAt.plus({ weeks: -1 }),
   };
 }
