@@ -64,8 +64,8 @@ export default function Share() {
         <Grid templateColumns={{ base: '1fr', lg: 'repeat(2, 1fr)' }} gap={8}>
           <Copyable>
             CodeDay Labs is looking for mentors to help students get an internship-style experience this summer
-            working on open source software. The aspiring software engineers are talented, but aren't recruited because
-            they attend small local schools instead of the big-names.
+            working on real-world software projects. The aspiring software engineers are talented, but aren't recruited
+            because they attend small local schools instead of the big-names.
             <br /><br />
             Make a difference in someone's career by giving them a jump start this summer. Mentoring requires a few
             hours a week in from{' '}
@@ -74,10 +74,10 @@ export default function Share() {
             Apply @ <Link href="https://labs.codeday.org/mentor" color="blue.800">https://labs.codeday.org/mentor</Link>
           </Copyable>
           <Copyable>
-            CodeDay Labs is a program which provides an internship-style experience working on open-source projects.
-            They're looking for tech industry mentors (SWEs or product managers).
+            CodeDay Labs is a program which provides an internship-style experience working on real-world software
+            projects. They're looking for tech industry mentors (SWEs or product managers).
             <br /><br />
-            Last year 300 students contributed to open source with guidance from 100 mentors. 80% were from groups
+            Last year 300 students built real-world projects with guidance from 100 mentors. 80% were from groups
             usually underrepresented in the CS industry. It's a few hours a week on your own schedule from{' '}
             {mentoringStartsAt.toLocaleString({ month: 'long', day: 'numeric' })}{' - '}
             {endsAt.toLocaleString({ month: 'long', day: 'numeric' })}.
@@ -117,18 +117,18 @@ export default function Share() {
         </Grid>
         <Copyable>
           <strong>
-            Mentor students as they contribute to open source software!{' '}
+            Mentor students as they build real-world software projects!{' '}
             (
               {mentoringStartsAt.toLocaleString({ month: 'long', day: 'numeric' })}{' - '}
               {endsAt.toLocaleString({ month: 'long', day: 'numeric' })}
             )
           </strong>
           <br /><br />
-          CodeDay Labs is a non-profit program where mentors help CS students make contributions to an OSS project. It
+          CodeDay Labs is a non-profit program where mentors help CS students build a real-world software product. It
           provides a similar experience to a summer internship to students who weren't able to find one.
           <br /><br />
-          Last year 300 students contributed to open source with guidance from 100 mentors. 80% were from groups
-          usually underrepresented in the tech industry.
+          Last year 300 students contributed to real-world software projects with guidance from 100 mentors. 80% were
+          from groups usually underrepresented in the tech industry.
           <br /><br />
           <strong>CodeDay Labs needs mentors! (SWE or product managers)</strong> You can help these students gain
           valuable real-world work experience. The time commitment is only around 5 hours a week over the summer, and

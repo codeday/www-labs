@@ -71,7 +71,7 @@ export default function Mentor() {
                 can do.</Highlight>
             </Text>
             <Text>
-              Mentors <Highlight>guide a team of 3 students as they build an open-source project in{' '}
+              Mentors <Highlight>guide a team of 3 students as they build an real-world project in{' '}
               {weeks} weeks.</Highlight> You propose the project, and lead the students through design,
               implementation, test, completion, and presentation of the project.
             </Text>
