@@ -1,0 +1,14 @@
+#import "../../../../components/Dashboard/MentorProfile.gql"
+#import "../../../../components/Dashboard/ProjectEditor.gql"
+#import "../../../../components/Dashboard/MentorManagerDetails.gql"
+query DashboardQuery {
+  labs {
+    mentor {
+      ...MentorProfile
+      ...MentorManagerDetails
+      projects {
+        ...ProjectEditor
+      }
+    }
+  }
+}

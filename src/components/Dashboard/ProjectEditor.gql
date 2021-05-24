@@ -1,0 +1,20 @@
+fragment ProjectEditor on LabsProject {
+  id
+  description
+  deliverables
+  track
+  maxStudents
+  status
+  mentors {
+    id
+    name
+  }
+}
+
+mutation EditProject($id: String!, $description: String, $deliverables: String) {
+  labs {
+    editProject(project: $id, data: { description: $description, deliverables: $deliverables }) {
+      id
+    }
+  }
+}

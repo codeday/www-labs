@@ -1,0 +1,9 @@
+fragment MentorManagerDetails on LabsMentor {
+  status
+  manager {
+    username
+    name
+    pronoun
+    picture(transform: { width: 64, height: 64 })
+  }
+}
