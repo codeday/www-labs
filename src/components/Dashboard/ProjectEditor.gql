@@ -14,7 +14,15 @@ fragment ProjectEditor on LabsProject {
 mutation EditProject($id: String!, $description: String, $deliverables: String) {
   labs {
     editProject(project: $id, data: { description: $description, deliverables: $deliverables }) {
-      id
+      ...ProjectEditor
+    }
+  }
+}
+
+mutation ProposeProject($id: String!) {
+  labs {
+    editProject(project: $id, data: { status: PROPOSED }) {
+      ...ProjectEditor
     }
   }
 }
