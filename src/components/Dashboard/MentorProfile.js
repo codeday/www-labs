@@ -76,17 +76,6 @@ export default function MentorProfile({ mentor: originalMentor, ...rest }) {
         </Box>
       </Box>
 
-      <Heading as="h3" fontSize="lg" mt={4}>Username</Heading>
-      <Box>
-        <Box d="inline-block" mr={4}>
-          <Input
-            placeholder="Username"
-            value={mentor.username}
-            onChange={(e) => setMentor(['username', e.target.value])}
-          />
-        </Box>
-      </Box>
-
       <Heading as="h3" fontSize="lg" mt={4}>Manager Username</Heading>
       <Box>
         <Box d="inline-block">
@@ -149,11 +138,10 @@ export default function MentorProfile({ mentor: originalMentor, ...rest }) {
               id: mentor.id,
               givenName: mentor.givenName,
               surname: mentor.surname,
-              username: mentor.username,
               email: mentor.email,
-              profile: JSON.parse(profileText),
+              profile: JSON.parse(profileText) || {},
               status: mentor.status,
-              managerUsername: mentor.managerUsername,
+              managerUsername: mentor.managerUsername || '',
               maxWeeks: mentor.maxWeeks,
             });
             setMentor(result.labs.editMentor);

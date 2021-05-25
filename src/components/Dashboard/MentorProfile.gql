@@ -14,7 +14,6 @@ mutation EditMentor (
   $id: String!,
   $givenName: String!,
   $surname: String!,
-  $username: String!,
   $email: String!,
   $profile: LabsJSONObject!,
   $status: LabsMentorStatus!,
@@ -27,7 +26,6 @@ mutation EditMentor (
       data: {
         givenName: $givenName,
         surname: $surname,
-        username: $username,
         email: $email,
         profile: $profile,
         status: $status,

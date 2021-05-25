@@ -1,5 +1,6 @@
 import { print } from 'graphql';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
+import { useRouter } from 'next/router';
+import Button from '@codeday/topo/Atom/Button';
 import Content from '@codeday/topo/Molecule/Content';
 import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
 import Spinner from '@codeday/topo/Atom/Spinner';
@@ -10,6 +11,7 @@ import ProjectEditor from '../../../../components/Dashboard/ProjectEditor';
 import { MentorPageQuery } from './mentor.gql';
 
 export default function MentorDashboard({ id }) {
+  const { query } = useRouter();
   const { loading, error, data } = useSwr(print(MentorPageQuery), { id });
   if (!data?.labs?.mentor) return <Page title="Mentor Dashboard"><Content><Spinner /></Content></Page>
   const mentor = data.labs.mentor;
@@ -17,6 +19,7 @@ export default function MentorDashboard({ id }) {
   return (
     <Page title={mentor.name}>
       <Content mt={-8}>
+        <Button as="a" href={`/dash/mm/${query.token}`}>&laquo; Back</Button>
         <MentorProfile mentor={mentor} />
         <Heading as="h2" fontSize="3xl" mt={8} mb={4}>
           Project{data.labs.mentor.projects.length !== 1 ? 's' : ''}

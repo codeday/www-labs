@@ -42,7 +42,16 @@ export default function MentorDashboard() {
   if (!data?.labs) return <Page title="Mentor Manager Dashboard"><Content><Spinner /></Content></Page>;
 
   const sortedMentors = (data.labs.mentors || [])
-    .sort((a, b) => a.manager?.name > b.manager?.name ? -1 : 1);
+    .sort((a, b) => {
+      if (a.manager && !b.manager) return -1;
+      if (!a.manager && b.manager) return 1;
+      if (a.manager?.name !== b.manager?.name) return a.manager?.name > b.manager?.name ? 1 : -1;
+      if (a.status === 'APPLIED' && b.status !== 'APPLIED') return -1;
+      if (a.status !== 'APPLIED' && b.status === 'APPLIED') return 1;
+      if (a.status === 'SCHEDULED' && b.status !== 'SCHEDULED') return -1;
+      if (a.status !== 'SCHEDULD' && b.status === 'SCHEDULED') return 1;
+      return a.status > b.status ? 1 : -1;
+    });
 
   return (
     <Page title="Mentor Dashboard">
