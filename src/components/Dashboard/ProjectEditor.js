@@ -108,12 +108,12 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         onChange={(e) => setProject(['tags', e])}
       />
 
-      {limited && ['DRAFT', 'APPLIED'].includes(project.status) && (
+      {limited && ['DRAFT', 'PROPOSED'].includes(project.status) && (
         <>
           <Heading mt={8} as="h4" fontSize="lg">Ready?</Heading>
           <Checkbox
-            checked={project.status !== 'APPLIED'}
-            onClick={() => setProject(['status', project.status === 'APPLIED' ? 'DRAFT' : 'APPLIED'])}
+            isChecked={project.status !== 'DRAFT'}
+            onClick={() => setProject(['status', project.status === 'PROPOSED' ? 'DRAFT' : 'PROPOSED'])}
           >
             My project proposal is ready for matching.
           </Checkbox>

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { apiFetch } from '@codeday/topo/utils';
 
 export function useFetcher(variables) {
+  console.log(variables);
   const { query } = useRouter();
   if (!query.token) return () => { throw Error('No token specified') };
   return (q, v, h) => apiFetch(q, { ...v, ...variables }, {
@@ -13,5 +14,5 @@ export function useFetcher(variables) {
 
 export function useSwr(query, variables, options) {
   const r = useRouter();
-  return useSwrNative([query, r?.query?.token], useFetcher(variables), options);
+  return useSwrNative([query, null, null, r?.query?.token], useFetcher(variables), options);
 }

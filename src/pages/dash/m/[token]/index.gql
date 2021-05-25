@@ -1,11 +1,12 @@
-#import "../../../../components/Dashboard/MentorProfile.gql"
 #import "../../../../components/Dashboard/ProjectEditor.gql"
 #import "../../../../components/Dashboard/MentorManagerDetails.gql"
 #import "../../../../components/Dashboard/TagPicker.gql"
 query DashboardQuery {
   labs {
     mentor {
-      ...MentorProfile
+      name
+      givenName
+      surname
       ...MentorManagerDetails
       projects {
         ...ProjectEditor
