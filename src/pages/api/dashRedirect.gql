@@ -1,0 +1,17 @@
+query StudentMentorQuery ($username: String!) {
+  account {
+    getUser (where: { username: $username }) {
+      roles {
+        id
+      }
+    }
+  }
+  labs {
+    mentor(where: { username: $username }) {
+      id
+    }
+    student(where: { username: $username }) {
+      id
+    }
+  }
+}

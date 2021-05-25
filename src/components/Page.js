@@ -5,7 +5,7 @@ import Text, { Link } from '@codeday/topo/Atom/Text';
 import Header, { SiteLogo, Menu } from '@codeday/topo/Organism/Header';
 import Announcement from '@codeday/topo/Organism/Announcement';
 import Image from '@codeday/topo/Atom/Image';
-import Footer from '@codeday/topo/Organism/Footer';
+import Footer, { CustomLinks } from '@codeday/topo/Organism/Footer';
 import { CodeDay } from '@codeday/topo/Atom/Logo';
 import Button from '@codeday/topo/Atom/Button';
 import getConfig from 'next/config';
@@ -68,7 +68,11 @@ export default ({
       </Header>
       {children}
       <Box mb={16} />
-      <Footer />
+      <Footer>
+        <CustomLinks>
+          <Link as="a" href="/dash">Participant Dashboard</Link>
+        </CustomLinks>
+      </Footer>
     </Box>
   </>
 );
