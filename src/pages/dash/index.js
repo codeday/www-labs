@@ -12,8 +12,10 @@ const sectionNames = { a: 'Admin', mm: 'Manager', r: 'Reviewer', m: 'Mentor', s:
 
 export default function DashboardLogin() {
   const { loading, data, ...rest } = useSwr('/api/dashRedirect', (url) => fetch(url).then((r) => r.json()));
-  if (data && Object.values(data).length === 1) window.location = Object.values(data)[0];
-  else if (data) return (
+  if (data && Object.keys(data).length === 1) {
+    const k = Object.keys(data)[0];
+    window.location = `/dash/${k}/${data[k]}`;
+  } else if (data) return (
     <Page slug={`/dash`} title={`Dashboard`}>
       <Box textAlign="center" maxWidth="md" margin="0 auto">
         {Object.keys(data).map((k) => (
