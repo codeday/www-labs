@@ -17,11 +17,20 @@ export default function MentorDashboard() {
   return (
     <Page title="Mentor Dashboard">
       <Content mt={-8}>
+        <Heading as="h2" fontSize="3xl" mb={4}>
+          Your Project{data.labs.mentor.projects.length !== 1 ? 's' : ''}
+        </Heading>
+      </Content>
+      <Content>
         <Grid templateColumns={{ base: '1fr', lg: '3fr 2fr' }} alignItems="top" gap={8}>
           <Box>
-            <MentorProfile mb={16} mentor={data?.labs?.mentor} />
-            <Heading as="h3" fontSize="xl" mb={4}>Your Projects</Heading>
-            {data?.labs?.mentor?.projects?.map((project) => <ProjectEditor project={project} />)}
+            {data?.labs?.mentor?.projects && (
+              <>
+                {data?.labs?.mentor?.projects?.map((project) => (
+                  <ProjectEditor limited tags={data.labs.tags} project={project} />
+                ))}
+              </>
+            )}
           </Box>
           <Box>
             <MentorManagerDetails mentor={data?.labs?.mentor} />

@@ -1,0 +1,18 @@
+query DashboardQuery {
+  labs {
+    mentors {
+      id
+      name
+      email
+      status
+      manager {
+        picture(transform: { width: 32, height: 32 })
+        name
+      }
+      projects {
+        status
+        track
+      }
+    }
+  }
+}

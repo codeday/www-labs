@@ -1,0 +1,6 @@
+fragment TagPicker on LabsTag {
+  id
+  type
+  studentDisplayName
+  mentorDisplayName
+}

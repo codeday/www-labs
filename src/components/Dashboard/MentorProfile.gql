@@ -1,5 +1,41 @@
 fragment MentorProfile on LabsMentor {
+  id
   givenName
   surname
+  username
+  email
+  profile
   status
+  managerUsername
+  maxWeeks
+}
+
+mutation EditMentor (
+  $id: String!,
+  $givenName: String!,
+  $surname: String!,
+  $username: String!,
+  $email: String!,
+  $profile: LabsJSONObject!,
+  $status: LabsMentorStatus!,
+  $managerUsername: String!,
+  $maxWeeks: Int!,
+) {
+  labs {
+    editMentor(
+      where: { id: $id },
+      data: {
+        givenName: $givenName,
+        surname: $surname,
+        username: $username,
+        email: $email,
+        profile: $profile,
+        status: $status,
+        managerUsername: $managerUsername,
+        maxWeeks: $maxWeeks,
+      },
+    ) {
+      ...MentorProfile
+    }
+  }
 }

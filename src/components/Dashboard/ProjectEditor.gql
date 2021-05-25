@@ -9,19 +9,48 @@ fragment ProjectEditor on LabsProject {
     id
     name
   }
+  tags {
+    id
+  }
 }
 
-mutation EditProject($id: String!, $description: String, $deliverables: String) {
+mutation EditProjectLimited(
+  $id: String!,
+  $description: String,
+  $deliverables: String,
+  $tags: [String!],
+  $status: LabsProjectStatus
+) {
   labs {
-    editProject(project: $id, data: { description: $description, deliverables: $deliverables }) {
+    editProject(project: $id, data: {
+      description: $description,
+      deliverables: $deliverables,
+      tags: $tags,
+      status: $status
+    }) {
       ...ProjectEditor
     }
   }
 }
 
-mutation ProposeProject($id: String!) {
+mutation EditProject(
+  $id: String!,
+  $description: String,
+  $deliverables: String,
+  $status: LabsProjectStatus!,
+  $track: LabsTrack!,
+  $maxStudents: Int!,
+  $tags: [String!],
+) {
   labs {
-    editProject(project: $id, data: { status: PROPOSED }) {
+    editProject(project: $id, data: {
+      description: $description,
+      deliverables: $deliverables,
+      status: $status,
+      track: $track,
+      maxStudents: $maxStudents,
+      tags: $tags,
+    }) {
       ...ProjectEditor
     }
   }

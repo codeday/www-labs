@@ -2,9 +2,10 @@
 #import "../../../../components/Dashboard/ProjectEditor.gql"
 #import "../../../../components/Dashboard/MentorManagerDetails.gql"
 #import "../../../../components/Dashboard/TagPicker.gql"
-query DashboardQuery {
+query MentorPageQuery ($id: String!) {
   labs {
-    mentor {
+    mentor (where: { id: $id }) {
+      name
       ...MentorProfile
       ...MentorManagerDetails
       projects {
