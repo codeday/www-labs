@@ -73,10 +73,10 @@ export default function MentorDashboard() {
     });
 
   return (
-    <Page title="Mentor Dashboard">
+    <Page title="Mentor Manager Dashboard">
       <Content mt={-8}>
         <Grid templateColumns={{ base: '1fr', md: '2fr 1fr' }}>
-          <Heading as="h2" fontSize="3xl" mb={4}>Mentors Manager Dashboard</Heading>
+          <Heading as="h2" fontSize="3xl" mb={4}>Mentor Manager Dashboard</Heading>
           <Box textAlign="right">
             {isValidating ? <Spinner /> : (
               <>

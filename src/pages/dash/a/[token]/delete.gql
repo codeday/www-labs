@@ -1,0 +1,5 @@
+mutation MentorDeleteMutation ($id: String!) {
+  labs {
+    deleteMentor(where: {id: $id})
+  }
+}
