@@ -12,7 +12,7 @@ import { DashboardQuery } from './index.gql';
 
 export default function MentorDashboard() {
   const { loading, error, data } = useSwr(print(DashboardQuery));
-  if (!data?.labs) return <Page title="Mentor Dashboard"><Content><Spinner /></Content></Page>
+  if (!data?.labs?.mentor) return <Page title="Mentor Dashboard"><Content><Spinner /></Content></Page>
 
   return (
     <Page title="Mentor Dashboard">
@@ -27,7 +27,16 @@ export default function MentorDashboard() {
             {data?.labs?.mentor?.projects && (
               <>
                 {data?.labs?.mentor?.projects?.map((project) => (
-                  <ProjectEditor limited tags={data.labs.tags} project={project} />
+                  <ProjectEditor
+                    limited
+                    tags={data.labs.tags}
+                    project={project}
+                    borderWidth={1}
+                    p={4}
+                    shadow="sm"
+                    rounded="sm"
+                    mb={2}
+                  />
                 ))}
               </>
             )}

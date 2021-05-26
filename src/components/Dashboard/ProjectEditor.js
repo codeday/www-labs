@@ -29,7 +29,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
   const { success, error } = useToasts();
 
   return (
-    <Box borderWidth={1} p={4} shadow="sm" rounded="sm" mb={2} {...rest}>
+    <Box {...rest}>
       <Grid
         templateColumns={limited ? 'repeat(3, 1fr)' : '1fr' }
         gap={4}
