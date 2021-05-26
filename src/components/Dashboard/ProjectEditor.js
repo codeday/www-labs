@@ -141,7 +141,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
           isLoading={loading}
           disabled={loading}
         >
-          Save Draft
+          { limited ? 'Save Draft' : 'Save' }
         </Button>
 
         {limited && ['DRAFT', 'PROPOSED'].includes(project.status) && (

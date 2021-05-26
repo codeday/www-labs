@@ -125,7 +125,7 @@ export default function MentorDashboard() {
                 )}
               </Box>
               <Box as="td" textAlign="center" pb={2} pt={2} verticalAlign="bottom">
-                {!['CANCELED', 'REJECTED'].includes(mentor.status) && mentor.projects.map(({ status, track }) => (
+                {!['CANCELED', 'REJECTED', 'APPLIED', 'SCHEDULED'].includes(mentor.status) && mentor.projects.map(({ status, track }) => (
                   <ProjectIndicator status={status} track={track} />
                 ))}
               </Box>
