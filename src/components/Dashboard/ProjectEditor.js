@@ -28,6 +28,31 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
   const fetch = useFetcher();
   const { success, error } = useToasts();
 
+  const save = (data) => async () => {
+    setLoading(true);
+    try {
+      const result = await fetch(print(EditProject), {
+        id: project.id,
+        data: {
+          description: project.description || "",
+          deliverables: project.deliverables || "",
+          tags: (project.tags || []).map(({ id }) => id),
+          ...(limited ? {} : {
+            status: project.status,
+            track: project.track,
+            maxStudents: project.maxStudents,
+          }),
+          ...data,
+        }
+      });
+      setProject(result.labs.editProject);
+      success('Project updated.');
+    } catch (ex) {
+      error(ex.toString());
+    }
+    setLoading(false);
+  };
+
   return (
     <Box {...rest}>
       <Grid
@@ -81,6 +106,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         value={project.description}
         placeholder="2-3 sentence description of what your students will work on."
         onChange={(e) => setProject(['description', e.target.value])}
+        height={12}
       />
 
       <Heading mt={8} as="h4" fontSize="lg">Deliverables</Heading>
@@ -108,48 +134,29 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         onChange={(e) => setProject(['tags', e])}
       />
 
-      {limited && ['DRAFT', 'PROPOSED'].includes(project.status) && (
-        <>
-          <Heading mt={8} as="h4" fontSize="lg">Ready?</Heading>
-          <Checkbox
-            isChecked={project.status !== 'DRAFT'}
-            onClick={() => setProject(['status', project.status === 'PROPOSED' ? 'DRAFT' : 'PROPOSED'])}
-          >
-            My project proposal is ready for matching.
-          </Checkbox>
-        </>
-      )}
-
       <Box mt={4}>
         <Button
           d="inline-block"
-          variantColor="green"
-          onClick={async () => {
-            setLoading(true);
-            try {
-              const result = await fetch(print(limited ? EditProjectLimited : EditProject), {
-                id: project.id,
-                description: project.description || "",
-                deliverables: project.deliverables || "",
-                tags: (project.tags || []).map(({ id }) => id),
-                ...(limited ? {} : {
-                  status: project.status,
-                  track: project.track,
-                  maxStudents: project.maxStudents,
-                })
-              });
-              setProject(result.labs.editProject);
-              success('Project updated.');
-            } catch (ex) {
-              error(ex.toString());
-            }
-            setLoading(false);
-          }}
+          onClick={save(limited ? { status: 'DRAFT' } : {})}
           isLoading={loading}
           disabled={loading}
         >
-          Save Project
+          Save Draft
         </Button>
+
+        {limited && ['DRAFT', 'PROPOSED'].includes(project.status) && (
+          <Box d="inline-block" ml={4} pl={4} borderLeftWidth={1}>
+            <Button
+              d="inline-block"
+              variantColor="green"
+              onClick={save({ status: 'PROPOSED' })}
+              isLoading={loading}
+              disabled={loading}
+            >
+              Save &amp; Submit
+            </Button>
+          </Box>
+        )}
       </Box>
     </Box>
   )

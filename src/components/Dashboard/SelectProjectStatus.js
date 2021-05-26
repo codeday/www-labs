@@ -9,6 +9,7 @@ const options = {
 };
 
 export default function SelectProjectStatus({ status, onChange, ...props }) {
+  if (status === 'MATCHED') return <>MATCHED</>;
   return (
     <Box d="inline-block" {...props}>
       <Select d="inline-block" onChange={onChange}>
