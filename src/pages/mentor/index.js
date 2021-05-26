@@ -59,7 +59,7 @@ export default function Mentor() {
           src="https://img.codeday.org/w=1024;h=220;fit=crop;crop=faces,edges/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg"
         />
         <Heading as="h2" size="xl">Help students break into tech as a Labs mentor!</Heading>
-        <Text bold>(~5 hours a week for 5 weeks, flexible schedule)</Text>
+        <Text bold>(~4 hours a week for 5 weeks, flexible schedule)</Text>
       </Content>
       <Content>
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "3fr 1fr" }} gap={6}>
@@ -140,20 +140,20 @@ export default function Mentor() {
           <Box paddingTop={6}>
             <Heading as="h3" size="lg" paddingBottom={2}>Mentor Time Commitment</Heading>
             <Text>
-              Approximately <Highlight>{5 + (5 * weeks)} hours</Highlight> of mentorship over <Highlight>
+              Approximately <Highlight>4hr/wk</Highlight> of mentorship over <Highlight>
               {weeks} weeks,</Highlight> with a <Highlight>flexible schedule:</Highlight>
             </Text>
             <List styleType="disc" stylePos="outside" paddingLeft={4}>
               <Item mb={2}>
-                <Text bold mb={0}>Project scoping and training, total:</Text>
-                2 hours
+                <Text bold mb={0}>Project scoping and training, pre-summer:</Text>
+                1 hour
               </Item>
               <Item mb={2}>
                 <Text bold mb={0}>Two team meetings, per week:</Text>
                 2 hours/week
               </Item>
               <Item mb={2}>
-                <Text bold mb={0}>One performance feedback form, per week:</Text>
+                <Text bold mb={0}>Sharing performance feedback:</Text>
                 &frac14;-hour/week
               </Item>
               <Item mb={2}>
