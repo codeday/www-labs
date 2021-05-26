@@ -5,12 +5,15 @@ query DashboardQuery {
       name
       email
       status
+      maxWeeks
       manager {
-        picture(transform: { width: 32, height: 32 })
+        username
+        picture(transform: { width: 32, height: 32, fit: CROP })
         name
       }
       projects {
         status
+        maxStudents
         track
       }
     }

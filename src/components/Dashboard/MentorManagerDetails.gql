@@ -4,6 +4,6 @@ fragment MentorManagerDetails on LabsMentor {
     username
     name
     pronoun
-    picture(transform: { width: 64, height: 64 })
+    picture(transform: { width: 64, height: 64, fit: CROP })
   }
 }

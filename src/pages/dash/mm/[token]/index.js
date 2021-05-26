@@ -1,5 +1,8 @@
+import { useEffect, useState } from 'react';
+import { decode } from 'jsonwebtoken';
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
+import { DateTime } from 'luxon';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
 import Content from '@codeday/topo/Molecule/Content';
 import Image from '@codeday/topo/Atom/Image';
@@ -8,12 +11,13 @@ import Spinner from '@codeday/topo/Atom/Spinner';
 import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
 import { DashboardQuery } from './index.gql';
+import MentorStats from '../../../../components/Dashboard/MentorStats';
 
 function MentorIndicator({ status }) {
   const color = {
     'APPLIED': 'red',
-    'REJECTED': 'red',
-    'CANCELED': 'red',
+    'REJECTED': 'gray',
+    'CANCELED': 'gray',
     'SCHEDULED': 'purple',
     'ACCEPTED': 'gray',
   }[status || 'CANCELED'] || 'red';
@@ -32,17 +36,32 @@ function ProjectIndicator({ status, track }) {
   }[status || 'CANCELED'] || 'red';
 
   return (
-    <Box bg={`${color}.700`} rounded="sm" fontSize="sm" d="inline-block" p={1} m={1} color={`${color}.50`}>{track}</Box>
+    <Box bg={`${color}.700`} rounded="sm" fontSize="sm" d="inline-block" p={1} m={1} color={`${color}.50`}>
+      {track[0]}{track.slice(1).toLowerCase()}
+    </Box>
   );
 }
 
 export default function MentorDashboard() {
   const { query } = useRouter();
-  const { loading, error, data } = useSwr(print(DashboardQuery));
+  const { isValidating, data } = useSwr(print(DashboardQuery), {}, { refreshInterval: 1000 * 30 });
+  const [lastUpdated, setLastUpdated] = useState(DateTime.local());
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !isValidating) setLastUpdated(DateTime.local());
+  }, [typeof window, isValidating]);
+
   if (!data?.labs) return <Page title="Mentor Manager Dashboard"><Content><Spinner /></Content></Page>;
+
+  const { sid: myUsername } = decode(query.token) || {};
 
   const sortedMentors = (data.labs.mentors || [])
     .sort((a, b) => {
+      if (['CANCELED', 'REJECTED'].includes(a.status) && !['CANCELED', 'REJECTED'].includes(b.status)) return 1;
+      if (!['CANCELED', 'REJECTED'].includes(a.status) && ['CANCELED', 'REJECTED'].includes(b.status)) return -1;
+      if (myUsername && a.manager?.username === myUsername && b.manager?.username !== myUsername) return -1;
+      if (myUsername && a.manager?.username !== myUsername && b.manager?.username === myUsername) return 1;
+      if (myUsername && !a.manager?.username && b.manager?.username) return -1;
+      if (myUsername && a.manager?.username && !b.manager?.username) return 1;
       if (a.manager && !b.manager) return -1;
       if (!a.manager && b.manager) return 1;
       if (a.manager?.name !== b.manager?.name) return a.manager?.name > b.manager?.name ? 1 : -1;
@@ -56,7 +75,23 @@ export default function MentorDashboard() {
   return (
     <Page title="Mentor Dashboard">
       <Content mt={-8}>
-        <Heading as="h2" fontSize="3xl" mb={4}>Mentors Manager Dashboard</Heading>
+        <Grid templateColumns={{ base: '1fr', md: '2fr 1fr' }}>
+          <Heading as="h2" fontSize="3xl" mb={4}>Mentors Manager Dashboard</Heading>
+          <Box textAlign="right">
+            {isValidating ? <Spinner /> : (
+              <>
+                Updated {lastUpdated.toLocaleString({
+                  day: 'numeric',
+                  month: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                  second: 'numeric'
+                })}
+              </>
+            )}
+          </Box>
+        </Grid>
+        <MentorStats mentors={sortedMentors} />
         <Box as="table" w="100%">
           <Box as="tr" fontWeight="bold" textAlign="left" borderBottomColor="black" borderBottomWidth={1}>
             <Box as="th">Name</Box>
@@ -66,9 +101,13 @@ export default function MentorDashboard() {
           </Box>
           {sortedMentors.map((mentor, id) => (
             <Box as="tr" bg={id % 2 === 1 ? 'gray.50' : undefined} borderBottomWidth={1}>
-              <Box as="td" bold>
+              <Box
+                as="td"
+                bold
+                textDecoration={['REJECTED', 'CANCELED'].includes(mentor.status) ? 'line-through' : undefined}
+              >
                 <MentorIndicator status={mentor.status} />
-                <Link as="a" href={`/dash/mm/${query.token}/${mentor.id}`} p={2}>
+                <Link as="a" href={`/dash/mm/${query.token}/${mentor.id}`} p={3} d="inline-block">
                   {mentor.name}
                 </Link>
               </Box>
@@ -86,7 +125,9 @@ export default function MentorDashboard() {
                 )}
               </Box>
               <Box as="td" textAlign="center" pb={2} pt={2} verticalAlign="bottom">
-                {mentor.projects.map(({ status, track }) => <ProjectIndicator status={status} track={track} />)}
+                {!['CANCELED', 'REJECTED'].includes(mentor.status) && mentor.projects.map(({ status, track }) => (
+                  <ProjectIndicator status={status} track={track} />
+                ))}
               </Box>
             </Box>
           ))}
