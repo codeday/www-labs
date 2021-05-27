@@ -14,6 +14,20 @@ import { useFetcher } from '../../../../dashboardFetch';
 import { StudentNeedingRating, StudentNeedingRatingInTrack, SubmitRating } from './index.gql';
 import List, { Item } from '@codeday/topo/Atom/List';
 
+function TrackBadge({ track }) {
+  return (
+    <Box
+      color="white"
+      bg={{'BEGINNER': 'green.700', 'INTERMEDIATE': 'orange.700', 'ADVANCED': 'pink.700'}[track] || 'gray.100'}
+      p={1}
+      rounded="sm"
+      d="inline-block"
+    >
+      {track.toLowerCase()}
+    </Box>
+  )
+}
+
 function LongAnswer({ title, text }) {
   if (!text) return <></>;
   return (
@@ -118,7 +132,7 @@ export default function ReviewPage() {
               <Text as="span" bold>app: </Text><Text as="span" fontFamily="mono">#{student.profile?.appId}</Text>
             </Text>
             <Text mb={0}>
-              <Text as="span" bold>track: </Text><Text as="span" fontFamily="mono">{student.track}</Text>
+              <Text as="span" bold>application track: </Text><TrackBadge track={student.track} />
             </Text>
           </Box>
         </Grid>
