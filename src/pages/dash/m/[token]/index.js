@@ -12,7 +12,7 @@ import { DashboardQuery } from './index.gql';
 
 export default function MentorDashboard() {
   const { loading, error, data } = useSwr(print(DashboardQuery));
-  if (!data?.labs?.mentor) return <Page title="Mentor Dashboard"><Content><Spinner /></Content></Page>
+  if (!data?.labs?.mentor) return <Page title="Mentor Dashboard"><Content textAlign="center"><Spinner /></Content></Page>
 
   return (
     <Page title="Mentor Dashboard">

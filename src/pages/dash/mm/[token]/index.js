@@ -50,7 +50,7 @@ export default function MentorDashboard() {
     if (typeof window !== 'undefined' && !isValidating) setLastUpdated(DateTime.local());
   }, [typeof window, isValidating]);
 
-  if (!data?.labs) return <Page title="Mentor Manager Dashboard"><Content><Spinner /></Content></Page>;
+  if (!data?.labs) return <Page title="Mentor Manager Dashboard"><Content textAlign="center"><Spinner /></Content></Page>;
 
   const { sid: myUsername } = decode(query.token) || {};
 

@@ -18,7 +18,7 @@ import { MentorPageQuery } from './mentor.gql';
 export default function MentorDashboard({ id, mentorToken }) {
   const { query } = useRouter();
   const { loading, error, data } = useSwr(print(MentorPageQuery), { id });
-  if (!data?.labs?.mentor) return <Page title="Mentor Editor"><Content><Spinner /></Content></Page>
+  if (!data?.labs?.mentor) return <Page title="Mentor Editor"><Content textAlign="center"><Spinner /></Content></Page>
   const mentor = data.labs.mentor;
 
   return (

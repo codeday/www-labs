@@ -22,7 +22,6 @@ export default async function (req, res) {
   const username = session.user.nickname;
   const adminToken = makeToken({ typ: 'a' });
   const accountToken = sign({ scopes: `read:users` }, serverRuntimeConfig.gql.accountSecret, { expiresIn: '5m' });
-  console.log(adminToken);
 
   const { labs, account } = await apiFetch(
     print(StudentMentorQuery),

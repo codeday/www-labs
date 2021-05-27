@@ -32,8 +32,6 @@ export default function Mentor() {
   const f = { day: 'numeric', month: 'long' };
   useEffect(() => typeof window !== 'undefined' && LinkedInTag.init('1831116', null, false), typeof window);
 
-  console.log(mentorApplicationFocusAt);
-
   return (
     <Page slug="/mentor" title="Tech Industry Mentor Volunteering">
         {mentorApplicationFocusAt > DateTime.local() && (
