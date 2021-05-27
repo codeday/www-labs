@@ -1,0 +1,21 @@
+query StudentNeedingRating {
+  labs {
+    nextStudentNeedingRating {
+      id
+      givenName
+      surname
+      track
+      minHours
+      tags {
+        mentorDisplayName
+      }
+      profile
+    }
+  }
+}
+
+mutation SubmitRating($id: String!, $rating: Int!, $track: LabsTrack!) {
+  labs {
+    submitStudentRating(where: { id: $id }, rating: $rating, track: $track)
+  }
+}

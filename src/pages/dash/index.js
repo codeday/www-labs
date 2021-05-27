@@ -11,22 +11,22 @@ import Page from '../../components/Page';
 const sectionNames = { a: 'Admin', mm: 'Manager', r: 'Reviewer', m: 'Mentor', s: 'Student' };
 
 export default function DashboardLogin() {
-  const { loading, data, ...rest } = useSwr('/api/dashRedirect', (url) => fetch(url).then((r) => r.json()));
+  const { isValidating, data, ...rest } = useSwr('/api/dashRedirect', (url) => fetch(url).then((r) => r.json()));
   if (data && Object.keys(data).length === 1) {
     const k = Object.keys(data)[0];
     window.location = `/dash/${k}/${data[k]}`;
   } else if (data) return (
     <Page slug={`/dash`} title={`Dashboard`}>
       <Box textAlign="center" maxWidth="md" margin="0 auto">
-        {Object.keys(data).map((k) => (
+        {Object.keys(data).length > 1 ? Object.keys(data).map((k) => (
           <Button key={k} mr={2} as="a" href={`/dash/${k}/${data[k]}`}>{sectionNames[k] || k}</Button>
-        ))}
+        )) : <>Sorry, nothing is associated with your account.</>}
       </Box>
     </Page>
   );
 
 
-  if (loading || data) return (
+  if (isValidating || data) return (
     <Page slug={`/dash`} title={`Dashboard`}>
       <Box textAlign="center" maxWidth="md" margin="0 auto">
         <Spinner />
