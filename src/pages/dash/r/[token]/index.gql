@@ -1,15 +1,27 @@
+fragment ProfilePageInformation on LabsStudent {
+  id
+  givenName
+  surname
+  track
+  minHours
+  tags {
+    mentorDisplayName
+  }
+  profile
+}
+
 query StudentNeedingRating {
   labs {
     nextStudentNeedingRating {
-      id
-      givenName
-      surname
-      track
-      minHours
-      tags {
-        mentorDisplayName
-      }
-      profile
+      ...ProfilePageInformation
+    }
+  }
+}
+
+query StudentNeedingRatingInTrack ($track: LabsTrack!) {
+  labs {
+    nextStudentNeedingRating(track: $track) {
+      ...ProfilePageInformation
     }
   }
 }

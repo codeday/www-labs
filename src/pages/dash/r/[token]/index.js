@@ -9,8 +9,9 @@ import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
 import { useToasts } from '@codeday/topo/utils';
 import Spinner from '@codeday/topo/Atom/Spinner';
 import Page from '../../../../components/Page';
+import SelectTrack from '../../../../components/Dashboard/SelectTrack';
 import { useFetcher } from '../../../../dashboardFetch';
-import { StudentNeedingRating, SubmitRating } from './index.gql';
+import { StudentNeedingRating, StudentNeedingRatingInTrack, SubmitRating } from './index.gql';
 import List, { Item } from '@codeday/topo/Atom/List';
 
 function LongAnswer({ title, text }) {
@@ -34,15 +35,21 @@ export default function ReviewPage() {
   const fetch = useFetcher();
   const [studentResp, setStudentResp] = useState();
   const [recommendedTrack, setRecommendedTrack] = useState();
+  const [track, setTrack] = useState(null);
   const [rating, setRating] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToasts();
 
+  const next = async () => {
+    if (track) return fetch(print(StudentNeedingRatingInTrack), { track });
+    return fetch(print(StudentNeedingRating));
+  }
+
   useEffect(async () => {
     if (typeof window !== 'undefined' && query?.token) {
-      setStudentResp(await fetch(print(StudentNeedingRating)));
+      setStudentResp(await next());
     }
-  }, [typeof window, setStudentResp, query?.token]);
+  }, [typeof window, setStudentResp, query?.token, track]);
 
   useEffect(() => {
     if (studentResp) {
@@ -51,7 +58,25 @@ export default function ReviewPage() {
     }
   }, [studentResp]);
 
-  if (!studentResp || isLoading) return <Page title="Review Dashboard"><Content><Spinner /></Content></Page>;
+  const showMeBox = (
+    <Box p={4} mb={8} bg="purple.50" borderColor="purple.800" borderWidth={1} rounded="sm" d="inline-block">
+      <Heading as="h4" fontSize="md">Show me...</Heading>
+      <SelectTrack track={track} allowNull onChange={(e) => setTrack(e.target.value)} />
+    </Box>
+  );
+
+  if (!studentResp?.labs?.nextStudentNeedingRating || isLoading) {
+    return (
+      <Page title="Review Dashboard">
+        <Content textAlign="center">
+          <Spinner />
+          <Box textAlign="center">
+            {showMeBox}
+          </Box>
+        </Content>
+      </Page>
+    );
+  }
 
   const student = studentResp.labs.nextStudentNeedingRating;
   const links = {
@@ -63,13 +88,13 @@ export default function ReviewPage() {
   const factors = [
     ...(
       student.profile.fteIn <= 12
-        ? [`Looking for a full-time job ${student.profile?.fteIn > 0 ? `in ~${student.profile?.fteIn}mo` : 'now'}.`]
+        ? [`They are looking for a full-time job ${student.profile?.fteIn > 0 ? `in ~${student.profile?.fteIn}mo` : 'now'}.`]
         : []
     ),
     ...(
       student.profile?.pronouns !== 'he/him'
       || ['Black', 'Latino/a/e* or Hispanic', 'Native American'].includes(student.profile?.ethnicity)
-        ? ['Is a member of an group significantly underrepresented in tech.']
+        ? ['They are a member of an group significantly underrepresented in tech.']
         : []
     )
   ];
@@ -101,7 +126,7 @@ export default function ReviewPage() {
           <Box>
             {factors.length > 0 && (
               <Box mb={8}>
-                <Heading as="h3" fontSize="lg" mb={2}>Special factors:</Heading>
+                <Heading as="h3" fontSize="lg" mb={2}>Extra factors to consider:</Heading>
                 <List styleType="disc">
                   {factors.map((e) => (
                     <Item key={e}>{e}</Item>
@@ -132,6 +157,8 @@ export default function ReviewPage() {
           </Box>
 
           <Box>
+            {showMeBox}
+
             <Heading as="h4" fontSize="md">Which track is best?</Heading>
             <Text fontSize="sm" mb={0}>(* = their selection)</Text>
             <Box>
@@ -167,7 +194,7 @@ export default function ReviewPage() {
               <Button
                 onClick={async () => {
                   setIsLoading(true);
-                  setStudentResp(await fetch(print(StudentNeedingRating)));
+                  setStudentResp(await next());
                   setIsLoading(false);
                 }}
                 mr={2}
@@ -181,8 +208,8 @@ export default function ReviewPage() {
                 onClick={async () => {
                   setIsLoading(true);
                   try {
-                    await fetch(print(SubmitRating), { id: student.id, rating, track: recommendedTrack });
-                    setStudentResp(await fetch(print(StudentNeedingRating)));
+                    await fetch(print(SubmitRating), { id: student.id, rating: rating * 2, track: recommendedTrack });
+                    setStudentResp(await next());
                     success('Submitted rating!');
                   } catch (ex) {
                     error(ex);
