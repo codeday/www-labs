@@ -1,0 +1,17 @@
+query StudentStatus {
+  labs {
+    student {
+      id
+      givenName
+      status
+    }
+  }
+}
+
+mutation Withdraw {
+  labs {
+    cancelStudentApplication {
+      id
+    }
+  }
+}

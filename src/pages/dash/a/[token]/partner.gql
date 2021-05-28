@@ -1,0 +1,20 @@
+query FindByPartnerCode ($code: String!) {
+  labs {
+    students (where: { partnerCode: $code }) {
+      id
+      givenName
+      surname
+      email
+      status
+      track
+    }
+  }
+}
+
+mutation SaveStudentStatus ($id: String!, $status: LabsStudentStatus!) {
+  labs {
+    editStudent(where: { id: $id }, data: { status: $status }) {
+      id
+    }
+  }
+}

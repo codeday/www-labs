@@ -1,0 +1,20 @@
+query OfferAcceptStatus {
+  labs {
+    student {
+      id
+      givenName
+      status
+      weeks
+      minHours
+      hasValidAdmissionOffer
+    }
+  }
+}
+
+mutation AcceptOffer {
+  labs {
+    acceptStudentOffer {
+      id
+    }
+  }
+}
