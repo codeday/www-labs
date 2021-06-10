@@ -8,24 +8,16 @@ import Page from '../../../components/Page';
 import CheckLoggedIn from '../../../components/CheckLoggedIn';
 import { TrackQuery } from './track.gql';
 
-const TRACK_NAMES = {
-  beginner: 'Beginner',
-  intermeidate: 'Intermediate',
-  advanced: 'Advanced',
-}
-
 export default function ChallengeTrack({ track }) {
   return (
-    <Page slug={`/apply/${track}/challenge`} title={`Coding Challenge for ${TRACK_NAMES[track] || track}-Track`}>
+    <Page slug={`/apply/${track}/scholarship`} title={`Scholarship Application`}>
       <Content mt={-8}>
-        <Heading as="h2" fontSize="4xl" marginBottom={12}>Coding Challenge: {TRACK_NAMES[track] || track}-Track</Heading>
+        <Heading as="h2" fontSize="4xl" marginBottom={12}>Scholarship Application</Heading>
         <CheckLoggedIn>
           {(session) => (
             <CognitoForm
-              formId="90"
+              formId="89"
               prefill={{
-                Track: TRACK_NAMES[track] || track,
-                TrackId: track,
                 Username: session?.user?.nickname,
                 Name: { First: session?.user?.given_name, Last: session?.user?.family_name },
                 Email: session?.user?.email,
@@ -40,7 +32,7 @@ export default function ChallengeTrack({ track }) {
 
 export function getStaticPaths() {
   return {
-    paths: Object.keys(TRACK_NAMES).map((track) => ({ params: { track } })),
+    paths: [{ params: { track: 'beginner' } }],
     fallback: false,
   };
 }
