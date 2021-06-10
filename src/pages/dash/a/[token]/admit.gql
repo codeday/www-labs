@@ -1,0 +1,57 @@
+query TopStudentsByTrack ($track: LabsTrack!) {
+  labs {
+    studentsTopRated(track: $track, take: 40) {
+      id
+      name
+      status
+      track
+      admissionRatingAverage
+      admissionRatingCount
+      profile
+      trackRecommendation {
+        track
+        weight
+      }
+    }
+  }
+}
+
+mutation StudentChangeTrack ($id: String!, $track: LabsTrack!) {
+  labs {
+    editStudent(where: { id: $id }, data: { track: $track }) {
+      id
+    }
+  }
+}
+
+mutation StudentTrackChallenge ($id: String!) {
+  labs {
+    editStudent(where: { id: $id }, data: { status: TRACK_CHALLENGE }) {
+      id
+    }
+  }
+}
+
+mutation StudentTrackInterview ($id: String!) {
+  labs {
+    editStudent(where: { id: $id }, data: { status: TRACK_INTERVIEW }) {
+      id
+    }
+  }
+}
+
+mutation StudentReject ($id: String!) {
+  labs {
+    editStudent(where: { id: $id }, data: { status: REJECTED }) {
+      id
+    }
+  }
+}
+
+mutation StudentOfferAdmission ($id: String!) {
+  labs {
+    offerStudentAdmission(where: { id: $id }) {
+      id
+    }
+  }
+}
