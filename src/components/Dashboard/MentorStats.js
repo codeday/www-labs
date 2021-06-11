@@ -77,7 +77,12 @@ export default function MentorStats({ mentors, ...props }) {
           </Item>
           <Item>
             <Text mb={0} as="span" bold>Ready: </Text>
-            {toStudentCount(readyProjects)}
+            {toStudentCount(readyProjects)}{' '}
+            (
+              {toStudentCount(readyProjects.filter(({ track }) => track === 'BEGINNER'))}B{' / '}
+              {toStudentCount(readyProjects.filter(({ track }) => track === 'INTERMEDIATE'))}I{' / '}
+              {toStudentCount(readyProjects.filter(({ track }) => track === 'ADVANCED'))}A
+            )
           </Item>
           <Item>
             <Text mb={0} as="span" bold>Partner Spots: </Text>

@@ -1,5 +1,9 @@
 query TopStudentsByTrack ($track: LabsTrack!) {
   labs {
+    statAdmissionsStatus(track: $track) {
+      key
+      value
+    }
     studentsTopRated(track: $track, take: 40) {
       id
       name

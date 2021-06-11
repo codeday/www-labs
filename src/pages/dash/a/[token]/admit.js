@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react';
+import { useReducer, useState, useEffect } from 'react';
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import Box from '@codeday/topo/Atom/Box';
@@ -18,8 +18,9 @@ import {
   StudentReject,
   StudentOfferAdmission
 } from './admit.gql';
+import Spinner from '@codeday/topo/Atom/Spinner';
 
-function Entry({ student, ...rest }) {
+function Entry({ student, onChange, ...rest }) {
   const fetch = useFetcher();
   const { success, error } = useToasts();
   const [track, setTrack] = useState(student.track);
@@ -27,7 +28,7 @@ function Entry({ student, ...rest }) {
 
   return (
     <Box as="tr" {...rest}>
-      <Box as="td">{student.name}<br />{student.profile?.location?.country}</Box>
+      <Box as="td">{student.name}<br />{student.profile?.location?.country}<br />{student.profile?.schoolType}</Box>
       <Box as="td">{student.status}</Box>
       <Box as="td">{Math.round(student.admissionRatingAverage, 2)} (of {student.admissionRatingCount})</Box>
       <Box as="td">
@@ -43,6 +44,7 @@ function Entry({ student, ...rest }) {
               await fetch(StudentChangeTrack, { id: student.id, track: e.target.value });
               setTrack(e.target.value);
               success(`Changed ${student.name}'s track to ${e.target.value}`);
+              onChange();
             } catch (ex) {
               error(ex.toString());
             }
@@ -60,6 +62,7 @@ function Entry({ student, ...rest }) {
             try {
               await fetch(StudentTrackChallenge, { id: student.id });
               success('Challenge sent.');
+              onChange();
             } catch (ex) {
               error(ex.toString());
             }
@@ -77,6 +80,7 @@ function Entry({ student, ...rest }) {
             try {
               await fetch(StudentOfferAdmission, { id: student.id });
               success('Offer sent.');
+              onChange();
             } catch (ex) {
               error(ex.toString());
             }
@@ -94,6 +98,7 @@ function Entry({ student, ...rest }) {
             try {
               await fetch(StudentReject, { id: student.id });
               success('Rejection sent.');
+              onChange();
             } catch (ex) {
               error(ex.toString());
             }
@@ -109,37 +114,46 @@ function Entry({ student, ...rest }) {
 
 export default function AdminAdmit() {
   const { query } = useRouter();
-  const { success, error } = useToasts();
+  const { error } = useToasts();
   const [track, setTrack] = useState('BEGINNER');
   const [students, setStudents] = useState([]);
+  const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(false);
   const fetch = useFetcher();
+  const refresh = async () => {
+    setLoading(true);
+    const result = await fetch(TopStudentsByTrack, { track });
+    setStudents(result?.labs?.studentsTopRated);
+    setStats(result?.labs?.statAdmissionsStatus);
+    setLoading(false);
+  }
+  useEffect(async () => {
+    if (typeof window === 'undefined' || !fetch || !query.token) return;
+    try {
+      await refresh();
+    } catch (ex) {
+      error(ex.toString());
+    }
+  }, [typeof window, track, query]);
 
   return (
     <Page title="Admissions">
       <Content mt={-8}>
         <Button as="a" href={`/dash/a/${query.token}`}>&laquo; Back</Button>
         <Heading as="h2" fontSize="5xl" mt={4}>Admissions</Heading>
-        <Box mb={8}>
+        <Box>
           <SelectTrack
-            disabled={loading}
             track={track}
             onChange={(e) => setTrack(e.target.value)}
           />
-          <Button
-            disabled={loading}
-            isLoading={loading}
-            onClick={async () => {
-              setLoading(true);
-              try {
-                const result = await fetch(TopStudentsByTrack, { track });
-                setStudents(result?.labs?.studentsTopRated);
-              } catch (ex) {
-                error(ex.toString());
-              }
-              setLoading(false);
-            }}
-          >Fetch</Button>
+          {loading && <Spinner />}
+        </Box>
+        <Box mb={8}>
+          Current held spots: {
+            stats
+              .filter(({ key }) => ['OFFERED', 'ACCEPTED', 'TRACK_CHALLENGE', 'TRACK_INTERVIEW'].includes(key))
+              .reduce((accum, { value }) => accum + value, 0)
+          }
         </Box>
 
         <Box as="table" w="100%">
@@ -151,7 +165,9 @@ export default function AdminAdmit() {
             <Box as="td">&nbsp;</Box>
             <Box as="td">&nbsp;</Box>
           </Box>
-          {students.map((s, i) => <Entry key={s.id} student={s} bg={i % 2 === 1 ? 'gray.100' : undefined} />)}
+          {students.map((s, i) => (
+            <Entry key={s.id} onChange={refresh} student={s} bg={i % 2 === 1 ? 'gray.100' : undefined} />
+          ))}
         </Box>
       </Content>
     </Page>
