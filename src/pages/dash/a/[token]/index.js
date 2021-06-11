@@ -14,6 +14,7 @@ export default function AdminDashboard() {
         <Link as="a" href={`/dash/a/${query.token}/delete`}>Delete Mentor</Link><br />
         <Link as="a" href={`/dash/a/${query.token}/partner`}>Partner Students</Link><br />
         <Link as="a" href={`/dash/a/${query.token}/admit`}>Admissions</Link>
+        <Link as="a" href={`/dash/a/${query.token}/csv`}>Admitted CSV</Link>
       </Content>
     </Page>
   );

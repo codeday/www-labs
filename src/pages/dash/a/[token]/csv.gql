@@ -1,0 +1,11 @@
+query CsvStudents {
+  labs {
+    students(where: { inStatus: ACCEPTED }, take: 5000) {
+      givenName
+      surname
+      email
+      track
+      id
+    }
+  }
+}
