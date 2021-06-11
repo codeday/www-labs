@@ -27,10 +27,18 @@ export default function WithdrawApplication() {
 
   const student = data.labs.student;
 
-  if (['CANCELED', 'REJECTED', 'ACCEPTED'].includes(student.status) || isWithdrawn) return (
+  if (['CANCELED', 'REJECTED', 'ACCEPTED'].includes(student.status)) return (
     <Page title="Withdraw Application">
       <Content textAlign="center">
         <Text>Your application has been {student.status.toLowerCase()}, and can no longer be withdrawn.</Text>
+      </Content>
+    </Page>
+  );
+
+  if (isWithdrawn) return (
+    <Page title="Withdraw Application">
+      <Content textAlign="center">
+        <Text>Your application has been withdrawn.</Text>
       </Content>
     </Page>
   );
