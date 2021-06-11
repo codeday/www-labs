@@ -31,7 +31,7 @@ export default function Calendar(props) {
           const c = COLORS[typeOrName] || 'gray.700';
 
           return (
-            <Box>
+            <Box as="a" href={`https://www.codeday.org/e/labs/${e.id}`} target="_blank">
               {name && (
                 <Box
                   d="inline-block"
