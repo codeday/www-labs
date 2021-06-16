@@ -5,8 +5,8 @@ import List, { Item } from '@codeday/topo/Atom/List';
 export default function MentorStats({ mentors, ...props }) {
   const toProjects = (m) => m.reduce((accum, { projects }) => [...accum, ...projects], []);
   const toStudentCount = (p) => p.reduce((accum, { maxStudents }) => accum + maxStudents, 0);
-  const readyMentors = mentors.filter(({ status }) => !['APPLIED', 'SCHEDULED'].includes(status));
-  const readyProjects = toProjects(readyMentors).filter(({ status }) => !['DRAFT', 'PROPOSED'].includes(status));
+  const readyMentors = mentors.filter(({ status }) => status === 'ACCEPTED');
+  const readyProjects = toProjects(readyMentors).filter(({ status }) => ['ACCEPTED', 'MATCHED'].includes(status));
 
   return (
     <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={8} bg="gray.50" borderWidth={1} p={8} mb={8}>
