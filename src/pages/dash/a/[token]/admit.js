@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Box from '@codeday/topo/Atom/Box';
 import Button from '@codeday/topo/Atom/Button';
 import Content from '@codeday/topo/Molecule/Content';
-import { Heading } from '@codeday/topo/Atom/Text';
+import { Heading, Link } from '@codeday/topo/Atom/Text';
 import { useToasts } from '@codeday/topo/utils';
 import { default as Input } from '@codeday/topo/Atom/Input/Text';
 import Page from '../../../../components/Page';
@@ -19,6 +19,7 @@ import {
   StudentOfferAdmission
 } from './admit.gql';
 import Spinner from '@codeday/topo/Atom/Spinner';
+import { Checkbox } from '@chakra-ui/core';
 
 function Entry({ student, onChange, ...rest }) {
   const fetch = useFetcher();
@@ -28,7 +29,11 @@ function Entry({ student, onChange, ...rest }) {
 
   return (
     <Box as="tr" {...rest}>
-      <Box as="td">{student.name}<br />{student.profile?.location?.country}<br />{student.profile?.schoolType}</Box>
+      <Box as="td">
+        <Link href={`mailto:${student.email}`}>{student.name}</Link><br />
+        {student.profile?.location?.country}<br />
+        {student.profile?.schoolType}
+      </Box>
       <Box as="td">{student.status}</Box>
       <Box as="td">{Math.round(student.admissionRatingAverage, 2)} (of {student.admissionRatingCount})</Box>
       <Box as="td">
@@ -116,13 +121,14 @@ export default function AdminAdmit() {
   const { query } = useRouter();
   const { error } = useToasts();
   const [track, setTrack] = useState('BEGINNER');
+  const [includeRejected, setIncludeRejected] = useState(false);
   const [students, setStudents] = useState([]);
   const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(false);
   const fetch = useFetcher();
   const refresh = async () => {
     setLoading(true);
-    const result = await fetch(TopStudentsByTrack, { track });
+    const result = await fetch(TopStudentsByTrack, { track, includeRejected: includeRejected || false });
     setStudents(result?.labs?.studentsTopRated);
     setStats(result?.labs?.statAdmissionsStatus);
     setLoading(false);
@@ -134,7 +140,7 @@ export default function AdminAdmit() {
     } catch (ex) {
       error(ex.toString());
     }
-  }, [typeof window, track, query]);
+  }, [typeof window, track, includeRejected, query]);
 
   return (
     <Page title="Admissions">
@@ -146,6 +152,7 @@ export default function AdminAdmit() {
             track={track}
             onChange={(e) => setTrack(e.target.value)}
           />
+          <Checkbox onClick={(e) => setIncludeRejected(e.target.checked)}>Include Rejected</Checkbox>
           {loading && <Spinner />}
         </Box>
         <Box mb={8}>

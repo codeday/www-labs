@@ -8,15 +8,20 @@ import Page from '../../../../components/Page';
 import { useFetcher } from '../../../../dashboardFetch';
 import { CsvStudents } from './csv.gql';
 
+function projectFilter({ status }) {
+  return ['ACCEPTED', 'MATCHED'].includes(status);
+}
+
 export default function AdminAddMentor() {
   const { query } = useRouter();
   const fetch = useFetcher();
-  const [students, setStudents] = useState([]);
+  const [data, setData] = useState({students: [], mentors: []});
+  const { students, mentors } = data;
 
   useEffect(async () => {
     if (typeof window === 'undefined' || !query.token) return;
     const resp = await fetch(CsvStudents);
-    setStudents(resp?.labs?.students);
+    setData(resp?.labs);
   }, [typeof window, query.token])
 
   return (
@@ -28,7 +33,19 @@ export default function AdminAddMentor() {
           as="textarea"
           w="100%"
           h="md"
-          value={`Name,Email,LastName,Id,Track\n` + students.map((s) => `${s.givenName},${s.email},${s.surname},${s.id},${s.track}`).join(`\n`)}
+          value={
+            [
+              `Name,Email,LastName,Id,Track,Type`,
+              ...students.map((s) => [s.givenName, s.email, s.surname, s.id, s.track, 'STUDENT'].join(',')),
+              ...mentors.filter(({ projects }) => projects.filter(projectFilter).length > 0).map((m) => [
+                m.givenName,
+                m.email,
+                m.id,
+                m.projects.filter(projectFilter),
+                'MENTOR'
+              ].join(`,`))
+            ].join(`\n`)
+          }
         />
       </Content>
     </Page>

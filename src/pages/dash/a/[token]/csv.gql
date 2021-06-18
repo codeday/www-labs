@@ -7,5 +7,14 @@ query CsvStudents {
       track
       id
     }
+    mentors(where: { inStatus: ACCEPTED, withProjects: true }) {
+      givenName
+      surname
+      email
+      projects {
+        track
+      }
+      id
+    }
   }
 }

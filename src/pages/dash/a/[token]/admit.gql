@@ -1,14 +1,15 @@
-query TopStudentsByTrack ($track: LabsTrack!) {
+query TopStudentsByTrack ($track: LabsTrack!, $includeRejected: Boolean!) {
   labs {
     statAdmissionsStatus(track: $track) {
       key
       value
     }
-    studentsTopRated(track: $track, take: 40) {
+    studentsTopRated(track: $track, take: 60, includeRejected: $includeRejected) {
       id
       name
       status
       track
+      email
       admissionRatingAverage
       admissionRatingCount
       profile
