@@ -1,0 +1,45 @@
+#import "../../../../components/Dashboard/Match.gql"
+#import "../../../../components/Dashboard/TagPicker.gql"
+query LabsMatching {
+  labs {
+    student {
+      name
+      track
+      status
+    }
+    projectPreferences {
+      ranking
+      project {
+        id
+        ...Match
+      }
+    }
+    tags {
+      ...TagPicker
+    }
+  }
+}
+
+query GetMatches($tags: [String!]!) {
+  labs {
+    projectMatches(tags: $tags) {
+      score
+      project {
+        id
+        ...Match
+      }
+    }
+  }
+}
+
+mutation ExpressProjectPreferences($projects: [String!]!) {
+  labs {
+    expressProjectPreferences(projects: $projects) {
+      ranking
+      project {
+        id
+        ...Match
+      }
+    }
+  }
+}

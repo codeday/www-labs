@@ -1,0 +1,14 @@
+fragment Match on LabsProject {
+  track
+  description
+  deliverables
+  tags {
+    id
+    studentDisplayName
+    type
+  }
+  mentors {
+    name
+    profile
+  }
+}

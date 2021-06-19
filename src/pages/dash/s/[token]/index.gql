@@ -1,0 +1,22 @@
+query StudentDashboardQuery {
+  labs {
+    projectPreferences {
+      project {
+        id
+      }
+    }
+    student {
+      id
+      status
+      track
+      projects {
+        id
+        description
+        deliverables
+        mentors {
+          name
+        }
+      }
+    }
+  }
+}
