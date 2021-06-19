@@ -54,8 +54,8 @@ export default function Matching({ allTags, student, projectPreferences }) {
           <Box>
             <MatchesList
               selectedTags={[]}
-              matches={picks}
-              selected={picks}
+              matches={ranking.length > 0 ? ranking : picks}
+              selected={ranking.length > 0 ? ranking : picks}
             />
           </Box>
         </Content>
