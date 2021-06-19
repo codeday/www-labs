@@ -122,8 +122,8 @@ export default function Matching({ allTags, student, projectPreferences }) {
             you will likely get different results.
           </Text>
           <Text>
-            Projects are shown less frequently as more students select them. If you come back to this page later, some
-            projects may be missing.
+            Projects are shown less frequently as more students select them. If you come back to this page later, the
+            list may change. We think these are the best possible matches for you, so you should lock them in now.
           </Text>
           {student.track === 'INTERMEDIATE' && (
             <Text bold>
