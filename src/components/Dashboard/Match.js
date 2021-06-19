@@ -37,7 +37,9 @@ export function Match ({ match, selectedTags, onSelect, onDeselect, isSelected, 
     <Box mb={8} borderColor="gray.200" borderWidth={2} borderRadius={2}>
         <Heading p={4} as="h3" fontSize="xl" mb={2} backgroundColor="gray.100" borderBottomColor="gray.200" borderBottomWidth={2} mb={4}>
           {match.mentors.map(MentorHeading).join(' / ')}
-          <Text mb={0} fontSize="md" bold>Timezone: {match.mentors.map((m) => m.profile?.timezone)}</Text>
+          {match.mentors.filter((m) => m.profile?.timezone).length > 0 && (
+            <Text mb={0} fontSize="md" bold>Timezone: {match.mentors.map((m) => m.profile?.timezone).join(', ')}</Text>
+          )}
           <TrackBadge track={match.track} />
         </Heading>
 

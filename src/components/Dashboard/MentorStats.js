@@ -86,7 +86,7 @@ export default function MentorStats({ mentors, ...props }) {
           </Item>
           <Item>
             <Text mb={0} as="span" bold>Partner Spots: </Text>
-            {toStudentCount(toProjects(mentors.filter(({ maxWeeks }) => maxWeeks > 6)).filter(({ track }) => track !== 'BEGINNER'))}/
+            {toStudentCount(toProjects(mentors.filter(({ maxWeeks }) => maxWeeks > 6)).filter(({ track }) => track === 'ADVANCED'))}/
             <Text as="span" color="red.800">
               {toStudentCount(toProjects(mentors.filter(({ status, maxWeeks }) => status === 'APPLIED' && maxWeeks > 6).filter(({ track }) => track !== 'BEGINNER')))}
             </Text>/
