@@ -12,6 +12,7 @@ query CsvStudents {
       surname
       email
       projects {
+        status
         track
       }
       id

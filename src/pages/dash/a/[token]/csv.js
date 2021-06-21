@@ -40,8 +40,9 @@ export default function AdminAddMentor() {
               ...mentors.filter(({ projects }) => projects.filter(projectFilter).length > 0).map((m) => [
                 m.givenName,
                 m.email,
+                m.surname,
                 m.id,
-                m.projects.filter(projectFilter),
+                m.projects.filter(projectFilter)[0].track,
                 'MENTOR'
               ].join(`,`))
             ].join(`\n`)
