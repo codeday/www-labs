@@ -53,6 +53,9 @@ export default function Onboarding({ student }) {
     (prev, add) => [...prev, add],
     student.tagTrainingSubmissions.map((t) => t.tag.id),
   );
+  const requiredTrainingCount = Math.min(3, student.requiredTagTraining.length);
+  const trainingOptions = student.requiredTagTraining.filter((t) => t.id !== 'git');
+  const completedTrainingCount = trainingOptions.filter((t) => submitted.includes(t.id)).length;
 
   return (
     <Page title="Onboarding Week Assignments">
@@ -63,22 +66,54 @@ export default function Onboarding({ student }) {
           <Text>You currently have no required onboarding assignments.</Text>
         ) : (
           <Box borderWidth={1} borderColor="blue.700" color="blue.900" bg="blue.50" p={4} rounded="sm" mb={8}>
-            You need to complete at least {Math.min(3, student.requiredTagTraining.length)} by the end of the week.
-            It's up to you how you'd like to prioritize the assignments, we recommend you choose the technologies you're
+            You need to complete the Git and IDE onboarding, plus at least
+            {requiredTrainingCount} other{requiredTrainingCount !== 1 ? 's' : ''} by the end of the week.<br /><br />
+            Please do not choose assignments for technologies you are already very familiar with. Beyond that, it's up
+            to you how you'd like to prioritize the assignments, but we recommend you choose the technologies you're
             least familiar with, or which you think are most important to your project.<br /><br />
             We'll be checking in if you haven't submitted anything by Wednesday. If you need help please drop into an
-            office hours session.
+            office hours session.<br /><br />
+            <Text as="span" bold>
+              You've completed {completedTrainingCount}/{requiredTrainingCount} project-specific training modules.
+            </Text>
           </Box>
         )}
-        {student.requiredTagTraining.map((t) => (
-          <Box>
-            <Text d="inline-block" pr={8} fontWeight="bold" color={submitted.includes(t.id) ? 'green.700' : undefined}>
-              {t.studentDisplayName}
+        <Box mb={8}>
+          <Text d="block" pr={8} fontWeight="bold">
+            REQUIRED: Setting up your development environment
+          </Text>
+          <Button
+            as="a"
+            mr={8}
+            href="https://www.notion.so/srnd/Setting-Up-Your-Development-Environment-5c51d2e381c2425b890a2a976365389b"
+            target="_blank"
+          >
+            View Instructions
+          </Button>
+        </Box>
+        <Box mb={8}>
+          <Text d="block" pr={8} fontWeight="bold" color={submitted.includes('git') ? 'green.700' : undefined}>
+            REQUIRED: Git
+          </Text>
+          <Button
+            as="a"
+            mr={8}
+            href="https://www.notion.so/srnd/Git-5ec26af2b3c34129a061c1f26f3cd6f0"
+            target="_blank"
+          >
+            View Instructions
+          </Button>
+          {!submitted.includes('git') && (
+            <AssignmentSubmit tag="git" onSubmitted={() => addSubmitted('git')} />
+          )}
+        </Box>
+        {trainingOptions.map((t) => (
+          <Box mb={8}>
+            <Text d="block" pr={8} fontWeight="bold" color={submitted.includes(t.id) ? 'green.700' : undefined}>
+              Project-Specific: {t.studentDisplayName}
             </Text>
             <Button as="a" mr={8} href={t.trainingLink} target="_blank">View Instructions</Button>
-            {submitted.includes(t.id) ? (
-              <>Submitted!</>
-            ) : (
+            {!submitted.includes(t.id) && (
               <AssignmentSubmit tag={t.id} onSubmitted={() => addSubmitted(t.id)} />
             )}
           </Box>
