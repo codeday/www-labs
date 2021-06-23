@@ -48,6 +48,7 @@ function AssignmentSubmit({ tag, onSubmitted }) {
 }
 
 export default function Onboarding({ student }) {
+  const { query } = useRouter();
   const [submitted, addSubmitted] = useReducer(
     (prev, add) => [...prev, add],
     student.tagTrainingSubmissions.map((t) => t.tag.id),
@@ -56,6 +57,7 @@ export default function Onboarding({ student }) {
   return (
     <Page title="Onboarding Week Assignments">
       <Content mt={-8}>
+        <Link href={`/dash/s/${query?.token}`}>&laquo; Back to dashboard</Link>
         <Heading as="h2" mb={8}>Onboarding Week Assignments</Heading>
         {student.requiredTagTraining.length === 0 ? (
           <Text>You currently have no required onboarding assignments.</Text>

@@ -1,3 +1,4 @@
+#import "../../../../components/Dashboard/Match.gql"
 query StudentDashboardQuery {
   labs {
     projectPreferences {
@@ -11,10 +12,11 @@ query StudentDashboardQuery {
       track
       projects {
         id
-        description
-        deliverables
+        ...Match
         mentors {
           name
+          email
+          profile
         }
       }
     }
