@@ -1,0 +1,22 @@
+query MatchingPrefs {
+  labs {
+   students(where:{inStatus:ACCEPTED}) {
+      username
+      track
+      weeks
+      id
+      projectPreferences {
+        ranking
+        project {
+          id
+          track
+          mentors {
+            givenName
+            surname
+            maxWeeks
+          }
+        }
+      }
+    }
+  }
+}

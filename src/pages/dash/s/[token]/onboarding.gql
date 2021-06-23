@@ -1,0 +1,25 @@
+query OnboardingInfo {
+  labs {
+    student {
+      name
+      status
+      requiredTagTraining {
+        id
+        studentDisplayName
+        trainingLink
+      }
+      tagTrainingSubmissions {
+        tag {
+          id
+        }
+        url
+      }
+    }
+  }
+}
+
+mutation SubmitOnboardingAssignment ($tag: String!, $url: String!) {
+  labs {
+    submitTraining(tag: $tag, url: $url)
+  }
+}
