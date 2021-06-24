@@ -3,7 +3,7 @@ import Box from '@codeday/topo/Atom/Box';
 import Content from '@codeday/topo/Molecule/Content';
 import Text, { Heading } from '@codeday/topo/Atom/Text';
 import Button from '@codeday/topo/Atom/Button';
-import { useQuery, useShuffled, useSlideshow } from '../../providers';
+import { useQuery, useShuffled, useSlideshow, useProgramDates } from '../../providers';
 
 const wrapDt = (keys, dict) => Object.keys(dict)
   .reduce((accum, k) => ({ ...accum, [k]: keys.includes(k) ? DateTime.fromISO(dict[k]) : dict[k] }), {});
@@ -19,6 +19,9 @@ export default function Header(props) {
     ['startsAt', 'endsAt', 'registrationsOpenAt', 'registrationsCloseAt'],
     useQuery('cms.headerEvents.items.0', {})
   );
+
+  const { mentorApplicationEndsAt } = useProgramDates();
+
 
   const bgs = useShuffled(themeBackgrounds?.items || []).filter(Boolean);
   const i = useSlideshow(bgs.length, 5000);
@@ -67,16 +70,29 @@ export default function Header(props) {
             >
               {applicationsOpen ? 'Apply Now' : 'Applications Not Open'}
             </Button>
-            <Button
-              as="a"
-              href="/mentor"
-              variant="outline"
-              color="white"
-              textShadow="0 0 5px rgba(0,0,0,0.7)"
-              shadow="md"
-            >
-              Mentor
-            </Button>
+            {mentorApplicationEndsAt > DateTime.local() ? (
+              <Button
+                as="a"
+                href="/mentor"
+                variant="outline"
+                color="white"
+                textShadow="0 0 5px rgba(0,0,0,0.7)"
+                shadow="md"
+              >
+                Mentor
+              </Button>
+            ) : (
+              <Button
+                as="a"
+                href="/volunteer"
+                variant="outline"
+                color="white"
+                textShadow="0 0 5px rgba(0,0,0,0.7)"
+                shadow="md"
+              >
+                Volunteer
+              </Button>
+            )}
             {registrationsCloseAt && registrationsCloseAt > DateTime.local() && (
               <Text fontSize="md" mt={2}>
                 {registrationsOpenAt > DateTime.local() && (
