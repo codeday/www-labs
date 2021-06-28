@@ -6,8 +6,11 @@ import { useQuery } from '../../providers';
 
 const COLORS = {
   'Tech Talk': `blue.600`,
-  'Career Talk': 'green.600',
-  'Expert Lunch': 'pink.600',
+  'Career Talk': 'pink.600',
+  'Expert Lunch': 'purple.600',
+  'AMA': 'purple.600',
+  'Onboarding': 'green.600',
+  'Meta': 'green.600',
 };
 
 export default function Calendar(props) {
@@ -27,8 +30,9 @@ export default function Calendar(props) {
       </Box>
       <Grid gap={8} templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)'}}>
         {events.map((e) => {
-          const [typeOrName, name] = e.title.split(': ', 2);
+          const [typeOrName, ...nameRest] = e.title.split(': ');
           const c = COLORS[typeOrName] || 'gray.700';
+          const name = nameRest.join(': ');
 
           return (
             <Box as="a" href={`https://www.codeday.org/e/labs/${e.id}`} target="_blank">
@@ -39,6 +43,7 @@ export default function Calendar(props) {
                   p={1}
                   pl={2}
                   pr={2}
+                  mb={2}
                   fontSize="sm"
                   bg={c}
                   color="white"
@@ -46,10 +51,13 @@ export default function Calendar(props) {
                   {typeOrName}
                 </Box>
               )}
-              <Text mb={0} fontSize="sm" color="current.textLight">
-                {DateTime.fromISO(e.start).toLocaleString(DateTime.DATETIME_MED)}
+              <Text mb={0} fontSize="sm" color="current.textLight" fontWeight="bold">
+                {DateTime.fromISO(e.start).toLocaleString({ month: 'long', day: 'numeric', weekday: 'long'})}
               </Text>
-              <Text bold mb={0}>{name || typeOrName}</Text>
+              <Text mb={0} fontSize="sm" color="current.textLight">
+                {DateTime.fromISO(e.start).toLocaleString({ hour: 'numeric', minute: 'numeric', timeZoneName: 'short' })}
+              </Text>
+              <Text bold mt={2}>{name || typeOrName}</Text>
             </Box>
           )
         })}
