@@ -4,6 +4,8 @@ import Theme from '@codeday/topo/Theme';
 import { QueryProvider } from '../providers/query';
 import { RandomProvider } from '../providers/random';
 import 'react-responsive-modal/styles.css';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 export default function CustomApp({ Component, pageProps: { query, random, ...pageProps } }) {
   return (

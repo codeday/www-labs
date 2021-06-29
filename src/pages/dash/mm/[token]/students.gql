@@ -1,0 +1,30 @@
+query DashboardStudents {
+  labs {
+    mentors(where: { inStatus: ACCEPTED }) {
+      id
+      name
+      maxWeeks
+      email
+      managerUsername
+      projects {
+        id
+        status
+        track
+        students {
+          id
+          name
+          status
+          track
+          weeks
+          email
+          tagTrainingSubmissions {
+            url
+            tag {
+              mentorDisplayName
+            }
+          }
+        }
+      }
+    }
+  }
+}
