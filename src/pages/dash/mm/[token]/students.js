@@ -7,6 +7,7 @@ import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import Box, { Grid } from '@codeday/topo/Atom/Box';
 import Content from '@codeday/topo/Molecule/Content';
 import Text, { Heading } from '@codeday/topo/Atom/Text';
+import Button from '@codeday/topo/Atom/Button';
 import Spinner from '@codeday/topo/Atom/Spinner';
 import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
@@ -20,12 +21,16 @@ export default function StudentDashboard() {
     if (typeof window !== 'undefined' && !isValidating) setLastUpdated(DateTime.local());
   }, [typeof window, isValidating]);
 
+
+  const [gridApi, setGridApi] = useState(null);
+  const [gridColumnApi, setGridColumnApi] = useState(null);
+
   if (!data?.labs) return <Page title="Student Dashboard"><Content textAlign="center"><Spinner /></Content></Page>;
 
   const { sid: myUsername } = decode(query.token) || {};
 
   const students = !data?.labs?.mentors ? [] : data.labs.mentors
-    .map(({ projects, ...m }) => projects.map((p) => ({ project: p, mentor: m })))
+    .map(({ projects, ...m }) => projects.map((p, i) => ({ project: p, mentor: m, projCount: projects.length, i })))
     .flat()
     .map(({ project: { students, ...p }, ...rest }) => students.map((s) => ({ student: s, project: p, ...rest })))
     .flat()
@@ -33,17 +38,16 @@ export default function StudentDashboard() {
     .reduce((accum, s) => ({ [s.student.id]: s, ...accum }), {});
 
   const rows = Object.values(students)
-    .map(({ student, mentor, project }) => ({
+    .map(({ student, mentor, project, i, projCount }) => ({
       manager: mentor.managerUsername,
       student: student.name,
       studentEmail: student.email,
       mentorEmail: mentor.email,
       weeks: student.weeks,
-      project: project.id,
       projectTrack: project.track,
       studentTrack: student.track,
       maxWeeks: mentor.maxWeeks,
-      mentor: mentor.name,
+      mentor: projCount > 1 ? `${mentor.name} (${i+1}/${projCount})` : mentor.name,
       trainingCount: student.tagTrainingSubmissions.length,
       training: student.tagTrainingSubmissions.map((s) => s.tag.mentorDisplayName).join(', '),
     }));
@@ -51,8 +55,12 @@ export default function StudentDashboard() {
   return (
     <Page title="Student Dashboard">
       <Content mt={-8}>
+        <Button as="a" href={`/dash/mm/${query.token}`} mb={8}>&laquo; Back</Button>
         <Grid templateColumns={{ base: '1fr', md: '2fr 1fr' }}>
-          <Heading as="h2" fontSize="3xl" mb={4}>Mentor Manager Dashboard</Heading>
+          <Box mb={4}>
+            <Heading as="h2" fontSize="3xl">Mentor Manager Dashboard</Heading>
+            <Button size="sm" mt={4} onClick={() => gridApi.exportDataAsCsv()}>Download CSV</Button>
+          </Box>
           <Box textAlign="right">
             {isValidating ? <Spinner /> : (
               <>
@@ -70,13 +78,25 @@ export default function StudentDashboard() {
       </Content>
       <Content maxWidth="100%">
         <div className="ag-theme-alpine" style={{height: 700, width: '100%'}}>
-          <AgGridReact rowData={rows}>
-            <AgGridColumn field="manager" sortable={true}></AgGridColumn>
-            <AgGridColumn field="mentor" sortable={true}></AgGridColumn>
+          <AgGridReact
+            onGridReady={(params) => {
+              setGridApi(params.api);
+              setGridColumnApi(params.columnApi);
+            }}
+            rowData={rows}
+            defaultColDef={{
+              width: 150,
+              editable: true,
+              filter: 'agTextColumnFilter',
+              floatingFilter: true,
+              resizable: true,
+            }}
+          >
+            <AgGridColumn field="manager" sortable={true} filter="agTextColumnFilter"></AgGridColumn>
+            <AgGridColumn field="mentor" sortable={true} filter="agTextColumnFilter"></AgGridColumn>
             <AgGridColumn field="mentorEmail"></AgGridColumn>
-            <AgGridColumn field="project"></AgGridColumn>
             <AgGridColumn field="projectTrack" sortable={true}></AgGridColumn>
-            <AgGridColumn field="student"></AgGridColumn>
+            <AgGridColumn field="student" filter="agTextColumnFilter"></AgGridColumn>
             <AgGridColumn field="studentEmail"></AgGridColumn>
             <AgGridColumn field="studentTrack" sortable={true}></AgGridColumn>
             <AgGridColumn field="weeks" sortable={true}></AgGridColumn>

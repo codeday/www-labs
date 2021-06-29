@@ -3,4 +3,5 @@ fragment TagPicker on LabsTag {
   type
   studentDisplayName
   mentorDisplayName
+  trainingLink
 }

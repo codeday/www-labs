@@ -10,7 +10,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from "@chakra-ui/core"
-import Text, { Heading } from '@codeday/topo/Atom/Text';
+import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
 import { useToasts } from '@codeday/topo/utils';
 import { useFetcher } from '../../dashboardFetch';
 import SelectTrack from './SelectTrack';
@@ -18,6 +18,7 @@ import SelectProjectStatus from './SelectProjectStatus';
 import { EditProject, EditProjectLimited } from './ProjectEditor.gql';
 import TagPicker from './TagPicker';
 import { default as Checkbox } from '@codeday/topo/Atom/Input/Checkbox';
+import List, { Item } from '@codeday/topo/Atom/List';
 
 export default function ProjectEditor({ tags, project: originalProject, limited, ...rest }) {
   const [project, setProject] = useReducer(
@@ -27,6 +28,8 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
   const [loading, setLoading] = useState(false);
   const fetch = useFetcher();
   const { success, error } = useToasts();
+
+  const tagInfo = project.tags.map((t) => tags.filter((tInfo) => tInfo.id === t.id)[0]);
 
   const save = (data) => async () => {
     setLoading(true);
@@ -157,6 +160,24 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
             </Button>
           </Box>
         )}
+      </Box>
+
+      <Box>
+        <Heading as="h3" fontSize="xl" mt={8} mb={4}>Onboarding Week</Heading>
+        <Text>
+          Based on your tech stack, we'll ask your students to complete the following assignments during onboarding week,
+          which is the week before you start mentoring. (In addition to some basics like Git.)
+        </Text>
+        <Text>
+          You're welcome to ask your team to do something different if you'd prefer.
+        </Text>
+        <List styleType="disc">
+          {tagInfo.filter((t) => !!t.trainingLink).map((t) => (
+            <Item>
+              <Link href={t.trainingLink}>{t.mentorDisplayName}</Link>
+            </Item>
+          ))}
+        </List>
       </Box>
     </Box>
   )

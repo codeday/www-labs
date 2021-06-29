@@ -8,6 +8,7 @@ import Content from '@codeday/topo/Molecule/Content';
 import Image from '@codeday/topo/Atom/Image';
 import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
 import Spinner from '@codeday/topo/Atom/Spinner';
+import Button from '@codeday/topo/Atom/Button';
 import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
 import { DashboardQuery } from './index.gql';
@@ -92,6 +93,11 @@ export default function MentorDashboard() {
           </Box>
         </Grid>
         <MentorStats mentors={sortedMentors} />
+        <Box textAlign="right">
+          <Button as="a" fontSize="sm" href={`/dash/mm/${query.token}/students`} mb={8}>
+            View students &raquo;
+          </Button>
+        </Box>
         <Box as="table" w="100%">
           <Box as="tr" fontWeight="bold" textAlign="left" borderBottomColor="black" borderBottomWidth={1}>
             <Box as="th">Name</Box>
