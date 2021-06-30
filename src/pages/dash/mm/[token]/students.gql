@@ -13,6 +13,7 @@ query DashboardStudents {
         students {
           id
           name
+          partnerCode
           status
           track
           weeks
