@@ -11,7 +11,7 @@ function makeToken ({ typ, sid, tgt }) {
   return sign(
     { typ, sid, tgt },
     serverRuntimeConfig.gql.secret,
-    { audience: serverRuntimeConfig.gql.audience, expiresIn: '1d', noTimestamp: true }
+    { audience: serverRuntimeConfig.gql.audience, expiresIn: '31d', noTimestamp: true }
   );
 }
 
