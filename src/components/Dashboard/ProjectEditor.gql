@@ -12,6 +12,16 @@ fragment ProjectEditor on LabsProject {
   tags {
     id
   }
+  students {
+    name
+    email
+    tagTrainingSubmissions {
+      url
+      tag {
+        mentorDisplayName
+      }
+    }
+  }
 }
 
 mutation EditProject(

@@ -109,7 +109,8 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         value={project.description}
         placeholder="2-3 sentence description of what your students will work on."
         onChange={(e) => setProject(['description', e.target.value])}
-        height={12}
+        height={48}
+        disabled={project.status === 'MATCHED' && limited}
       />
 
       <Heading mt={8} as="h4" fontSize="lg">Deliverables</Heading>
@@ -117,6 +118,8 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         value={project.deliverables}
         placeholder="~3 milestones you expect your students to meet."
         onChange={(e) => setProject(['deliverables', e.target.value])}
+        height={32}
+        disabled={project.status === 'MATCHED' && limited}
       />
 
       <Heading mt={8} as="h4" fontSize="lg">Interest Tags</Heading>
@@ -126,6 +129,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         options={tags}
         tags={project.tags}
         onChange={(e) => setProject(['tags', e])}
+        disabled={project.status === 'MATCHED' && limited}
       />
 
       <Heading mt={8} as="h4" fontSize="lg">Technology Tags</Heading>
@@ -135,50 +139,73 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         options={tags}
         tags={project.tags}
         onChange={(e) => setProject(['tags', e])}
+        disabled={project.status === 'MATCHED' && limited}
       />
 
-      <Box mt={4}>
-        <Button
-          d="inline-block"
-          onClick={save(limited ? { status: 'DRAFT' } : {})}
-          isLoading={loading}
-          disabled={loading}
-        >
-          { limited ? 'Save Draft' : 'Save' }
-        </Button>
+      {!(project.status === 'MATCHED' && limited) && (
+        <Box mt={4}>
+          <Button
+            d="inline-block"
+            onClick={save(limited ? { status: 'DRAFT' } : {})}
+            isLoading={loading}
+            disabled={loading}
+          >
+            { limited ? 'Save Draft' : 'Save' }
+          </Button>
 
-        {limited && ['DRAFT', 'PROPOSED'].includes(project.status) && (
-          <Box d="inline-block" ml={4} pl={4} borderLeftWidth={1}>
-            <Button
-              d="inline-block"
-              variantColor="green"
-              onClick={save({ status: 'PROPOSED' })}
-              isLoading={loading}
-              disabled={loading}
-            >
-              Save &amp; Submit
-            </Button>
-          </Box>
-        )}
-      </Box>
-
-      <Box>
-        <Heading as="h3" fontSize="xl" mt={8} mb={4}>Onboarding Week</Heading>
-        <Text>
-          Based on your tech stack, we'll ask your students to complete the following assignments during onboarding week,
-          which is the week before you start mentoring. (In addition to some basics like Git.)
-        </Text>
-        <Text>
-          You're welcome to ask your team to do something different if you'd prefer.
-        </Text>
-        <List styleType="disc">
-          {tagInfo.filter((t) => !!t.trainingLink).map((t) => (
-            <Item>
-              <Link href={t.trainingLink}>{t.mentorDisplayName}</Link>
-            </Item>
-          ))}
-        </List>
-      </Box>
+          {limited && ['DRAFT', 'PROPOSED'].includes(project.status) && (
+            <Box d="inline-block" ml={4} pl={4} borderLeftWidth={1}>
+              <Button
+                d="inline-block"
+                variantColor="green"
+                onClick={save({ status: 'PROPOSED' })}
+                isLoading={loading}
+                disabled={loading}
+              >
+                Save &amp; Submit
+              </Button>
+            </Box>
+          )}
+        </Box>
+      )}
+      {tagInfo.filter((t) => !!t.trainingLink).length > 0 && (
+        <Box>
+          <Heading as="h3" fontSize="xl" mt={8} mb={4}>Onboarding Week</Heading>
+          <Text>
+            Based on your tech stack, we'll ask your students to complete the following assignments during onboarding week,
+            which is the week before you start mentoring. (In addition to some basics like Git.)
+          </Text>
+          <Text>
+            You're welcome to ask your team to do something different if you'd prefer.
+          </Text>
+          <List styleType="disc">
+            {tagInfo.filter((t) => !!t.trainingLink).map((t) => (
+              <Item>
+                <Link href={t.trainingLink}>{t.mentorDisplayName}</Link>
+              </Item>
+            ))}
+          </List>
+        </Box>
+      )}
+      {project.status === 'MATCHED' && (
+        <Box>
+          <Heading as="h3" fontSize="xl" mt={8} mb={4}>Students</Heading>
+          <List styleType="disc" stylePos="outside" ml={2}>
+            {project.students.map((s) => (
+              <Item mb={4}>
+                <Link href={`mailto:${s.email}`} fontWeight="bold">{s.name}</Link><br />
+                completed onboarding:{' '}
+                {s.tagTrainingSubmissions.length === 0 ? 'none' : s.tagTrainingSubmissions.map((train, i) => (
+                  <>
+                    <Link href={train.url} target="_blank">{train.tag.mentorDisplayName}</Link>
+                    {i + 1 === s.tagTrainingSubmissions.length ? '' : ', '}
+                  </>
+                ))}
+              </Item>
+            ))}
+          </List>
+        </Box>
+      )}
     </Box>
   )
 }
