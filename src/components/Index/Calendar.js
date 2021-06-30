@@ -13,7 +13,7 @@ const COLORS = {
   'Meta': 'green.600',
 };
 
-export default function Calendar(props) {
+export default function Calendar({ primary, ...props }) {
   const { thisYear, lastYear } = useQuery('calendar');
   const eventsThisYear = thisYear && thisYear.length > 0;
   const events = eventsThisYear ? thisYear : lastYear;
@@ -23,7 +23,11 @@ export default function Calendar(props) {
   return (
     <Content {...props}>
       <Box textAlign="center" mb={8}>
-        <Heading as="h3">Learn From Experts &amp; Build Your Network</Heading>
+        {primary ? (
+          <Heading as="h3" fontSize="5xl">Talk Schedule</Heading>
+        ) : (
+          <Heading as="h3">Learn From Experts &amp; Build Your Network</Heading>
+        )}
         {!eventsThisYear && (
           <Text mb={0}>This year's talk schedule hasn't been released yet, so have a look at last year's lineup:</Text>
         )}
@@ -35,7 +39,15 @@ export default function Calendar(props) {
           const name = nameRest.join(': ');
 
           return (
-            <Box as="a" href={`https://www.codeday.org/e/labs/${e.id}`} target="_blank">
+            <Box
+              as="a"
+              href={`https://www.codeday.org/e/labs/${e.id}`}
+              target="_blank"
+              shadow={primary ? 'sm' : undefined}
+              borderWidth={primary ? 1 : 0}
+              p={primary ? 4 : 0}
+              pb={primary ? 4 : 2}
+            >
               {name && (
                 <Box
                   d="inline-block"
@@ -57,7 +69,7 @@ export default function Calendar(props) {
               <Text mb={0} fontSize="sm" color="current.textLight">
                 {DateTime.fromISO(e.start).toLocaleString({ hour: 'numeric', minute: 'numeric', timeZoneName: 'short' })}
               </Text>
-              <Text bold mt={2}>{name || typeOrName}</Text>
+              <Text bold mt={2} mb={0}>{name || typeOrName}</Text>
             </Box>
           )
         })}

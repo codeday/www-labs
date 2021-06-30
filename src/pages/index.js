@@ -8,17 +8,22 @@ import PastProjects from '../components/Index/PastProjects';
 import Testimonials from '../components/Index/Testimonials';
 import Calendar from '../components/Index/Calendar';
 import Tracks from '../components/Index/Tracks';
+import { useProgramDates } from '../providers/programDates'
 import { IndexQuery } from './index.gql';
 
 export default function Home() {
+  const { startsAt, endsAt } = useProgramDates();
+  const now = DateTime.local();
+  const featureCalendar = startsAt < now && endsAt > now;
   return (
     <Page darkHeader slug="/">
       <Header mt={-40} pt={32} pb={16} mb={16} />
+      {featureCalendar && <Calendar primary mt={8} mb={16} />}
       <Explainer />
       <Tracks />
       <Testimonials />
       <PastProjects mt={16} />
-      <Calendar mt={16} />
+      {!featureCalendar && <Calendar mt={16} />}
     </Page>
   );
 }
