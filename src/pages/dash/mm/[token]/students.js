@@ -42,8 +42,10 @@ export default function StudentDashboard() {
       manager: mentor.managerUsername,
       student: student.name,
       studentEmail: student.email,
+      studentPhone: student.profile?.phone,
       partnerCode: student.partnerCode,
       mentorEmail: mentor.email,
+      mentorPhone: mentor.profile?.phone,
       weeks: student.weeks,
       projectTrack: project.track,
       studentTrack: student.track,
@@ -96,9 +98,11 @@ export default function StudentDashboard() {
             <AgGridColumn field="manager" sortable={true} filter="agTextColumnFilter"></AgGridColumn>
             <AgGridColumn field="mentor" sortable={true} filter="agTextColumnFilter"></AgGridColumn>
             <AgGridColumn field="mentorEmail"></AgGridColumn>
+            <AgGridColumn field="mentorPhone"></AgGridColumn>
             <AgGridColumn field="projectTrack" sortable={true}></AgGridColumn>
             <AgGridColumn field="student" filter="agTextColumnFilter"></AgGridColumn>
             <AgGridColumn field="studentEmail"></AgGridColumn>
+            <AgGridColumn field="studentPhone"></AgGridColumn>
             <AgGridColumn field="studentTrack" sortable={true}></AgGridColumn>
             <AgGridColumn field="partnerCode" sortable={true}></AgGridColumn>
             <AgGridColumn field="weeks" sortable={true}></AgGridColumn>
