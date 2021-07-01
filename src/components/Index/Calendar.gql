@@ -4,11 +4,13 @@ fragment IndexCalendar on Query {
       id
       title
       start
+      metadata
     }
     lastYear: events(calendars: ["labs"], after: $lastYearCalendarStart, before: $lastYearCalendarEnd) {
       id
       title
       start
+      metadata
     }
   }
 }
