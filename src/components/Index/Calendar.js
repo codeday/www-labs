@@ -91,7 +91,7 @@ export default function Calendar({ primary, ...props }) {
               </Box>
               </Grid>
               <Text bold mb={0}>{name || typeOrName}</Text>
-              {presenter && <Text mt={2}>{presenter}</Text>}
+              {presenter && <Text mt={2}>Presented by {presenter}</Text>}
             </Box>
           )
         })}
