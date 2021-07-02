@@ -5,6 +5,7 @@ fragment IndexCalendar on Query {
       title
       start
       metadata
+      subscriberCount
     }
     lastYear: events(calendars: ["labs"], after: $lastYearCalendarStart, before: $lastYearCalendarEnd) {
       id

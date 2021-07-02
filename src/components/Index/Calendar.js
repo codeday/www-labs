@@ -71,6 +71,11 @@ export default function Calendar({ primary, ...props }) {
                 <Text mb={0} fontSize="sm" color="current.textLight">
                   {DateTime.fromISO(e.start).toLocaleString({ hour: 'numeric', minute: 'numeric', timeZoneName: 'short' })}
                 </Text>
+              {typeof e.subscriberCount === 'number' && (
+                <Text mb={0} fontSize="sm" color="current.textLight">
+                  {e.subscriberCount} attending
+                </Text>
+              )}
               </Box>
               <Box textAlign="right">
                 {name && (
