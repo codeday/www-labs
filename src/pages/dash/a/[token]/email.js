@@ -26,7 +26,7 @@ export default function AdminSendEmail() {
     <Page title="Send Email">
       <Content mt={-8}>
         <Button as="a" href={`/dash/a/${query.token}`}>&laquo; Back</Button>
-        <Heading as="h2" fontSize="5xl" mb={8} mt={4}>Add Mentor</Heading>
+        <Heading as="h2" fontSize="5xl" mb={8} mt={4}>Send Email</Heading>
         <Select onChange={(e) => setTarget(e.target.value)}>
           <option></option>
           <option value="students">Students</option>
