@@ -1,0 +1,19 @@
+mutation SendMentorEmail($subject: String!, $body: String!) {
+  labs {
+    sendMentorEmail(
+      dryRun: true,
+      subject: $subject,
+      body: $body
+    )
+  }
+}
+
+mutation SendStudentEmail($subject: String!, $body: String!) {
+  labs {
+    sendStudentEmail(
+      dryRun: true,
+      subject: $subject,
+      body: $body
+    )
+  }
+}

@@ -1,0 +1,32 @@
+query FormQuery {
+  labs {
+    student {
+      id
+      givenName
+      surname
+      email
+      status
+      partnerCode
+      projects {
+        id
+        status
+        mentors {
+          id
+          status
+          givenName
+          surname
+          email
+          managerUsername
+        }
+        students {
+          id
+          status
+          givenName
+          surname
+          email
+          partnerCode
+        }
+      }
+    }
+  }
+}
