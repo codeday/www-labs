@@ -39,6 +39,8 @@ export default function StudentDashboard() {
 
   const rows = Object.values(students)
     .map(({ student, mentor, project, i, projCount }) => ({
+      projectId: project.id,
+      studentId: student.id,
       manager: mentor.managerUsername,
       student: student.name,
       studentEmail: student.email,
@@ -53,6 +55,9 @@ export default function StudentDashboard() {
       mentor: projCount > 1 ? `${mentor.name} (${i+1}/${projCount})` : mentor.name,
       trainingCount: student.tagTrainingSubmissions.length,
       training: student.tagTrainingSubmissions.map((s) => s.tag.mentorDisplayName).join(', '),
+      schoolYear: student.profile?.schoolYear,
+      ethnicity: student.profile?.ethnicity,
+      pronouns: student.profile?.pronouns,
     }));
 
   return (
@@ -98,6 +103,8 @@ export default function StudentDashboard() {
             <AgGridColumn field="manager" sortable={true} filter="agTextColumnFilter"></AgGridColumn>
             <AgGridColumn field="mentor" sortable={true} filter="agTextColumnFilter"></AgGridColumn>
             <AgGridColumn field="mentorEmail"></AgGridColumn>
+            <AgGridColumn field="projectId"></AgGridColumn>
+            <AgGridColumn field="studentId"></AgGridColumn>
             <AgGridColumn field="mentorPhone"></AgGridColumn>
             <AgGridColumn field="projectTrack" sortable={true}></AgGridColumn>
             <AgGridColumn field="student" filter="agTextColumnFilter"></AgGridColumn>
@@ -109,6 +116,9 @@ export default function StudentDashboard() {
             <AgGridColumn field="maxWeeks" sortable={true}></AgGridColumn>
             <AgGridColumn field="trainingCount"></AgGridColumn>
             <AgGridColumn field="training"></AgGridColumn>
+            <AgGridColumn field="schoolYear"></AgGridColumn>
+            <AgGridColumn field="ethnicity"></AgGridColumn>
+            <AgGridColumn field="pronouns"></AgGridColumn>
           </AgGridReact>
         </div>
       </Content>

@@ -1,17 +1,19 @@
-mutation SendMentorEmail($subject: String!, $body: String!) {
+mutation SendMentorEmail($where: LabsMentorFilterInput, $subject: String!, $body: String!) {
   labs {
     sendMentorEmail(
       subject: $subject,
       body: $body
+      where: $where,
     )
   }
 }
 
-mutation SendStudentEmail($subject: String!, $body: String!) {
+mutation SendStudentEmail($where: LabsStudentFilterInput, $subject: String!, $body: String!) {
   labs {
     sendStudentEmail(
       subject: $subject,
       body: $body
+      where: $where,
     )
   }
 }
