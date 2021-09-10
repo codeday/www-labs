@@ -1,4 +1,11 @@
 module.exports = {
+  redirects: () => [
+    {
+      source: '/volunteer',
+      destination: 'https://www.codeday.org/volunteer/labs/career-advisor',
+      permanent: false,
+    }
+  ],
   serverRuntimeConfig: {
     auth0: {
       clientId: process.env.AUTH0_CLIENT_ID,
