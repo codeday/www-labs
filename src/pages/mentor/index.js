@@ -31,6 +31,7 @@ export default function Mentor() {
   const { query } = useRouter();
   const f = { day: 'numeric', month: 'long' };
   useEffect(() => typeof window !== 'undefined' && LinkedInTag.init('1831116', null, false), typeof window);
+  const qs = (new URLSearchParams(query || {})).toString() || '';
 
   return (
     <Page slug="/mentor" title="Tech Industry Mentor Volunteering">
@@ -79,7 +80,7 @@ export default function Mentor() {
             </Text>
             <Button
               as="a"
-              href={`/mentor/apply${query.r ? `?r=${query.r}` : ''}`}
+              href={`https://www.codeday.org/volunteer/labs/mentor/go?return=labs&returnto=mentor%2Fshare%3Fapplied&${qs}`}
               variantColor="green"
               size="lg"
             >
