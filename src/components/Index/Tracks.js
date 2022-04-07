@@ -18,33 +18,32 @@ export default function Tracks() {
       <Heading paddingBottom={6} textAlign="center">Multiple tracks. What's your experience level?</Heading>
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr"}} gap={6}>
         <Box borderRadius="lg" borderColor="gray.200" borderWidth={1} boxShadow="sm">
-            <Box backgroundColor="gray.50" padding={4}><Heading fontSize="2xl">Beginner Track</Heading></Box>
+            <Box backgroundColor="gray.50" padding={4}><Heading fontSize="2xl">Intermediate Track</Heading></Box>
             <Box padding={4} fontSize="lg">
               <Text>
-                A guided experience which is best for people with some CS knowledge, but who don't have prior
-                experience working on complex projects.
+                More guided projects for college freshmen/sophomores/juniors with technical skills, but limited
+                experience working independently.
               </Text>
               <Text>
-                This is probably the right track for you if you're a high school student who's taken AP CS A or
-                equivalent course, or a college student with 101-level experience in CS or Engineering.
+                This is the right track for you if you're a college students who has completed 101/102-level CS classes
+                but not much more (and high school students with experience building projects at hackathons).
               </Text>
               <Text>
-                You'll work with an older student, a current/former tech intern, who will guide you through your first
-                experience building something with real-world implications.
+                You'll be matched with a mentor from the technology industry, like at most traditional in-person
+                internships, and will build a polished app/feature.
               </Text>
               <Text color="gray.500">
-                ($250 fee if accepted; many scholarships available.)
+                (No fee; not a paid internship.)
               </Text>
-              {applyButton}
             </Box>
         </Box>
 
         <Box borderRadius="lg" borderColor="gray.200" borderWidth={1} boxShadow="sm">
-            <Box backgroundColor="gray.50" padding={4}><Heading fontSize="2xl">Intermediate/Advanced Track</Heading></Box>
+            <Box backgroundColor="gray.50" padding={4}><Heading fontSize="2xl">Advanced Track</Heading></Box>
             <Box padding={4} fontSize="lg">
               <Text>
-                This track is the most similar to a traditional in-person internship, for those students who have
-                higher-level CS knowledge or significant experience building projects.
+                For college juniors/seniors who have higher-level CS knowledge or others with significant experience
+                building projects.
               </Text>
               <Text>
                 This is the right track for you if you're a college student with experience beyond the 101/102-level
