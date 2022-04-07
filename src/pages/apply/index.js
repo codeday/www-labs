@@ -16,7 +16,7 @@ export default function ApplyHome() {
             Applications are open! This year we are only offering the intermediate/advanced tracks, which use
             one single application.
           </Text>
-          <Button href="/apply/advanced" variantColor="green">Apply Now</Button>
+          <Button as="a" href="/apply/advanced" variantColor="green">Apply Now</Button>
         </CheckApplicationsOpen>
       </Content>
     </Page>

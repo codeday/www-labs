@@ -35,6 +35,7 @@ export default function Tracks() {
               <Text color="gray.500">
                 (No fee; not a paid internship.)
               </Text>
+              {applyButton}
             </Box>
         </Box>
 
