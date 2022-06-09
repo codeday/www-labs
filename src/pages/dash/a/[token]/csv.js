@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Content from '@codeday/topo/Molecule/Content';
-import { Heading } from '@codeday/topo/Atom/Text';
+import { Box, Button, Heading } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import Page from '../../../../components/Page';
 import { useFetcher } from '../../../../dashboardFetch';
 import { CsvStudents } from './csv.gql';

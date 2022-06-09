@@ -2,17 +2,13 @@ import { print } from 'graphql';
 import { useState, useEffect } from 'react';
 import reactnl2br from 'react-nl2br';
 import { useRouter } from 'next/router';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Content from '@codeday/topo/Molecule/Content';
-import Button from '@codeday/topo/Atom/Button';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
+import { Box, Grid, Button, Text, Heading, Link, Spinner, List, ListItem as Item } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
-import Spinner from '@codeday/topo/Atom/Spinner';
 import Page from '../../../../components/Page';
 import SelectTrack from '../../../../components/Dashboard/SelectTrack';
 import { useFetcher } from '../../../../dashboardFetch';
 import { StudentNeedingRating, StudentNeedingRatingInTrack, SubmitRating } from './index.gql';
-import List, { Item } from '@codeday/topo/Atom/List';
 
 function TrackBadge({ track }) {
   return (
@@ -179,7 +175,7 @@ export default function ReviewPage() {
               {['BEGINNER', 'INTERMEDIATE', 'ADVANCED'].map((t) => (
                 <Button
                   key={t}
-                  variantColor={recommendedTrack === t ? 'purple' : undefined}
+                  colorScheme={recommendedTrack === t ? 'purple' : undefined}
                   onClick={() => setRecommendedTrack(t)}
                   size="sm"
                   mr={1}
@@ -194,7 +190,7 @@ export default function ReviewPage() {
               {[1, 2, 3, 4, 5].map((r) => (
                 <Button
                   key={r}
-                  variantColor={rating === r ? 'purple' : undefined}
+                  colorScheme={rating === r ? 'purple' : undefined}
                   onClick={() => setRating(r)}
                   size="sm"
                   mr={1}
@@ -217,7 +213,7 @@ export default function ReviewPage() {
               </Button>
 
               <Button
-                variantColor="green"
+                colorScheme="green"
                 disabled={!rating || !recommendedTrack}
                 onClick={async () => {
                   setIsLoading(true);

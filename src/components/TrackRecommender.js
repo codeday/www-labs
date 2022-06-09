@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import nl2br from 'react-nl2br';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Text from '@codeday/topo/Atom/Text';
+import { Box, Grid, Button, Text } from '@codeday/topo/Atom';
 
 const FLOWCHART = {
   val: `Still not sure what track is right for you?\nWhat type of student are you?`,
@@ -54,7 +52,7 @@ export default function TrackRecommender(props) {
             The <Text as="span" textDecoration="underline">{track} track</Text> is probably best for you.
           </Text>
           <Text>(But you're welcome to apply for a different track if you disagree!)</Text>
-          <Button as="a" href={`/apply/${track}`} variantColor="blue">Apply for the {track} track</Button>
+          <Button as="a" href={`/apply/${track}`} colorScheme="blue">Apply for the {track} track</Button>
         </>
       ) : (
         <>
@@ -70,7 +68,7 @@ export default function TrackRecommender(props) {
               {Object.keys(opts).map((label) => (
                 <Box key={label}>
                   <Button
-                    variantColor="blue"
+                    colorScheme="blue"
                     onClick={() => setCurrentNode(opts[label])}
                   >
                     {label}

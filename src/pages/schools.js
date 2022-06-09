@@ -1,12 +1,7 @@
 import { print } from 'graphql';
 import { apiFetch } from '@codeday/topo/utils';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Content from '@codeday/topo/Molecule/Content';
-import Button from '@codeday/topo/Atom/Button';
-import Divider from '@codeday/topo/Atom/Divider';
-import Deck from '@codeday/topo/Molecule/Deck';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import List, { Item } from '@codeday/topo/Atom/List';
+import { Box, Grid, Button, Divider, Text, Heading, Link, List, ListItem as Item } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import Page from '../components/Page';
 import { SchoolsQuery } from './schools.gql';
 import { useProgramDates } from '../providers';
@@ -36,7 +31,7 @@ export default function Edu() {
               Deadlines vary from March - May depending on number of students.
             </Text>
             <Box mt={8}>
-              <Button as="a" href="mailto:labs@codeday.org" variantColor="green" mb={2}>Email Us</Button><br />
+              <Button as="a" href="mailto:labs@codeday.org" colorScheme="green" mb={2}>Email Us</Button><br />
               <Link href="https://showcase.codeday.org/projects/labs/1" target="_blank">Past Project Examples</Link><br />
               <Link href="/deck-schools.pdf">Download Slide Deck</Link>
             </Box>
@@ -56,10 +51,7 @@ export default function Edu() {
       </Content>
       <Content>
         <Divider />
-        <Heading as="h3" mt={4} mb={2} fontSize="lg">Full Details &mdash; Slide Deck</Heading>
-      </Content>
-      <Content wide>
-        <Deck allowDownload src="/deck-schools.pdf" />
+        <Button as="a" mt={4} mb={2} href="/deck-schools.pdf">Full Details &mdash; Slide Deck</Button>
       </Content>
     </Page>
   );

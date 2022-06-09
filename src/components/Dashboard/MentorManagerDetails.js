@@ -1,6 +1,4 @@
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Text, { Link, Heading } from '@codeday/topo/Atom/Text';
-import Image from '@codeday/topo/Atom/Image';
+import { Box, Grid, Text, Link, Heading, Image } from '@codeday/topo/Atom';
 
 export default function MentorManagerDetails({ mentor }) {
   return (

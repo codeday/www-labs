@@ -1,12 +1,9 @@
 import { useReducer, useState, useEffect } from 'react';
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Content from '@codeday/topo/Molecule/Content';
-import { Heading, Link } from '@codeday/topo/Atom/Text';
+import { Box, Button, Heading, Link, Spinner } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
-import { default as Input } from '@codeday/topo/Atom/Input/Text';
 import Page from '../../../../components/Page';
 import { useFetcher } from '../../../../dashboardFetch';
 import SelectTrack from '../../../../components/Dashboard/SelectTrack';
@@ -18,7 +15,6 @@ import {
   StudentReject,
   StudentOfferAdmission
 } from './admit.gql';
-import Spinner from '@codeday/topo/Atom/Spinner';
 import { Checkbox } from '@chakra-ui/core';
 
 function Entry({ student, onChange, ...rest }) {
@@ -61,7 +57,7 @@ function Entry({ student, onChange, ...rest }) {
         <Button
           isLoading={isLoading}
           disabled={isLoading}
-          variantColor="purple"
+          colorScheme="purple"
           onClick={async () => {
             setIsLoading(true);
             try {
@@ -79,7 +75,7 @@ function Entry({ student, onChange, ...rest }) {
         <Button
           isLoading={isLoading}
           disabled={isLoading}
-          variantColor="green"
+          colorScheme="green"
           onClick={async () => {
             setIsLoading(true);
             try {
@@ -97,7 +93,7 @@ function Entry({ student, onChange, ...rest }) {
         <Button
           isLoading={isLoading}
           disabled={isLoading}
-          variantColor="red"
+          colorScheme="red"
           onClick={async () => {
             setIsLoading(true);
             try {

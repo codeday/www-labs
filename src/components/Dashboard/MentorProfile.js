@@ -1,20 +1,20 @@
 import { useState, useReducer, useEffect } from 'react';
 import { print } from 'graphql';
 import { useSession } from 'next-auth/client'
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import { default as Input } from '@codeday/topo/Atom/Input/Text';
-import { default as Textarea } from '@codeday/topo/Atom/Input/Textarea';
 import {
+  Box,
+  Grid,
+  Button,
+  TextInput as Input,
+  Textarea,
   NumberInput,
   NumberInputField,
-  NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-} from "@chakra-ui/core"
+  Heading,
+} from '@codeday/topo/Atom';
 import { useToasts } from '@codeday/topo/utils';
 import { useFetcher } from '../../dashboardFetch';
-import { Heading } from '@codeday/topo/Atom/Text';
 import SelectMentorStatus from './SelectMentorStatus';
 import { EditMentor } from './MentorProfile.gql';
 
@@ -212,7 +212,7 @@ export default function MentorProfile({ mentor: originalMentor, ...rest }) {
 
       <Button
         mt={8}
-        variantColor="green"
+        colorScheme="green"
         isLoading={loading}
         disabled={loading || !profileTextValid}
         onClick={async () => {

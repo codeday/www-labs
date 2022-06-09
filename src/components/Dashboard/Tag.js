@@ -1,4 +1,4 @@
-import Box from '@codeday/topo/Atom/Box';
+import { Box } from '@codeday/topo/Atom';
 
 export const Tag = ({ tag, featured }) => (
   <Box

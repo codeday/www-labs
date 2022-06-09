@@ -1,7 +1,6 @@
 import { print } from 'graphql';
-import Content from '@codeday/topo/Molecule/Content';
-import Text from '@codeday/topo/Atom/Text';
-import Button from '@codeday/topo/Atom/Button';
+import { Text, Button } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { apiFetch } from '@codeday/topo/utils';
 import Page from '../../components/Page';
 import CheckApplicationsOpen from '../../components/CheckApplicationsOpen';
@@ -16,7 +15,7 @@ export default function ApplyHome() {
             Applications are open! This year we are only offering the intermediate/advanced tracks, which use
             one single application.
           </Text>
-          <Button as="a" href="/apply/advanced" variantColor="green">Apply Now</Button>
+          <Button as="a" href="/apply/advanced" colorScheme="green">Apply Now</Button>
         </CheckApplicationsOpen>
       </Content>
     </Page>

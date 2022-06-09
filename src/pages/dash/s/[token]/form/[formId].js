@@ -1,8 +1,7 @@
 import React from 'react';
 import { apiFetch } from '@codeday/topo/utils';
-import CognitoForm from '@codeday/topo/Molecule/CognitoForm';
+import { CognitoForm, Content } from '@codeday/topo/Molecule';
 import Page from '../../../../../components/Page';
-import Content from '@codeday/topo/Molecule/Content';
 import { FormQuery } from './form.gql';
 
 export default function FormPage({ data, token, formId }) {

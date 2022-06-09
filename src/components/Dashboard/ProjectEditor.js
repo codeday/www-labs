@@ -1,24 +1,27 @@
 import { useReducer, useState } from 'react';
 import { print } from 'graphql';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import { default as Textarea } from '@codeday/topo/Atom/Input/Textarea';
 import {
+  Box,
+  Grid,
+  Button,
+  Textarea,
+  Text,
+  Heading,
+  Link,
+  List,
+  ListItem as Item,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-} from "@chakra-ui/core"
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
+} from "@codeday/topo"
 import { useToasts } from '@codeday/topo/utils';
 import { useFetcher } from '../../dashboardFetch';
 import SelectTrack from './SelectTrack';
 import SelectProjectStatus from './SelectProjectStatus';
 import { EditProject, EditProjectLimited } from './ProjectEditor.gql';
 import TagPicker from './TagPicker';
-import { default as Checkbox } from '@codeday/topo/Atom/Input/Checkbox';
-import List, { Item } from '@codeday/topo/Atom/List';
 
 export default function ProjectEditor({ tags, project: originalProject, limited, ...rest }) {
   const [project, setProject] = useReducer(
@@ -157,7 +160,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
             <Box d="inline-block" ml={4} pl={4} borderLeftWidth={1}>
               <Button
                 d="inline-block"
-                variantColor="green"
+                colorScheme="green"
                 onClick={save({ status: 'PROPOSED' })}
                 isLoading={loading}
                 disabled={loading}

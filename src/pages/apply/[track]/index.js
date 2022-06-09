@@ -1,8 +1,6 @@
-
 import { print } from 'graphql';
-import { Heading } from '@codeday/topo/Atom/Text';
-import CognitoForm from '@codeday/topo/Molecule/CognitoForm';
-import Content from '@codeday/topo/Molecule/Content';
+import { Heading } from '@codeday/topo/Atom';
+import { CognitoForm, Content } from '@codeday/topo/Molecule';
 import { apiFetch } from '@codeday/topo/utils';
 import Page from '../../../components/Page';
 import CheckApplicationsOpen from '../../../components/CheckApplicationsOpen';

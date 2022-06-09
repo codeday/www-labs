@@ -1,12 +1,9 @@
 import { useReducer, useState } from 'react';
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Content from '@codeday/topo/Molecule/Content';
-import { Heading } from '@codeday/topo/Atom/Text';
+import { Box, Button, Heading, TextInput as Input } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
-import { default as Input } from '@codeday/topo/Atom/Input/Text';
 import Page from '../../../../components/Page';
 import { useFetcher } from '../../../../dashboardFetch';
 import SelectMentorStatus from '../../../../components/Dashboard/SelectMentorStatus';

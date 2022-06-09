@@ -1,11 +1,8 @@
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import { apiFetch } from '@codeday/topo/utils';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Content from '@codeday/topo/Molecule/Content';
-import Image from '@codeday/topo/Atom/Image';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import Button from '@codeday/topo/Atom/Button';
+import { Box, Grid, Image, Text, Heading, Link, Button } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import Page from '../../components/Page';
 import { useProgramDates } from '../../providers';
 import { ShareQuery } from './share.gql';
@@ -47,7 +44,7 @@ export default function Share() {
         </Content>
       ) : (
         <Content mt={-8} mb={12}>
-          <Button as="a" href="/mentor" variantColor="green">&laquo; Back to Mentor Information</Button>
+          <Button as="a" href="/mentor" colorScheme="green">&laquo; Back to Mentor Information</Button>
         </Content>
       )}
 

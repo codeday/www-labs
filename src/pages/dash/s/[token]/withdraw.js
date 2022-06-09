@@ -1,10 +1,7 @@
 import { print } from 'graphql';
 import { useState } from 'react';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import Spinner from '@codeday/topo/Atom/Spinner';
+import { Box, Grid, Button, Text, Heading, Link, Spinner } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
 import { useFetcher, useSwr } from '../../../../dashboardFetch';
@@ -50,7 +47,7 @@ export default function WithdrawApplication() {
         <Text>You may not be able to change your mind later.</Text>
         <Box mt={4}>
           <Button
-            variantColor="red"
+            colorScheme="red"
             isLoading={isLoading}
             disabled={isLoading}
             mb={2}

@@ -1,11 +1,8 @@
 import useSwr from 'swr';
 import fetch from 'node-fetch';
 import { signIn, useSession } from 'next-auth/client'
-import Box from '@codeday/topo/Atom/Box';
-import Text from '@codeday/topo/Atom/Text';
-import Button from '@codeday/topo/Atom/Button';
-import Spinner from '@codeday/topo/Atom/Spinner';
-import Content from '@codeday/topo/Molecule/Content';
+import { Box, Text, Button, Spinner } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import Page from '../../components/Page';
 
 const sectionNames = { a: 'Admin', mm: 'Manager', r: 'Reviewer', m: 'Mentor', s: 'Student' };
@@ -38,7 +35,7 @@ export default function DashboardLogin() {
     <Page slug={`/dash`} title={`Dashboard`}>
       <Content>
         <Box textAlign="center" maxWidth="md" margin="0 auto">
-          <Button onClick={() => signIn('auth0')} variantColor="green" mb={2}>Sign In</Button>
+          <Button onClick={() => signIn('auth0')} colorScheme="green" mb={2}>Sign In</Button>
           <Text>
             You'll need to create or log into a CodeDay account to continue. You'll use this to access your Labs dashboard
             if your application is accepted.

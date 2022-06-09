@@ -1,5 +1,4 @@
-import { Select } from '@codeday/topo/Atom/Input/Select';
-import Box from '@codeday/topo/Atom/Box';
+import { Select, Box } from '@codeday/topo/Atom';
 
 const options = {
   APPLIED: 'Applied',

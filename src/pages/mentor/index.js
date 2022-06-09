@@ -5,16 +5,13 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import LinkedInTag from 'react-linkedin-insight';
 import { apiFetch } from '@codeday/topo/utils';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Content from '@codeday/topo/Molecule/Content';
-import Button from '@codeday/topo/Atom/Button';
-import Image from '@codeday/topo/Atom/Image';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import List, { Item } from '@codeday/topo/Atom/List';
+import { Box, Grid, Button, Image, Text, Heading, Link, List, ListItem as Item } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import Testimonials from '../../components/Mentor/Testimonials';
 import Page from '../../components/Page';
 import { useProgramDates } from '../../providers';
 import { IndexQuery } from './index.gql';
+import { useColorMode } from '@codeday/topo/Theme';
 
 const ReactPlayer = dynamic(
   () => import('react-player/lazy'),
@@ -22,10 +19,12 @@ const ReactPlayer = dynamic(
 );
 
 function Highlight({children}) {
-  return <Text as="span" bg="yellow.200" p={1}>{children}</Text>;
+  const { colorMode } = useColorMode();
+  return <Text as="span" bg={ colorMode === 'dark' ? 'yellow.800' : 'yellow.200'} p={1}>{children}</Text>;
 }
 
 export default function Mentor() {
+  const { colorMode } = useColorMode();
   const { mentorApplicationFocusAt, mentorApplicationEndsAt, startsAt, endsAt, mentoringStartsAt } = useProgramDates();
   const weeks = Math.round(endsAt.diff(mentoringStartsAt, 'weeks').weeks);
   const { query } = useRouter();
@@ -81,7 +80,7 @@ export default function Mentor() {
             <Button
               as="a"
               href={`https://www.codeday.org/volunteer/labs/mentor/go?return=labs&returnto=mentor%2Fshare%3Fapplied&${qs}`}
-              variantColor="green"
+              colorScheme="green"
               size="lg"
             >
               Sign Up Now
@@ -91,14 +90,14 @@ export default function Mentor() {
               href="https://www.codeday.org/help/labs/volunteer"
               target="_blank"
               variant="ghost"
-              variantColor="green"
+              colorScheme="green"
             >
               FAQs
             </Button>
-            <Button as="a" href="mailto:labs@codeday.org" variant="ghost" variantColor="green">Email Us</Button>
-            <Button as="a" href="/mentor/share" variant="ghost" variantColor="green">💌 Share With Your Company</Button>
+            <Button as="a" href="mailto:labs@codeday.org" variant="ghost" colorScheme="green">Email Us</Button>
+            <Button as="a" href="/mentor/share" variant="ghost" colorScheme="green">💌 Share With Your Company</Button>
           </Box>
-          <Box backgroundColor="red.50" padding={6} marginTop="-2rem">
+          <Box backgroundColor={ colorMode === 'dark' ? 'red.900' : 'red.50'} padding={6} marginTop="-2rem">
             <Heading as="h3" size="lg" paddingBottom={2}>Timeline</Heading>
             <Heading as="h4" size="sm">Mentor application due:</Heading>
             <Text>{mentorApplicationEndsAt?.toLocaleString(f)}</Text>

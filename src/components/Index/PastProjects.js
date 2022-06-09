@@ -1,9 +1,9 @@
 import nl2br from 'react-nl2br';
-import Box, { RatioBox, Grid } from '@codeday/topo/Atom/Box';
-import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
+import { Box, Grid, Text, Heading, Link, RatioBox } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import MediaPlay from '@codeday/topocons/Icon/MediaPlay';
 import { useQuery, useShuffled } from '../../providers';
+import { useColorMode } from '@codeday/topo/Theme';
 
 const MAX_PROJECTS = 3;
 const BG_COLORS = {
@@ -23,6 +23,7 @@ function fixDescription(description) {
 
 export default function PastProjects(props) {
   const projects = useShuffled(useQuery('showcase.pastProjects', [])).filter(Boolean);
+  const { colorMode } = useColorMode();
 
   if (projects.length === 0) return <></>;
 
@@ -114,7 +115,10 @@ export default function PastProjects(props) {
               left={0}
               right={0}
               p={8}
-              backgroundImage="linear-gradient(to bottom, rgba(255, 255, 255 ,0), rgba(255, 255, 255 ,1))"
+              backgroundImage={colorMode === 'dark'
+                ? "linear-gradient(to bottom, rgba(41, 41, 41, 0), rgba(41, 41, 41, 1))"
+                : "linear-gradient(to bottom, rgba(255, 255, 255 ,0), rgba(255, 255, 255 ,1))"
+              }
             />
           </Box>
         </Grid>

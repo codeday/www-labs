@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { decode } from 'jsonwebtoken';
 import { useRouter } from 'next/router';
-import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
+import { Content } from '@codeday/topo/Molecule';
+import { Link } from '@codeday/topo/Atom';
 import Page from '../../../../components/Page';
 
 export default function AdminDashboard() {

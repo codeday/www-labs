@@ -1,13 +1,7 @@
 import React from 'react';
 import { DefaultSeo } from 'next-seo';
-import Box from '@codeday/topo/Atom/Box';
-import Text, { Link } from '@codeday/topo/Atom/Text';
-import Header, { SiteLogo, Menu } from '@codeday/topo/Organism/Header';
-import Announcement from '@codeday/topo/Organism/Announcement';
-import Image from '@codeday/topo/Atom/Image';
-import Footer, { CustomLinks } from '@codeday/topo/Organism/Footer';
-import { CodeDay } from '@codeday/topo/Atom/Logo';
-import Button from '@codeday/topo/Atom/Button';
+import { Box, Text, Link, Button, CodeDay } from '@codeday/topo/Atom';
+import { Header, Menu, SiteLogo, Announcement, Footer, CustomLinks } from '@codeday/topo/Organism';
 import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig();
@@ -63,7 +57,7 @@ export default ({
         <Menu>
           <Button variant="ghost" as="a" href="/schools">For Schools</Button>
           <Button variant="ghost" as="a" href="/mentor">Mentor</Button>
-          <Button variant="solid" variantColor="green" as="a" href="/apply">Student Application</Button>
+          <Button variant="solid" colorScheme="green" as="a" href="/apply">Student Application</Button>
         </Menu>
       </Header>
       {children}

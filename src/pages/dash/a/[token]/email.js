@@ -1,14 +1,9 @@
 import { useReducer, useState } from 'react';
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Content from '@codeday/topo/Molecule/Content';
-import { Heading } from '@codeday/topo/Atom/Text';
+import { Box, Button, Heading, TextInput as Input, Textarea, Select } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
-import { default as Input } from '@codeday/topo/Atom/Input/Text';
-import { default as Textarea } from '@codeday/topo/Atom/Input/Textarea';
-import { Select } from '@chakra-ui/core';
 import Page from '../../../../components/Page';
 import { useFetcher } from '../../../../dashboardFetch';
 import { SendMentorEmail, SendStudentEmail } from './email.gql';
@@ -50,7 +45,7 @@ export default function AdminSendEmail() {
         <Button
           isLoading={isLoading}
           disabled={isLoading || !subject || !body || !target}
-          variantColor="red"
+          colorScheme="red"
           onClick={async () => {
             const query = target === 'students' ? SendStudentEmail : SendMentorEmail;
             setLoading(true);

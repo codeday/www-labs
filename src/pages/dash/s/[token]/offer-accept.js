@@ -1,11 +1,8 @@
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import Spinner from '@codeday/topo/Atom/Spinner';
+import { Box, Grid, Button, Text, Heading, Link, Spinner } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
 import { useFetcher, useSwr } from '../../../../dashboardFetch';
@@ -49,7 +46,7 @@ export default function OfferAccept() {
         <Text>Commit to spending at least {student.minHours} hours per week over this {student.weeks}-week program?</Text>
         <Box mt={4}>
           <Button
-            variantColor="green"
+            colorScheme="green"
             isLoading={isLoading}
             disabled={isLoading}
             mb={2}

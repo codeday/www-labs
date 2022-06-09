@@ -1,7 +1,5 @@
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
-import Content from '@codeday/topo/Molecule/Content';
-import { Select } from '@chakra-ui/core';
+import { Box, Grid, Text, Heading, Select } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { useQuery } from '../../providers';

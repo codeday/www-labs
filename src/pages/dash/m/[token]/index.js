@@ -1,8 +1,6 @@
 import { print } from 'graphql';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import Spinner from '@codeday/topo/Atom/Spinner';
+import { Content } from '@codeday/topo/Molecule';
+import { Box, Grid, Text, Heading, Link, Spinner } from '@codeday/topo/Atom';
 import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
 import MentorProfile from '../../../../components/Dashboard/MentorProfile';

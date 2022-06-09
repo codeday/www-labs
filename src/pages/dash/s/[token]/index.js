@@ -1,16 +1,12 @@
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import Button from '@codeday/topo/Atom/Button';
-import Spinner from '@codeday/topo/Atom/Spinner';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
+import { Content } from '@codeday/topo/Molecule';
+import { Text, Heading, Link, Button, Spinner, Box, Grid } from '@codeday/topo/Atom';
 import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
 import { StudentDashboardQuery } from './index.gql'
 import { Match } from '../../../../components/Dashboard/Match';
-import List, { Item } from '@codeday/topo/Atom/List';
 
 export default function Dashboard() {
   const { query } = useRouter();

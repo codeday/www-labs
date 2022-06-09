@@ -1,10 +1,7 @@
 import { print } from 'graphql';
 import { useEffect, useState, useReducer } from 'react';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import Spinner from '@codeday/topo/Atom/Spinner';
+import { Box, Grid, Button, Text, Heading, Link, Spinner } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { useToasts, apiFetch } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
 import TagPicker from '../../../../components/Dashboard/TagPicker';
@@ -93,7 +90,7 @@ export default function Matching({ allTags, student, projectPreferences }) {
           <Box textAlign="center">
             <Button
               onClick={fetchProjects}
-              variantColor="green"
+              colorScheme="green"
               size="lg"
               isLoading={isLoading}
               disabled={tags.length < 5 || tags.length > finalMaxTagsToSubmit}
@@ -155,7 +152,7 @@ export default function Matching({ allTags, student, projectPreferences }) {
             <Button
               disabled={ranking.length < finalMinProjectsToSubmit}
               isLoading={isSubmitting}
-              variantColor="green"
+              colorScheme="green"
               mb={4}
               onClick={async () => {
                 setIsSubmitting(true);

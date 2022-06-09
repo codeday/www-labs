@@ -1,4 +1,4 @@
-import Box from '@codeday/topo/Atom/Box';
+import { Box } from '@codeday/topo/Atom';
 
 export default function Highlight({ children }) {
   return (

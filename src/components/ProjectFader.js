@@ -1,4 +1,4 @@
-import Box, { RatioBox } from '@codeday/topo/Atom/Box';
+import { Box, RatioBox } from '@codeday/topo/Atom';
 import { useShuffled, useQuery, useSlideshow } from '../providers';
 import ProjectImagePreview from './ProjectImagePreview';
 

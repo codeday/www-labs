@@ -1,5 +1,4 @@
-import Box from '@codeday/topo/Atom/Box';
-import Text from '@codeday/topo/Atom/Text';
+import { Box, Text } from '@codeday/topo/Atom';
 
 export default function ProjectImagePreview({ project }) {
   const bgImage = project.media.sort((m) => m.type === 'IMAGE' ? 1 : -1)[0].image;

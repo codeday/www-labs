@@ -1,8 +1,6 @@
 import { DateTime } from 'luxon';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
-import Button from '@codeday/topo/Atom/Button';
+import { Box, Grid, Text, Heading, Button } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { useProgramDates } from '../../providers';
 
 export default function Tracks() {
@@ -10,7 +8,7 @@ export default function Tracks() {
   const allowApply = registrationsOpenAt < DateTime.local() && registrationsCloseAt > DateTime.local();
 
   const applyButton = allowApply ? (
-    <Button as="a" href="/apply" variantColor="green" size="lg">Apply</Button>
+    <Button as="a" href="/apply" colorScheme="green" size="lg">Apply</Button>
   ) : <></>;
 
   return (
@@ -18,7 +16,7 @@ export default function Tracks() {
       <Heading paddingBottom={6} textAlign="center">Multiple tracks. What's your experience level?</Heading>
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr"}} gap={6}>
         <Box borderRadius="lg" borderColor="gray.200" borderWidth={1} boxShadow="sm">
-            <Box backgroundColor="gray.50" padding={4}><Heading fontSize="2xl">Intermediate Track</Heading></Box>
+            <Box backgroundColor="gray.50" padding={4} color="black"><Heading fontSize="2xl">Intermediate Track</Heading></Box>
             <Box padding={4} fontSize="lg">
               <Text>
                 More guided projects for college freshmen/sophomores/juniors with technical skills, but limited
@@ -40,7 +38,7 @@ export default function Tracks() {
         </Box>
 
         <Box borderRadius="lg" borderColor="gray.200" borderWidth={1} boxShadow="sm">
-            <Box backgroundColor="gray.50" padding={4}><Heading fontSize="2xl">Advanced Track</Heading></Box>
+            <Box backgroundColor="gray.50" padding={4} color="black"><Heading fontSize="2xl">Advanced Track</Heading></Box>
             <Box padding={4} fontSize="lg">
               <Text>
                 For college juniors/seniors who have higher-level CS knowledge or others with significant experience

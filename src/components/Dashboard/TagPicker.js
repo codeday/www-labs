@@ -1,5 +1,4 @@
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import { default as Checkbox } from '@codeday/topo/Atom/Input/Checkbox';
+import { Box, Grid, Checkbox } from '@codeday/topo/Atom';
 
 export default function TagPicker({ onlyType, display, options, tags, onChange, disabled, ...props }) {
   const ids = tags.map(({ id }) => id);

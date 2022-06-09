@@ -1,10 +1,7 @@
 import { useState, useReducer } from 'react';
 import { useRouter } from 'next/router';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Content from '@codeday/topo/Molecule/Content';
-import Button from '@codeday/topo/Atom/Button';
-import { default as Input } from '@codeday/topo/Atom/Input/Text';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
+import { Box, Grid, Button, TextInput as Input, Text, Heading, Link } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { apiFetch, useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
 import { OnboardingInfo, SubmitOnboardingAssignment } from './onboarding.gql';
@@ -39,7 +36,7 @@ function AssignmentSubmit({ tag, onSubmitted }) {
         }}
         isLoading={isLoading}
         disabled={isLoading || !url}
-        variantColor="green"
+        colorScheme="green"
       >
         Submit
       </Button>

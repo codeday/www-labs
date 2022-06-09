@@ -1,10 +1,8 @@
 import { print } from 'graphql';
 import { apiFetch } from '@codeday/topo/utils';
 import nl2br from 'react-nl2br';
-import Box from '@codeday/topo/Atom/Box';
-import Content from '@codeday/topo/Molecule/Content';
-import Divider from '@codeday/topo/Atom/Divider';
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
+import { Box, Divider, Text, Heading, Link } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import Page from '../../../components/Page';
 import { MentorProjectsQuery } from './track.gql';
 

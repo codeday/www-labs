@@ -1,7 +1,5 @@
 import nl2br from 'react-nl2br';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
-import List, { Item } from '@codeday/topo/Atom/List';
+import { Box, Grid, Text, Heading, List, ListItem as Item } from '@codeday/topo/Atom';
 
 export default function Comparison({ leftTop, rightTop, leftBottom, rightBottom, factors, ...props }) {
   const rotatedFactors = factors.reduce((accum, factor) => ({

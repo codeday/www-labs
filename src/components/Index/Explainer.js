@@ -1,7 +1,5 @@
-import Content from '@codeday/topo/Molecule/Content';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
-import Image from '@codeday/topo/Atom/Image';
+import { Content } from '@codeday/topo/Molecule';
+import { Box, Grid, Text, Heading, Image } from '@codeday/topo/Atom';
 import ProjectFader from '../ProjectFader'
 import Highlight from '../Highlight';
 

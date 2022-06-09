@@ -1,7 +1,4 @@
-import Text, { Heading, Link } from '@codeday/topo/Atom/Text';
-import Box, { Grid } from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import List, { Item } from '@codeday/topo/Atom/List';
+import { Text, Heading, Link, Box, Button, List, ListItem as Item } from '@codeday/topo/Atom';
 import truncate from 'truncate';
 import { TagList } from './Tag'
 import ordinal from '../../ordinal';
@@ -35,7 +32,15 @@ export function Match ({ match, selectedTags, onSelect, onDeselect, isSelected, 
   const selectedTagIds = selectedTags.map((t) => t.id);
   return (
     <Box mb={8} borderColor="gray.200" borderWidth={2} borderRadius={2}>
-        <Heading p={4} as="h3" fontSize="xl" mb={2} backgroundColor="gray.100" borderBottomColor="gray.200" borderBottomWidth={2} mb={4}>
+        <Heading
+          p={4}
+          as="h3"
+          fontSize="xl"
+          backgroundColor="gray.100"
+          borderBottomColor="gray.200"
+          borderBottomWidth={2}
+          mb={4}
+        >
           {match.mentors.map(MentorHeading).join(' / ')}
           {match.mentors.filter((m) => m.profile?.timezone).length > 0 && (
             <Text mb={0} fontSize="md" bold>Timezone: {match.mentors.map((m) => m.profile?.timezone).join(', ')}</Text>
@@ -93,7 +98,7 @@ export function Match ({ match, selectedTags, onSelect, onDeselect, isSelected, 
           <Box mb={8} mr={4} ml={4}>
             <Button
               onClick={() => isSelected ? onDeselect(match) : onSelect(match)}
-              variantColor={isSelected ? 'red' : 'green'}
+              colorScheme={isSelected ? 'red' : 'green'}
               variant={isSelected ? 'outline' : 'solid'}
             >
               {isSelected ? 'Undo Selection' : 'Add to My Ranking'}

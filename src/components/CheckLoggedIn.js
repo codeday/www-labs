@@ -1,8 +1,5 @@
 import { signIn, useSession } from 'next-auth/client'
-import Box from '@codeday/topo/Atom/Box';
-import Button from '@codeday/topo/Atom/Button';
-import Spinner from '@codeday/topo/Atom/Spinner';
-import Text from '@codeday/topo/Atom/Text';
+import { Box, Button, Spinner, Text } from '@codeday/topo/Atom';
 
 export default function CheckLoggedIn({ children, ...props }) {
   const [ session, loading ] = useSession();
@@ -16,7 +13,7 @@ export default function CheckLoggedIn({ children, ...props }) {
 
   if (!session) return (
     <Box textAlign="center" maxWidth="md" margin="0 auto" {...props}>
-      <Button onClick={() => signIn('auth0')} variantColor="green" mb={2}>Sign In</Button>
+      <Button onClick={() => signIn('auth0')} colorScheme="green" mb={2}>Sign In</Button>
       <Text>
         You'll need to create or log into a CodeDay account to continue. You'll use this to access your Labs dashboard
         if your application is accepted.

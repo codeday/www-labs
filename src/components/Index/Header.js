@@ -1,8 +1,6 @@
 import { DateTime } from 'luxon';
-import Box from '@codeday/topo/Atom/Box';
-import Content from '@codeday/topo/Molecule/Content';
-import Text, { Heading } from '@codeday/topo/Atom/Text';
-import Button from '@codeday/topo/Atom/Button';
+import { Box, Text, Heading, Button } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
 import { useQuery, useShuffled, useSlideshow, useProgramDates } from '../../providers';
 
 const wrapDt = (keys, dict) => Object.keys(dict)
@@ -63,7 +61,7 @@ export default function Header(props) {
             <Button
               as={applicationsOpen ? "a" : undefined}
               href="/apply"
-              variantColor={applicationsOpen ? 'green' : 'gray'}
+              colorScheme={applicationsOpen ? 'green' : 'gray'}
               {...!applicationsOpen ? {backgroundColor: 'black'} : {}}
               mr={4}
               shadow="md"
