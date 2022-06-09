@@ -5,7 +5,7 @@ import { sign } from 'jsonwebtoken';
 import { Box, Button, Spinner, Heading, Link } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import LockIcon from '@codeday/topocons/Icon/Lock';
-import { Accordion, AccordionItem, AccordionHeader, AccordionPanel, AccordionIcon } from '@chakra-ui/core';
+import { Accordion, AccordionItem, AccordionButton as AccordionHeader, AccordionPanel, AccordionIcon } from '@chakra-ui/react';
 import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
 import MentorProfile from '../../../../components/Dashboard/MentorProfile';

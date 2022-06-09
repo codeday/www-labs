@@ -1,7 +1,7 @@
 import { useReducer, useState, useEffect } from 'react';
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
-import { Box, Button, Heading, Link, Spinner } from '@codeday/topo/Atom';
+import { Box, Button, Heading, Link, Spinner, Checkbox } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
@@ -15,7 +15,6 @@ import {
   StudentReject,
   StudentOfferAdmission
 } from './admit.gql';
-import { Checkbox } from '@chakra-ui/core';
 
 function Entry({ student, onChange, ...rest }) {
   const fetch = useFetcher();
