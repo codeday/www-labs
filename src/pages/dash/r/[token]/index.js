@@ -9,6 +9,7 @@ import Page from '../../../../components/Page';
 import SelectTrack from '../../../../components/Dashboard/SelectTrack';
 import { useFetcher } from '../../../../dashboardFetch';
 import { StudentNeedingRating, StudentNeedingRatingInTrack, SubmitRating } from './index.gql';
+import { useColorMode } from '@codeday/topo/Theme';
 
 function TrackBadge({ track }) {
   return (
@@ -49,6 +50,7 @@ export default function ReviewPage() {
   const [rating, setRating] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToasts();
+  const { colorMode } = useColorMode();
 
   const next = async () => {
     if (track) return fetch(print(StudentNeedingRatingInTrack), { track });
@@ -69,7 +71,15 @@ export default function ReviewPage() {
   }, [studentResp]);
 
   const showMeBox = (
-    <Box p={4} mb={8} bg="purple.50" borderColor="purple.800" borderWidth={1} rounded="sm" d="inline-block">
+    <Box
+      p={4}
+      mb={8}
+      bg={colorMode === 'dark' ? 'purple.900' : 'purple.50'}
+      borderColor={colorMode === 'dark' ? 'purple.600' : 'purple.900'}
+      borderWidth={1}
+      rounded="sm"
+      d="inline-block"
+    >
       <Heading as="h4" fontSize="md">Show me...</Heading>
       <SelectTrack track={track} allowNull onChange={(e) => setTrack(e.target.value)} />
     </Box>

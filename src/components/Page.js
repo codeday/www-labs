@@ -33,10 +33,17 @@ export default ({
     />
     <Announcement zIndex={7000} position="relative" />
     <Box position="relative">
-      <Header darkBackground={darkHeader} gradAmount={darkHeader && 'lg'} underscore position="relative" zIndex="1000">
+      <Header
+        darkBackground={darkHeader}
+        gradAmount={darkHeader && 'lg'}
+        underscore
+        position="relative"
+        zIndex="1000"
+        color={darkHeader && 'white'}
+      >
         <SiteLogo>
           <a href="https://www.codeday.org/">
-            <CodeDay withText />
+            <CodeDay color={darkHeader && 'white'} withText />
           </a>
           <a href="/">
             <Text

@@ -1,13 +1,22 @@
 import { Box, Grid, Text, Heading, List, ListItem as Item } from '@codeday/topo/Atom';
+import { useColorMode } from '@codeday/topo/Theme';
 
 export default function MentorStats({ mentors, ...props }) {
+  const { colorMode } = useColorMode();
   const toProjects = (m) => m.reduce((accum, { projects }) => [...accum, ...projects], []);
   const toStudentCount = (p) => p.reduce((accum, { maxStudents }) => accum + maxStudents, 0);
   const readyMentors = mentors.filter(({ status }) => status === 'ACCEPTED');
   const readyProjects = toProjects(readyMentors).filter(({ status }) => ['ACCEPTED', 'MATCHED'].includes(status));
 
   return (
-    <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={8} bg="gray.50" borderWidth={1} p={8} mb={8}>
+    <Grid
+      templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
+      gap={8}
+      bg={colorMode === 'dark' ? 'gray.800' : 'gray.50'}
+      borderWidth={1}
+      p={8}
+      mb={8}
+    >
       <Box>
         <Heading as="h4" fontSize="lg" textAlign="center" mb={4}>Mentors</Heading>
         <List styleType="disc">
