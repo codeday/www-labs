@@ -1,3 +1,13 @@
+query NextEventQuery ($now: CmsDateTime!) {
+  cms {
+    events (where: { program: { webname: "labs" },  endsAt_gte: $now }, order: startsAt_DESC, limit: 1) {
+      items {
+        id
+      }
+    }
+  }
+}
+
 query StudentMentorQuery ($username: String!) {
   account {
     getUser (where: { username: $username }) {
