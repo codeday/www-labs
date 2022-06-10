@@ -2,6 +2,9 @@
 #import "../../../../components/Dashboard/TagPicker.gql"
 query LabsMatching {
   labs {
+    event {
+      matchPreferenceSubmissionOpen
+    }
     student {
       name
       track

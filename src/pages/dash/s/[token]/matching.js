@@ -12,7 +12,7 @@ import { LabsMatching, GetMatches, ExpressProjectPreferences } from './matching.
 
 const MIN_PROJECTS_TO_SUBMIT = 6;
 
-export default function Matching({ allTags, student, projectPreferences }) {
+export default function Matching({ allTags, event, student, projectPreferences }) {
   const fetch = useFetcher();
   const { success, error } = useToasts();
   const [picks, updatePicks] = useReducer((picks, { action, data }) => {
@@ -39,6 +39,19 @@ export default function Matching({ allTags, student, projectPreferences }) {
 
   const finalMinProjectsToSubmit = Math.max(3, Math.min(MIN_PROJECTS_TO_SUBMIT, matches.length));
   const finalMaxTagsToSubmit = Math.ceil(allTags.length * 0.45);
+
+  if (!event.matchPreferenceSubmissionOpen) {
+    return (
+      <Page title={`Project Preferences`}>
+        <Content mt={-8}>
+          <Box bg="yellow.50" color="yellow.900" borderColor="yellow.100" borderWidth={2} p={4} mb={8}>
+            <Text bold fontSize="lg">Match preference submission is not open.</Text>
+            <Text>We'll contact you when you're eligible to submit matches.</Text>
+          </Box>
+        </Content>
+      </Page>
+    );
+  }
 
   if (isSubmitted || projectPreferences.length > 0) {
     return (
@@ -204,6 +217,7 @@ export async function getServerSideProps({ params: { token } }) {
     props: {
       allTags: result?.labs?.tags,
       student: result?.labs?.student,
+      event: result?.labs?.event,
       projectPreferences: result?.labs?.projectPreferences,
     },
   };
