@@ -6,6 +6,7 @@ query FindByPartnerCode ($code: String!) {
       surname
       email
       status
+      weeks
       track
     }
   }

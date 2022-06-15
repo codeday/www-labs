@@ -13,6 +13,7 @@ query TopStudentsByTrack ($track: LabsTrack!, $includeRejected: Boolean!) {
       admissionRatingAverage
       admissionRatingCount
       profile
+      partnerCode
       trackRecommendation {
         track
         weight

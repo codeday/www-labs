@@ -16,7 +16,11 @@ function Entry({ student, ...rest }) {
   const fetch = useFetcher();
   return (
     <Box as="tr" {...rest}>
-      <Box as="td" pt={4} pb={4}>{student.givenName} {student.surname}</Box>
+      <Box as="td" pt={4} pb={4}>
+        {student.givenName} {student.surname}<br />
+        #{student.id}<br />
+        {student.weeks} weeks
+      </Box>
       <Box as="td">{student.email}</Box>
       <Box as="td">{student.track}</Box>
       <Box as="td" bg={{'ACCEPTED': 'green.700', 'REJECTED': 'red.700', 'CANCELED': 'red.700', 'OFFERED': 'yellow.500'}[status]}>
