@@ -15,6 +15,7 @@ import {
   StudentReject,
   StudentOfferAdmission
 } from './admit.gql';
+import { useColorMode } from '@chakra-ui/react';
 
 function Entry({ student, onChange, ...rest }) {
   const fetch = useFetcher();
@@ -122,6 +123,7 @@ export default function AdminAdmit() {
   const [students, setStudents] = useState([]);
   const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { colorMode } = useColorMode();
   const fetch = useFetcher();
   const refresh = async () => {
     setLoading(true);
@@ -170,7 +172,12 @@ export default function AdminAdmit() {
             <Box as="td">&nbsp;</Box>
           </Box>
           {students.map((s, i) => (
-            <Entry key={s.id} onChange={refresh} student={s} bg={i % 2 === 1 ? 'gray.100' : undefined} />
+            <Entry
+              key={s.id}
+              onChange={refresh}
+              student={s}
+              bg={i % 2 === 1 ? (colorMode === 'dark' ? 'gray.800' : 'gray.100') : undefined}
+            />
           ))}
         </Box>
       </Content>

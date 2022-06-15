@@ -8,6 +8,7 @@ import Page from '../../../../components/Page';
 import { useFetcher } from '../../../../dashboardFetch';
 import SelectStudentStatus from '../../../../components/Dashboard/SelectStudentStatus';
 import { SaveStudentStatus, FindByPartnerCode } from './partner.gql';
+import { useColorMode } from '@chakra-ui/react';
 
 function Entry({ student, ...rest }) {
   const [status, setStatus] = useState(student.status);
@@ -55,6 +56,7 @@ export default function AdminPartner() {
   const { success, error } = useToasts();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { colorMode } = useColorMode();
   const fetch = useFetcher();
 
   return (
@@ -99,7 +101,13 @@ export default function AdminPartner() {
             <Box as="td">Status</Box>
             <Box as="td">&nbsp;</Box>
           </Box>
-          {students.map((s, i) => <Entry key={s.id} student={s} bg={i % 2 === 1 ? 'gray.100' : undefined} />)}
+          {students.map((s, i) => (
+            <Entry
+              key={s.id}
+              student={s}
+              bg={i % 2 === 1 ? (colorMode === 'dark' ? 'gray.800' : 'gray.100') : undefined}
+            />
+          ))}
         </Box>
       </Content>
     </Page>
