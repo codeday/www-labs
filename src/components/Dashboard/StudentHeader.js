@@ -14,7 +14,7 @@ function TrackBadge({ track }) {
   )
 }
 
-export default function StudentHeader({ student, ...props }) {
+export default function StudentHeader({ student, anonymous, ...props }) {
   const links = {
     github: student.profile?.github,
     linkedin: student.profile?.linkedin,
@@ -24,8 +24,18 @@ export default function StudentHeader({ student, ...props }) {
   return (
     <Grid templateColumns="1fr 1fr" mb={8} {...props}>
       <Box>
-        <Heading as="h2" fontSize="4xl" mb={0}>{student.givenName[0]}.{student.surname[0]}.</Heading>
+        {anonymous ? (
+          <Heading as="h2" fontSize="4xl" mb={0}>{student.givenName[0]}.{student.surname[0]}.</Heading>
+        ) : (
+          <Heading as="h2" fontSize="4xl" mb={0}>
+            {student.givenName} {student.surname}
+            <Text as="span" fontSize="md" ml={2}>({student.profile?.pronouns})</Text>
+          </Heading>
+        )}
         <Text fontSize="lg" bold mb={0}>{student.profile?.schoolYear}, {student.profile?.schoolName}</Text>
+        {!anonymous && (
+          <Text fontSize="md">Ethnicity: {student.profile?.ethnicity}</Text>
+        )}
         <Text fontSize="md" bold color="blue.800" mb={0}>
           {Object.keys(links).filter((k) => links[k]).map((k) => (
             <Link key={k} as="a" href={links[k]} target="_blank" mr={3}>{k}</Link>

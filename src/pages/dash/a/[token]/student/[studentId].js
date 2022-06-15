@@ -7,7 +7,7 @@ import { Content } from '@codeday/topo/Molecule';
 
 export default function StudentId({ student }) {
   return (
-    <Page title={student?.givenName}>
+    <Page title={`${student?.givenName} ${student?.surname}`}>
       <Content>
         <StudentHeader student={student} />
         <StudentApplication student={student} />

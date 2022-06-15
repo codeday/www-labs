@@ -74,7 +74,7 @@ export default function ReviewPage() {
   return (
     <Page title={student.id}>
       <Content mt={-8}>
-        <StudentHeader student={student} />
+        <StudentHeader anonymous student={student} />
         <Grid templateColumns="3fr 1fr" gap={8}>
           <StudentApplication student={student} />
           <Box>
