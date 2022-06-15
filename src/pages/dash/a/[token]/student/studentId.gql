@@ -1,0 +1,12 @@
+
+#import "../../../../../components/Dashboard/StudentHeader.gql"
+#import "../../../../../components/Dashboard/StudentApplication.gql"
+
+query StudentById($id: String!) {
+  labs {
+    student(where:{id:$id}) {
+      ...StudentApplication
+      ...StudentHeader
+    }
+  }
+}

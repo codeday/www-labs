@@ -1,8 +1,7 @@
 import { print } from 'graphql';
 import { useState, useEffect } from 'react';
-import reactnl2br from 'react-nl2br';
 import { useRouter } from 'next/router';
-import { Box, Grid, Button, Text, Heading, Link, Spinner, List, ListItem as Item } from '@codeday/topo/Atom';
+import { Box, Grid, Button, Text, Heading, Spinner } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
@@ -10,36 +9,8 @@ import SelectTrack from '../../../../components/Dashboard/SelectTrack';
 import { useFetcher } from '../../../../dashboardFetch';
 import { StudentNeedingRating, StudentNeedingRatingInTrack, SubmitRating } from './index.gql';
 import { useColorMode } from '@codeday/topo/Theme';
-
-function TrackBadge({ track }) {
-  return (
-    <Box
-      color="white"
-      bg={{'BEGINNER': 'green.700', 'INTERMEDIATE': 'orange.700', 'ADVANCED': 'pink.700'}[track] || 'gray.100'}
-      p={1}
-      rounded="sm"
-      d="inline-block"
-    >
-      {track.toLowerCase()}
-    </Box>
-  )
-}
-
-function LongAnswer({ title, text }) {
-  if (!text) return <></>;
-  return (
-    <Box mb={8}>
-      <Heading
-        as="h3"
-        fontSize="lg"
-        mb={2}
-      >
-        {title}
-      </Heading>
-      <Text pl={2} ml={2} borderLeftWidth={2}>{reactnl2br(text)}</Text>
-    </Box>
-  )
-}
+import StudentApplication from '../../../../components/Dashboard/StudentApplication';
+import StudentHeader from '../../../../components/Dashboard/StudentHeader';
 
 export default function ReviewPage() {
   const { query } = useRouter();
@@ -99,83 +70,13 @@ export default function ReviewPage() {
   }
 
   const student = studentResp.labs.nextStudentNeedingRating;
-  const links = {
-    github: student.profile?.github,
-    linkedin: student.profile?.linkedin,
-    resume: student.profile?.resume,
-  };
-
-  const factors = [
-    ...(
-      student.profile.fteIn <= 12
-        ? [`They are looking for a full-time job ${student.profile?.fteIn > 0 ? `in ~${student.profile?.fteIn}mo` : 'now'}.`]
-        : []
-    ),
-    ...(
-      student.profile?.pronouns !== 'he/him'
-      || ['Black', 'Latino/a/e* or Hispanic', 'Native American'].includes(student.profile?.ethnicity)
-        ? ['They are a member of an group significantly underrepresented in tech.']
-        : []
-    )
-  ];
 
   return (
     <Page title={student.id}>
       <Content mt={-8}>
-        <Grid templateColumns="1fr 1fr" mb={8}>
-          <Box>
-            <Heading as="h2" fontSize="4xl" mb={0}>{student.givenName[0]}.{student.surname[0]}.</Heading>
-            <Text fontSize="lg" bold mb={0}>{student.profile?.schoolYear}, {student.profile?.schoolName}</Text>
-            <Text fontSize="md" bold color="blue.800" mb={0}>
-              {Object.keys(links).filter((k) => links[k]).map((k) => (
-                <Link key={k} as="a" href={links[k]} target="_blank" mr={3}>{k}</Link>
-              ))}
-            </Text>
-          </Box>
-          <Box fontSize="sm" textAlign="right">
-            <Text mb={0}>
-              <Text as="span" bold>id: </Text><Text as="span" fontFamily="mono">{student.id}</Text> /{' '}
-              <Text as="span" bold>app: </Text><Text as="span" fontFamily="mono">#{student.profile?.appId}</Text>
-            </Text>
-            <Text mb={0}>
-              <Text as="span" bold>application track: </Text><TrackBadge track={student.track} />
-            </Text>
-          </Box>
-        </Grid>
+        <StudentHeader student={student} />
         <Grid templateColumns="3fr 1fr" gap={8}>
-          <Box>
-            {factors.length > 0 && (
-              <Box mb={8}>
-                <Heading as="h3" fontSize="lg" mb={2}>Extra factors to consider:</Heading>
-                <List styleType="disc">
-                  {factors.map((e) => (
-                    <Item key={e}>{e}</Item>
-                  ))}
-                </List>
-              </Box>
-            )}
-            <Box mb={8}>
-              <Heading as="h3" fontSize="lg" mb={2}>Things they've done:</Heading>
-              <List styleType="disc">
-                {student.profile?.haveDone.map((e) => (
-                  <Item key={e}>{e}</Item>
-                ))}
-              </List>
-            </Box>
-            <LongAnswer
-              title={`A past project they're proud of:`}
-              text={student.profile?.pastProject}
-            />
-            <LongAnswer
-              title={`If accepted, they look forward to:`}
-              text={student.profile?.lookForward}
-            />
-            <LongAnswer
-              title={`Anything else?`}
-              text={student.profile?.anythingElse}
-            />
-          </Box>
-
+          <StudentApplication student={student} />
           <Box>
             {showMeBox}
 

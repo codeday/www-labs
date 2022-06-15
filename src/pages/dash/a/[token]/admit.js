@@ -27,10 +27,10 @@ function Entry({ student, onChange, ...rest }) {
     <Box as="tr" {...rest}>
       <Box as="td">
         <Link href={`mailto:${student.email}`}>{student.name}</Link><br />
-        #{student.id}<br />
+        <Link href={`student/${student.id}`} target="_blank">#{student.id}</Link><br />
         {student.profile?.location?.country}<br />
         {student.profile?.schoolType}
-        {student.profile?.partnerCode && (<><br />{student.profile.partnerCode}</>)}
+        {student.profile?.partnerCode && (<><br />Partner Code: {student.profile.partnerCode}</>)}
       </Box>
       <Box as="td">{student.status}</Box>
       <Box as="td">{Math.round(student.admissionRatingAverage, 2)} (of {student.admissionRatingCount})</Box>
@@ -176,7 +176,7 @@ export default function AdminAdmit() {
               key={s.id}
               onChange={refresh}
               student={s}
-              bg={i % 2 === 1 ? (colorMode === 'dark' ? 'gray.800' : 'gray.100') : undefined}
+              bg={i % 2 === 1 ? (colorMode === 'dark' ? 'gray.900' : 'gray.100') : undefined}
             />
           ))}
         </Box>

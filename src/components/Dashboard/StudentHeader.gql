@@ -1,0 +1,11 @@
+fragment StudentHeader on LabsStudent {
+  id
+  givenName
+  surname
+  track
+  minHours
+  tags {
+    mentorDisplayName
+  }
+  profile
+}

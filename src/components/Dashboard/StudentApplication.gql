@@ -1,0 +1,11 @@
+fragment StudentApplication on LabsStudent {
+  id
+  givenName
+  surname
+  track
+  minHours
+  tags {
+    mentorDisplayName
+  }
+  profile
+}

@@ -1,19 +1,11 @@
-fragment ProfilePageInformation on LabsStudent {
-  id
-  givenName
-  surname
-  track
-  minHours
-  tags {
-    mentorDisplayName
-  }
-  profile
-}
+#import "../../../../components/Dashboard/StudentHeader.gql"
+#import "../../../../components/Dashboard/StudentApplication.gql"
 
 query StudentNeedingRating {
   labs {
     nextStudentNeedingRating {
-      ...ProfilePageInformation
+      ...StudentApplication
+      ...StudentHeader
     }
   }
 }
@@ -21,7 +13,8 @@ query StudentNeedingRating {
 query StudentNeedingRatingInTrack ($track: LabsTrack!) {
   labs {
     nextStudentNeedingRating(track: $track) {
-      ...ProfilePageInformation
+      ...StudentApplication
+      ...StudentHeader
     }
   }
 }

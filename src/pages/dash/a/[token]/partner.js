@@ -105,7 +105,7 @@ export default function AdminPartner() {
             <Entry
               key={s.id}
               student={s}
-              bg={i % 2 === 1 ? (colorMode === 'dark' ? 'gray.800' : 'gray.100') : undefined}
+              bg={i % 2 === 1 ? (colorMode === 'dark' ? 'gray.900' : 'gray.100') : undefined}
             />
           ))}
         </Box>
