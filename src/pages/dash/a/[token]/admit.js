@@ -30,7 +30,7 @@ function Entry({ student, onChange, ...rest }) {
         <Link href={`student/${student.id}`} target="_blank">#{student.id}</Link><br />
         {student.profile?.location?.country}<br />
         {student.profile?.schoolType}
-        {student.profile?.partnerCode && (<><br />Partner Code: {student.profile.partnerCode}</>)}
+        {student.partnerCode && (<><br />Partner Code: {student.partnerCode}</>)}
       </Box>
       <Box as="td">{student.status}</Box>
       <Box as="td">{Math.round(student.admissionRatingAverage, 2)} (of {student.admissionRatingCount})</Box>
