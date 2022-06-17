@@ -50,10 +50,11 @@ export default function OfferAccept() {
       <Content mt={-8}>
         <Heading as="h2" fontSize="3xl" mb={4}>{student.givenName}, accept your offer?</Heading>
         <ConfirmAll
+          fontSize="lg"
           toConfirm={[
             `I am available from ${starts.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)} to ${ends.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}.`,
             `I am available for the ENTIRE ${student.weeks || 6} weeks. I'm not planning to take more than 2-3 days of vacation.`,
-            `I will spend at least ${student.minHours || 30} hours on this, for each of the ${student.weeks || 6} weeks.`,
+            `I will spend at least ${student.minHours || 30} HOURS PER WEEK on this, for each of the ${student.weeks || 6} weeks.`,
             `I am available to meet with my team members during the US workday.`,
             `I understand Labs is intended to give me an education similar to a internship, but it's not a paid internship.`,
           ]}
