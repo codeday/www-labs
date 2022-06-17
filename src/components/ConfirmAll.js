@@ -15,7 +15,7 @@ export default function ConfirmAll({ toConfirm, onUpdate, ...props }) {
   return (
     <Box {...props}>
       {toConfirm.map((label, i) => (
-        <Checkbox onChange={(e) => confirm([i, e.target.checked])}>{label}</Checkbox>
+        <><Checkbox onChange={(e) => confirm([i, e.target.checked])}>{label}</Checkbox><br /></>
       ))}
     </Box>
   );
