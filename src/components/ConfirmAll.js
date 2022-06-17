@@ -5,7 +5,6 @@ const allTrue = (arr) => arr.reduce((accum, e) => accum && e, true);
 
 export default function ConfirmAll({ toConfirm, onUpdate, ...props }) {
   const [, confirm] = useReducer((prev, [i, checked]) => {
-    console.log('PREV', prev);
     const copy = [...prev];
     copy[i] = checked;
     if (allTrue(copy) !== allTrue(prev)) onUpdate(allTrue(copy));
