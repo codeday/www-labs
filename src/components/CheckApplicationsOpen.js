@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import { Box, Text } from '@codeday/topo/Atom';
 import { useProgramDates } from '../providers';
 
-export default function CheckApplicationsOpen({ children, ...props }) {
+export default function CheckApplicationsOpen({ children, skip, ...props }) {
   const { registrationsOpenAt, registrationsCloseAt } = useProgramDates();
   const now = DateTime.local();
 
@@ -15,7 +15,7 @@ export default function CheckApplicationsOpen({ children, ...props }) {
     timeZoneName: 'short',
   };
 
-  if (registrationsOpenAt < now && registrationsCloseAt > now) return children || <></>;
+  if ((registrationsOpenAt < now && registrationsCloseAt > now) || skip) return children || <></>;
 
   return (
     <Box bg="blue.50" borderColor="blue.200" borderWidth={2} borderRadius={2} p={4} color="blue.800">

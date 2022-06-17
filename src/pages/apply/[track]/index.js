@@ -12,12 +12,12 @@ const TRACK_NAMES = {
   advanced: 'Intermediate/Advanced',
 }
 
-export default function ApplyTrack({ track }) {
+export default function ApplyTrack({ track, partnerCode }) {
   return (
-    <Page slug={`/apply/${track}`} title={`Apply for ${TRACK_NAMES[track] || track}`}>
+    <Page slug={`/apply/${track}`} title={`Apply for ${TRACK_NAMES[track] || track} (${partnerCode})`}>
       <Content mt={-8}>
         <Heading as="h2" fontSize="4xl" marginBottom={12}>Student Application: {TRACK_NAMES[track] || track}</Heading>
-        <CheckApplicationsOpen>
+        <CheckApplicationsOpen skip={partnerCode}>
           <CheckLoggedIn>
             {(session) => (
               <CognitoForm
@@ -27,6 +27,7 @@ export default function ApplyTrack({ track }) {
                   Username: session?.user?.nickname,
                   Name: { First: session?.user?.given_name, Last: session?.user?.family_name },
                   Email: session?.user?.email,
+                  PartnerCode: partnerCode,
                 }}
               />
             )}
