@@ -7,6 +7,7 @@ query OfferAcceptStatus {
       weeks
       minHours
       hasValidAdmissionOffer
+      event { startsAt }
     }
   }
 }

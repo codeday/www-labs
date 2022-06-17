@@ -1,10 +1,12 @@
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { DateTime } from 'luxon';
 import { Box, Grid, Button, Text, Heading, Link, Spinner } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
+import ConfirmAll from '../../../../components/ConfirmAll';
 import { useFetcher, useSwr } from '../../../../dashboardFetch';
 import { OfferAcceptStatus, AcceptOffer } from './offerAccept.gql'
 
@@ -12,6 +14,7 @@ export default function OfferAccept() {
   const { isValidating, data } = useSwr(print(OfferAcceptStatus));
   const [isLoading, setIsLoading] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
+  const [isConfirmed, setConfirmed] = useState(false);
   const { error } = useToasts();
   const fetch = useFetcher();
   const { query } = useRouter();
@@ -39,16 +42,28 @@ export default function OfferAccept() {
     </Page>
   );
 
+  const starts = DateTime.fromISO(student.event?.startsAt);
+  const ends = starts.plus({ weeks: student.weeks || 6 }).minus({ days: 3 });
+
   return (
     <Page title="Accept Offer">
-      <Content mt={-8} textAlign="center">
+      <Content mt={-8}>
         <Heading as="h2" fontSize="3xl" mb={4}>{student.givenName}, accept your offer?</Heading>
-        <Text>Commit to spending at least {student.minHours} hours per week over this {student.weeks}-week program?</Text>
+        <ConfirmAll
+          toConfirm={[
+            `I am available from ${starts.toFormat(DateTime.DATE_FULL)} to ${ends.toFormat(DateTime.DATE_FULL)}.`,
+            `I am available for that ENTIRE time (I'm not planning to take more than 2-3 days of vacation).`,
+            `I will spend at least ${student.minHours || 30} hours on this, for each of those weeks.`,
+            `I am available to meet with my team members during the US workday.`,
+            `I understand that CodeDay Labs is intended to give me an educational background similar to a internship, but it's not a paid internship.`,
+          ]}
+          onUpdate={setConfirmed}
+        />
         <Box mt={4}>
           <Button
             colorScheme="green"
             isLoading={isLoading}
-            disabled={isLoading}
+            disabled={isLoading || !isConfirmed}
             mb={2}
             onClick={async () => {
               setIsLoading(true);
