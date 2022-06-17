@@ -11,7 +11,7 @@ import { useFetcher, useSwr } from '../../../../dashboardFetch';
 import { OfferAcceptStatus, AcceptOffer } from './offerAccept.gql'
 
 export default function OfferAccept() {
-  const { isValidating, data } = useSwr(print(OfferAcceptStatus));
+  const { isValidating, data } = useSwr(print(OfferAcceptStatus), {}, { revalidateOnFocus: false, revalidateOnReconnect: false });
   const [isLoading, setIsLoading] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
   const [isConfirmed, setConfirmed] = useState(false);
