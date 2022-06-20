@@ -125,12 +125,12 @@ export default function MentorProfile({ mentor: originalMentor, ...rest }) {
           <Heading as="h3" fontSize="lg" mt={4}>Max Weeks of Mentorship</Heading>
           <Box d="inline-block" mr={4}>
             <NumberInput
-              value={mentor.maxWeeks - 1}
+              defaultValue={mentor.maxWeeks - 1}
+              onChange={(e) => setMentor(['maxWeeks', Number.parseInt(e) + 1])}
               min={4}
               max={11}
               precision={0}
               stepSize={1}
-              onChange={(e) => setMentor(['maxWeeks', e + 1])}
             >
               <NumberInputField />
               <NumberInputStepper>

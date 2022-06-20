@@ -88,12 +88,12 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
             : (
               <Box d="inline-block" ml={2}>
                 <NumberInput
-                  value={project.maxStudents}
+                  defaultValue={project.maxStudents}
+                  onChange={(e) => setProject(['maxStudents', Number.parseInt(e)])}
                   min={1}
                   max={12}
                   precision={0}
                   stepSize={1}
-                  onChange={(e) => setProject(['maxStudents', e])}
                 >
                   <NumberInputField />
                   <NumberInputStepper>
