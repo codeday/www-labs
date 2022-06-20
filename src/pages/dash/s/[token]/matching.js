@@ -10,7 +10,7 @@ import { MatchesList } from '../../../../components/Dashboard/Match';
 import { useFetcher, useSwr } from '../../../../dashboardFetch';
 import { LabsMatching, GetMatches, ExpressProjectPreferences } from './matching.gql';
 
-const MIN_PROJECTS_TO_SUBMIT = 6;
+const MIN_PROJECTS_TO_SUBMIT = 8;
 
 export default function Matching({ allTags, event, student, projectPreferences }) {
   const fetch = useFetcher();
