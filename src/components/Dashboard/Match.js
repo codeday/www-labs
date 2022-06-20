@@ -117,10 +117,10 @@ export function MiniMatch ({ match, index, onDeselect }) {
     <Box
       p={4}
       mb={1}
-      borderColor={colorMode === 'dark' ? 'gray.900' : 'gray.200'}
+      borderColor={colorMode === 'dark' ? 'gray.800' : 'gray.200'}
       borderWidth={2}
       borderRadius={2}
-      bg="white"
+      bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
     >
       <Text fontSize="lg" bold mb={0}>{index+1}<sup>{ordinal(index+1)}</sup> choice: {match.mentors[0].name}</Text>
       <TrackBadge track={match.track} />
