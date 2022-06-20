@@ -20,7 +20,7 @@ export const Tag = ({ tag, featured }) => (
 export const TagList = ({ tags, featured: featuredObj }) => {
   const featured = featuredObj?.map((f) => f.id);
 
-  return <Box d="inlineBlock" lineHeight={3}>
+  return <Box d="inlineBlock" lineHeight="3em">
     {
       (tags || [])
         .sort((a, b) => {
