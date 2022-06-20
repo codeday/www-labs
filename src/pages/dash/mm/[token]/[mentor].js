@@ -5,7 +5,7 @@ import { sign } from 'jsonwebtoken';
 import { Box, Button, Spinner, Heading, Link } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import LockIcon from '@codeday/topocons/Icon/Lock';
-import { Accordion, AccordionItem, AccordionButton as AccordionHeader, AccordionPanel, AccordionIcon } from '@chakra-ui/react';
+import { Accordion, AccordionItem, AccordionButton as AccordionHeader, AccordionPanel, AccordionIcon, useColorMode } from '@chakra-ui/react';
 import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
 import MentorProfile from '../../../../components/Dashboard/MentorProfile';
@@ -15,6 +15,7 @@ import { MentorPageQuery } from './mentor.gql';
 export default function MentorDashboard({ id, mentorToken }) {
   const { query } = useRouter();
   const { loading, error, data } = useSwr(print(MentorPageQuery), { id });
+  const { colorMode } = useColorMode();
   if (!data?.labs?.mentor) return <Page title="Mentor Editor"><Content textAlign="center"><Spinner /></Content></Page>
   const mentor = data.labs.mentor;
 
@@ -31,7 +32,11 @@ export default function MentorDashboard({ id, mentorToken }) {
 
         <Accordion borderWidth={1} borderTopWidth={0} defaultIndex={0} allowToggle={true}>
           <AccordionItem>
-            <AccordionHeader borderBottomWidth={1} bg="gray.50" fontWeight="bold">
+            <AccordionHeader
+              borderBottomWidth={1}
+              bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
+              fontWeight="bold"
+            >
               Mentor Profile
               <AccordionIcon />
             </AccordionHeader>
@@ -41,7 +46,11 @@ export default function MentorDashboard({ id, mentorToken }) {
           </AccordionItem>
           {data?.labs?.mentor?.projects && data?.labs?.mentor?.projects?.map((project, i) => (
             <AccordionItem>
-              <AccordionHeader borderBottomWidth={1} bg="gray.50" fontWeight="bold">
+              <AccordionHeader
+                borderBottomWidth={1}
+                bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
+                fontWeight="bold"
+              >
                 Project {i+1}
                 <AccordionIcon />
               </AccordionHeader>

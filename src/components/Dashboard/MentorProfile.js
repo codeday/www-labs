@@ -9,6 +9,7 @@ import {
   Textarea,
   NumberInput,
   NumberInputField,
+  NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
   Heading,

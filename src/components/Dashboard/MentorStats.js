@@ -12,7 +12,7 @@ export default function MentorStats({ mentors, ...props }) {
     <Grid
       templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
       gap={8}
-      bg={colorMode === 'dark' ? 'gray.800' : 'gray.50'}
+      bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
       borderWidth={1}
       p={8}
       mb={8}
