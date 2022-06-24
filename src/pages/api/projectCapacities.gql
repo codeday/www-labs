@@ -1,0 +1,17 @@
+query ProjectCapacities {
+  labs {
+    mentors(where:{withProjects:true, inStatus:ACCEPTED}) {
+      projects {
+        id
+        track
+        status
+        maxStudents
+        studentCount
+        mentors {
+          givenName
+          surname
+        }
+      }
+    }
+  }
+}
