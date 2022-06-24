@@ -1,6 +1,6 @@
 query MatchingPrefs {
   labs {
-   students(where:{inStatus:ACCEPTED}) {
+   students(where:{inStatus:ACCEPTED, withProjects:false}) {
       username
       track
       weeks
