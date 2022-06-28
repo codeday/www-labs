@@ -80,9 +80,9 @@ export default function Dashboard() {
             </Box>
 
             {data?.labs?.surveys && (
-              <>
-                <Heading as="h3" fontSize="md" mb={2}>Surveys</Heading>
-                <List mb={8} styleType="disc" pl={6}>
+              <Box p={4} bg="red.50" borderColor="red.700" borderWidth={1} color="red.900" mb={8}>
+                <Heading as="h3" fontSize="md" mb={2}>Due Check-Ins, Reflections, &amp; Surveys</Heading>
+                <List styleType="disc" pl={6}>
                   {data.labs.surveys.flatMap((s) => s.occurrences.map((o) => {
                     if (o.surveyResponses.filter((r) => r.authorStudentId === data?.labs?.student?.id).length > 0) return <></>;
                     return (
@@ -95,7 +95,7 @@ export default function Dashboard() {
                     );
                   }))}
                 </List>
-              </>
+              </Box>
             )}
 
             <Heading as="h3" fontSize="md" mb={4}>Additional Resources</Heading>
