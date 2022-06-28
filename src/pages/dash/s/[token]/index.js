@@ -2,11 +2,12 @@ import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Content } from '@codeday/topo/Molecule';
-import { Text, Heading, Link, Button, Spinner, Box, Grid } from '@codeday/topo/Atom';
+import { Text, Heading, Link, Button, Spinner, Box, Grid, List, ListItem } from '@codeday/topo/Atom';
 import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
 import { StudentDashboardQuery } from './index.gql'
 import { Match } from '../../../../components/Dashboard/Match';
+import { DateTime } from 'luxon';
 
 export default function Dashboard() {
   const { query } = useRouter();
@@ -77,6 +78,25 @@ export default function Dashboard() {
                 </Box>
               ))}
             </Box>
+
+            {data?.labs?.surveys && (
+              <>
+                <Heading as="h3" fontSize="md" mb={2}>Surveys</Heading>
+                <List mb={8} styleType="disc" pl={6}>
+                  {data.labs.surveys.flatMap((s) => s.occurrences.map((o) => {
+                    if (o.surveyResponses.filter((r) => r.authorStudentId === data?.labs?.student?.id).length > 0) return <></>;
+                    return (
+                      <ListItem key={o.id}>
+                        <Link href={`/dash/s/${query.token}/survey/${s.id}/${o.id}`} target="_blank">
+                          <Text d="inline" fontWeight="bold">{s.name}</Text>
+                          <Text fontSize="sm">due {DateTime.fromISO(o.dueAt).toLocaleString(DateTime.DATE_MED)}</Text>
+                        </Link>
+                      </ListItem>
+                    );
+                  }))}
+                </List>
+              </>
+            )}
 
             <Heading as="h3" fontSize="md" mb={4}>Additional Resources</Heading>
             <Button as="a" href={`/dash/s/${query?.token}/onboarding`}>Onboarding Week Assignments</Button>

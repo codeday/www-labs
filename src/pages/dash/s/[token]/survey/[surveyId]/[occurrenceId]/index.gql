@@ -1,0 +1,42 @@
+query SurveyQuery ($surveyId: String!) {
+  labs {
+    student {
+      id
+      status
+      projects {
+        id
+        status
+        students {
+          id
+          status
+          givenName
+          surname
+        }
+        mentors {
+          id
+          status
+          givenName
+          surname
+        }
+      }
+    }
+    survey(survey: $surveyId) {
+      id
+      name
+      selfUi
+      selfSchema
+      projectUi
+      projectSchema
+      peerUi
+      peerSchema
+      mentorSchema
+      mentorUi
+    }
+  }
+}
+
+mutation SurveyRespondMutation ($occurrenceId: String!, $responses: [LabsSurveyRespondInput!]!) {
+  labs {
+    surveyRespond(occurrence: $occurrenceId, responses: $responses)
+  }
+}

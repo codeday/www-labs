@@ -6,6 +6,17 @@ query StudentDashboardQuery {
         id
       }
     }
+    surveys {
+      id
+      name
+      occurrences {
+        id
+        dueAt
+        surveyResponses {
+          authorStudentId
+        }
+      }
+    }
     student {
       id
       status
