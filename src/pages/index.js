@@ -18,8 +18,8 @@ export default function Home() {
   return (
     <Page darkHeader slug="/">
       <Header mt={-40} pt={32} pb={16} mb={16} />
-      {featureCalendar && <Calendar primary mt={8} mb={16} />}
       <Explainer />
+      {featureCalendar && <Calendar primary mt={8} mb={16} />}
       <Tracks />
       <Testimonials />
       <PastProjects mt={16} />
