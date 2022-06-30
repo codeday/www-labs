@@ -17,14 +17,14 @@ export default function Edu() {
         <Grid templateColumns={{ base: '1fr', lg: '3fr 2fr' }} gap={8}>
           <Box>
             <Text>
-              CodeDay Labs is an internship-style program where students work on open-source software under the guidance
-              of an industry mentor. Students learn to connect in-class learning to software industry practices, and
-              build their professional network.
+              CodeDay's Labs program offers an internship-style program where students work on open-source software
+              under the guidance of an industry mentor. Students learn to connect in-class learning to software industry
+              practices, and build their professional network.
             </Text>
             <Text>
               The CodeDay Labs program has existed in its current form since 2017, and since then, thousands of students
               have gone on to secure leading tech internships and full-time careers after participating. (Results were
-              recently shared at SIGCSE TS 2021.)
+              recently shared at SIGCSE TS 2021 and ITiCSE 2022.)
             </Text>
             <Text>
               For more info, email us at <Link href="mailto:labs@codeday.org">labs@codeday.org</Link> or call 888-607-7763.
@@ -43,8 +43,9 @@ export default function Edu() {
                 {weeks}-12 week internship-style program starting{' '}
                 {startsAt.toLocaleString({ day: 'numeric', month: 'numeric'})}.
               </Item>
-              <Item>Teams are 3 students + 1 experienced SWE from a leading tech company.</Item>
-              <Item>$450-600/student for a guaranteed admission slot.</Item>
+              <Item>$600-$700/student.</Item>
+              <Item>Teams are 3 students + 1 experienced CS mentor from a leading tech company.</Item>
+              <Item>Students also receive: onboarding week classes, advanced workshops, tech talks, and fun events.</Item>
             </List>
           </Box>
         </Grid>
