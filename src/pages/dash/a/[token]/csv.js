@@ -49,7 +49,6 @@ export default function AdminAddMentor({ students, mentors }) {
 export async function getServerSideProps({ params: { token }}) {
   const res = await apiFetch(CsvStudents, {}, { 'X-Labs-Authorization': `Bearer ${token}` });
   const { evt } = decode(token);
-  console.log(evt);
   return {
     props: {
       students: res.labs.students.map((s) => ({ ...s, link: `https://labs.codeday.org/dash/s/${makeToken({ typ: 's', sid: s.id, tgt: 'i', evt })}` })),
