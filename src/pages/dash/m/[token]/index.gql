@@ -12,6 +12,17 @@ query DashboardQuery {
         ...ProjectEditor
       }
     }
+    surveys {
+      id
+      name
+      occurrences {
+        id
+        dueAt
+        surveyResponses {
+          authorMentorId
+        }
+      }
+    }
     tags {
       ...TagPicker
     }
