@@ -65,7 +65,7 @@ export default function SurveyPage({ mentor, survey, token, surveyId, occurrence
         <Content>
           <Heading fontSize="5xl">Peer Reflection: {p.givenName} {p.surname}</Heading>
           <Form
-            schema={survey.peerSchema}
+            schema={JSON.parse(JSON.stringify(survey.peerSchema).replace(/{{name}}/g, p.givenName))}
             uiSchema={survey.peerUi}
             onChange={(e) => setResponse({ response: e.formData, mentor: p.id })}
             formData={getResponse({ mentor: p.id })?.response || {}}
