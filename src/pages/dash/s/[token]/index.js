@@ -83,7 +83,7 @@ export default function Dashboard() {
               <Box p={4} bg="red.50" borderColor="red.700" borderWidth={1} color="red.900" mb={8}>
                 <Heading as="h3" fontSize="md" mb={2}>Due Check-Ins, Reflections, &amp; Surveys</Heading>
                 <List styleType="disc" pl={6}>
-                  {data.labs.surveys.flatMap((s) => s.occurrences.map((o) => {
+                  {data.labs.surveys.flatMap((s) => s.occurrences.sort((a, b) => DateTime.fromISO(a.dueAt) > DateTime.fromISO(b.dueAt) ? -1 : 1).slice(0,1).map((o) => {
                     if (o.surveyResponses.filter((r) => r.authorStudentId === data?.labs?.student?.id).length > 0) return <></>;
                     return (
                       <ListItem key={o.id}>
