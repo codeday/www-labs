@@ -4,6 +4,7 @@
 query DashboardQuery {
   labs {
     mentor {
+      id
       name
       givenName
       surname
