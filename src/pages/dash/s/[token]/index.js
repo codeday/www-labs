@@ -11,7 +11,7 @@ import { DateTime } from 'luxon';
 
 export default function Dashboard() {
   const { query } = useRouter();
-  const { isValidating, data } = useSwr(print(StudentDashboardQuery));
+  const { isValidating, data, error } = useSwr(print(StudentDashboardQuery));
   useEffect(() => {
     if (typeof window === 'undefined' || data?.labs?.student?.status !== 'ACCEPTED' ) return;
     if (
@@ -19,6 +19,10 @@ export default function Dashboard() {
       && !(data?.labs?.projectPreferences && data.labs.projectPreferences.length > 0)
     ) window.location = `${window.location.href}/matching`;
   }, [ data?.labs?.projects, data?.labs?.projectPreferences, typeof window ]);
+
+  if (error?.message && error?.message.includes('{')) {
+    return <Page title="Mentor Dashboard"><Content textAlign="center"><Text>{error.message.split('{')[0]}</Text></Content></Page>
+  }
 
   if (isValidating || !data?.labs?.student) return (
     <Page title="Student Dashboard">

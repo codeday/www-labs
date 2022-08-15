@@ -13,6 +13,10 @@ import { useRouter } from 'next/router';
 export default function MentorDashboard() {
   const { query } = useRouter();
   const { loading, error, data } = useSwr(print(DashboardQuery));
+  console.log(error?.message);
+  if (error?.message && error?.message.includes('{')) {
+    return <Page title="Mentor Dashboard"><Content textAlign="center"><Text>{error.message.split('{')[0]}</Text></Content></Page>
+  }
   if (!data?.labs?.mentor) return <Page title="Mentor Dashboard"><Content textAlign="center"><Spinner /></Content></Page>
 
   return (
