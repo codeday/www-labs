@@ -68,8 +68,7 @@ export default ({
         </Menu>
       </Header>
       {children}
-      <Box mb={16} />
-      <Footer>
+      <Footer mt={16} repository="www-labs" branch="master">
         <CustomLinks>
           <Link as="a" href="/dash">Participant Dashboard</Link>
         </CustomLinks>
