@@ -62,8 +62,9 @@ export default ({
           </a>
         </SiteLogo>
         <Menu>
-          <Button variant="ghost" as="a" href="/schools">For Schools</Button>
-          <Button variant="ghost" as="a" href="/mentor">Mentor</Button>
+          <Button variant="ghost" as="a" href="/schools">Colleges</Button>
+          <Button variant="ghost" as="a" href="/mentor">Mentors</Button>
+          <Button variant="ghost" as="a" href="/oss">OSS Maintainers</Button>
           <Button variant="solid" colorScheme="green" as="a" href="/apply">Student Application</Button>
         </Menu>
       </Header>
