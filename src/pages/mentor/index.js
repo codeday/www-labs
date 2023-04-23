@@ -57,23 +57,23 @@ export default function Mentor() {
           src="https://img.codeday.org/w=1024;h=220;fit=crop;crop=faces,edges/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg"
         />
         <Heading as="h2" size="xl">Help students break into tech as a Labs mentor!</Heading>
-        <Text bold>(~4 hours a week for 5 weeks, flexible schedule)</Text>
+        <Text bold>(1-4 hours a week for 3-12 weeks, flexible schedule)</Text>
       </Content>
       <Content>
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "3fr 1fr" }} gap={6}>
           <Box marginBottom={4}>
-            <Text>
+            <Text mb={2}>
               Students who attend affordable local colleges rely on internships to gain real-world skills and build a
               resume, but most companies focus their internships on brand-name schools.{' '}
               <Highlight>These talented students need someone like you to give them the chance to show what they
                 can do.</Highlight>
             </Text>
-            <Text>
+            <Text mb={2}>
               Mentors <Highlight>guide a team of 3 students as they build an real-world project in{' '}
               {weeks} weeks.</Highlight> You propose the project, and lead the students through design,
               implementation, test, completion, and presentation of the project.
             </Text>
-            <Text>
+            <Text mb={4}>
               Like a manager in a job, you'll be there for supervision &amp; guidance. Our staff will help students with
               day-to-day debugging if they need it!
             </Text>
@@ -98,13 +98,14 @@ export default function Mentor() {
             <Button as="a" href="/mentor/share" variant="ghost" colorScheme="green">💌 Share With Your Company</Button>
           </Box>
           <Box backgroundColor={ colorMode === 'dark' ? 'red.900' : 'red.50'} padding={6} marginTop="-2rem">
-            <Heading as="h3" size="lg" paddingBottom={2}>Timeline</Heading>
+            <Heading as="h3" size="lg" paddingBottom={2}>Next Session</Heading>
+            <Text pb={2} fontSize="sm" fontStyle="italic">We run sessions year-round. You can apply now and mentor in a future session if these dates don't work.</Text>
             <Heading as="h4" size="sm">Mentor application due:</Heading>
-            <Text>{mentorApplicationEndsAt?.toLocaleString(f)}</Text>
+            <Text mb={2}>{mentorApplicationEndsAt?.toLocaleString(f)}</Text>
             <Heading as="h4" size="sm">Mentor training:</Heading>
-            <Text>~{mentorApplicationEndsAt?.plus({ days: 1 }).toLocaleString(f)}</Text>
+            <Text mb={2}>~{mentorApplicationEndsAt?.plus({ days: 1 }).toLocaleString(f)}</Text>
             <Heading as="h4" size="sm">Student bootcamp:</Heading>
-            <Text>
+            <Text mb={2}>
               (No mentor commitment)<br />
               {startsAt?.toLocaleString(f)} &mdash; {startsAt?.set({ weekday: 6 }).toLocaleString(f)}
             </Text>
