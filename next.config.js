@@ -2,7 +2,7 @@ module.exports = {
   redirects: () => [
     {
       source: '/volunteer',
-      destination: 'https://www.codeday.org/volunteer/labs/career-advisor',
+      destination: 'https://www.codeday.org/volunteer/labs',
       permanent: false,
     }
   ],

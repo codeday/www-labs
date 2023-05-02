@@ -4,7 +4,7 @@ import Page from '../../components/Page';
 export default function MentorApplyPage () {
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    window.location = 'https://www.codeday.org/volunteer/labs/mentor/go?return=labs&returnto=mentor%2Fshare%3Fapplied';
+    window.location = 'https://www.codeday.org/volunteer/labs?return=labs&returnto=mentor%2Fshare%3Fapplied';
    }, [typeof window]);
 
   return (

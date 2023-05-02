@@ -79,7 +79,7 @@ export default function Mentor() {
             </Text>
             <Button
               as="a"
-              href={`https://www.codeday.org/volunteer/labs/mentor/go?return=labs&returnto=mentor%2Fshare%3Fapplied&${qs}`}
+              href={`https://www.codeday.org/volunteer/labs?return=labs&returnto=mentor%2Fshare%3Fapplied&${qs}`}
               colorScheme="green"
               size="lg"
             >
