@@ -70,7 +70,7 @@ export default function Mentor() {
             </Text>
             <Text mb={2}>
               Mentors <Highlight>guide a team of 3 students as they build an real-world project in{' '}
-              {weeks} weeks.</Highlight> You propose the project, and lead the students through design,
+              3-{weeks} weeks.</Highlight> You propose the project, and lead the students through design,
               implementation, test, completion, and presentation of the project.
             </Text>
             <Text mb={4}>
@@ -139,17 +139,13 @@ export default function Mentor() {
           <Box paddingTop={6}>
             <Heading as="h3" size="lg" paddingBottom={2}>Mentor Time Commitment</Heading>
             <Text>
-              Approximately <Highlight>4hr/wk</Highlight> of mentorship over <Highlight>
+              <Highlight>1-4hr/wk</Highlight> of mentorship over <Highlight>3-
               {weeks} weeks,</Highlight> with a <Highlight>flexible schedule:</Highlight>
             </Text>
             <List styleType="disc" stylePos="outside" paddingLeft={4}>
               <Item mb={2}>
-                <Text bold mb={0}>Project scoping and training, pre-summer:</Text>
-                1 hour
-              </Item>
-              <Item mb={2}>
-                <Text bold mb={0}>Two team meetings, per week:</Text>
-                2 hours/week
+                <Text bold mb={0}>1-2 team meetings, per week:</Text>
+                1-3 hours/week
               </Item>
               <Item mb={2}>
                 <Text bold mb={0}>Sharing performance feedback:</Text>
@@ -158,10 +154,6 @@ export default function Mentor() {
               <Item mb={2}>
                 <Text bold mb={0}>Three one-on-ones per student, total:</Text>
                 &frac12;-hour &times; 3 students &times; 3 meetings = 4&frac12; hours
-              </Item>
-              <Item mb={2}>
-                <Text bold mb={0}>Extra support as needed, per week:</Text>
-                Varies, 0-2 hours/week
               </Item>
             </List>
           </Box>
