@@ -36,7 +36,7 @@ export default function PartnerPage({ students }) {
             {students.map((s) => (
               <Box mb={8}>
                 <a name={`s-${s.id}`} />
-                <Heading as="h4" fontSize="2xl">{s.name}</Heading>
+                <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
                 <Accordion allowToggle>
                   <AccordionItem>
                     <AccordionButton>
