@@ -6,6 +6,7 @@ import { Box, Grid, Button, Text, Heading, Link, Spinner, List, ListItem } from 
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
 import SignatureCanvas from 'react-signature-canvas';
+import TimezoneSelect from 'react-timezone-select';
 import TimeManagementPlan from '../../../../components/TimeManagementPlan';
 import Page from '../../../../components/Page';
 import ConfirmAll from '../../../../components/ConfirmAll';
@@ -18,6 +19,9 @@ export default function OfferAccept() {
   const [isAccepted, setIsAccepted] = useState(false);
   const [isConfirmed, setConfirmed] = useState(false);
   const [isSigned, setIsSigned] = useState(false);
+  const [selectedTimezone, setSelectedTimezone] =useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone
+  );
   const [timeManagementPlan, setTimeManagementPlan] = useState({});
   const [timeManagementHours, setTimeManagementHours] = useState(0);
   const { error } = useToasts();
@@ -80,9 +84,18 @@ export default function OfferAccept() {
           />
         </Box>
 
+        <Heading as="h3" fontSize="md" mb={2} mt={8}>Timezone:</Heading>
+        <Text mb={2}>Which timezone will you be working from during CodeDay Labs?</Text>
+        <Box color="black">
+          <TimezoneSelect
+            value={selectedTimezone}
+            onChange={setSelectedTimezone}
+          />
+        </Box>
+
         <Heading as="h3" fontSize="md" mb={2} mt={8}>Time Management Plan:</Heading>
+        <Text mb={2}>Please indicate when you plan to work each week.</Text>
         <List ml={8} styleType="disc" mb={8}>
-          <ListItem>Please indicate when you plan to work each week (in your timezone).</ListItem>
           <ListItem>You don't need to follow this exact schedule every week, but do your best to provide general availability.</ListItem>
           <ListItem>We will use the availability you provide as part of our matching process.</ListItem>
           <ListItem>You cannot create slots less than 90 minutes. We find that students who split their time up in small chunks are not successful.</ListItem>
@@ -102,7 +115,7 @@ export default function OfferAccept() {
             onClick={async () => {
               setIsLoading(true);
               try {
-                await fetch(AcceptOffer, { timeManagementPlan });
+                await fetch(AcceptOffer, { timeManagementPlan, timezone: selectedTimezone.value });
                 setIsAccepted(true);
               } catch (ex) {
                 error(ex.toString());

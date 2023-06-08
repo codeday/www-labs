@@ -13,9 +13,9 @@ query OfferAcceptStatus {
   }
 }
 
-mutation AcceptOffer ($timeManagementPlan: LabsJSONObject!) {
+mutation AcceptOffer ($timeManagementPlan: LabsJSONObject!, $timezone: String!) {
   labs {
-    acceptStudentOffer(timeManagementPlan: $timeManagementPlan) {
+    acceptStudentOffer(timeManagementPlan: $timeManagementPlan, timezone: $timezone) {
       id
     }
   }

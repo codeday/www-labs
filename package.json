@@ -46,6 +46,7 @@
     "react-responsive-modal": "^6.0.0",
     "react-signature-canvas": "^1.0.6",
     "react-star-ratings": "^2.3.0",
+    "react-timezone-select": "^2.1.2",
     "swr": "^0.5.6",
     "truncate": "^2.1.0"
   },

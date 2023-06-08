@@ -5,6 +5,7 @@ query PartnerStudentsAbout {
       name
       timeManagementPlan
       minHours
+      timezone
       surveyResponsesAbout {
         surveyOccurence {
           id

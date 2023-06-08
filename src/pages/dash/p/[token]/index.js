@@ -1,5 +1,5 @@
 import { apiFetch } from '@codeday/topo/utils';
-import { Box, Grid, Heading, List, Link, ListItem } from '@codeday/topo/Atom';
+import { Box, Grid, Heading, List, Link, ListItem, Text } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { DateTime } from 'luxon';
 import {
@@ -44,6 +44,7 @@ export default function PartnerPage({ students }) {
                       <AccordionIcon />
                     </AccordionButton>
                     <AccordionPanel pb={4}>
+                      <Text><strong>Timezone: </strong>{s.timezone || 'Unknown'}</Text>
                       {!s.timeManagementPlan ? 'Not collected' : (
                         <List styleType="disc" ml={6}>
                           {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => (
