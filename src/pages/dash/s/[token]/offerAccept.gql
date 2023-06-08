@@ -3,6 +3,7 @@ query OfferAcceptStatus {
     student {
       id
       givenName
+      surname
       status
       weeks
       minHours
@@ -12,9 +13,9 @@ query OfferAcceptStatus {
   }
 }
 
-mutation AcceptOffer {
+mutation AcceptOffer ($timeManagementPlan: LabsJSONObject!) {
   labs {
-    acceptStudentOffer {
+    acceptStudentOffer(timeManagementPlan: $timeManagementPlan) {
       id
     }
   }

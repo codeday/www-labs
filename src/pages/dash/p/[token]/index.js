@@ -36,8 +36,30 @@ export default function PartnerPage({ students }) {
             {students.map((s) => (
               <Box mb={8}>
                 <a name={`s-${s.id}`} />
-                <Heading as="h4">{s.name}</Heading>
+                <Heading as="h4" fontSize="2xl">{s.name}</Heading>
                 <Accordion allowToggle>
+                  <AccordionItem>
+                    <AccordionButton>
+                      Time Management Plan ({s.minHours}hr/week)
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+                      {!s.timeManagementPlan ? 'Not collected' : (
+                        <List styleType="disc" ml={6}>
+                          {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => (
+                            <ListItem>
+                              <strong>{day}: </strong>
+                              {s.timeManagementPlan[day.toLowerCase()].map(({start, end}) => (
+                                `${Math.floor(start/60)}:${(start%60).toString().padEnd(2, '0')}`
+                                + ' to '
+                                + `${Math.floor(end/60)}:${(end%60).toString().padEnd(2, '0')}`
+                              )).join('; ')}
+                            </ListItem>
+                          ))}
+                        </List>
+                      )}
+                    </AccordionPanel>
+                  </AccordionItem>
                   {s.surveyResponsesAbout
                     .sort((a, b) => {
                       if (DateTime.fromISO(a.surveyOccurence.dueAt) > DateTime.fromISO(b.surveyOccurence.dueAt)) return -1;

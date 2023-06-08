@@ -36,6 +36,7 @@
     "random-seed": "^0.3.0",
     "react": "17",
     "react-beautiful-dnd": "^13.1.0",
+    "react-big-calendar": "^1.8.1",
     "react-dom": "17",
     "react-hook-form": "^6.11.5",
     "react-linkedin-insight": "^0.1.2",
@@ -43,6 +44,7 @@
     "react-nl2br": "^1.0.2",
     "react-player": "^2.9.0",
     "react-responsive-modal": "^6.0.0",
+    "react-signature-canvas": "^1.0.6",
     "react-star-ratings": "^2.3.0",
     "swr": "^0.5.6",
     "truncate": "^2.1.0"

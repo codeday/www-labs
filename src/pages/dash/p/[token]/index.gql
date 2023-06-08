@@ -3,6 +3,8 @@ query PartnerStudentsAbout {
     students {
       id
       name
+      timeManagementPlan
+      minHours
       surveyResponsesAbout {
         surveyOccurence {
           id
