@@ -1,6 +1,6 @@
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { DateTime } from 'luxon';
 import { Box, Grid, Button, Text, Heading, Link, Spinner, List, ListItem } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
@@ -19,7 +19,7 @@ export default function OfferAccept() {
   const [isAccepted, setIsAccepted] = useState(false);
   const [isConfirmed, setConfirmed] = useState(false);
   const [isSigned, setIsSigned] = useState(false);
-  const [selectedTimezone, setSelectedTimezone] =useState(
+  const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
   const [timeManagementPlan, setTimeManagementPlan] = useState({});
@@ -27,6 +27,11 @@ export default function OfferAccept() {
   const { error } = useToasts();
   const fetch = useFetcher();
   const { query } = useRouter();
+
+  const timezone = useMemo(
+    () => selectedTimezone.value || selectedTimezone,
+    [selectedTimezone]
+  );
 
   if (isValidating || !data?.labs?.student) return (
     <Page title="Accept Offer">
@@ -115,7 +120,7 @@ export default function OfferAccept() {
             onClick={async () => {
               setIsLoading(true);
               try {
-                await fetch(AcceptOffer, { timeManagementPlan, timezone: selectedTimezone.value });
+                await fetch(AcceptOffer, { timeManagementPlan, timezone });
                 setIsAccepted(true);
               } catch (ex) {
                 error(ex.toString());
