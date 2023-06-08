@@ -82,6 +82,7 @@ export default function OfferAccept() {
 
         <Heading as="h3" fontSize="md" mb={2} mt={8}>Time Management Plan:</Heading>
         <List ml={8} styleType="disc" mb={8}>
+          <ListItem>Please indicate when you plan to work each week (in your timezone).</ListItem>
           <ListItem>You don't need to follow this exact schedule every week, but do your best to provide general availability.</ListItem>
           <ListItem>We will use the availability you provide as part of our matching process.</ListItem>
           <ListItem>You cannot create slots less than 90 minutes. We find that students who split their time up in small chunks are not successful.</ListItem>
