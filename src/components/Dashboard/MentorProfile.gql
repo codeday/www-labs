@@ -8,6 +8,7 @@ fragment MentorProfile on LabsMentor {
   status
   managerUsername
   maxWeeks
+  timezone
 }
 
 mutation EditMentor (
@@ -19,6 +20,7 @@ mutation EditMentor (
   $status: LabsMentorStatus!,
   $managerUsername: String!,
   $maxWeeks: Int!,
+  $timezone: String,
 ) {
   labs {
     editMentor(
@@ -31,6 +33,29 @@ mutation EditMentor (
         status: $status,
         managerUsername: $managerUsername,
         maxWeeks: $maxWeeks,
+        timezone: $timezone,
+      },
+    ) {
+      ...MentorProfile
+    }
+  }
+}
+
+mutation EditMentorLimited (
+  $givenName: String!,
+  $surname: String!,
+  $email: String!,
+  $profile: LabsJSONObject!,
+  $timezone: String,
+) {
+  labs {
+    editMentor(
+      data: {
+        givenName: $givenName,
+        surname: $surname,
+        email: $email,
+        profile: $profile,
+        timezone: $timezone,
       },
     ) {
       ...MentorProfile

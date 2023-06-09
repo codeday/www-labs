@@ -1,4 +1,5 @@
 #import "../../../../components/Dashboard/ProjectEditor.gql"
+#import "../../../../components/Dashboard/MentorProfile.gql"
 #import "../../../../components/Dashboard/MentorManagerDetails.gql"
 #import "../../../../components/Dashboard/TagPicker.gql"
 query DashboardQuery {
@@ -9,6 +10,7 @@ query DashboardQuery {
       givenName
       surname
       ...MentorManagerDetails
+      ...MentorProfile
       projects {
         ...ProjectEditor
       }

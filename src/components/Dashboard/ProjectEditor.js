@@ -66,23 +66,24 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         gap={4}
         color={limited ? 'current.textLight' : undefined}
         textAlign={limited ? 'center' : undefined}
+        mb={4}
       >
         <Text>
-          <Text as="span" bold>Status:</Text>
+          <Text as="span" bold>Status: </Text>
           {limited
             ? project.status
             : <SelectProjectStatus ml={2} status={project.status} onChange={(e) => setProject(['status', e.target.value])} />
           }
         </Text>
         <Text>
-          <Text as="span" bold>Track:</Text>
+          <Text as="span" bold>Track: </Text>
           {limited
             ? project.track
             : <SelectTrack ml={2} track={project.track} onChange={(e) => setProject(['track', e.target.value])} />
           }
         </Text>
         <Text>
-          <Text as="span" bold>Max Students:</Text>
+          <Text as="span" bold>Max Students: </Text>
           {limited
             ? project.maxStudents
             : (
