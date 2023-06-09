@@ -22,6 +22,7 @@ export default function MentorDashboard() {
           s.occurrences
             .sort((a, b) => DateTime.fromISO(a.dueAt) > DateTime.fromISO(b.dueAt) ? -1 : 1)
             .slice(0,1)
+            .map((o) => ({ survey: s, ...o }))
         ))
         .filter((o) => (
           (o.surveyResponses || [])
@@ -81,8 +82,8 @@ export default function MentorDashboard() {
                 <List styleType="disc" pl={6}>
                   {dueSurveys.map((o) => (
                       <ListItem key={o.id}>
-                        <Link href={`/dash/m/${query.token}/survey/${s.id}/${o.id}`} target="_blank">
-                          <Text d="inline" fontWeight="bold">{s.name}</Text>
+                        <Link href={`/dash/m/${query.token}/survey/${o.survey.id}/${o.id}`} target="_blank">
+                          <Text d="inline" fontWeight="bold">{o.survey.name}</Text>
                           <Text fontSize="sm">due {DateTime.fromISO(o.dueAt).toLocaleString(DateTime.DATE_MED)}</Text>
                         </Link>
                       </ListItem>
