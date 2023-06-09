@@ -5,6 +5,8 @@ query MatchingPrefs {
       track
       weeks
       id
+      timezone
+      timeManagementPlan
       projectPreferences {
         ranking
         project {

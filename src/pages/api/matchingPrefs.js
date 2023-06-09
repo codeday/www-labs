@@ -1,6 +1,7 @@
 import { apiFetch } from '@codeday/topo/utils';
 import { MatchingPrefs } from './matchingPrefs.gql';
 import stringify from 'csv-stringify/lib/sync';
+import { timeManagementPlanToBitmask } from '../../utils';
 
 const TRACK_ORDER = {BEGINNER: 0, INTERMEDIATE: 1, ADVANCED: 2};
 
@@ -12,8 +13,9 @@ export default async function matchingPrefs(req, res) {
   const students = result?.labs?.students || [];
   const studentRows = students
     .sort((a, b) => TRACK_ORDER[a.track] < TRACK_ORDER[b.track] ? -1 : 1 )
-    .map(({ username, track, id, projectPreferences, weeks }) => [
+    .map(({ username, track, id, projectPreferences, weeks, timezone, timeManagementPlan }) => [
       `${username}-${track}-${id}`,
+      timeManagementPlanToBitmask(timeManagementPlan, timezone),
       ...(
         projectPreferences
           .filter(({ project }) => track === 'BEGINNER' ? project.track === 'BEGINNER' : project.track !== 'BEGINNER')
@@ -24,7 +26,7 @@ export default async function matchingPrefs(req, res) {
           )
       ),
     ]);
-  const maxCols = Math.max(...studentRows.map((r) => r.length - 1));
+  const maxCols = Math.max(0, ...studentRows.map((r) => r.length - 1));
   const posHeadings = [...Array(maxCols).keys()].map((a) => `choice ${a+1}`);
 
   res.setHeader('Content-type', 'application/octet-stream');
@@ -33,6 +35,7 @@ export default async function matchingPrefs(req, res) {
     header: true,
     columns: [
       'student',
+      'timeManagement',
       ...posHeadings,
     ],
   }));
