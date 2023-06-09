@@ -1,7 +1,7 @@
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
-import { sign } from 'jsonwebtoken';
+import { decode, sign } from 'jsonwebtoken';
 import { Box, Button, Spinner, Heading, Link } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import LockIcon from '@codeday/topocons/Icon/Lock';
@@ -65,10 +65,11 @@ export default function MentorDashboard({ id, mentorToken }) {
   );
 }
 
-export function getServerSideProps({ query: { mentor } }) {
+export function getServerSideProps({ query: { mentor, token } }) {
   const { serverRuntimeConfig } = getConfig();
+  const { evt } = decode(token);
   const mentorToken = sign(
-    { typ: 'm', tgt: 'i', sid: mentor },
+    { typ: 'm', tgt: 'i', sid: mentor, evt },
     serverRuntimeConfig.gql.secret,
     { audience: serverRuntimeConfig.gql.audience, expiresIn: '12w' }
   );
