@@ -1,6 +1,6 @@
 import { getTimezoneOffset } from "./getTimezoneOffset";
 
-const DAY_NAMES = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+const DAY_NAMES = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 const RESOLUTION_MINS = 30;
 const BITS_PER_HOUR = 60/RESOLUTION_MINS;
 
