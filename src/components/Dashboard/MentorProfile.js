@@ -291,8 +291,15 @@ export default function MentorProfile({
               profile: priorProfile,
               ...priorParticipationImport
             } = (priorParticipation || {});
-            setMentor(priorParticipationImport);
-            setSpecialProfile(priorProfile);
+            setMentor({
+              ...mentor,
+              ...priorParticipationImport,
+            });
+            setSpecialProfile({
+              ...specialProfile,
+              ...priorProfile,
+            });
+            success('Imported! Next, verify and save.');
           }}
         >
           Copy From Prior
