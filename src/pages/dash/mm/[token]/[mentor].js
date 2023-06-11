@@ -19,7 +19,6 @@ export default function MentorDashboard({ id, mentorToken }) {
   if (!data?.labs?.mentor) return <Page title="Mentor Editor"><Content textAlign="center"><Spinner /></Content></Page>
   const mentor = data.labs.mentor;
   const mentorPriorParticipation = data.labs.mentorPriorParticipation;
-  console.log(mentorPriorParticipation);
   return (
     <Page title={mentor.name}>
       <Content mt={-8}>
