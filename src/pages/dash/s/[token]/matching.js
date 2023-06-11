@@ -53,6 +53,19 @@ export default function Matching({ allTags, event, student, projectPreferences }
     );
   }
 
+  if (!student.skipPreferences) {
+    return (
+      <Page title={`Project Preferences`}>
+        <Content mt={-8}>
+          <Box bg="yellow.50" color="yellow.900" borderColor="yellow.100" borderWidth={2} p={4} mb={8}>
+            <Text bold fontSize="lg">You're not eligible to submit project preferences.</Text>
+            <Text>You'll be matched manually to the best fit for you.</Text>
+          </Box>
+        </Content>
+      </Page>
+    );
+  }
+
   if (isSubmitted || projectPreferences.length > 0) {
     return (
       <Page title={`Project Preferences`}>

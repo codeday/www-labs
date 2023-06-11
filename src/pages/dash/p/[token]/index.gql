@@ -21,3 +21,13 @@ query PartnerStudentsAbout {
     }
   }
 }
+
+mutation AssociatePartnerCodeMutation ($where: LabsIdOrUsernameOrEmailInput!) {
+  labs {
+    associatePartnerCode(where: $where) {
+      id
+      givenName
+      surname
+    }
+  }
+}

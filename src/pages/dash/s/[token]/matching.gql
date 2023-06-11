@@ -9,6 +9,7 @@ query LabsMatching {
       name
       track
       status
+      skipPreferences
     }
     projectPreferences {
       ranking

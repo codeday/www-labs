@@ -1,5 +1,6 @@
-import { apiFetch } from '@codeday/topo/utils';
-import { Box, Grid, Heading, List, Link, ListItem, Text } from '@codeday/topo/Atom';
+import { useState } from 'react';
+import { apiFetch, useToasts } from '@codeday/topo/utils';
+import { Box, Grid, Heading, List, Link, ListItem, Text, TextInput as Input, Button } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { DateTime } from 'luxon';
 import {
@@ -10,8 +11,9 @@ import {
   AccordionIcon,
 } from '@chakra-ui/react'
 import Page from '../../../../components/Page';
-import { PartnerStudentsAbout } from './index.gql';
+import { PartnerStudentsAbout, AssociatePartnerCodeMutation } from './index.gql';
 import SurveyFields from '../../../../components/SurveyFields';
+import { useFetcher } from '../../../../dashboardFetch';
 
 function getCautionColors(caution) {
   if (caution > 0.9) return { bg: 'red.500', color: 'red.50' };
@@ -20,6 +22,11 @@ function getCautionColors(caution) {
 }
 
 export default function PartnerPage({ students }) {
+  const [newStudentEmail, setNewStudentEmail] = useState('');
+  const [newStudentUsername, setNewStudentUsername] = useState('');
+  const fetch = useFetcher();
+  const { success, error } = useToasts();
+
   return (
     <Page>
       <Content>
@@ -31,6 +38,44 @@ export default function PartnerPage({ students }) {
                 <ListItem><Link href={`#s-${s.id}`}>{s.name}</Link></ListItem>
               ))}
             </List>
+            <Box mt={8}>
+              <Heading as="h4" fontSize="md">Associate Student</Heading>
+              <Text fontSize="sm" fontWeight="bold">Email</Text>
+              <Input
+                onChange={(e) => setNewStudentEmail(e.target.value)}
+                value={newStudentEmail}
+              />
+              <Text fontSize="sm" fontWeight="bold">or CodeDay Username</Text>
+              <Input
+                onChange={(e) => setNewStudentUsername(e.target.value)}
+                value={newStudentUsername}
+              />
+              <Button
+                onClick={async () => {
+                  try {
+                    const result = await fetch(
+                      AssociatePartnerCodeMutation,
+                      {
+                        where: {
+                          username: newStudentUsername || undefined,
+                          email: newStudentEmail || undefined,
+                        },
+                      },
+                    );
+                    if (result.labs.associatePartnerCode.id) {
+                      success(`Associated ${result.labs.associatePartnerCode.givenName} ${result.labs.associatePartnerCode.surname}.`);
+                      setNewStudentEmail('');
+                      setNewStudentUsername('');
+                    } else throw new Error();
+                  } catch (ex) {
+                    console.error(ex);
+                    error('Student not found.');
+                  }
+                }}
+              >
+                Associate
+              </Button>
+            </Box>
           </Box>
           <Box>
             {students.map((s) => (
