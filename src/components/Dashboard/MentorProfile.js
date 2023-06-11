@@ -26,7 +26,12 @@ function isSuccess (fn) {
   catch (ex) { return false; }
 }
 
-export default function MentorProfile({ mentor: originalMentor, limited, ...rest }) {
+export default function MentorProfile({
+  mentor: originalMentor,
+  priorParticipation,
+  limited,
+  ...rest
+}) {
   const [mentor, setMentor] = useReducer(
     (prev, next) => Array.isArray(next) ? { ...prev, [next[0]]: next[1] } : next,
     originalMentor
@@ -237,6 +242,7 @@ export default function MentorProfile({ mentor: originalMentor, limited, ...rest
 
       <Button
         colorScheme="green"
+        mt={4}
         isLoading={loading}
         disabled={loading || !profileTextValid}
         onClick={async () => {
@@ -268,6 +274,30 @@ export default function MentorProfile({ mentor: originalMentor, limited, ...rest
       >
         Save Mentor Profile
       </Button>
+      {priorParticipation && (
+        <Button
+          ml={4}
+          mt={4}
+          onClick={() => {
+            const {
+              status: _,
+              id: __,
+              maxWeeks: ___,
+              username: ____,
+              email: _____,
+              givenName: ______,
+              surname: _______,
+              managerUsername: ________,
+              profile: priorProfile,
+              ...priorParticipationImport
+            } = (priorParticipation || {});
+            setMentor(priorParticipationImport);
+            setSpecialProfile(priorProfile);
+          }}
+        >
+          Copy From Prior
+        </Button>
+      )}
     </Box>
   );
 }

@@ -18,7 +18,8 @@ export default function MentorDashboard({ id, mentorToken }) {
   const { colorMode } = useColorMode();
   if (!data?.labs?.mentor) return <Page title="Mentor Editor"><Content textAlign="center"><Spinner /></Content></Page>
   const mentor = data.labs.mentor;
-
+  const mentorPriorParticipation = data.labs.mentorPriorParticipation;
+  console.log(mentorPriorParticipation);
   return (
     <Page title={mentor.name}>
       <Content mt={-8}>
@@ -41,7 +42,10 @@ export default function MentorDashboard({ id, mentorToken }) {
               <AccordionIcon />
             </AccordionHeader>
             <AccordionPanel>
-              <MentorProfile mentor={mentor} />
+              <MentorProfile
+                mentor={mentor}
+                priorParticipation={mentorPriorParticipation}
+              />
             </AccordionPanel>
           </AccordionItem>
           {data?.labs?.mentor?.projects && data?.labs?.mentor?.projects?.map((project, i) => (

@@ -4,6 +4,9 @@
 #import "../../../../components/Dashboard/TagPicker.gql"
 query MentorPageQuery ($id: String!) {
   labs {
+    mentorPriorParticipation(where: { id: $id }) {
+      ...MentorProfile
+    }
     mentor (where: { id: $id }) {
       name
       ...MentorProfile
