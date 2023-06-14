@@ -72,7 +72,7 @@ export default function ReviewPage() {
   const student = studentResp.labs.nextStudentNeedingRating;
 
   return (
-    <Page title={student.id}>
+    <Page title={`Application Review ~ ${student.givenName[0]}. ${student.surname[0]}.`}>
       <Content mt={-8}>
         <StudentHeader anonymous student={student} />
         <Grid templateColumns="3fr 1fr" gap={8}>
