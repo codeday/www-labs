@@ -37,7 +37,7 @@ export default function Matching({ allTags, event, student, projectPreferences }
     setIsLoading(false);
   }
 
-  const finalMinProjectsToSubmit = Math.max(3, Math.min(MIN_PROJECTS_TO_SUBMIT, matches.length));
+  const finalMinProjectsToSubmit = Math.min(MIN_PROJECTS_TO_SUBMIT, matches.length);
   const finalMaxTagsToSubmit = Math.ceil(allTags.length * 0.45);
 
   if (!event.matchPreferenceSubmissionOpen) {
