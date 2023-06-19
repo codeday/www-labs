@@ -53,7 +53,7 @@ export default function Matching({ allTags, event, student, projectPreferences }
     );
   }
 
-  if (!student.skipPreferences) {
+  if (student.skipPreferences) {
     return (
       <Page title={`Project Preferences`}>
         <Content mt={-8}>

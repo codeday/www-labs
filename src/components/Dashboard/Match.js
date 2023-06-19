@@ -6,8 +6,8 @@ import { useColorMode } from '@chakra-ui/react';
 
 const nl2br = (str) => str && str
   .replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  .replace(/\n/g, '<br />')
-  .replace(/(https?:\/\/[^\s\(\)]+)/g, (url) => `<a href="${url}" style="text-decoration: underline" target="_blank">${url}</a>`);
+  .replace(/(https?:\/\/[^\s\(\)]+)/g, (url) => `<a href="${url}" style="text-decoration: underline" target="_blank">${url}</a>`)
+  .replace(/\n/g, '<br />');
 
 function MentorHeading(mentor) {
   if (mentor.profile?.company && mentor.profile?.role) return `${mentor.name}, ${mentor.profile.role} @ ${mentor.profile.company}`;
