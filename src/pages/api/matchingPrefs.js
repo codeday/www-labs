@@ -4,13 +4,23 @@ import stringify from 'csv-stringify/lib/sync';
 import { timeManagementPlanToBitmask } from '../../utils';
 
 const TRACK_ORDER = {BEGINNER: 0, INTERMEDIATE: 1, ADVANCED: 2};
+const PAGE_SIZE = 25;
 
 export default async function matchingPrefs(req, res) {
   const token = req.query.token;
-  const result = await apiFetch(MatchingPrefs, {}, {
-    'X-Labs-Authorization': `Bearer ${token}`,
-  });
-  const students = result?.labs?.students || [];
+  const students = [];
+  let hadStudents = true;
+  let skip = 0;
+  do {
+    const result = await apiFetch(MatchingPrefs, { take: PAGE_SIZE, skip: PAGE_SIZE * skip}, {
+      'X-Labs-Authorization': `Bearer ${token}`,
+    });
+    const thisStudents = result?.labs?.students || [];
+    hadStudents = thisStudents.length > 0;
+    students.push(...thisStudents);
+    skip++;
+  } while(hadStudents);
+
   const studentRows = students
     .sort((a, b) => TRACK_ORDER[a.track] < TRACK_ORDER[b.track] ? -1 : 1 )
     .map(({ username, track, id, projectPreferences, weeks, timezone, timeManagementPlan }) => [

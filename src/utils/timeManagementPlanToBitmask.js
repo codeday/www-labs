@@ -5,7 +5,11 @@ const RESOLUTION_MINS = 30;
 const BITS_PER_HOUR = 60/RESOLUTION_MINS;
 
 export function timeManagementPlanToBitmask(timeManagementPlan, timezone) {
-  if (!timeManagementPlan || !timezone) return '';
+  if (!timeManagementPlan) {
+    timeManagementPlan = Object.fromEntries(
+      DAY_NAMES.map((n) => [n, [{ start: 60 * 9, end: 60 * 17 }]])
+    );
+  }
 
   let bitmask = [].fill(0, 0, BITS_PER_HOUR * 24 * DAY_NAMES.length);
 
@@ -24,7 +28,7 @@ export function timeManagementPlanToBitmask(timeManagementPlan, timezone) {
     }
   }
 
-  const timezoneBitOffset = getTimezoneOffset(timezone) / RESOLUTION_MINS;
+  const timezoneBitOffset = (timezone ? getTimezoneOffset(timezone) : 7 * 60) / RESOLUTION_MINS;
   if (timezoneBitOffset > 0) {
     // Grab the beginning of the array and move it to the end
     const tmp = bitmask.slice(0, timezoneBitOffset);

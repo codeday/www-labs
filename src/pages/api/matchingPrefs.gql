@@ -1,6 +1,6 @@
-query MatchingPrefs {
+query MatchingPrefs ($take: Float!, $skip: Float!) {
   labs {
-   students(where:{inStatus:ACCEPTED, withProjects:false}) {
+   students(where:{inStatus:ACCEPTED, withProjects:false}, take: $take, skip: $skip) {
       username
       track
       weeks

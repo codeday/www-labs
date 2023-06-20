@@ -9,6 +9,7 @@ import {
   Heading,
   Link,
   List,
+  TextInput as Input,
   ListItem as Item,
   NumberInput,
   NumberInputField,
@@ -32,23 +33,27 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
   const fetch = useFetcher();
   const { success, error } = useToasts();
 
+  console.log(project);
+
   const tagInfo = project.tags.map((t) => tags.filter((tInfo) => tInfo.id === t.id)[0]);
 
   const save = (data) => async () => {
     setLoading(true);
     try {
+      const { affinePartner: _, ...postData } = data;
       const result = await fetch(print(EditProject), {
         id: project.id,
         data: {
           description: project.description || "",
           deliverables: project.deliverables || "",
+          affinePartnerId: typeof project.affinePartnerId !== 'undefined' ? project.affinePartnerId : undefined,
           tags: (project.tags || []).map(({ id }) => id),
           ...(limited ? {} : {
             status: project.status,
             track: project.track,
             maxStudents: project.maxStudents,
           }),
-          ...data,
+          ...postData,
         }
       });
       setProject(result.labs.editProject);
@@ -107,6 +112,20 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
           }
         </Text>
       </Grid>
+
+      {(!limited || project.affinePartnerId) && (
+        <Text mb={8}>
+          <Text as="span" bold>Only For Partner: </Text>
+          {limited ? (project.affinePartner.partnerCode) : (
+            <Input
+              w={48}
+              value={project.affinePartnerId}
+              placeholder={"Partner database ID. Most projects don't need this."}
+              onChange={(e) => setProject(['affinePartnerId', e.target.value])}
+            />
+          )}
+        </Text>
+      )}
 
       <Heading as="h4" fontSize="lg">Description</Heading>
       <Textarea

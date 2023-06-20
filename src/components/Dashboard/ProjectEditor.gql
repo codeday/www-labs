@@ -5,6 +5,10 @@ fragment ProjectEditor on LabsProject {
   track
   maxStudents
   status
+  affinePartnerId
+  affinePartner {
+    partnerCode
+  }
   mentors {
     id
     name
