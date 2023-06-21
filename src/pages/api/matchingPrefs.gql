@@ -2,11 +2,14 @@ query MatchingPrefs ($take: Float!, $skip: Float!) {
   labs {
    students(where:{inStatus:ACCEPTED, withProjects:false}, take: $take, skip: $skip) {
       username
+      givenName
+      surname
       track
       weeks
       id
       timezone
       timeManagementPlan
+      partnerCode
       projectPreferences {
         ranking
         project {

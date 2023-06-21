@@ -23,8 +23,8 @@ export default async function matchingPrefs(req, res) {
 
   const studentRows = students
     .sort((a, b) => TRACK_ORDER[a.track] < TRACK_ORDER[b.track] ? -1 : 1 )
-    .map(({ username, track, id, projectPreferences, weeks, timezone, timeManagementPlan }) => [
-      `${username}-${track}-${id}`,
+    .map(({ username, track, id, projectPreferences, weeks, timezone, partnerCode, givenName, surname, timeManagementPlan }) => [
+      `${username}-${track}-${id}-${givenName}${surname}-${partnerCode || 'NA'}`,
       timeManagementPlanToBitmask(timeManagementPlan, timezone),
       ...(
         projectPreferences
