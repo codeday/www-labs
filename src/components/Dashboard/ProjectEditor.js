@@ -110,7 +110,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         </Text>
       </Grid>
 
-      {(!limited || project.affinePartner?.partnerCode) && (
+      {project.affinePartner?.partnerCode && (
         <Text mb={8}>
           <Text as="span" bold>Only For Partner: </Text>
           {project.affinePartner.partnerCode}
