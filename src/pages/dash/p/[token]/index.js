@@ -14,6 +14,7 @@ import Page from '../../../../components/Page';
 import { PartnerStudentsAbout, AssociatePartnerCodeMutation } from './index.gql';
 import SurveyFields from '../../../../components/SurveyFields';
 import { useFetcher } from '../../../../dashboardFetch';
+import { Match } from '../../../../components/Dashboard/Match';
 
 function getCautionColors(caution) {
   if (caution > 0.9) return { bg: 'red.500', color: 'red.50' };
@@ -34,7 +35,7 @@ export default function PartnerPage({ students }) {
           <Box>
             <Heading as="h3" fontSize="md" bold>Students</Heading>
             <List>
-              {students.map((s) => (
+              {students.filter((s) => s.status !== 'CANCELED').map((s) => (
                 <ListItem><Link href={`#s-${s.id}`}>{s.name}</Link></ListItem>
               ))}
             </List>
@@ -78,10 +79,11 @@ export default function PartnerPage({ students }) {
             </Box>
           </Box>
           <Box>
-            {students.map((s) => (
+            {students.filter((s) => s.status !== 'CANCELED').map((s) => (
               <Box mb={8}>
-                <a name={`s-${s.id}`} />
-                <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
+                <Link name={`s-${s.id}`} href={`/dash/s/${s.token}`} target="_blank">
+                  <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
+                </Link>
                 <Accordion allowToggle>
                   <AccordionItem>
                     <AccordionButton>
@@ -106,6 +108,28 @@ export default function PartnerPage({ students }) {
                       )}
                     </AccordionPanel>
                   </AccordionItem>
+
+                  <AccordionItem>
+                    <AccordionButton
+                      {...getCautionColors((!s.hasProjectPreferences && !s.skipPreferences && !s.project) ? 1 : 0)}
+                    >
+                      Project
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+                      {s.projects && s.projects.length > 0 ? (
+                        s.projects.map((p) => (
+                          <Match match={p} key={p.id} />
+                        ))
+                      ) : (
+                        <>
+                          <Text>Preferences Submitted: {s.hasProjectPreferences ? 'yes' : 'no'}</Text>
+                          <Text>Matched: no</Text>
+                        </>
+                      )}
+                    </AccordionPanel>
+                  </AccordionItem>
+
                   {s.surveyResponsesAbout
                     .sort((a, b) => {
                       if (DateTime.fromISO(a.surveyOccurence.dueAt) > DateTime.fromISO(b.surveyOccurence.dueAt)) return -1;

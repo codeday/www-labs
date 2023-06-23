@@ -31,7 +31,7 @@ function TrackBadge({ track }) {
 
 export function Match ({ match, selectedTags, onSelect, onDeselect, isSelected, allowSelect }) {
   const { colorMode } = useColorMode();
-  const selectedTagIds = selectedTags.map((t) => t.id);
+  const selectedTagIds = (selectedTags || []).map((t) => t.id);
   return (
     <Box mb={8} borderColor="gray.200" borderWidth={2} borderRadius={2}>
         <Heading
@@ -52,7 +52,7 @@ export function Match ({ match, selectedTags, onSelect, onDeselect, isSelected, 
 
         {/* Tags */}
         <Box mb={8} ml={4} mr={4}>
-          <TagList tags={match.tags.filter((t) => t.type === 'INTEREST')} featured={selectedTags} />
+          <TagList tags={match.tags.filter((t) => t.type === 'INTEREST')} featured={selectedTags || []} />
         </Box>
 
         {/* Description */}

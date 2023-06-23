@@ -32,6 +32,20 @@ export default function Dashboard() {
     </Page>
   );
 
+  if (data?.labs?.student?.status === 'OFFERED') return (
+    <Page title="Student Dashboard">
+      <Content textAlign="center">
+        <Text>You were offered admission to CodeDay Labs in the {data.labs.student.track} track:</Text>
+        <Text>
+          <Link href={`/dash/s/${query.token}/offer-accept`}>I accept this offer!</Link>
+        </Text>
+        <Text>
+          <Link href={`/dash/s/${query.token}/withdraw`}>I do NOT accept, and want to withdraw my application.</Link>
+        </Text>
+      </Content>
+    </Page>
+  );
+
   if (data?.labs?.student?.status !== 'ACCEPTED') return (
     <Page title="Student Dashboard">
       <Content textAlign="center">

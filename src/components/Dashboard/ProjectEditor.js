@@ -33,8 +33,6 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
   const fetch = useFetcher();
   const { success, error } = useToasts();
 
-  console.log(project);
-
   const tagInfo = project.tags.map((t) => tags.filter((tInfo) => tInfo.id === t.id)[0]);
 
   const save = (data) => async () => {
@@ -46,7 +44,6 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         data: {
           description: project.description || "",
           deliverables: project.deliverables || "",
-          affinePartnerId: typeof project.affinePartnerId !== 'undefined' ? project.affinePartnerId : undefined,
           tags: (project.tags || []).map(({ id }) => id),
           ...(limited ? {} : {
             status: project.status,
@@ -116,14 +113,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
       {(!limited || project.affinePartnerId) && (
         <Text mb={8}>
           <Text as="span" bold>Only For Partner: </Text>
-          {limited ? (project.affinePartner.partnerCode) : (
-            <Input
-              w={48}
-              value={project.affinePartnerId}
-              placeholder={"Partner database ID. Most projects don't need this."}
-              onChange={(e) => setProject(['affinePartnerId', e.target.value])}
-            />
-          )}
+          {project.affinePartner.partnerCode}
         </Text>
       )}
 

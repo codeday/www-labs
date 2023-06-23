@@ -1,12 +1,21 @@
+#import "../../../../components/Dashboard/Match.gql"
+
 query PartnerStudentsAbout {
   labs {
     students {
       id
       name
+      email
       timeManagementPlan
       minHours
       timezone
       status
+      hasProjectPreferences
+      token
+      projects {
+        id
+        ...Match
+      }
       surveyResponsesAbout {
         surveyOccurence {
           id
