@@ -15,6 +15,17 @@ query PartnerStudentsAbout {
       projects {
         id
         ...Match
+        tags {
+          id
+          mentorDisplayName
+          trainingLink
+        }
+      }
+      tagTrainingSubmissions {
+        url
+        tag {
+          id
+        }
       }
       surveyResponsesAbout {
         surveyOccurence {

@@ -79,81 +79,118 @@ export default function PartnerPage({ students }) {
             </Box>
           </Box>
           <Box>
-            {students.filter((s) => s.status !== 'CANCELED').map((s) => (
-              <Box mb={8}>
-                <Link name={`s-${s.id}`} href={`/dash/s/${s.token}`} target="_blank">
-                  <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
-                </Link>
-                <Accordion allowToggle>
-                  <AccordionItem>
-                    <AccordionButton>
-                      Time Management Plan ({s.minHours}hr/week)
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel pb={4}>
-                      <Text><strong>Timezone: </strong>{s.timezone || 'Unknown'}</Text>
-                      {!s.timeManagementPlan ? 'Not collected' : (
-                        <List styleType="disc" ml={6}>
-                          {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => (
-                            <ListItem>
-                              <strong>{day}: </strong>
-                              {s.timeManagementPlan[day.toLowerCase()].map(({start, end}) => (
-                                `${Math.floor(start/60)}:${(start%60).toString().padEnd(2, '0')}`
-                                + ' to '
-                                + `${Math.floor(end/60)}:${(end%60).toString().padEnd(2, '0')}`
-                              )).join('; ')}
-                            </ListItem>
-                          ))}
-                        </List>
-                      )}
-                    </AccordionPanel>
-                  </AccordionItem>
-
-                  <AccordionItem>
-                    <AccordionButton
-                      {...getCautionColors((!s.hasProjectPreferences && !s.skipPreferences && !s.project) ? 1 : 0)}
-                    >
-                      Project
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel pb={4}>
-                      {s.projects && s.projects.length > 0 ? (
-                        s.projects.map((p) => (
-                          <Match match={p} key={p.id} />
-                        ))
-                      ) : (
-                        <>
-                          <Text>Preferences Submitted: {s.hasProjectPreferences ? 'yes' : 'no'}</Text>
-                          <Text>Matched: no</Text>
-                        </>
-                      )}
-                    </AccordionPanel>
-                  </AccordionItem>
-
-                  {s.surveyResponsesAbout
-                    .sort((a, b) => {
-                      if (DateTime.fromISO(a.surveyOccurence.dueAt) > DateTime.fromISO(b.surveyOccurence.dueAt)) return -1;
-                      if (DateTime.fromISO(a.surveyOccurence.dueAt) < DateTime.fromISO(b.surveyOccurence.dueAt)) return 1;
-                      if (a.surveyOccurence.survey.personType === 'STUDENT' && b.surveyOccurence.survey.personType === 'MENTOR') return 1;
-                      if (a.surveyOccurence.survey.personType === 'MENTOR' && b.surveyOccurence.survey.personType === 'STUDENT') return -1;
-                    })
-                    .map((sr) => (
+            {students
+              .filter((s) => s.status !== 'CANCELED')
+              .map((s) => {
+                const trainingSubmissions = (s.projects || []).flatMap((p) => p.tags)
+                  .filter((t) => t.trainingLink)
+                  .map((t) => ({
+                    submission: s.tagTrainingSubmissions.filter((ts) => ts.tag.id === t.id)[0]?.url,
+                    ...t,
+                  }));
+                return {
+                  ...s,
+                  trainingSubmissions,
+                };
+              })
+              .map((s) => (
+                <Box mb={8}>
+                  <Link name={`s-${s.id}`} href={`/dash/s/${s.token}`} target="_blank">
+                    <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
+                  </Link>
+                  <Accordion allowToggle>
                     <AccordionItem>
-                      <AccordionButton {...getCautionColors(sr.caution)}>
-                        {DateTime.fromISO(sr.surveyOccurence.dueAt).toLocaleString()}{' - '}
-                        {(sr.authorMentor || sr.authorStudent).id === s.id
-                          ? 'Self-Reflection'
-                          : `${(sr.authorMentor || sr.authorStudent).name} (${sr.surveyOccurence.survey.personType === 'MENTOR' ? 'mentor' : 'peer'})`
-                        }
+                      <AccordionButton>
+                        Time Management Plan ({s.minHours}hr/week)
                         <AccordionIcon />
                       </AccordionButton>
                       <AccordionPanel pb={4}>
-                        <SurveyFields content={sr.response} />
+                        <Text><strong>Timezone: </strong>{s.timezone || 'Unknown'}</Text>
+                        {!s.timeManagementPlan ? 'Not collected' : (
+                          <List styleType="disc" ml={6}>
+                            {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => (
+                              <ListItem>
+                                <strong>{day}: </strong>
+                                {s.timeManagementPlan[day.toLowerCase()].map(({start, end}) => (
+                                  `${Math.floor(start/60)}:${(start%60).toString().padEnd(2, '0')}`
+                                  + ' to '
+                                  + `${Math.floor(end/60)}:${(end%60).toString().padEnd(2, '0')}`
+                                )).join('; ')}
+                              </ListItem>
+                            ))}
+                          </List>
+                        )}
                       </AccordionPanel>
                     </AccordionItem>
-                  ))}
-                </Accordion>
-              </Box>
+
+                    <AccordionItem>
+                      <AccordionButton
+                        {...getCautionColors((s.hasProjectPreferences || s.skipPreferences || s.project) ? 1 : 0)}
+                      >
+                        Project
+                        <AccordionIcon />
+                      </AccordionButton>
+                      <AccordionPanel pb={4}>
+                        {s.projects && s.projects.length > 0 ? (
+                          s.projects.map((p) => (
+                            <Match match={p} key={p.id} />
+                          ))
+                        ) : (
+                          <>
+                            <Text>Preferences Submitted: {s.hasProjectPreferences ? 'yes' : 'no'}</Text>
+                            <Text>Matched: no</Text>
+                          </>
+                        )}
+                      </AccordionPanel>
+                    </AccordionItem>
+
+                    <AccordionItem>
+                      <AccordionButton
+                        {...getCautionColors(1-(s.trainingSubmissions.filter((ts) => ts.submission).length / s.trainingSubmissions.length))}
+                      >
+                        Onboarding Assignments
+                        <AccordionIcon />
+                      </AccordionButton>
+                      <AccordionPanel pb={4}>
+                        <List styleType="disc" ml={6}>
+                          {s.trainingSubmissions.map((ts) => (
+                            <ListItem>
+                              <Link href={ts.trainingLink}>
+                                {ts.mentorDisplayName}
+                              </Link>:{' '}
+                              {ts.submission ? (
+                                <Link href={ts.submission}>Submitted</Link>
+                              ) : <>Missing</>}
+                            </ListItem>
+                          ))}
+                        </List>
+                      </AccordionPanel>
+                    </AccordionItem>
+
+                    {s.surveyResponsesAbout
+                      .sort((a, b) => {
+                        if (DateTime.fromISO(a.surveyOccurence.dueAt) > DateTime.fromISO(b.surveyOccurence.dueAt)) return -1;
+                        if (DateTime.fromISO(a.surveyOccurence.dueAt) < DateTime.fromISO(b.surveyOccurence.dueAt)) return 1;
+                        if (a.surveyOccurence.survey.personType === 'STUDENT' && b.surveyOccurence.survey.personType === 'MENTOR') return 1;
+                        if (a.surveyOccurence.survey.personType === 'MENTOR' && b.surveyOccurence.survey.personType === 'STUDENT') return -1;
+                      })
+                      .map((sr) => (
+                      <AccordionItem>
+                        <AccordionButton {...getCautionColors(sr.caution)}>
+                          {DateTime.fromISO(sr.surveyOccurence.dueAt).toLocaleString()}{' - '}
+                          {(sr.authorMentor || sr.authorStudent).id === s.id
+                            ? 'Self-Reflection'
+                            : `${(sr.authorMentor || sr.authorStudent).name} (${sr.surveyOccurence.survey.personType === 'MENTOR' ? 'mentor' : 'peer'})`
+                          }
+                          <AccordionIcon />
+                        </AccordionButton>
+                        <AccordionPanel pb={4}>
+                          <SurveyFields content={sr.response} />
+                        </AccordionPanel>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </Box>
             ))}
           </Box>
         </Grid>
