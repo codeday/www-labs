@@ -22,7 +22,7 @@ function getCautionColors(caution) {
   return {};
 }
 
-export default function PartnerPage({ students }) {
+export default function PartnerPage({ students, hidePartner }) {
   const [newStudentEmail, setNewStudentEmail] = useState('');
   const [newStudentUsername, setNewStudentUsername] = useState('');
   const fetch = useFetcher();
@@ -39,48 +39,55 @@ export default function PartnerPage({ students }) {
                 <ListItem><Link href={`#s-${s.id}`}>{s.name}</Link></ListItem>
               ))}
             </List>
-            <Box mt={8}>
-              <Heading as="h4" fontSize="md">Associate Student</Heading>
-              <Text fontSize="sm" fontWeight="bold">Email</Text>
-              <Input
-                onChange={(e) => setNewStudentEmail(e.target.value)}
-                value={newStudentEmail}
-              />
-              <Text fontSize="sm" fontWeight="bold">or CodeDay Username</Text>
-              <Input
-                onChange={(e) => setNewStudentUsername(e.target.value)}
-                value={newStudentUsername}
-              />
-              <Button
-                onClick={async () => {
-                  try {
-                    const result = await fetch(
-                      AssociatePartnerCodeMutation,
-                      {
-                        where: {
-                          username: newStudentUsername || undefined,
-                          email: newStudentEmail || undefined,
+            {!hidePartner && (
+              <Box mt={8}>
+                <Heading as="h4" fontSize="md">Associate Student</Heading>
+                <Text fontSize="sm" fontWeight="bold">Email</Text>
+                <Input
+                  onChange={(e) => setNewStudentEmail(e.target.value)}
+                  value={newStudentEmail}
+                />
+                <Text fontSize="sm" fontWeight="bold">or CodeDay Username</Text>
+                <Input
+                  onChange={(e) => setNewStudentUsername(e.target.value)}
+                  value={newStudentUsername}
+                />
+                <Button
+                  onClick={async () => {
+                    try {
+                      const result = await fetch(
+                        AssociatePartnerCodeMutation,
+                        {
+                          where: {
+                            username: newStudentUsername || undefined,
+                            email: newStudentEmail || undefined,
+                          },
                         },
-                      },
-                    );
-                    if (result.labs.associatePartnerCode.id) {
-                      success(`Associated ${result.labs.associatePartnerCode.givenName} ${result.labs.associatePartnerCode.surname}.`);
-                      setNewStudentEmail('');
-                      setNewStudentUsername('');
-                    } else throw new Error();
-                  } catch (ex) {
-                    console.error(ex);
-                    error('Student not found.');
-                  }
-                }}
-              >
-                Associate
-              </Button>
-            </Box>
+                      );
+                      if (result.labs.associatePartnerCode.id) {
+                        success(`Associated ${result.labs.associatePartnerCode.givenName} ${result.labs.associatePartnerCode.surname}.`);
+                        setNewStudentEmail('');
+                        setNewStudentUsername('');
+                      } else throw new Error();
+                    } catch (ex) {
+                      console.error(ex);
+                      error('Student not found.');
+                    }
+                  }}
+                >
+                  Associate
+                </Button>
+              </Box>
+          )}
           </Box>
           <Box>
             {students
               .filter((s) => s.status !== 'CANCELED')
+              .sort((a, b) => {
+                const mentorA = a.projects?.[0]?.mentors?.[0]?.name || '';
+                const mentorB = b.projects?.[0]?.mentors?.[0]?.name || '';
+                return mentorA.localeCompare(mentorB);
+              })
               .map((s) => {
                 const trainingSubmissions = (s.projects || []).flatMap((p) => p.tags)
                   .filter((t) => t.trainingLink)
@@ -98,6 +105,7 @@ export default function PartnerPage({ students }) {
                   <Link name={`s-${s.id}`} href={`/dash/s/${s.token}`} target="_blank">
                     <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
                   </Link>
+                  <Text>Mentored by {s.projects.flatMap((p) => p.mentors).flatMap((m) => m.name).join(', ')}</Text>
                   <Accordion allowToggle>
                     <AccordionItem>
                       <AccordionButton>
@@ -125,7 +133,7 @@ export default function PartnerPage({ students }) {
 
                     <AccordionItem>
                       <AccordionButton
-                        {...getCautionColors((s.hasProjectPreferences || s.skipPreferences || s.project) ? 1 : 0)}
+                        {...getCautionColors((s.hasProjectPreferences || s.skipPreferences || (s.projects && s.projects.length > 0)) ? 0 : 1)}
                       >
                         Project
                         <AccordionIcon />
@@ -146,7 +154,7 @@ export default function PartnerPage({ students }) {
 
                     <AccordionItem>
                       <AccordionButton
-                        {...getCautionColors(1-(s.trainingSubmissions.filter((ts) => ts.submission).length / s.trainingSubmissions.length))}
+                        {...getCautionColors(1-(s.trainingSubmissions.filter((ts) => ts.submission).length / Math.min(3, s.trainingSubmissions.length)))}
                       >
                         Onboarding Assignments
                         <AccordionIcon />
