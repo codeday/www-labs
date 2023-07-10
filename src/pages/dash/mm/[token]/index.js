@@ -96,7 +96,10 @@ export default function MentorDashboard() {
             All Students &raquo;
           </Button>
           <Button as="a" fontSize="sm" href={`/dash/mm/${query.token}/status`} target="_blank" mb={8}>
-            My Student Status Dashboard &raquo;
+            Student Reflections &raquo;
+          </Button>
+          <Button as="a" fontSize="sm" href={`/dash/mm/${query.token}/mentor-surveys`} target="_blank" mb={8}>
+            Mentor Reflections &raquo;
           </Button>
         </Box>
         <Box as="table" w="100%">

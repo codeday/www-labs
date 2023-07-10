@@ -1,0 +1,32 @@
+fragment SurveyResponseDetails on LabsSurveyResponse {
+  surveyOccurence {
+    id
+    survey { id name personType }
+    dueAt
+  }
+  authorMentor { id name }
+  authorStudent { id name }
+  student { id name }
+  mentor { id name }
+  project { id }
+  response
+  caution
+}
+
+query MentorSurveys($username: String!) {
+  labs {
+    mentors(where: { assignedToManager: $username }) {
+      name
+      id
+      email
+      surveyResponsesAbout {
+        ...SurveyResponseDetails
+      }
+      projects {
+        surveyResponsesAbout {
+          ...SurveyResponseDetails
+        }
+      }
+    }
+  }
+}
