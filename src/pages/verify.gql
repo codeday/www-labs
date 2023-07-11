@@ -1,0 +1,11 @@
+query VerifyQuery ($givenName: String!, $surname: String!) {
+  labs {
+    employmentRecords(givenName: $givenName, surname: $surname) {
+      start
+      end
+      eligibleForRehire
+      title
+      mentors
+    }
+	}
+}

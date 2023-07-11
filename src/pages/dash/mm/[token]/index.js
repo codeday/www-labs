@@ -95,7 +95,7 @@ export default function MentorDashboard() {
           <Button as="a" fontSize="sm" href={`/dash/mm/${query.token}/students`} target="_blank" mb={8} mr={4}>
             All Students &raquo;
           </Button>
-          <Button as="a" fontSize="sm" href={`/dash/mm/${query.token}/status`} target="_blank" mb={8}>
+          <Button as="a" fontSize="sm" href={`/dash/mm/${query.token}/status`} target="_blank" mb={8} mr={4}>
             Student Reflections &raquo;
           </Button>
           <Button as="a" fontSize="sm" href={`/dash/mm/${query.token}/mentor-surveys`} target="_blank" mb={8}>
