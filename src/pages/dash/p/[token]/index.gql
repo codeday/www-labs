@@ -38,6 +38,8 @@ query PartnerStudentsAbout {
         }
         authorMentor { id name }
         authorStudent { id name }
+        mentor { id }
+        student { id }
         response
         caution
       }
