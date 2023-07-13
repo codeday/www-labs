@@ -23,6 +23,8 @@ query SurveyQuery ($surveyId: String!) {
     survey(survey: $surveyId) {
       id
       name
+      intro
+      randomize
       selfUi
       selfSchema
       projectUi

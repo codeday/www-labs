@@ -16,6 +16,7 @@ import { PartnerStudentsAbout, AssociatePartnerCodeMutation } from './index.gql'
 import SurveyFields from '../../../../components/SurveyFields';
 import { useFetcher } from '../../../../dashboardFetch';
 import { Match } from '../../../../components/Dashboard/Match';
+import { getReflectionType } from '../../../../utils';
 
 function getCautionColors(caution) {
   if (caution > 0.9) return { bg: 'red.500', color: 'red.50' };
@@ -197,14 +198,10 @@ export default function PartnerPage({ students, hidePartner }) {
                         if (a.surveyOccurence.survey.personType === 'MENTOR' && b.surveyOccurence.survey.personType === 'STUDENT') return -1;
                       })
                       .filter((sr) => {
+                        const reflectionType = getReflectionType(sr, s);
                         if (filter === 'all') return true;
-                        if (filter === 'self')
-                          return (sr.authorMentor || sr.authorStudent).id === s.id;
-                        if (filter === 'peer')
-                          return ((sr.mentor && sr.authorMentor) || (sr.student && sr.authorStudent)) && (sr.authorMentor || sr.authorStudent).id !== s.id;
-                        if (filter === 'other')
-                          return ((sr.mentor && sr.authorStudent) || (sr.student && sr.authorMentor));
-                        return false;
+                        if (filter === 'other' && ['mentor', 'mentee'].includes(reflectionType)) return true;
+                        return filter === reflectionType;
                       })
                       .map((sr) => (
                       <AccordionItem>
@@ -212,12 +209,15 @@ export default function PartnerPage({ students, hidePartner }) {
                           {DateTime.fromISO(sr.surveyOccurence.dueAt).toLocaleString()}{' - '}
                           {(sr.authorMentor || sr.authorStudent).id === s.id
                             ? 'Self-Reflection'
-                            : `${(sr.authorMentor || sr.authorStudent).name} (${sr.surveyOccurence.survey.personType === 'MENTOR' ? 'mentor' : 'peer'})`
+                            : `${(sr.authorMentor || sr.authorStudent).name} (${getReflectionType(sr, s)})`
                           }
                           <AccordionIcon />
                         </AccordionButton>
                         <AccordionPanel pb={4}>
-                          <SurveyFields content={sr.response} />
+                          <SurveyFields
+                            content={sr.response}
+                            displayFn={sr.surveyOccurence.survey[`${getReflectionType(sr, s)}Display`]}
+                          />
                         </AccordionPanel>
                       </AccordionItem>
                     ))}

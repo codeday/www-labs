@@ -33,7 +33,16 @@ query PartnerStudentsAbout {
       surveyResponsesAbout {
         surveyOccurence {
           id
-          survey { id name personType }
+          survey {
+            id
+            name
+            personType
+            selfDisplay
+            peerDisplay
+            menteeDisplay
+            mentorDisplay
+            projectDisplay
+          }
           dueAt
         }
         authorMentor { id name }

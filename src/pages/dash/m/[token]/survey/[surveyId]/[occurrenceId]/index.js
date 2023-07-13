@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { Heading, Button } from '@codeday/topo/Atom';
+import React, { useCallback, useState } from 'react';
+import { Heading, Button, Divider } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { Form } from '@rjsf/chakra-ui';
+import ReactMarkdown from 'react-markdown';
 import Page from '../../../../../../../components/Page';
 import { useSurveyResponses } from '../../../../../../../utils';
 import { SurveyQuery, SurveyRespondMutation } from './index.gql';
 import { apiFetch } from '@codeday/topo/utils';
 
-export default function SurveyPage({ mentor, survey, token, surveyId, occurrenceId }) {
+export default function SurveyPage({ mentor, survey, token, surveyId, occurrenceId, randomSeed }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [responses, setResponse, getResponse] = useSurveyResponses();
@@ -19,7 +20,14 @@ export default function SurveyPage({ mentor, survey, token, surveyId, occurrence
     .filter((m) => m.id !== mentor.id);
   const students = projects
     .map((p) => p.students.map((s) => ({ ...s, projectId: p.id })))
-    .flat()
+    .flat();
+
+  const maybeRandom = useCallback((schema, ui) => {
+    return survey.randomize
+      ? randomizeJsonSchemaFormDisplay(schema, ui, randomSeed)
+      : ui;
+  }, [survey?.randomize, randomSeed]);
+
 
   if (isSubmitted) {
     return (
@@ -33,17 +41,25 @@ export default function SurveyPage({ mentor, survey, token, surveyId, occurrence
 
   return (
     <Page slug={`/dash/m/${token}/survey/${surveyId}/${occurrenceId}`} title="Form Submission">
+      {survey?.intro && (
+        <Content>
+          <ReactMarkdown>{survey.intro}</ReactMarkdown>
+          <Divider mb={8} mt={8} />
+        </Content>
+      )}
       {survey?.selfSchema && (
         <Content>
           <Heading fontSize="5xl">Self-Reflection</Heading>
           <Form
             schema={survey.selfSchema}
-            uiSchema={survey.selfUi}
+            uiSchema={maybeRandom(survey.selfSchema, survey.selfUi)}
             onChange={(e) => setResponse({ response: e.formData, mentor: mentor.id })}
             formData={getResponse({ mentor: mentor.id })?.response || {}}
             disabled={isLoading}
             children={true}
           />
+          <Divider mb={8} mt={8} />
+
         </Content>
       )}
       {survey?.projectSchema && projects.map((p) => (
@@ -53,12 +69,13 @@ export default function SurveyPage({ mentor, survey, token, surveyId, occurrence
           </Heading>
           <Form
             schema={survey.projectSchema}
-            uiSchema={survey.projectUi}
+            uiSchema={maybeRandom(survey.projectUi, survey.projectUi)}
             onChange={(e) => setResponse({ response: e.formData, project: p.id })}
             formData={getResponse({ project: p.id })?.response || {}}
             disabled={isLoading}
             children={true}
           />
+          <Divider mb={8} mt={8} />
         </Content>
       ))}
       {survey?.peerSchema && peerMentors.map((p) => (
@@ -66,12 +83,13 @@ export default function SurveyPage({ mentor, survey, token, surveyId, occurrence
           <Heading fontSize="5xl">Peer Reflection: {p.givenName} {p.surname}</Heading>
           <Form
             schema={JSON.parse(JSON.stringify(survey.peerSchema).replace(/{{name}}/g, p.givenName))}
-            uiSchema={survey.peerUi}
+            uiSchema={maybeRandom(survey.peerSchema, survey.peerUi)}
             onChange={(e) => setResponse({ response: e.formData, mentor: p.id })}
             formData={getResponse({ mentor: p.id })?.response || {}}
             disabled={isLoading}
             children={true}
           />
+          <Divider mb={8} mt={8} />
         </Content>
       ))}
       {survey?.menteeSchema && students.map((m) => (
@@ -79,12 +97,13 @@ export default function SurveyPage({ mentor, survey, token, surveyId, occurrence
           <Heading fontSize="5xl">Mentee Reflection: {m.givenName} {m.surname}</Heading>
           <Form
             schema={JSON.parse(JSON.stringify(survey.menteeSchema).replace(/{{name}}/g, m.givenName))}
-            uiSchema={survey.menteeUi}
+            uiSchema={maybeRandom(survey.menteeSchema, survey.menteeUi)}
             onChange={(e) => setResponse({ response: e.formData, student: m.id })}
             formData={getResponse({ student: m.id })?.response || {}}
             disabled={isLoading}
             children={true}
           />
+          <Divider mb={8} mt={8} />
         </Content>
       ))}
       <Content textAlign="center" mt={8}>
@@ -122,6 +141,7 @@ export async function getServerSideProps({ params: { token, surveyId, occurrence
       surveyId,
       occurrenceId,
       token,
+      randomSeed: Math.random(),
     },
   };
 }

@@ -1,40 +1,48 @@
 import { Box, Text, List, ListItem } from '@codeday/topo/Atom';
 
-function filter(key) {
-  const lowerkey = key.toLowerCase();
-  return true;
-}
+export default function SurveyFields({ content, displayFn, ...rest }) {
+  const displayFnRunnable = displayFn
+    ? (new Function(`{ return ${displayFn} }`)).call(null)
+    : (a) => a;
 
-export default function SurveyFields({ content, ...rest }) {
+  const renderedContent = Object.entries(displayFnRunnable({...content}))
+    .filter(([, v]) => Boolean(v) && (!Array.isArray(v) || v.length > 0));
+
   return (
     <Box {...rest}>
-      {Object.keys(content)
-        .filter(filter)
-        .filter((k) => Boolean(content[k]) && (!Array.isArray(content[k]) || content[k].length > 0))
-        .map((k) => (
-          <Box key={k} mb={4}>
-            <Text textTransform="uppercase" fontSize="sm" fontWeight="bold" color="gray.600">
-              {k
-                .replace(/_/g, ' ')
-                .replace(/([a-z](?=[A-Z]))/g, '$1 ')
-              }
-            </Text>
-            {Array.isArray(content[k])
-              ? (
-                <List listStyleType="disc" pl={8}>
-                  {content[k].map((e, i) => (
-                    <ListItem key={i}>
-                      {typeof e === 'object' ? <SurveyFields content={e} /> : e.toString()}
-                    </ListItem>
-                  ))}
-                </List>
-              )
-              : (
-                typeof content[k] === 'object' ? <SurveyFields content={content[k]} /> : <Text>{content[k].toString()}</Text>
-              )
-            }
-          </Box>
-      ))}
+      {renderedContent
+        .map(([k, v]) => {
+          let renderedVal = v;
+          if (Array.isArray(v)) renderedVal = (
+            <List listStyleType="disc" pl={8}>
+              {v.map((e, i) => (
+                <ListItem key={i}>
+                  {typeof e === 'object' ? <SurveyFields content={e} /> : e.toString()}
+                </ListItem>
+              ))}
+            </List>
+          );
+          else if (typeof v === 'object') renderedVal = (
+            <SurveyFields
+              ml={4}
+              borderLeftWidth={2}
+              pl={2}
+              content={v}
+            />
+          );
+
+          return (
+            <Box key={k} mb={4}>
+              <Text textTransform="uppercase" fontSize="sm" fontWeight="bold" color="gray.600">
+                {k
+                  .replace(/_/g, ' ')
+                  .replace(/([a-z](?=[A-Z]))/g, '$1 ')
+                }
+              </Text>
+              {renderedVal}
+            </Box>
+          )
+        })}
     </Box>
   )
 }
