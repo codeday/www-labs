@@ -1,0 +1,9 @@
+query AutocompleteQuery ($q: String!, $students: Boolean, $mentors: Boolean, $projects: Boolean) {
+  labs {
+    autocomplete(types: { students: $students, mentors: $mentors, projects: $projects }, q: $q) {
+      type
+      name
+      id
+    }
+  }
+}

@@ -1,0 +1,7 @@
+mutation AddNoteMutation($student: String!, $caution: Float!, $note: String!) {
+  labs {
+    addNote(student: { id: $student }, caution: $caution, note: $note) {
+      id
+    }
+  }
+}

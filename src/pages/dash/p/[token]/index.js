@@ -17,6 +17,7 @@ import SurveyFields from '../../../../components/SurveyFields';
 import { useFetcher } from '../../../../dashboardFetch';
 import { Match } from '../../../../components/Dashboard/Match';
 import { getReflectionType } from '../../../../utils';
+import ReactMarkdown from 'react-markdown';
 
 function getCautionColors(caution) {
   if (caution > 0.9) return { bg: 'red.500', color: 'red.50' };
@@ -42,6 +43,8 @@ export default function PartnerPage({ students, hidePartner }) {
               <option value="peer">Show peer reflections</option>
               <option value="self">Show self-reflections</option>
               <option value="other">Show assigned reflections</option>
+              <option value="notes">Show notes</option>
+              <option value="metadata">Show metadata</option>
             </Select>
 
             <Heading as="h3" fontSize="md" bold>Students</Heading>
@@ -106,8 +109,65 @@ export default function PartnerPage({ students, hidePartner }) {
                     submission: s.tagTrainingSubmissions.filter((ts) => ts.tag.id === t.id)[0]?.url,
                     ...t,
                   }));
+
+                const surveyResponses = s.surveyResponsesAbout
+                  .sort((a, b) => {
+                    if (a.surveyOccurence.survey.personType === 'STUDENT' && b.surveyOccurence.survey.personType === 'MENTOR') return 1;
+                    if (a.surveyOccurence.survey.personType === 'MENTOR' && b.surveyOccurence.survey.personType === 'STUDENT') return -1;
+                  })
+                  .filter((sr) => {
+                    const reflectionType = getReflectionType(sr, s);
+                    if (filter === 'all') return true;
+                    if (filter === 'other' && ['mentor', 'mentee'].includes(reflectionType)) return true;
+                    return filter === reflectionType;
+                  })
+                  .map((sr) => ([DateTime.fromISO(sr.surveyOccurence.dueAt), (
+                  <AccordionItem>
+                    <AccordionButton {...getCautionColors(sr.caution)}>
+                      {DateTime.fromISO(sr.surveyOccurence.dueAt).toLocaleString()}{' - '}
+                      {(sr.authorMentor || sr.authorStudent).id === s.id
+                        ? 'Self-Reflection'
+                        : `${(sr.authorMentor || sr.authorStudent).name} (${getReflectionType(sr, s)})`
+                      }
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+                      <SurveyFields
+                        content={sr.response}
+                        displayFn={sr.surveyOccurence.survey[`${getReflectionType(sr, s)}Display`]}
+                      />
+                    </AccordionPanel>
+                  </AccordionItem>
+                  )]
+                ));
+
+                const notes = !['all', 'notes'].includes(filter) ? [] : s.notes
+                  .map((n) => [DateTime.fromISO(n.createdAt), (
+                    <AccordionItem>
+                      <AccordionButton {...getCautionColors(n.caution)}>
+                        {DateTime.fromISO(n.createdAt).toLocaleString()}{' - '}
+                        {n.username}@codeday.org (staff note)
+                        <AccordionIcon />
+                      </AccordionButton>
+                      <AccordionPanel pb={4}>
+                        <Box pl={4} ml={4} borderLeftWidth={2}>
+                          <ReactMarkdown className="markdown">{n.note}</ReactMarkdown>
+                        </Box>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  )]);
+
+                const datedItems = [...surveyResponses, ...notes]
+                  .sort(([a], [b]) => {
+                    if (a > b) return 1;
+                    if (a < b) return -1;
+                    return 0;
+                  })
+                  .map((e) => e[1]);
+
                 return {
                   ...s,
+                  datedItems,
                   trainingSubmissions,
                 };
               })
@@ -118,7 +178,7 @@ export default function PartnerPage({ students, hidePartner }) {
                   </Link>
                   <Text>Mentored by {s.projects.flatMap((p) => p.mentors).flatMap((m) => m.name).join(', ')}</Text>
                   <Accordion allowToggle>
-                    {filter === 'all' && (
+                    {['all', 'metadata'].includes(filter) && (
                       <>
                         <AccordionItem>
                           <AccordionButton>
@@ -190,37 +250,8 @@ export default function PartnerPage({ students, hidePartner }) {
                       </>
                     )}
 
-                    {s.surveyResponsesAbout
-                      .sort((a, b) => {
-                        if (DateTime.fromISO(a.surveyOccurence.dueAt) > DateTime.fromISO(b.surveyOccurence.dueAt)) return -1;
-                        if (DateTime.fromISO(a.surveyOccurence.dueAt) < DateTime.fromISO(b.surveyOccurence.dueAt)) return 1;
-                        if (a.surveyOccurence.survey.personType === 'STUDENT' && b.surveyOccurence.survey.personType === 'MENTOR') return 1;
-                        if (a.surveyOccurence.survey.personType === 'MENTOR' && b.surveyOccurence.survey.personType === 'STUDENT') return -1;
-                      })
-                      .filter((sr) => {
-                        const reflectionType = getReflectionType(sr, s);
-                        if (filter === 'all') return true;
-                        if (filter === 'other' && ['mentor', 'mentee'].includes(reflectionType)) return true;
-                        return filter === reflectionType;
-                      })
-                      .map((sr) => (
-                      <AccordionItem>
-                        <AccordionButton {...getCautionColors(sr.caution)}>
-                          {DateTime.fromISO(sr.surveyOccurence.dueAt).toLocaleString()}{' - '}
-                          {(sr.authorMentor || sr.authorStudent).id === s.id
-                            ? 'Self-Reflection'
-                            : `${(sr.authorMentor || sr.authorStudent).name} (${getReflectionType(sr, s)})`
-                          }
-                          <AccordionIcon />
-                        </AccordionButton>
-                        <AccordionPanel pb={4}>
-                          <SurveyFields
-                            content={sr.response}
-                            displayFn={sr.surveyOccurence.survey[`${getReflectionType(sr, s)}Display`]}
-                          />
-                        </AccordionPanel>
-                      </AccordionItem>
-                    ))}
+                    {s.datedItems}
+
                   </Accordion>
                 </Box>
             ))}

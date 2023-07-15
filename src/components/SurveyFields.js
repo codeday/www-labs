@@ -25,8 +25,10 @@ export default function SurveyFields({ content, displayFn, ...rest }) {
           else if (typeof v === 'object') renderedVal = (
             <SurveyFields
               ml={4}
+              mt={2}
               borderLeftWidth={2}
-              pl={2}
+              borderLeftStyle="dotted"
+              pl={4}
               content={v}
             />
           );
