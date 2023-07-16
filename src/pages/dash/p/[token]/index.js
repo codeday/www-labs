@@ -1,14 +1,9 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { apiFetch, useToasts } from '@codeday/topo/utils';
 import { Box, Grid, Heading, List, Link, ListItem, Text, TextInput as Input, Button } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { DateTime } from 'luxon';
 import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
   Select,
 } from '@chakra-ui/react'
 import Page from '../../../../components/Page';
@@ -20,6 +15,7 @@ import { getReflectionType } from '../../../../utils';
 import ReactMarkdown from 'react-markdown';
 import StatusEntryCollection from '../../../../components/Dashboard/StatusEntry/Collection';
 import { StatusEntry } from '../../../../components/Dashboard/StatusEntry/StatusEntry';
+import StudentList from '../../../../components/Dashboard/StatusOverview/StudentList';
 
 function getCautionColors(caution) {
   if (caution > 0.9) return { bg: 'red.500', color: 'red.50' };
@@ -34,6 +30,26 @@ export default function PartnerPage({ students, hidePartner }) {
   const fetch = useFetcher();
   const { success, error } = useToasts();
 
+  const studentsWithTrainingInfo = useMemo(() => students
+    .filter((s) => s.status !== 'CANCELED')
+    .sort((a, b) => {
+      const mentorA = a.projects?.[0]?.mentors?.[0]?.name || '';
+      const mentorB = b.projects?.[0]?.mentors?.[0]?.name || '';
+      return mentorA.localeCompare(mentorB);
+    })
+    .map((s) => {
+      const trainingSubmissions = (s.projects || []).flatMap((p) => p.tags)
+        .filter((t) => t.trainingLink)
+        .map((t) => ({
+          submission: s.tagTrainingSubmissions.filter((ts) => ts.tag.id === t.id)[0]?.url,
+          ...t,
+        }));
+      return {
+        ...s,
+        trainingSubmissions,
+      };
+    }), [students]);
+
   return (
     <Page>
       <Content>
@@ -46,15 +62,12 @@ export default function PartnerPage({ students, hidePartner }) {
               <option value="self">Show self-reflections</option>
               <option value="other">Show assigned reflections</option>
               <option value="notes">Show notes</option>
-              <option value="metadata">Show metadata</option>
+              <option value="meta">Show metadata</option>
             </Select>
 
             <Heading as="h3" fontSize="md" bold>Students</Heading>
-            <List>
-              {students.filter((s) => s.status !== 'CANCELED').map((s) => (
-                <ListItem><Link href={`#s-${s.id}`}>{s.name}</Link></ListItem>
-              ))}
-            </List>
+            <StudentList students={studentsWithTrainingInfo} />
+
             {!hidePartner && (
               <Box mt={8}>
                 <Heading as="h4" fontSize="md">Associate Student</Heading>
@@ -98,25 +111,7 @@ export default function PartnerPage({ students, hidePartner }) {
           </Box>
           <Box>
 
-            {students
-              .filter((s) => s.status !== 'CANCELED')
-              .sort((a, b) => {
-                const mentorA = a.projects?.[0]?.mentors?.[0]?.name || '';
-                const mentorB = b.projects?.[0]?.mentors?.[0]?.name || '';
-                return mentorA.localeCompare(mentorB);
-              })
-              .map((s) => {
-                const trainingSubmissions = (s.projects || []).flatMap((p) => p.tags)
-                  .filter((t) => t.trainingLink)
-                  .map((t) => ({
-                    submission: s.tagTrainingSubmissions.filter((ts) => ts.tag.id === t.id)[0]?.url,
-                    ...t,
-                  }));
-                return {
-                  ...s,
-                  trainingSubmissions,
-                };
-              })
+            {studentsWithTrainingInfo
               .map((s) => (
                 <Box mb={8}>
                   <Link name={`s-${s.id}`} href={`/dash/s/${s.token}`} target="_blank">
@@ -135,7 +130,7 @@ export default function PartnerPage({ students, hidePartner }) {
                       {!s.timeManagementPlan ? 'Not collected' : (
                         <List styleType="disc" ml={6}>
                           {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => (
-                            <ListItem>
+                            <ListItem key={day}>
                               <strong>{day}: </strong>
                               {s.timeManagementPlan[day.toLowerCase()].map(({start, end}) => (
                                 `${Math.floor(start/60)}:${(start%60).toString().padEnd(2, '0')}`
@@ -175,7 +170,7 @@ export default function PartnerPage({ students, hidePartner }) {
                       >
                             <List styleType="disc" ml={6}>
                               {s.trainingSubmissions.map((ts) => (
-                                <ListItem>
+                                <ListItem key={ts.trainingLink}>
                                   <Link href={ts.trainingLink}>
                                     {ts.mentorDisplayName}
                                   </Link>:{' '}
