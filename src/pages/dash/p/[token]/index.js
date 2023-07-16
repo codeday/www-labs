@@ -18,6 +18,8 @@ import { useFetcher } from '../../../../dashboardFetch';
 import { Match } from '../../../../components/Dashboard/Match';
 import { getReflectionType } from '../../../../utils';
 import ReactMarkdown from 'react-markdown';
+import StatusEntryCollection from '../../../../components/Dashboard/StatusEntry/Collection';
+import { StatusEntry } from '../../../../components/Dashboard/StatusEntry/StatusEntry';
 
 function getCautionColors(caution) {
   if (caution > 0.9) return { bg: 'red.500', color: 'red.50' };
@@ -95,6 +97,7 @@ export default function PartnerPage({ students, hidePartner }) {
           )}
           </Box>
           <Box>
+
             {students
               .filter((s) => s.status !== 'CANCELED')
               .sort((a, b) => {
@@ -109,65 +112,8 @@ export default function PartnerPage({ students, hidePartner }) {
                     submission: s.tagTrainingSubmissions.filter((ts) => ts.tag.id === t.id)[0]?.url,
                     ...t,
                   }));
-
-                const surveyResponses = s.surveyResponsesAbout
-                  .sort((a, b) => {
-                    if (a.surveyOccurence.survey.personType === 'STUDENT' && b.surveyOccurence.survey.personType === 'MENTOR') return 1;
-                    if (a.surveyOccurence.survey.personType === 'MENTOR' && b.surveyOccurence.survey.personType === 'STUDENT') return -1;
-                  })
-                  .filter((sr) => {
-                    const reflectionType = getReflectionType(sr, s);
-                    if (filter === 'all') return true;
-                    if (filter === 'other' && ['mentor', 'mentee'].includes(reflectionType)) return true;
-                    return filter === reflectionType;
-                  })
-                  .map((sr) => ([DateTime.fromISO(sr.surveyOccurence.dueAt), (
-                  <AccordionItem>
-                    <AccordionButton {...getCautionColors(sr.caution)}>
-                      {DateTime.fromISO(sr.surveyOccurence.dueAt).toLocaleString()}{' - '}
-                      {(sr.authorMentor || sr.authorStudent).id === s.id
-                        ? 'Self-Reflection'
-                        : `${(sr.authorMentor || sr.authorStudent).name} (${getReflectionType(sr, s)})`
-                      }
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel pb={4}>
-                      <SurveyFields
-                        content={sr.response}
-                        displayFn={sr.surveyOccurence.survey[`${getReflectionType(sr, s)}Display`]}
-                      />
-                    </AccordionPanel>
-                  </AccordionItem>
-                  )]
-                ));
-
-                const notes = !['all', 'notes'].includes(filter) ? [] : s.notes
-                  .map((n) => [DateTime.fromISO(n.createdAt), (
-                    <AccordionItem>
-                      <AccordionButton {...getCautionColors(n.caution)}>
-                        {DateTime.fromISO(n.createdAt).toLocaleString()}{' - '}
-                        {n.username}@codeday.org (staff note)
-                        <AccordionIcon />
-                      </AccordionButton>
-                      <AccordionPanel pb={4}>
-                        <Box pl={4} ml={4} borderLeftWidth={2}>
-                          <ReactMarkdown className="markdown">{n.note}</ReactMarkdown>
-                        </Box>
-                      </AccordionPanel>
-                    </AccordionItem>
-                  )]);
-
-                const datedItems = [...surveyResponses, ...notes]
-                  .sort(([a], [b]) => {
-                    if (a > b) return 1;
-                    if (a < b) return -1;
-                    return 0;
-                  })
-                  .map((e) => e[1]);
-
                 return {
                   ...s,
-                  datedItems,
                   trainingSubmissions,
                 };
               })
@@ -177,62 +123,56 @@ export default function PartnerPage({ students, hidePartner }) {
                     <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
                   </Link>
                   <Text>Mentored by {s.projects.flatMap((p) => p.mentors).flatMap((m) => m.name).join(', ')}</Text>
-                  <Accordion allowToggle>
-                    {['all', 'metadata'].includes(filter) && (
-                      <>
-                        <AccordionItem>
-                          <AccordionButton>
-                            Time Management Plan ({s.minHours}hr/week)
-                            <AccordionIcon />
-                          </AccordionButton>
-                          <AccordionPanel pb={4}>
-                            <Text><strong>Timezone: </strong>{s.timezone || 'Unknown'}</Text>
-                            {!s.timeManagementPlan ? 'Not collected' : (
-                              <List styleType="disc" ml={6}>
-                                {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => (
-                                  <ListItem>
-                                    <strong>{day}: </strong>
-                                    {s.timeManagementPlan[day.toLowerCase()].map(({start, end}) => (
-                                      `${Math.floor(start/60)}:${(start%60).toString().padEnd(2, '0')}`
-                                      + ' to '
-                                      + `${Math.floor(end/60)}:${(end%60).toString().padEnd(2, '0')}`
-                                    )).join('; ')}
-                                  </ListItem>
-                                ))}
-                              </List>
-                            )}
-                          </AccordionPanel>
-                        </AccordionItem>
 
-                        <AccordionItem>
-                          <AccordionButton
-                            {...getCautionColors((s.hasProjectPreferences || s.skipPreferences || (s.projects && s.projects.length > 0)) ? 0 : 1)}
-                          >
-                            Project
-                            <AccordionIcon />
-                          </AccordionButton>
-                          <AccordionPanel pb={4}>
-                            {s.projects && s.projects.length > 0 ? (
-                              s.projects.map((p) => (
-                                <Match match={p} key={p.id} />
-                              ))
-                            ) : (
-                              <>
-                                <Text>Preferences Submitted: {s.hasProjectPreferences ? 'yes' : 'no'}</Text>
-                                <Text>Matched: no</Text>
-                              </>
-                            )}
-                          </AccordionPanel>
-                        </AccordionItem>
+                  <StatusEntryCollection onlyType={filter}>
+                    {/* Show time management plan */}
+                    <StatusEntry
+                      type="meta"
+                      title={`Time Management Plan (${s.minHours}hr/wk)`}
+                      caution={s.timeManagementPlan || s.timezone ? 0 : 0.1}
+                    >
+                      <Text><strong>Timezone: </strong>{s.timezone || 'Unknown'}</Text>
+                      {!s.timeManagementPlan ? 'Not collected' : (
+                        <List styleType="disc" ml={6}>
+                          {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => (
+                            <ListItem>
+                              <strong>{day}: </strong>
+                              {s.timeManagementPlan[day.toLowerCase()].map(({start, end}) => (
+                                `${Math.floor(start/60)}:${(start%60).toString().padEnd(2, '0')}`
+                                + ' to '
+                                + `${Math.floor(end/60)}:${(end%60).toString().padEnd(2, '0')}`
+                              )).join('; ')}
+                            </ListItem>
+                          ))}
+                        </List>
+                      )}
+                    </StatusEntry>
 
-                        <AccordionItem>
-                          <AccordionButton
-                            {...getCautionColors(1-(s.trainingSubmissions.filter((ts) => ts.submission).length / Math.min(3, s.trainingSubmissions.length)))}
-                          >
-                            Onboarding Assignments
-                            <AccordionIcon />
-                          </AccordionButton>
-                          <AccordionPanel pb={4}>
+                    {/* Show project details or preference submission */}
+                    <StatusEntry
+                      title="Project"
+                      type="meta"
+                      caution={(s.hasProjectPreferences || s.skipPreferences || (s.projects && s.projects.length > 0)) ? 0 : 1}
+                    >
+                      {s.projects && s.projects.length > 0 ? (
+                        s.projects.map((p) => (
+                          <Match match={p} key={p.id} />
+                        ))
+                      ) : (
+                        <>
+                          <Text>Preferences Submitted: {s.hasProjectPreferences ? 'yes' : 'no'}</Text>
+                          <Text>Matched: no</Text>
+                        </>
+                      )}
+                    </StatusEntry>
+
+                    {/* Show onboarding assignments if project is assigned */}
+                    {s.projects && s.projects.length > 0 && (
+                      <StatusEntry
+                        type="meta"
+                        title="Onboarding Assignments"
+                        caution={1-(s.trainingSubmissions.filter((ts) => ts.submission).length / Math.min(3, s.trainingSubmissions.length))}
+                      >
                             <List styleType="disc" ml={6}>
                               {s.trainingSubmissions.map((ts) => (
                                 <ListItem>
@@ -245,14 +185,49 @@ export default function PartnerPage({ students, hidePartner }) {
                                 </ListItem>
                               ))}
                             </List>
-                          </AccordionPanel>
-                        </AccordionItem>
-                      </>
+                      </StatusEntry>
                     )}
 
-                    {s.datedItems}
+                    {/* Show any staff notes */}
+                    {s.notes.map(n => (
+                      <StatusEntry
+                        key={n.id}
+                        type="staff"
+                        date={DateTime.fromISO(n.createdAt)}
+                        caution={n.caution}
+                        title={<>
+                        {n.username}<Box display={{ base: 'none', md: 'inline-block' }}>@codeday.org</Box>
+                        </>}
+                      >
+                        <Box pl={4} ml={4} borderLeftWidth={2}>
+                          <ReactMarkdown className="markdown">{n.note}</ReactMarkdown>
+                        </Box>
+                      </StatusEntry>
+                    ))}
 
-                  </Accordion>
+                    {/* Show any survey feedback */}
+                    {s.surveyResponsesAbout
+                      .sort((a, b) => {
+                        if (a.surveyOccurence.survey.personType === 'STUDENT' && b.surveyOccurence.survey.personType === 'MENTOR') return 1;
+                        if (a.surveyOccurence.survey.personType === 'MENTOR' && b.surveyOccurence.survey.personType === 'STUDENT') return -1;
+                      })
+                      .map(sr => (
+                        <StatusEntry
+                          key={sr.id}
+                          type={getReflectionType(sr, s)}
+                          date={DateTime.fromISO(sr.surveyOccurence.dueAt)}
+                          title={(sr.authorMentor || sr.authorStudent).name}
+                          caution={sr.caution}
+                        >
+                          <SurveyFields
+                            content={sr.response}
+                            displayFn={sr.surveyOccurence.survey[`${getReflectionType(sr, s)}Display`]}
+                          />
+                        </StatusEntry>
+                      ))
+                    }
+
+                  </StatusEntryCollection>
                 </Box>
             ))}
           </Box>

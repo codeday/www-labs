@@ -31,12 +31,14 @@ query PartnerStudentsAbout {
         }
       }
       notes {
+        id
         createdAt
         username
         note
         caution
       }
       surveyResponsesAbout {
+        id
         surveyOccurence {
           id
           survey {
