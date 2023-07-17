@@ -1,4 +1,4 @@
-import { Button, Divider, Heading, Select, Text, Textarea } from '@codeday/topo/Atom';
+import { Box, Button, Grid, Heading, Select, Text, Textarea } from '@codeday/topo/Atom';
 import { Content } from "@codeday/topo/Molecule";
 import Page from "../../../../components/Page";
 import { useState } from 'react';
@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { apiFetch, useToasts } from '@codeday/topo/utils';
 import { AddNoteMutation } from './note.gql';
 import Autocomplete from "../../../../components/Dashboard/Autocomplete";
+import LiveStudentProjectDetails from '../../../../components/Dashboard/LiveStudentProjectDetails';
 
 export default function AddNotePage() {
   const { query: { token } } = useRouter();
@@ -17,27 +18,12 @@ export default function AddNotePage() {
 
   return (
     <Page title="Add Note">
-      <Content>
+      <Content mt={-8}>
         <Heading as="h2" fontSize="2xl">Add Student Note</Heading>
         <Text>
           Notes are visible to managers, mentors, and partner programs but
           NOT to students.
         </Text>
-        <Heading mt={8} as="h3" fontSize="md">Note:</Heading>
-        <Textarea
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-        />
-
-        <Heading mt={8} as="h3" fontSize="md">Concern level:</Heading>
-        <Select
-          onChange={(e) => setCaution(Number.parseFloat(e.target.value))}
-          value={caution.toString()}
-        >
-          <option value="0">No concern / positive note</option>
-          <option value="0.5">Moderate concern</option>
-          <option value="1">Very concerned</option>
-        </Select>
 
         <Heading mt={8} as="h3" fontSize="md">Student(s):</Heading>
         <Autocomplete
@@ -45,33 +31,60 @@ export default function AddNotePage() {
           students={true}
           onChange={setStudents}
         />
+        <Grid mt={8} templateColumns={{ base: '1fr', md: '2fr 1fr' }} gap={8}>
+          <Box>
+            <Heading as="h3" fontSize="md">Note:</Heading>
+            <Textarea
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              h={48}
+            />
 
-        <Divider mt={8} mb={8} />
+            <Heading mt={8} as="h3" fontSize="md">Concern level:</Heading>
+            <Select
+              onChange={(e) => setCaution(Number.parseFloat(e.target.value))}
+              value={caution.toString()}
+            >
+              <option value="0">No concern / positive note</option>
+              <option value="0.5">Moderate concern</option>
+              <option value="1">Very concerned</option>
+            </Select>
 
-        <Button
-          isLoading={isLoading}
-          onClick={async () => {
-            setIsLoading(true);
-            try {
-              for (const s of students) {
-                await apiFetch(
-                  AddNoteMutation,
-                  { student: s.id, caution, note },
-                  { 'X-Labs-Authorization': `Bearer ${token}` },
-                );
-                success(`Added note for ${s.name}`);
-              }
-              setNote('');
-              setCaution(0);
-            } catch (ex) {
-              error(ex.toString());
-            }
-            setIsLoading(false);
-          }}
-          disabled={!note || students.length === 0}
-        >
-          Add note to {students.length} students
-        </Button>
+            <Button
+              mt={8}
+              isLoading={isLoading}
+              onClick={async () => {
+                setIsLoading(true);
+                try {
+                  for (const s of students) {
+                    await apiFetch(
+                      AddNoteMutation,
+                      { student: s.id, caution, note },
+                      { 'X-Labs-Authorization': `Bearer ${token}` },
+                    );
+                    success(`Added note for ${s.name}`);
+                  }
+                  setNote('');
+                  setCaution(0);
+                } catch (ex) {
+                  error(ex.toString());
+                }
+                setIsLoading(false);
+              }}
+              disabled={!note || students.length === 0}
+            >
+              Add note to {students.length} students
+            </Button>
+          </Box>
+          <Box>
+            <Heading as="h3" fontSize="md">Projects:</Heading>
+            <LiveStudentProjectDetails
+              token={token}
+              studentIds={students.map(s => s.id)}
+              fontSize="sm"
+            />
+          </Box>
+        </Grid>
       </Content>
     </Page>
   );

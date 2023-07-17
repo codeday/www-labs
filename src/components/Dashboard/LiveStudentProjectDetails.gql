@@ -1,0 +1,25 @@
+query LiveStudentProjectDetailsQuery ($id: String!) {
+  labs {
+    student(where:{id:$id}) {
+      projects {
+        id
+        students {
+          id
+          name
+          email
+          partnerCode
+        }
+        mentors {
+          id
+          name
+          email
+        }
+        description
+        deliverables
+        tags {
+          mentorDisplayName
+        }
+      }
+    }
+  }
+}
