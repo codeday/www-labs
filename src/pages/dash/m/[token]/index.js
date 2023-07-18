@@ -11,10 +11,16 @@ import { DashboardQuery } from './index.gql';
 import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
 import { MiniCalendar } from '../../../../components/Dashboard/MiniCalendar';
+import { useColorMode } from '@chakra-ui/react';
 
 export default function MentorDashboard() {
   const { query } = useRouter();
   const { loading, error, data } = useSwr(print(DashboardQuery));
+  const { colorMode } = useColorMode();
+  const dark = colorMode === 'dark';
+  const bg = dark ? 900 : 50;
+  const borderColor = dark ? 600 : 700;
+  const color = dark ? 50 : 900;
 
   const dueSurveys = useMemo(() =>
     (
@@ -76,24 +82,45 @@ export default function MentorDashboard() {
             )}
           </Box>
           <Box>
-            <MentorManagerDetails mentor={data?.labs?.mentor} />
             {dueSurveys.length !== 0 && (
-              <Box p={4} mt={8} bg="red.50" borderColor="red.700" borderWidth={1} color="red.900" mb={8}>
+              <Box p={4} pt={3} mb={8} bg={`red.${bg}`} borderColor={`red.${borderColor}`} borderWidth={4} color={`red.${color}`} rounded="sm">
+                <Text mb={0} color="red.700" fontSize="sm">[ACTION REQUIRED]</Text>
                 <Heading as="h3" fontSize="md" mb={2}>Due Check-Ins, Reflections, &amp; Surveys</Heading>
                 <List styleType="disc" pl={6}>
                   {dueSurveys.map((o) => (
                       <ListItem key={o.id}>
-                        <Link href={`/dash/m/${query.token}/survey/${o.survey.id}/${o.id}`} target="_blank">
-                          <Text d="inline" fontWeight="bold">{o.survey.name}</Text>
-                          <Text fontSize="sm">due {DateTime.fromISO(o.dueAt).toLocaleString(DateTime.DATE_MED)}</Text>
+                        <Link textDecor="none" href={`/dash/m/${query.token}/survey/${o.survey.id}/${o.id}`} target="_blank">
+                          <Text textDecor="underline" d="inline" fontWeight="bold">{o.survey.name}</Text>
+                          <Text fontSize="sm">Due on {DateTime.fromISO(o.dueAt).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}</Text>
                         </Link>
                       </ListItem>
                   ))}
                 </List>
               </Box>
             )}
+
+            <MentorManagerDetails mb={4} mentor={data?.labs?.mentor} />
+
+            <Box p={4} mb={4} bg={`blue.${bg}`} borderColor={`blue.${borderColor}`} borderWidth={1} color={`blue.${color}`} rounded="sm">
+              <Heading as="h3" fontSize="md" mb={2}>Resources</Heading>
+              <List styleType="disc" pl={6}>
+                <ListItem>
+                  <Link
+                    href={`/dash/m/${query.token}/students`}
+                    target="_blank"
+                  >
+                    Review Student Feedback
+                  </Link>
+                </ListItem>
+                {data.labs.resources.map(r => (
+                    <ListItem key={r.id}>
+                      <Link href={r.link} target="_blank">{r.name}</Link>
+                    </ListItem>
+                ))}
+              </List>
+            </Box>
+
             <MiniCalendar
-              mt={8}
               events={[
                 {
                   date: DateTime.fromISO(data.labs.event.startsAt).minus({ days: 3 }),
@@ -115,14 +142,6 @@ export default function MentorDashboard() {
                 }))
               ]}
             />
-            <Button
-              as="a"
-              href={`/dash/m/${query.token}/students`}
-              target="_blank"
-              w="100%"
-            >
-              Review Student Feedback &raquo;
-            </Button>
           </Box>
         </Grid>
       </Content>

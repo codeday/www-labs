@@ -6,6 +6,16 @@ query StudentDashboardQuery {
         id
       }
     }
+    event {
+      id
+      startsAt
+      name
+    }
+    resources {
+      id
+      name
+      link
+    }
     surveys {
       id
       name
@@ -21,6 +31,7 @@ query StudentDashboardQuery {
       id
       status
       track
+      weeks
       projects {
         id
         ...Match

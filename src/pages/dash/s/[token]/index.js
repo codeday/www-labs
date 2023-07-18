@@ -8,10 +8,18 @@ import { useSwr } from '../../../../dashboardFetch';
 import { StudentDashboardQuery } from './index.gql'
 import { Match } from '../../../../components/Dashboard/Match';
 import { DateTime } from 'luxon';
+import { useColorMode } from '@chakra-ui/react';
+import { MiniCalendar } from '../../../../components/Dashboard/MiniCalendar';
 
 export default function Dashboard() {
   const { query } = useRouter();
   const { isValidating, data, error } = useSwr(print(StudentDashboardQuery));
+  const { colorMode } = useColorMode();
+  const dark = colorMode === 'dark';
+  const bg = dark ? 900 : 50;
+  const borderColor = dark ? 600 : 700;
+  const color = dark ? 50 : 900;
+
   useEffect(() => {
     if (typeof window === 'undefined' || data?.labs?.student?.status !== 'ACCEPTED' ) return;
     if (
@@ -81,24 +89,9 @@ export default function Dashboard() {
             ))}
           </Box>
           <Box>
-            <Box p={4} bg="purple.50" borderColor="purple.700" borderWidth={1} color="purple.900" mb={8}>
-              <Heading as="h3" fontSize="md" mb={4}>Mentor Contact Information</Heading>
-              {data.labs.student.projects.map(({ mentors }) => mentors).flat().map((mentor) => (
-                <Box d="inline-block">
-                  {mentor.name}<br />
-                  <Link href={`mailto:${mentor.email}`}>{mentor.email}</Link>
-                  {mentor.profile?.phone && (
-                    <>
-                      <br />
-                      <Link href={`tel:${mentor.profile.phone}`}>{mentor.profile.phone}</Link>
-                    </>
-                  )}
-                </Box>
-              ))}
-            </Box>
-
             {data?.labs?.surveys && (
-              <Box p={4} bg="red.50" borderColor="red.700" borderWidth={1} color="red.900" mb={8}>
+              <Box p={4} pt={3} mb={8} bg={`red.${bg}`} borderColor={`red.${borderColor}`} borderWidth={4} color={`red.${color}`} rounded="sm">
+                <Text mb={0} color="red.700" fontSize="sm">[ACTION REQUIRED]</Text>
                 <Heading as="h3" fontSize="md" mb={2}>Due Check-Ins, Reflections, &amp; Surveys</Heading>
                 <List styleType="disc" pl={6}>
                   {data.labs.surveys.flatMap((s) => s.occurrences.sort((a, b) => DateTime.fromISO(a.dueAt) > DateTime.fromISO(b.dueAt) ? -1 : 1).slice(0,1).map((o) => {
@@ -116,8 +109,61 @@ export default function Dashboard() {
               </Box>
             )}
 
-            <Heading as="h3" fontSize="md" mb={4}>Additional Resources</Heading>
-            <Button as="a" href={`/dash/s/${query?.token}/onboarding`}>Onboarding Week Assignments</Button>
+            <Box p={4} mb={4} bg={`blue.${bg}`} borderColor={`blue.${borderColor}`} borderWidth={1} color={`blue.${color}`} rounded="sm">
+              <Heading as="h3" fontSize="md" mb={4}>Mentor Contact Information</Heading>
+              {data.labs.student.projects.map(({ mentors }) => mentors).flat().map((mentor) => (
+                <Box d="inline-block">
+                  {mentor.name}<br />
+                  <Link href={`mailto:${mentor.email}`}>{mentor.email}</Link>
+                  {mentor.profile?.phone && (
+                    <>
+                      <br />
+                      <Link href={`tel:${mentor.profile.phone}`}>{mentor.profile.phone}</Link>
+                    </>
+                  )}
+                </Box>
+              ))}
+            </Box>
+
+            <Box p={4} mb={4} bg={`blue.${bg}`} borderColor={`blue.${borderColor}`} borderWidth={1} color={`blue.${color}`} rounded="sm">
+              <Heading as="h3" fontSize="md" mb={2}>Resources</Heading>
+              <List styleType="disc" pl={6}>
+                <ListItem>
+                  <Link href={`/dash/s/${query?.token}/onboarding`}>
+                    Onboarding Assignments
+                  </Link>
+                </ListItem>
+                {data.labs.resources.map(r => (
+                    <ListItem key={r.id}>
+                      <Link href={r.link} target="_blank">{r.name}</Link>
+                    </ListItem>
+                ))}
+              </List>
+            </Box>
+
+            <MiniCalendar
+              events={[
+                {
+                  date: DateTime.fromISO(data.labs.event.startsAt).minus({ days: 3 }),
+                  name: `Introduction emails sent`,
+                },
+                {
+                  date: DateTime.fromISO(data.labs.event.startsAt),
+                  name: `Student onboarding week`,
+                },
+                {
+                  date: DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
+                  name: `${data.labs.event.name} mentoring starts`,
+                },
+                {
+                  date: DateTime.fromISO(data.labs.event.startsAt)
+                    .plus({ weeks: data.labs.student.weeks })
+                    .minus({ days: 3 }),
+                  name: `Your last day`,
+                },
+              ]}
+            />
+
           </Box>
         </Grid>
       </Content>

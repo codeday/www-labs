@@ -13,6 +13,7 @@ query DashboardQuery {
       weeks
     }
     resources {
+      id
       name
       link
     }
