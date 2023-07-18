@@ -1,7 +1,7 @@
 import { print } from 'graphql';
 import { useMemo } from 'react';
 import { Content } from '@codeday/topo/Molecule';
-import { Box, Grid, Text, Heading, Link, Spinner, List, ListItem } from '@codeday/topo/Atom';
+import { Box, Grid, Text, Heading, Link, Spinner, List, ListItem, Button } from '@codeday/topo/Atom';
 import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
 import MentorProfile from '../../../../components/Dashboard/MentorProfile';
@@ -10,6 +10,7 @@ import MentorManagerDetails from '../../../../components/Dashboard/MentorManager
 import { DashboardQuery } from './index.gql';
 import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
+import { MiniCalendar } from '../../../../components/Dashboard/MiniCalendar';
 
 export default function MentorDashboard() {
   const { query } = useRouter();
@@ -91,6 +92,37 @@ export default function MentorDashboard() {
                 </List>
               </Box>
             )}
+            <MiniCalendar
+              mt={8}
+              events={[
+                {
+                  date: DateTime.fromISO(data.labs.event.startsAt).minus({ days: 3 }),
+                  name: `Introduction emails sent`,
+                },
+                {
+                  date: DateTime.fromISO(data.labs.event.startsAt),
+                  name: `Student onboarding week`,
+                },
+                {
+                  date: DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
+                  name: `${data.labs.event.name} starts`,
+                },
+                ...data.labs.students.map(s => ({
+                  date: DateTime.fromISO(data.labs.event.startsAt)
+                    .plus({ weeks: s.weeks })
+                    .minus({ days: 3 }),
+                  name: `${s.name}'s last day`,
+                }))
+              ]}
+            />
+            <Button
+              as="a"
+              href={`/dash/m/${query.token}/students`}
+              target="_blank"
+              w="100%"
+            >
+              Review Student Feedback &raquo;
+            </Button>
           </Box>
         </Grid>
       </Content>

@@ -1,0 +1,5 @@
+mutation RequestLoginLinkMutation ($email: String!) {
+  labs {
+    requestLoginLink(email: $email)
+  }
+}

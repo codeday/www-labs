@@ -4,6 +4,18 @@
 #import "../../../../components/Dashboard/TagPicker.gql"
 query DashboardQuery {
   labs {
+    event {
+      name
+      startsAt
+    }
+    students {
+      name
+      weeks
+    }
+    resources {
+      name
+      link
+    }
     mentor {
       id
       name

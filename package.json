@@ -19,6 +19,7 @@
     "@tylermenezes/cognitoforms-react": "^2.0.14",
     "ag-grid-community": "^25.3.0",
     "ag-grid-react": "^25.3.0",
+    "array.prototype.group": "^1.1.2",
     "babel-plugin-import-graphql": "^2.7.0",
     "csv-stringify": "^5.6.2",
     "framer-motion": "^6",

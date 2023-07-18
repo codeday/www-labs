@@ -1,45 +1,64 @@
+import { useEffect, useMemo } from 'react';
 import useSwr from 'swr';
 import fetch from 'node-fetch';
-import { signIn, useSession } from 'next-auth/client'
-import { Box, Text, Button, Spinner } from '@codeday/topo/Atom';
+import { signIn } from 'next-auth/client'
+import { Box, Text, Button, Spinner, Divider } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import Page from '../../components/Page';
+import RequestLoginLink from '../../components/Dashboard/RequestLoginLink';
 
 const sectionNames = { a: 'Admin', mm: 'Manager', r: 'Reviewer', m: 'Mentor', s: 'Student' };
 
 export default function DashboardLogin() {
-  const { isValidating, data, ...rest } = useSwr('/api/dashRedirect', (url) => fetch(url).then((r) => r.json()));
-  if (data && Object.keys(data).length === 1) {
-    const k = Object.keys(data)[0];
-    window.location = `/dash/${k}/${data[k]}`;
-  } else if (data) return (
-    <Page slug={`/dash`} title={`Dashboard`}>
-      <Box textAlign="center" maxWidth="md" margin="0 auto">
-        {Object.keys(data).length > 1 ? Object.keys(data).map((k) => (
-          <Button key={k} mr={2} as="a" href={`/dash/${k}/${data[k]}`}>{sectionNames[k] || k}</Button>
-        )) : <>Sorry, nothing is associated with your account.</>}
-      </Box>
-    </Page>
+  const { isValidating, data } = useSwr(
+    '/api/dashRedirect',
+    (url) => fetch(url).then((r) => r.json())
   );
 
+  useEffect(() => {
+    if (data && Object.keys(data).length === 1) {
+      const k = Object.keys(data)[0];
+      window.location = `/dash/${k}/${data[k]}`;
+    };
+  }, [data]);
 
-  if (isValidating || data) return (
-    <Page slug={`/dash`} title={`Dashboard`}>
-      <Box textAlign="center" maxWidth="md" margin="0 auto">
-        <Spinner />
-      </Box>
-    </Page>
-  );
+  const result = useMemo(() => {
+    if (data && Object.keys(data).length > 0) {
+      return Object.keys(data).map(k => (
+        <Button key={k} mr={2} as="a" href={`/dash/${k}/${data[k]}`}>{sectionNames[k] || k}</Button>
+      ));
+    } else if (data) {
+      return (<>Sorry, nothing is associated with your account.</>);
+    } else if (isValidating) {
+      return <Spinner />;
+    } else {
+      return (
+        <>
+          <Text mb={4}>
+            Students/program staff: Log into your CodeDay account to continue.
+          </Text>
+          <Button
+            onClick={() => signIn('auth0')}
+            colorScheme="green"
+            mb={2}
+          >
+            Sign In
+          </Button>
+        </>
+      );
+    }
+  }, [isValidating, data]);
 
   return (
     <Page slug={`/dash`} title={`Dashboard`}>
       <Content>
-        <Box textAlign="center" maxWidth="md" margin="0 auto">
-          <Button onClick={() => signIn('auth0')} colorScheme="green" mb={2}>Sign In</Button>
-          <Text>
-            You'll need to create or log into a CodeDay account to continue. You'll use this to access your Labs dashboard
-            if your application is accepted.
+        <Box textAlign="center" maxWidth="container.sm" margin="0 auto">
+          {result}
+          <Divider mt={8} mb={8} />
+          <Text mb={4}>
+            Mentors: enter your email to receive a login link.
           </Text>
+          <RequestLoginLink />
         </Box>
       </Content>
     </Page>

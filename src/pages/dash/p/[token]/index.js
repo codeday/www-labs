@@ -17,12 +17,6 @@ import StatusEntryCollection from '../../../../components/Dashboard/StatusEntry/
 import { StatusEntry } from '../../../../components/Dashboard/StatusEntry/StatusEntry';
 import StudentList from '../../../../components/Dashboard/StatusOverview/StudentList';
 
-function getCautionColors(caution) {
-  if (caution > 0.9) return { bg: 'red.500', color: 'red.50' };
-  if (caution > 0.1) return { bg: 'orange.500', color: 'orange.50' };
-  return {};
-}
-
 export default function PartnerPage({ students, hidePartner }) {
   const [newStudentEmail, setNewStudentEmail] = useState('');
   const [newStudentUsername, setNewStudentUsername] = useState('');
@@ -114,9 +108,7 @@ export default function PartnerPage({ students, hidePartner }) {
             {studentsWithTrainingInfo
               .map((s) => (
                 <Box mb={8}>
-                  <Link name={`s-${s.id}`} href={`/dash/s/${s.token}`} target="_blank">
-                    <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
-                  </Link>
+                  <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
                   <Text>Mentored by {s.projects.flatMap((p) => p.mentors).flatMap((m) => m.name).join(', ')}</Text>
 
                   <StatusEntryCollection onlyType={filter}>
