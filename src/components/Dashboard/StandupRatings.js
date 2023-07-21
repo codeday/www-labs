@@ -1,5 +1,6 @@
 import { Box, HStack } from "@codeday/topo/Atom";
 import { Tooltip } from '@chakra-ui/react'
+import { DateTime } from "luxon";
 
 const RATINGS = {
   ' ': {
@@ -30,7 +31,7 @@ function StandupRating({ rating, ...props }) {
     : ' ';
   const {text, color} = RATINGS[ratingStr];
   return (
-    <Tooltip label={text}>
+    <Tooltip label={`${DateTime.fromISO(rating.dueAt).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}: ${text}`}>
       <Box
         cursor="pointer"
         alt={text}
