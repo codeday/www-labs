@@ -17,8 +17,10 @@ import StatusEntryCollection from '../../../../components/Dashboard/StatusEntry/
 import { StatusEntry } from '../../../../components/Dashboard/StatusEntry/StatusEntry';
 import StudentList from '../../../../components/Dashboard/StatusOverview/StudentList';
 import StandupRatings from '../../../../components/Dashboard/StandupRatings';
+import { useRouter } from 'next/router';
 
 export default function PartnerPage({ students, hidePartner }) {
+  const { query } = useRouter();
   const [newStudentEmail, setNewStudentEmail] = useState('');
   const [newStudentUsername, setNewStudentUsername] = useState('');
   const [filter, setFilter] = useState('all');
@@ -117,6 +119,7 @@ export default function PartnerPage({ students, hidePartner }) {
                     mb={4}
                     mt={4}
                     ratings={s.standupRatings}
+                    token={query.token}
                   />
 
                   <StatusEntryCollection onlyType={filter}>

@@ -1,0 +1,11 @@
+query GetStandupTextQuery ($id: String!) {
+  labs {
+    getStandup(where: $id)
+  }
+}
+
+mutation RateStandupMutation ($id: String!, $rating: Float!) {
+  labs {
+    rateStandup(where: $id, rating: $rating)
+  }
+}
