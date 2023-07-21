@@ -36,6 +36,10 @@ query PartnerStudentsAbout {
         note
         caution
       }
+      standupRatings {
+        dueAt
+        rating
+      }
       surveyResponsesAbout {
         id
         surveyOccurence {

@@ -2,6 +2,13 @@ import { Link, List, ListItem } from '@codeday/topo/Atom';
 import { DateTime } from 'luxon';
 import SummaryBadge from "./SummaryBadge";
 
+function standupRatingToCaution(rating) {
+  if (rating === 0) return 0.4;
+  if (rating === 1) return 0.2;
+  if (rating === 2) return 0.1;
+  return 0;
+}
+
 export default function StudentList({ students }) {
   const visibleStudents = students.filter(s => s.status !== 'CANCELED');
   return (
@@ -24,6 +31,12 @@ export default function StudentList({ students }) {
                   date: DateTime.fromISO(sr.surveyOccurence.dueAt),
                   caution: sr.caution,
                 })),
+              ...(s.standupRatings || [])
+                .filter(s => s.rating !== null)
+                .map(s => ({
+                  date: DateTime.fromISO(s.dueAt),
+                  caution: standupRatingToCaution(s.rating),
+                }))
             ]}
           />
           <Link href={`#s-${s.id}`}>{s.name}</Link>

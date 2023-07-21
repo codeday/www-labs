@@ -38,8 +38,8 @@ function getRecentAverageCaution (statusEvents) {
 
 export default function SummaryBadge({ statusEvents, ...props }) {
   const caution = getRecentAverageCaution(statusEvents);
-  const cautionString = cautionFloatToString(caution, true);
-  const color = cautionStringToColor(cautionString, true);
+  const cautionString = cautionFloatToString(caution);
+  const color = cautionStringToColor(cautionString);
 
   return (
     <Box

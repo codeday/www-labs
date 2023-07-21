@@ -16,6 +16,7 @@ import ReactMarkdown from 'react-markdown';
 import StatusEntryCollection from '../../../../components/Dashboard/StatusEntry/Collection';
 import { StatusEntry } from '../../../../components/Dashboard/StatusEntry/StatusEntry';
 import StudentList from '../../../../components/Dashboard/StatusOverview/StudentList';
+import StandupRatings from '../../../../components/Dashboard/StandupRatings';
 
 export default function PartnerPage({ students, hidePartner }) {
   const [newStudentEmail, setNewStudentEmail] = useState('');
@@ -108,8 +109,15 @@ export default function PartnerPage({ students, hidePartner }) {
             {studentsWithTrainingInfo
               .map((s) => (
                 <Box mb={8}>
+                  <a name={`s-${s.id}`} />
                   <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
                   <Text>Mentored by {s.projects.flatMap((p) => p.mentors).flatMap((m) => m.name).join(', ')}</Text>
+
+                  <StandupRatings
+                    mb={4}
+                    mt={4}
+                    ratings={s.standupRatings}
+                  />
 
                   <StatusEntryCollection onlyType={filter}>
                     {/* Show time management plan */}
