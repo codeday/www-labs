@@ -1,0 +1,7 @@
+mutation Clone($name: String!, $startsAt: LabsDateTime!) {
+  labs {
+    cloneEvent(name: $name, startsAt: $startsAt) {
+      id
+    }
+  }
+}

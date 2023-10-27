@@ -16,6 +16,7 @@ export default function AdminDashboard() {
         <Link as="a" href={`/dash/a/${query.token}/admit`}>Admissions</Link><br />
         <Link as="a" href={`/dash/a/${query.token}/csv`}>CSVs</Link><br />
         <Link as="a" href={`/dash/a/${query.token}/email`}>Send Email</Link><br />
+        <Link as="a" href={`/dash/a/${query.token}/clone`}>Clone</Link><br />
         <Link as="a" href={`/api/matchingPrefs?token=${query.token}`}>Matching Prefs</Link><br />
         <Link as="a" href={`/api/projectCapacities?token=${query.token}`}>Project Capacities</Link><br />
       </Content>

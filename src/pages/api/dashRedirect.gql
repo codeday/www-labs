@@ -1,14 +1,4 @@
-query NextEventQuery ($now: CmsDateTime!) {
-  cms {
-    events (where: { program: { webname: "labs" },  endsAt_gte: $now }, order: startsAt_DESC, limit: 1) {
-      items {
-        id
-      }
-    }
-  }
-}
-
-query StudentMentorQuery ($username: String!) {
+query EligibilityQuery ($username: String!) {
   account {
     getUser (where: { username: $username }) {
       roles {
@@ -16,12 +6,19 @@ query StudentMentorQuery ($username: String!) {
       }
     }
   }
+
   labs {
-    mentor(where: { username: $username }) {
+    myEvents: events(where: { mine: true } ) {
       id
+      name
+      iAmStudent
+      iAmMentor
     }
-    student(where: { username: $username }) {
+    events {
       id
+      name
+      iAmStudent
+      iAmMentor
     }
   }
 }

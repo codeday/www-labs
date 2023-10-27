@@ -3,7 +3,7 @@ import getConfig from 'next/config';
 import { sign } from 'jsonwebtoken';
 import { getSession } from 'next-auth/client';
 import { apiFetch } from '@codeday/topo/utils';
-import { StudentMentorQuery, NextEventQuery } from './dashRedirect.gql';
+import { EligibilityQuery } from './dashRedirect.gql';
 import { DateTime } from 'luxon';
 
 const { serverRuntimeConfig } = getConfig();
@@ -20,20 +20,18 @@ export default async function (req, res) {
   const session = await getSession({ req });
   if (!session?.user?.nickname) return res.send(null);
 
-  const { cms } = await apiFetch(print(NextEventQuery), { now: DateTime.now().toISO() });
-  const evt = cms?.events?.items?.[0]?.id;
-  if (!evt) return res.send(null);
-
   const username = session.user.nickname;
-  const adminToken = makeToken({ typ: 'a', evt });
-  const accountToken = sign({ scopes: `read:users` }, serverRuntimeConfig.gql.accountSecret, { expiresIn: '5m' });
 
-  const { labs, account } = await apiFetch(
-    print(StudentMentorQuery),
+  const labsMyToken = makeToken({ typ: '_', tgt: 'u', sid: username });
+  const accountToken = sign({ scopes: `read:users` }, serverRuntimeConfig.gql.accountSecret, { expiresIn: '5m' });
+  console.log(labsMyToken);
+
+  const { account, labs } = await apiFetch(
+    print(EligibilityQuery),
     { username },
     {
-      'X-Labs-Authorization': `Bearer ${adminToken}`,
       'Authorization': `Bearer ${accountToken}`,
+      'X-Labs-Authorization': `Bearer ${labsMyToken}`,
     },
   );
 
@@ -41,16 +39,20 @@ export default async function (req, res) {
   const isAdmin = roleIds.includes(serverRuntimeConfig.auth0.roles.admin);
   const isManager = roleIds.includes(serverRuntimeConfig.auth0.roles.manager);
   const isReviewer = roleIds.includes(serverRuntimeConfig.auth0.roles.reviewer);
+  
+  const events = (isAdmin || isManager || isReviewer)
+    ? labs.events
+    : labs.myEvents;
 
-  const tokens = {
-    a: isAdmin && adminToken,
-    mm: (isAdmin || isManager) && makeToken({ typ: 'mm', sid: username, tgt: 'u', evt }),
-    r: (isAdmin || isReviewer) && makeToken({ typ: 'r', sid: username, tgt: 'u', evt }),
-    m: labs?.mentor?.id && makeToken({ typ: 'm', sid: labs.mentor.id, tgt: 'i', evt }),
-    s: labs?.student?.id && makeToken({ typ: 's', sid: labs.student.id, tgt: 'i', evt }),
-  };
+  const result = Object.fromEntries(
+    events.map((e) => [e.name, {
+      a: isAdmin && makeToken({ typ: 'a', evt: e.id }),
+      mm: (isAdmin || isManager) && makeToken({ typ: 'mm', sid: username, tgt: 'u', evt: e.id }),
+      r: (isAdmin || isReviewer) && makeToken({ typ: 'r', sid: username, tgt: 'u', evt: e.id }),
+      m: e.iAmMentor && makeToken({ typ: 'm', sid: username, tgt: 'u', evt: e.id }),
+      s: e.iAmStudent && makeToken({ typ: 's', sid: username, tgt: 'u', evt: e.id }),
+    }]),
+  );
 
-  return res.send(Object.keys(tokens)
-    .filter((k) => tokens[k])
-    .reduce((accum, k) => ({ ...accum, [k]: tokens[k] }), {}));
+  res.send(result);
 }

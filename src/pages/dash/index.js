@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import useSwr from 'swr';
 import fetch from 'node-fetch';
 import { signIn } from 'next-auth/client'
-import { Box, Text, Button, Spinner, Divider } from '@codeday/topo/Atom';
+import { Box, Text, Button, Spinner, Divider, Heading } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import Page from '../../components/Page';
 import RequestLoginLink from '../../components/Dashboard/RequestLoginLink';
@@ -15,17 +15,15 @@ export default function DashboardLogin() {
     (url) => fetch(url).then((r) => r.json())
   );
 
-  useEffect(() => {
-    if (data && Object.keys(data).length === 1) {
-      const k = Object.keys(data)[0];
-      window.location = `/dash/${k}/${data[k]}`;
-    };
-  }, [data]);
-
   const result = useMemo(() => {
     if (data && Object.keys(data).length > 0) {
-      return Object.keys(data).map(k => (
-        <Button key={k} mr={2} as="a" href={`/dash/${k}/${data[k]}`}>{sectionNames[k] || k}</Button>
+      return Object.entries(data).map(([title, tokens]) => (
+        <Box mb={4}>
+          <Heading as="h3" fontSize="2xl">{title}</Heading>
+          {Object.entries(tokens).filter(([_, token]) => !!token).map(([k, token]) => (
+            <Button key={k} mr={2} as="a" href={`/dash/${k}/${token}`}>{sectionNames[k]}</Button>
+          ))}
+        </Box>
       ));
     } else if (data) {
       return (<>Sorry, nothing is associated with your account.</>);
