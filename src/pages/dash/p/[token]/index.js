@@ -165,8 +165,8 @@ export default function PartnerPage({ students, hidePartner }) {
                     </StatusEntry>
 
                     {/* Show onboarding assignments if project is assigned */}
-                    {s.projects && s.projects.length > 0 && ([
-                      (<StatusEntry
+                    {s.projects && s.projects.length > 0 && s.trainingSubmissions.length > 0 && (
+                      <StatusEntry
                         type="meta"
                         title="Onboarding Assignments"
                         caution={1-(s.trainingSubmissions.filter((ts) => ts.submission).length / Math.min(3, s.trainingSubmissions.length))}
@@ -183,8 +183,11 @@ export default function PartnerPage({ students, hidePartner }) {
                                 </ListItem>
                               ))}
                             </List>
-                      </StatusEntry>),
-                      (<StatusEntry
+                      </StatusEntry>
+                    )}
+
+                    {s.projects && s.projects.length > 0 && (
+                      <StatusEntry
                         type="meta"
                         title="Communication"
                         caution={(s.emailCount > 0 && s.slackId) ? 0 : 1}
@@ -197,8 +200,8 @@ export default function PartnerPage({ students, hidePartner }) {
                             {s.emailCount > 0 ? 'Has' : 'Has NOT'} replied-all to introduction email.
                           </ListItem>
                         </List>
-                      </StatusEntry>)
-                    ])}
+                      </StatusEntry>
+                    )}
 
                     {/* Show any staff notes */}
                     {s.notes.map(n => (
