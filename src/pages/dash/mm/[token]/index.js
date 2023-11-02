@@ -121,7 +121,7 @@ export default function MentorDashboard() {
               >
                 <MentorIndicator status={mentor.status} />
                 <Link as="a" href={`/dash/mm/${query.token}/${mentor.id}`} p={3} d="inline-block">
-                  {mentor.name}
+                  {mentor.name} {mentor.emailCount > 0 && <>&#10003;</>}
                 </Link>
               </Box>
               <Box as="td">

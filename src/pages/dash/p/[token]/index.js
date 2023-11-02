@@ -165,8 +165,8 @@ export default function PartnerPage({ students, hidePartner }) {
                     </StatusEntry>
 
                     {/* Show onboarding assignments if project is assigned */}
-                    {s.projects && s.projects.length > 0 && (
-                      <StatusEntry
+                    {s.projects && s.projects.length > 0 && ([
+                      (<StatusEntry
                         type="meta"
                         title="Onboarding Assignments"
                         caution={1-(s.trainingSubmissions.filter((ts) => ts.submission).length / Math.min(3, s.trainingSubmissions.length))}
@@ -183,8 +183,15 @@ export default function PartnerPage({ students, hidePartner }) {
                                 </ListItem>
                               ))}
                             </List>
-                      </StatusEntry>
-                    )}
+                      </StatusEntry>),
+                      (<StatusEntry
+                        type="meta"
+                        title="Introduction"
+                        caution={s.emailCount > 0 ? 0 : 1}
+                      >
+                        {s.emailCount > 0 ? 'Has' : 'Has not'} replied-all to introduction email.
+                      </StatusEntry>)
+                    ])}
 
                     {/* Show any staff notes */}
                     {s.notes.map(n => (

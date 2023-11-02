@@ -36,6 +36,7 @@ query PartnerStudentsAbout {
         note
         caution
       }
+      emailCount
       standupRatings {
         id
         dueAt
