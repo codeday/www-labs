@@ -191,10 +191,10 @@ export default function PartnerPage({ students, hidePartner }) {
                       >
                         <List styleType="disc" ml={6}>
                           <ListItem>
-                            {s.slackId ? 'Has' : 'Has not'} joined Slack.
+                            {s.slackId ? 'Has' : 'Has NOT'} joined Slack.
                           </ListItem>
                           <ListItem>
-                            {s.emailCount > 0 ? 'Has' : 'Has not'} replied-all to introduction email.
+                            {s.emailCount > 0 ? 'Has' : 'Has NOT'} replied-all to introduction email.
                           </ListItem>
                         </List>
                       </StatusEntry>)
