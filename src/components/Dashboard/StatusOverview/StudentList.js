@@ -21,6 +21,8 @@ export default function StudentList({ students }) {
               { caution: s.timeManagementPlan || s.timezone ? 0 : 0.1 },
               { caution: (s.hasProjectPreferences || s.skipPreferences || (s.projects && s.projects.length > 0)) ? 0 : 1 },
               { caution: Math.max(0, 1-(s.trainingSubmissions.filter((ts) => ts.submission).length / Math.min(3, s.trainingSubmissions.length))) },
+              { caution: s.emailCount > 0 ? 0 : 1},
+              { caution: s.slackId ? 0 : 1},
               ...(s.notes || [])
                 .map(n => ({
                   date: DateTime.fromISO(n.createdAt),
