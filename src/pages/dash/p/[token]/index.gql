@@ -37,6 +37,7 @@ query PartnerStudentsAbout {
         caution
       }
       emailCount
+      slackId
       standupRatings {
         id
         dueAt

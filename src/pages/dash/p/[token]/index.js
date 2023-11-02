@@ -186,10 +186,17 @@ export default function PartnerPage({ students, hidePartner }) {
                       </StatusEntry>),
                       (<StatusEntry
                         type="meta"
-                        title="Introduction"
-                        caution={s.emailCount > 0 ? 0 : 1}
+                        title="Communication"
+                        caution={(s.emailCount > 0 && s.slackId) ? 0 : 1}
                       >
-                        {s.emailCount > 0 ? 'Has' : 'Has not'} replied-all to introduction email.
+                        <List styleType="disc" ml={6}>
+                          <ListItem>
+                            {s.slackId ? 'Has' : 'Has not'} joined Slack.
+                          </ListItem>
+                          <ListItem>
+                            {s.emailCount > 0 ? 'Has' : 'Has not'} replied-all to introduction email.
+                          </ListItem>
+                        </List>
                       </StatusEntry>)
                     ])}
 
