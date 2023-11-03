@@ -127,7 +127,7 @@ export default function PartnerPage({ students, hidePartner }) {
                     <StatusEntry
                       type="meta"
                       title={`Time Management Plan (${s.minHours}hr/wk)`}
-                      caution={s.timeManagementPlan || s.timezone ? 0 : 0.1}
+                      caution={0}
                     >
                       <Text><strong>Timezone: </strong>{s.timezone || 'Unknown'}</Text>
                       {!s.timeManagementPlan ? 'Not collected' : (
