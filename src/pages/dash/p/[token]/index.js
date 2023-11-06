@@ -18,8 +18,9 @@ import { StatusEntry } from '../../../../components/Dashboard/StatusEntry/Status
 import StudentList from '../../../../components/Dashboard/StatusOverview/StudentList';
 import StandupRatings from '../../../../components/Dashboard/StandupRatings';
 import { useRouter } from 'next/router';
+import SurveyDetails from '../../../../components/Dashboard/SurveyDetails';
 
-export default function PartnerPage({ students, hidePartner }) {
+export default function PartnerPage({ students, event, hidePartner }) {
   const { query } = useRouter();
   const [newStudentEmail, setNewStudentEmail] = useState('');
   const [newStudentUsername, setNewStudentUsername] = useState('');
@@ -39,6 +40,7 @@ export default function PartnerPage({ students, hidePartner }) {
         .filter((t) => t.trainingLink)
         .map((t) => ({
           submission: s.tagTrainingSubmissions.filter((ts) => ts.tag.id === t.id)[0]?.url,
+          createdAt: s.tagTrainingSubmissions.filter((ts) => ts.tag.id === t.id)[0]?.createdAt,
           ...t,
         }));
       return {
@@ -50,6 +52,7 @@ export default function PartnerPage({ students, hidePartner }) {
   return (
     <Page>
       <Content>
+        <Heading as="h3" fontSize="3xl" mt={-8} mb={4}>{event.name}</Heading>
         <Grid templateColumns={{ base: '1fr', md: '1fr 3fr' }} gap={8}>
           <Box>
 
@@ -175,11 +178,15 @@ export default function PartnerPage({ students, hidePartner }) {
                               {s.trainingSubmissions.map((ts) => (
                                 <ListItem key={ts.trainingLink}>
                                   <Link href={ts.trainingLink}>
-                                    {ts.mentorDisplayName}
+                                    <strong>
+                                      {ts.mentorDisplayName}
+                                    </strong>
                                   </Link>:{' '}
                                   {ts.submission ? (
-                                    <Link href={ts.submission}>Submitted</Link>
-                                  ) : <>Missing</>}
+                                    <Link href={ts.submission}>
+                                      {DateTime.fromISO(ts.createdAt).toLocaleString(DateTime.DATETIME_MED)}
+                                    </Link>
+                                  ) : <>missing</>}
                                 </ListItem>
                               ))}
                             </List>
@@ -234,13 +241,43 @@ export default function PartnerPage({ students, hidePartner }) {
                           title={(sr.authorMentor || sr.authorStudent).name}
                           caution={sr.caution}
                         >
-                          <SurveyFields
-                            content={sr.response}
-                            displayFn={sr.surveyOccurence.survey[`${getReflectionType(sr, s)}Display`]}
-                          />
+                          <SurveyDetails token={query.token} id={sr.id} />
                         </StatusEntry>
                       ))
                     }
+
+                    {(s.artifacts.length > 0 || event.artifactTypes.length > 0) && (
+                      <StatusEntry
+                        type="meta"
+                        caution={0}
+                        title="Artifacts"
+                      >
+                          <List styleType="disc" ml={6}>
+                            {event.artifactTypes.filter(at => at.personType !== 'MENTOR').map(at => (
+                              <ListItem key={at.id}>
+                                <strong>{at.name}: </strong>
+                                {(() => {
+                                  const artifact = s.artifacts.filter(a => a.id === at.id)[0];
+                                  if (artifact) return (
+                                    <Link href={a.link} target="_blank">
+                                      {DateTime.fromISO(a.createdAt).toLocaleString(DateTime.DATETIME_MED)}
+                                    </Link>
+                                  );
+                                  return <>missing</>;
+                                })()}
+                              </ListItem>
+                            ))}
+                            {s.artifacts.filter(a => !a.artifactTypeId).map(a => (
+                              <ListItem key={a.id}>
+                                <strong>{a.name}: </strong>
+                                <Link href={a.link} target="_blank">
+                                  {DateTime.fromISO(a.createdAt).toLocaleString(DateTime.DATETIME_MED)}
+                                </Link>
+                              </ListItem>
+                            ))}
+                          </List>
+                      </StatusEntry>
+                    )}
 
                   </StatusEntryCollection>
                 </Box>
@@ -260,6 +297,7 @@ export async function getServerSideProps({ params: { token } }) {
   return {
     props: {
       students: result?.labs?.students,
+      event: result?.labs?.event,
     },
   };
 }

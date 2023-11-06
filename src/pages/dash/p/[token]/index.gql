@@ -2,6 +2,14 @@
 
 query PartnerStudentsAbout {
   labs {
+    event {
+      name
+      artifactTypes {
+        id
+        name
+        personType
+      }
+    }
     students {
       id
       name
@@ -25,6 +33,7 @@ query PartnerStudentsAbout {
       }
       tagTrainingSubmissions {
         url
+        createdAt
         tag {
           id
         }
@@ -44,6 +53,13 @@ query PartnerStudentsAbout {
         rating
         humanRated
       }
+      artifacts {
+        id
+        createdAt
+        name
+        link
+        artifactTypeId
+      }
       surveyResponsesAbout {
         id
         surveyOccurence {
@@ -51,12 +67,6 @@ query PartnerStudentsAbout {
           survey {
             id
             name
-            personType
-            selfDisplay
-            peerDisplay
-            menteeDisplay
-            mentorDisplay
-            projectDisplay
           }
           dueAt
         }
@@ -64,7 +74,6 @@ query PartnerStudentsAbout {
         authorStudent { id name }
         mentor { id }
         student { id }
-        response
         caution
       }
     }

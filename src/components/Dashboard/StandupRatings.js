@@ -110,7 +110,7 @@ export default function StandupRatings({ ratings, token, ...props }) {
           Standups:
         </Box>
       </Tooltip>
-      {ratings.map(r => <StandupRating key={r.dueAt} rating={r} token={token} />)}
+      {ratings.slice(-25).map(r => <StandupRating key={r.dueAt} rating={r} token={token} />)}
     </HStack>
   )
 }

@@ -1,0 +1,26 @@
+query SurveyResponseDetails($where: String!) {
+  labs {
+    getSurveyResponse(where: $where) {
+        id
+        authorMentor { id name }
+        authorStudent { id name }
+        mentor { id }
+        student { id }
+        caution
+        response
+        surveyOccurence {
+          id
+          survey {
+            id
+            name
+            personType
+            selfDisplay
+            peerDisplay
+            menteeDisplay
+            mentorDisplay
+            projectDisplay
+          }
+        }
+    }
+  }
+}

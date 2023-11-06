@@ -7,7 +7,7 @@ import { Content } from '@codeday/topo/Molecule';
 import Page from '../../components/Page';
 import RequestLoginLink from '../../components/Dashboard/RequestLoginLink';
 
-const sectionNames = { a: 'Admin', mm: 'Manager', r: 'Reviewer', m: 'Mentor', s: 'Student' };
+const sectionNames = { a: 'Admin', mm: 'Staff', r: 'Reviewer', m: 'Mentor', s: 'Student' };
 
 export default function DashboardLogin() {
   const { isValidating, data } = useSwr(
