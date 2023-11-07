@@ -1,4 +1,11 @@
 #import "../providers/ProgramDates.gql"
 query SchoolsQuery {
   ...ProgramDates
+  labs {
+    repositories (where: { hasProjects: true }) {
+      id
+      name
+      url
+    }
+  }
 }

@@ -66,7 +66,7 @@ export default function Header(props) {
               mr={4}
               shadow="md"
             >
-              {applicationsOpen ? 'Apply Now' : 'Applications Not Open'}
+              {applicationsOpen ? 'Apply Now' : 'Public Application Closed'}
             </Button>
             {mentorApplicationEndsAt > DateTime.local() ? (
               <Button
@@ -91,7 +91,7 @@ export default function Header(props) {
                 Volunteer
               </Button>
             )}
-            {registrationsCloseAt && registrationsCloseAt > DateTime.local() && (
+            {(registrationsCloseAt && registrationsCloseAt > DateTime.local()) ? (
               <Text fontSize="md" mt={2}>
                 {registrationsOpenAt > DateTime.local() && (
                   <>
@@ -116,6 +116,11 @@ export default function Header(props) {
                   minute: '2-digit',
                   timeZoneName: 'short',
                 })} (most will be earlier)
+              </Text>
+            ) : (
+              <Text fontSize="md" mt={2}>
+                <strong>Students from partner colleges:</strong><br />
+                Dates may vary. Use your invitation link to apply.
               </Text>
             )}
           </Box>

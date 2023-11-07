@@ -30,15 +30,12 @@ export default function PastProjects(props) {
   // We'll always show 2/3 advanced projects, and 1/3 beginner projects.
   const advancedProjects = projects.filter((project) => project.track === 'advanced')
     .slice(0, Math.round(MAX_PROJECTS * 0.66));
-  const beginnerProjects = projects.filter((project) => project.track === 'beginner')
-    .slice(0, Math.round(MAX_PROJECTS * 0.33));
 
-  const displayProjects = useShuffled([...advancedProjects, ...beginnerProjects]);
+  const displayProjects = useShuffled([...advancedProjects]);
 
   return (
     <Content {...props}>
-      <Heading as="h3" fontSize="4xl" textAlign="center">Past Student Projects</Heading>
-      <Text mb={8} textAlign="center"><Link href="https://showcase.codeday.org/projects/labs">See All</Link></Text>
+      <Heading mb={8} as="h3" textAlign="center">Showcase your talent for potential employers.</Heading>
 
       {displayProjects.filter(Boolean).map((project) => (
         <Grid
@@ -123,6 +120,7 @@ export default function PastProjects(props) {
           </Box>
         </Grid>
       ))}
+      <Text mb={8} textAlign="center"><Link href="https://showcase.codeday.org/projects/labs">See more past projects</Link></Text>
     </Content>
   )
 }

@@ -1,0 +1,10 @@
+fragment ProjectSlider on Query {
+  labs {
+    repositories( where: { hasLogo:true, hasProjects:true } ) {
+      name
+      logoUrl
+      url
+      projectCount
+    }
+  }
+}
