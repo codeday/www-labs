@@ -133,6 +133,11 @@ export default function Dashboard() {
                     Onboarding Assignments
                   </Link>
                 </ListItem>
+                <ListItem>
+                  <Link href={`/dash/s/${query?.token}/help`}>
+                    Book Coding Help Meeting
+                  </Link>
+                </ListItem>
                 {data.labs.resources.map(r => (
                     <ListItem key={r.id}>
                       <Link href={r.link} target="_blank">{r.name}</Link>

@@ -3,6 +3,7 @@
 #import "../components/Index/PastProjects.gql"
 #import "../components/Index/Testimonials.gql"
 #import "../components/Index/ProjectSlider.gql"
+#import "../components/Index/TAs.gql"
 #import "../providers/ProgramDates.gql"
 
 query IndexQuery {
@@ -12,4 +13,5 @@ query IndexQuery {
   ...IndexTestimonials
   ...ProjectSlider
   ...ProgramDates
+  ...TAs
 }

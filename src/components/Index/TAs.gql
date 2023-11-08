@@ -1,0 +1,10 @@
+fragment TAs on Query {
+  account {
+    tas: roleUsers (roleId: "rol_93WQaYfs0H0mIEi7") {
+      id
+      name
+      picture
+      pronoun
+    }
+  }
+}
