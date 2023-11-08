@@ -23,6 +23,16 @@ export default function DashboardLogin() {
           {Object.entries(tokens).filter(([_, token]) => !!token).map(([k, token]) => (
             <Button key={k} mr={2} as="a" href={`/dash/${k}/${token}`}>{sectionNames[k]}</Button>
           ))}
+          {tokens.mm && (
+            <Button
+              colorScheme="green"
+              mr={2}
+              as="a"
+              href={`/dash/mm/${tokens.mm}/note`}
+            >
+              Add Student Note
+            </Button>
+          )}
         </Box>
       ));
     } else if (data) {

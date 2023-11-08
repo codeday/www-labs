@@ -24,7 +24,6 @@ export default async function (req, res) {
 
   const labsMyToken = makeToken({ typ: '_', tgt: 'u', sid: username });
   const accountToken = sign({ scopes: `read:users` }, serverRuntimeConfig.gql.accountSecret, { expiresIn: '5m' });
-  console.log(labsMyToken);
 
   const { account, labs } = await apiFetch(
     print(EligibilityQuery),
