@@ -1,0 +1,7 @@
+#import "../../../../components/ApplyForm.gql"
+
+query LabsApplyInformationQuery {
+  labs {
+    ...ApplyFormFragment
+  }
+}

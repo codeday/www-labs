@@ -1,0 +1,32 @@
+#import "./Dashboard/TagPicker.gql"
+
+mutation ApplyMutation($givenName: String!, $surname: String!, $email: String!, $track: LabsTrack!, $minHours: Int!, $partnerCode: String, $tags: [String!], $profile: LabsJSONObject) {
+  labs {
+    applyStudent(data:{
+      givenName: $givenName
+      surname: $surname
+      email: $email
+      track: $track
+      minHours: $minHours
+      partnerCode: $partnerCode
+      tags: $tags
+      profile: $profile
+    }) {
+      id
+    }
+  }
+}
+
+query ApplyFormQuery {
+  labs {
+    event {
+      studentApplicationsStartAt
+      studentApplicationsEndAt
+      studentApplicationSchema
+      studentApplicationUi
+    }
+    tags {
+      ...TagPicker
+    }
+  }
+}

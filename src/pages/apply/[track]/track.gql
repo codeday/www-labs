@@ -1,4 +1,0 @@
-#import "../../../providers/ProgramDates.gql"
-query TrackQuery {
-  ...ProgramDates
-}

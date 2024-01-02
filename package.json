@@ -16,6 +16,7 @@
     "@emotion/styled": "^11",
     "@rjsf/chakra-ui": "^4.2.0",
     "@rjsf/core": "^4.2.0",
+    "@rjsf/validator-ajv8": "^5.15.1",
     "@tylermenezes/cognitoforms-react": "^2.0.14",
     "ag-grid-community": "^25.3.0",
     "ag-grid-react": "^25.3.0",
