@@ -47,7 +47,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
           description: project.description || "",
           deliverables: project.deliverables || "",
           issueUrl: project.issueUrl || null,
-          repositoryId: project.repositoryId || null,
+          repositoryId: repositories ? (project.repositoryId || null) : undefined,
           tags: (project.tags || []).map(({ id }) => id),
           ...(limited ? {} : {
             status: project.status,
