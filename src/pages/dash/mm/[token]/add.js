@@ -70,7 +70,7 @@ export default function MentorManagerAddMentor() {
             try {
               const mentorResp = await fetch(print(MentorAddMutation), { data: mentor });
               success('Mentor added.');
-              window.location = `/dash/mm/${query.token}/${mentorResp.id}`;
+              window.location = `/dash/mm/${query.token}/${mentorResp.labs.createMentor.id}`;
             } catch (ex) {
               error(ex.toString());
             }
