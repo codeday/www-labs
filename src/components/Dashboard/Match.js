@@ -59,6 +59,7 @@ export function Match ({ match, selectedTags, onSelect, onDeselect, isSelected, 
         <Box mb={8} mr={4} ml={4}>
           <Heading as="h4" fontSize="md" mb={2}>About the project</Heading>
           <Text pl={2} ml={2} borderLeftColor="gray.100" borderLeftWidth={2}>
+            {match.issueUrl && <Link target="_blank" href={match.issueUrl}>{match.issueUrl}</Link>}
             <div dangerouslySetInnerHTML={{ __html: nl2br(match.description) }} />
             {match.deliverables && (
               <Text mt={8}>
