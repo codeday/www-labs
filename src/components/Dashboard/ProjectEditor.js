@@ -16,15 +16,16 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Select,
 } from "@codeday/topo/Atom"
 import { useToasts } from '@codeday/topo/utils';
 import { useFetcher } from '../../dashboardFetch';
 import SelectTrack from './SelectTrack';
 import SelectProjectStatus from './SelectProjectStatus';
-import { EditProject, EditProjectLimited } from './ProjectEditor.gql';
+import { EditProject, CreateProject } from './ProjectEditor.gql';
 import TagPicker from './TagPicker';
 
-export default function ProjectEditor({ tags, project: originalProject, limited, ...rest }) {
+export default function ProjectEditor({ tags, project: originalProject, limited, repositories, hideStatus, ...rest }) {
   const [project, setProject] = useReducer(
     (prev, next) => Array.isArray(next) ? { ...prev, [next[0]]: next[1] } : next,
     originalProject
@@ -33,17 +34,20 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
   const fetch = useFetcher();
   const { success, error } = useToasts();
 
-  const tagInfo = project.tags.map((t) => tags.filter((tInfo) => tInfo.id === t.id)[0]);
+  const tagInfo = (project.tags || []).map((t) => tags.filter((tInfo) => tInfo.id === t.id)[0]);
 
   const save = (data) => async () => {
     setLoading(true);
     try {
       const { affinePartner: _, ...postData } = data;
-      const result = await fetch(print(EditProject), {
+      const query = project.id ? EditProject : CreateProject;
+      const result = await fetch(print(query), {
         id: project.id,
         data: {
           description: project.description || "",
           deliverables: project.deliverables || "",
+          issueUrl: project.issueUrl || null,
+          repositoryId: project.repositoryId || null,
           tags: (project.tags || []).map(({ id }) => id),
           ...(limited ? {} : {
             status: project.status,
@@ -53,10 +57,10 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
           ...postData,
         }
       });
-      setProject(result.labs.editProject);
-      success('Project updated.');
+      success(`Project ${project.id ? 'updated' : 'created'}.`);
+      setProject(result.labs.editProject || { tags: [], maxStudents: 4 });
     } catch (ex) {
-      error(ex.toString());
+      error(ex.message);
     }
     setLoading(false);
   };
@@ -70,13 +74,16 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         textAlign={limited ? 'center' : undefined}
         mb={4}
       >
-        <Text>
-          <Text as="span" bold>Status: </Text>
-          {limited
-            ? project.status
-            : <SelectProjectStatus ml={2} status={project.status} onChange={(e) => setProject(['status', e.target.value])} />
-          }
-        </Text>
+        {!hideStatus && (
+          <Text>
+            <Text as="span" bold>Status: </Text>
+            {limited
+              ? project.status
+              : <SelectProjectStatus ml={2} status={project.status} onChange={(e) => setProject(['status', e.target.value])} />
+            }
+          </Text>
+        )}
+
         <Text>
           <Text as="span" bold>Track: </Text>
           {limited
@@ -134,6 +141,30 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         height={32}
         disabled={project.status === 'MATCHED' && limited}
       />
+
+      <Heading as="h4" fontSize="lg" mt={8}>Issue URL</Heading>
+      <Input
+        value={project.issueUrl}
+        placeholder="Issue link (Github etc) if this is an issue in an existing project."
+        onChange={(e) => setProject(['issueUrl', e.target.value])}
+        disabled={project.status === 'MATCHED' && limited}
+      />
+
+      {repositories && (
+        <>
+          <Heading as="h4" fontSize="lg" mt={8}>Repository</Heading>
+          <Select
+            value={project.repositoryId}
+            onChange={(e) => setProject(['repositoryId', e.target.value])}
+            disabled={project.status === 'MATCHED' && limited}
+          >
+            <option value=""></option>
+            {repositories.map(r => (
+              <option value={r.id}>{r.name}</option>
+            ))}
+          </Select>
+        </>
+      )}
 
       <Heading mt={8} as="h4" fontSize="lg">Interest Tags</Heading>
       <TagPicker

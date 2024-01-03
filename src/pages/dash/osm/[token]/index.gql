@@ -1,0 +1,27 @@
+#import "../../../../components/Dashboard/TagPicker.gql"
+query GetRepositoryLinks {
+  labs {
+    tags {
+      ...TagPicker
+    }
+    repositories {
+      id
+      name
+      url
+      projects {
+        id
+        issueUrl
+        status
+        complete
+        students {
+          name
+          email
+        }
+        mentors {
+          name
+          email
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import { decode } from 'jsonwebtoken';
 import { useRouter } from 'next/router';
 import { Content } from '@codeday/topo/Molecule';
 import { Box, Button, Grid, Link } from '@codeday/topo/Atom';

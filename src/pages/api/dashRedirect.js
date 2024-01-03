@@ -38,6 +38,7 @@ export default async function (req, res) {
   const isAdmin = roleIds.includes(serverRuntimeConfig.auth0.roles.admin);
   const isManager = roleIds.includes(serverRuntimeConfig.auth0.roles.manager);
   const isReviewer = roleIds.includes(serverRuntimeConfig.auth0.roles.reviewer);
+  const isOpenSourceManager = roleIds.includes(serverRuntimeConfig.auth0.roles.openSourceManager);
   
   const events = (isAdmin || isManager || isReviewer)
     ? labs.events
@@ -53,5 +54,8 @@ export default async function (req, res) {
     }]),
   );
 
-  res.send(result);
+  res.send({
+    events: result,
+    osm: isOpenSourceManager && makeToken({ typ: 'osm', sid: username, tgt: 'u' }),
+  });
 }

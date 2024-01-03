@@ -8,7 +8,7 @@ import Page from '../../components/Page';
 import RequestLoginLink from '../../components/Dashboard/RequestLoginLink';
 import { useColorModeValue } from '@chakra-ui/react';
 
-const sectionNames = { a: 'Admin', mm: 'Staff', r: 'Reviewer', m: 'Mentor', s: 'Student' };
+const sectionNames = { a: 'Admin', mm: 'Staff', r: 'Reviewer', m: 'Mentor', s: 'Student', osm: 'Open-Source Manager' };
 
 export default function DashboardLogin() {
   const { isValidating, data } = useSwr(
@@ -20,8 +20,8 @@ export default function DashboardLogin() {
   const headerFg = useColorModeValue('gray.900', 'white');
 
   const result = useMemo(() => {
-    if (data && Object.keys(data).length > 0) {
-      return Object.entries(data).map(([title, tokens]) => (
+    if (data?.events && Object.keys(data.events).length > 0) {
+      return Object.entries(data.events).map(([title, tokens]) => (
         <Box rounded="sm" borderWidth={1}>
           <Heading
             p={2}
@@ -84,19 +84,24 @@ export default function DashboardLogin() {
 
   return (
     <Page slug={`/dash`} title={`Dashboard`}>
-          {Array.isArray(result) ? (
-            <Content maxW="container.lg">
-              <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
-                {result}
-              </Grid>
-            </Content>
-          ) : <Content maxW="container.sm" textAlign="center">{result}</Content>}
-        <Content maxW="container.sm">
-          <Divider mt={8} mb={8} />
-          <Text mb={4}>
-            Mentors: enter your email to receive a login link.
-          </Text>
-          <RequestLoginLink />
+      {data?.osm && (
+        <Content maxW="container.sm" textAlign="center">
+          <Button as="a" href={`/dash/osm/${data.osm}`}>Open-Source Manager</Button>
+        </Content>
+      )}
+      {Array.isArray(result) ? (
+        <Content maxW="container.lg">
+          <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
+            {result}
+          </Grid>
+        </Content>
+      ) : <Content maxW="container.sm" textAlign="center">{result}</Content>}
+      <Content maxW="container.sm">
+        <Divider mt={8} mb={8} />
+        <Text mb={4}>
+          Mentors: enter your email to receive a login link.
+        </Text>
+        <RequestLoginLink />
       </Content>
     </Page>
   );

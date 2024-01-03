@@ -5,6 +5,8 @@ fragment ProjectEditor on LabsProject {
   track
   maxStudents
   status
+  issueUrl
+  repositoryId
   affinePartnerId
   affinePartner {
     partnerCode
@@ -34,6 +36,16 @@ mutation EditProject(
 ) {
   labs {
     editProject(project: $id, data: $data) {
+      ...ProjectEditor
+    }
+  }
+}
+
+mutation CreateProject(
+  $data: LabsProjectCreateInput!,
+) {
+  labs {
+    createProject(data: $data) {
       ...ProjectEditor
     }
   }

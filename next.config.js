@@ -15,6 +15,7 @@ module.exports = {
         admin: process.env.AUTH0_ADMIN_ROLE,
         manager: process.env.AUTH0_MANAGER_ROLE,
         reviewer: process.env.AUTH0_REVIEWER_ROLE,
+        openSourceManager: process.env.AUTH0_OPEN_SOURCE_MANAGER_ROLE,
       },
     },
     gql: {
