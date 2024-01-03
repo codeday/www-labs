@@ -92,6 +92,9 @@ export default function MentorDashboard() {
         </Grid>
         <MentorStats mentors={sortedMentors} />
         <Box textAlign="right">
+          <Button as="a" fontSize="sm" href={`/dash/mm/${query.token}/add`} target="_blank" mb={8} mr={4}>
+            New Mentor &raquo;
+          </Button>
           <Button as="a" fontSize="sm" href={`/dash/mm/${query.token}/note`} target="_blank" mb={8} mr={4}>
             Add Student Note &raquo;
           </Button>

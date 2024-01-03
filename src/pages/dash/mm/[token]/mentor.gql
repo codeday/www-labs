@@ -20,3 +20,11 @@ query MentorPageQuery ($id: String!) {
     }
   }
 }
+
+mutation ProjectAddMutation ($mentor: String!, $data: LabsProjectCreateInput!) {
+  labs {
+    createProject(mentor: { id: $mentor }, data: $data) {
+      id
+    }
+  }
+}

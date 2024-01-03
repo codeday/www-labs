@@ -7,16 +7,18 @@ import { Content } from '@codeday/topo/Molecule';
 import LockIcon from '@codeday/topocons/Icon/Lock';
 import { Accordion, AccordionItem, AccordionButton as AccordionHeader, AccordionPanel, AccordionIcon, useColorMode } from '@chakra-ui/react';
 import Page from '../../../../components/Page';
-import { useSwr } from '../../../../dashboardFetch';
+import { useSwr, useFetcher } from '../../../../dashboardFetch';
 import MentorProfile from '../../../../components/Dashboard/MentorProfile';
 import ProjectEditor from '../../../../components/Dashboard/ProjectEditor';
-import { MentorPageQuery } from './mentor.gql';
+import { MentorPageQuery, ProjectAddMutation } from './mentor.gql';
 
 export default function MentorDashboard({ id, mentorToken }) {
   const { query } = useRouter();
-  const { loading, error, data } = useSwr(print(MentorPageQuery), { id });
+  const { loading, error, data, revalidate } = useSwr(print(MentorPageQuery), { id });
   const { colorMode } = useColorMode();
-  if (!data?.labs?.mentor) return <Page title="Mentor Editor"><Content textAlign="center"><Spinner /></Content></Page>
+  const fetch = useFetcher();
+
+  if (!data?.labs?.mentor || loading || error) return <Page title="Mentor Editor"><Content textAlign="center"><Spinner /></Content></Page>
   const mentor = data.labs.mentor;
   const mentorPriorParticipation = data.labs.mentorPriorParticipation;
   return (
@@ -62,6 +64,39 @@ export default function MentorDashboard({ id, mentorToken }) {
               </AccordionPanel>
             </AccordionItem>
           ))}
+          <AccordionItem>
+            <AccordionHeader
+              borderBottomWidth={1}
+              bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
+              fontWeight="bold"
+            >
+              Create Project
+              <AccordionIcon />
+            </AccordionHeader>
+            <AccordionPanel>
+              {['BEGINNER', 'INTERMEDIATE', 'ADVANCED'].map((e) => (
+
+                <Button
+                  mr={2}
+                  onClick={async () => {
+                    try {
+                      await fetch(print(ProjectAddMutation), {
+                        mentor: mentor.id,
+                        data: { track: e }
+                      });
+                      success('Project added.');
+                      revalidate();
+                    } catch(ex) {
+                      console.error(ex);
+                      revalidate();
+                    }
+                  }}
+                >
+                  New {e[0]}{e.slice(1).toLowerCase()} Project
+                </Button>
+              ))}
+            </AccordionPanel>
+          </AccordionItem>
         </Accordion>
       </Content>
     </Page>

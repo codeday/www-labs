@@ -228,6 +228,15 @@ export default function MentorProfile({
         />
       </Box>
 
+      <Box mb={8}>
+        <Heading as="h3" fontSize="lg" mt={4}>Project Preferences</Heading>
+        <Textarea
+          value={mentor.projectPreferences}
+          height={32}
+          onChange={(e) => setMentor(['projectPreferences', e.target.value])}
+        />
+      </Box>
+
       {!limited && (
         <Box>
           <Heading as="h3" fontSize="lg" mt={4}>Additional Profile Data (JSON)</Heading>
@@ -261,6 +270,7 @@ export default function MentorProfile({
                 managerUsername: mentor.managerUsername || '',
                 maxWeeks: mentor.maxWeeks,
                 timezone: mentor.timezone,
+                projectPreferences: mentor.projectPreferences,
               }
             );
             setMentor(result.labs.editMentor);

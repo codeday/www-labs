@@ -7,10 +7,9 @@ import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
 import { useFetcher } from '../../../../dashboardFetch';
 import SelectMentorStatus from '../../../../components/Dashboard/SelectMentorStatus';
-import SelectTrack from '../../../../components/Dashboard/SelectTrack';
-import { MentorAddMutation, ProjectAddMutation } from './add.gql';
+import { MentorAddMutation } from './add.gql';
 
-export default function AdminAddMentor() {
+export default function MentorManagerAddMentor() {
   const { query } = useRouter();
   const [mentor, setMentor] = useReducer(
     (prev, next) => Array.isArray(next) ? { ...prev, [next[0]]: next[1] } : next,
@@ -24,7 +23,7 @@ export default function AdminAddMentor() {
   return (
     <Page title="Add Mentor">
       <Content mt={-8}>
-        <Button as="a" href={`/dash/a/${query.token}`}>&laquo; Back</Button>
+        <Button as="a" href={`/dash/mm/${query.token}`}>&laquo; Back</Button>
         <Heading as="h2" fontSize="5xl" mb={8} mt={4}>Add Mentor</Heading>
 
         <Box mb={8}>
@@ -63,11 +62,6 @@ export default function AdminAddMentor() {
           <SelectMentorStatus status={mentor.status} onChange={(e) => setMentor(['status', e.target.value])} />
         </Box>
 
-        <Box mb={8}>
-          <Heading as="h3" fontSize="lg">Project Track</Heading>
-          <SelectTrack track={track} onChange={(e) => setTrack(track)} />
-        </Box>
-
         <Button
           isLoading={loading}
           disabled={loading || !mentor.givenName || !mentor.surname || !mentor.status || !mentor.email || !track}
@@ -76,13 +70,7 @@ export default function AdminAddMentor() {
             try {
               const mentorResp = await fetch(print(MentorAddMutation), { data: mentor });
               success('Mentor added.');
-              await fetch(print(ProjectAddMutation), {
-                mentor: mentorResp.labs.createMentor.id,
-                data: { track }
-              });
-              success('Project added');
-              setMentor({ status: 'ACCEPTED' });
-              setTrack('ADVANCED');
+              window.location = `/dash/mm/${query.token}/${mentorResp.id}`;
             } catch (ex) {
               error(ex.toString());
             }

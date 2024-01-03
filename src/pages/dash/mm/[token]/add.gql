@@ -1,0 +1,7 @@
+mutation MentorAddMutation ($data: LabsMentorCreateInput!) {
+  labs {
+    createMentor(data: $data) {
+      id
+    }
+  }
+}
