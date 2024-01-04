@@ -5,6 +5,9 @@ query UpcomingEventsQuery {
       name
       startsAt
       defaultWeeks
+      hasBeginner
+      hasIntermediate
+      hasAdvanced
     }
   }
 }

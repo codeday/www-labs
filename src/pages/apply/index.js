@@ -1,12 +1,18 @@
 import { print } from 'graphql';
-import { Text, Button, List, ListItem } from '@codeday/topo/Atom';
+import { Text, Button, List, ListItem, Heading } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { apiFetch } from '@codeday/topo/utils';
 import Page from '../../components/Page';
-import CheckApplicationsOpen from '../../components/CheckApplicationsOpen';
+import Info from '@codeday/topocons/Icon/UiInfo';
 import { UpcomingEventsQuery } from './index.gql';
 import { DateTime } from 'luxon';
-import { Box } from '@chakra-ui/react';
+import { Box, Icon, Tooltip } from '@chakra-ui/react';
+
+const TRACK_DESCRIPTIONS = {
+  beginner: `This is the right track for you if you're a college student who has completed some CS classes but hasn't built anything independently and without step-by-step guidance.`,
+  intermediate: `This is the right track for you if you're a college student who has completed 101/102-level CS classes but not much more (or a high school student who's participated in hackathons).`,
+  advanced: `This is the right track for you if you're a college student with experience beyond the 101/102-level CS classes, or a student who has built projects on your own time (e.g. hackathons).`,
+};
 
 export default function ApplyHome({ events }) {
   return (
@@ -30,11 +36,28 @@ export default function ApplyHome({ events }) {
             <List>
               {events.map(e => (
                 <ListItem mb={4}>
-                  <strong>{e.name}</strong><br />
+                  <Heading fontSize="xl" mb={1}>{e.name}</Heading>
                   {DateTime.fromISO(e.startsAt).toLocaleString(DateTime.DATE_MED)}
                   &mdash;
                   {DateTime.fromISO(e.startsAt).plus({ weeks: e.defaultWeeks }).toLocaleString(DateTime.DATE_MED)}<br />
-                  <Button as="a" href={`/apply/${e.id}/advanced`} colorScheme="green">Apply Now</Button>
+                  <strong>Apply:</strong>
+                  {[['beginner', e.hasBeginner], ['intermediate', e.hasIntermediate], ['advanced', e.hasAdvanced]].filter(t => t[1]).map(t => (
+                    <Box key={t[0]} display="inline-block">
+                      <Button
+                        as="a"
+                        href={`/apply/${e.id}/${t[0]}`}
+                        colorScheme="gray"
+                        ml={4}
+                        mr={2}
+                        size="sm"
+                      >
+                        {t[0][0].toUpperCase()}{t[0].slice(1)} Track
+                      </Button>
+                      <Tooltip shouldWrapChildren label={TRACK_DESCRIPTIONS[t[0]]} placement="bottom">
+                        <Icon as={Info} />
+                      </Tooltip>
+                    </Box>
+                  ))}
                 </ListItem>
               ))}
             </List>
