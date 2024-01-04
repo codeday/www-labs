@@ -1,0 +1,15 @@
+mutation SetInterviewNoteMutation($student: String!, $note: String!) {
+  labs {
+    editStudent(where: { id: $student }, data: { interviewNotes: $note }) {
+      id
+    }
+  }
+}
+
+query GetInterviewNoteMutation($student: String!) {
+  labs {
+    student(where: { id: $student }) {
+      interviewNotes
+    }
+  }
+}

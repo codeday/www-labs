@@ -36,6 +36,8 @@ export default function Autocomplete({
   students,
   mentors,
   projects,
+  status,
+  max,
   onChange,
   ...props
 }) {
@@ -43,6 +45,7 @@ export default function Autocomplete({
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [selected, updateSelected] = useReducer((prev, [action, el]) => {
+    if (action === 'add' && max && prev.length === max) return prev;
     if (action === 'add') return [...prev, el];
     if (action === 'remove') return prev.filter(e => e.id !== el);
   }, []);
@@ -56,7 +59,7 @@ export default function Autocomplete({
     const makeRequest = setTimeout(async () => {
       const result = await apiFetch(
         AutocompleteQuery,
-        { q, students, mentors, projects },
+        { q, students, mentors, status: status || ['ACCEPTED'], projects },
         { 'X-Labs-Authorization': `Bearer ${token}` },
       );
       setLoading(false);
