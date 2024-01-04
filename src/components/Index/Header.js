@@ -18,13 +18,15 @@ export default function Header(props) {
     useQuery('cms.headerEvents.items.0', {})
   );
 
+  const studentAppsOpenEvents = useQuery('labs.studentAppsOpenEvents', []);
+
   const { mentorApplicationEndsAt } = useProgramDates();
 
 
   const bgs = useShuffled(themeBackgrounds?.items || []).filter(Boolean);
   const i = useSlideshow(bgs.length, 5000);
 
-  const applicationsOpen = registrationsOpenAt < DateTime.local() && registrationsCloseAt > DateTime.local();
+  const applicationsOpen = studentAppsOpenEvents.length > 0 || registrationsOpenAt < DateTime.local() && registrationsCloseAt > DateTime.local();
   const hearBackBy = registrationsCloseAt.plus({ days: 3 });
 
   return (
@@ -43,21 +45,10 @@ export default function Header(props) {
               fontSize="5xl"
               fontWeight="bold"
               textShadow="0 0 5px rgba(0,0,0,0.7)"
-              mb={2}
+              mb={12}
             >
               CodeDay Labs is the 100% online tech internship for everyone.
             </Heading>
-            <Text fontSize="xl" fontWeight="bold" mb={12}>
-              {startsAt && endsAt ? (
-                <>
-                  {startsAt.toLocaleString({ weekday: 'long', day: 'numeric', month: 'long' })}
-                  {' '}&mdash;{' '}
-                  {endsAt.toLocaleString({ weekday: 'long', day: 'numeric', month: 'long' })}
-                </>
-              ) : (
-                <>Dates TBA</>
-              )}
-            </Text>
             <Button
               as={applicationsOpen ? "a" : undefined}
               href="/apply"

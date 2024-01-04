@@ -14,4 +14,10 @@ query IndexQuery {
   ...ProjectSlider
   ...ProgramDates
   ...TAs
+
+  labs {
+    studentAppsOpenEvents: events(where:{ public:true, state: ACCEPTING_STUDENT_APPLICATIONS }) {
+      id
+    }
+  }
 }

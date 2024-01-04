@@ -1,4 +1,10 @@
-#import "../../providers/ProgramDates.gql"
-query IndexQuery {
-  ...ProgramDates
+query UpcomingEventsQuery {
+  labs {
+    events(where:{ public:true, state: ACCEPTING_STUDENT_APPLICATIONS }) {
+      id
+      name
+      startsAt
+      defaultWeeks
+    }
+  }
 }
