@@ -63,8 +63,6 @@ function Entry({ student, onChange, ...rest }) {
             setIsLoading(false);
           }}
         />
-      </Box>
-      <Box>
         <Button
           isLoading={isLoading}
           disabled={isLoading}
@@ -177,9 +175,8 @@ export default function AdminAdmit() {
         <Box as="table" w="100%">
           <Box as="tr" fontWeight="bold" borderBottomColor="black" borderBottomWidth={1}>
             <Box w="20%" as="td">Name</Box>
-            <Box w="15%" as="td">Rating</Box>
-            <Box w="35%" as="td">Interview Notes</Box>
-            <Box w="10%" as="td">&nbsp;</Box>
+            <Box w="20%" as="td">Rating</Box>
+            <Box w="40%" as="td">Interview Notes</Box>
             <Box w="20%" as="td">&nbsp;</Box>
           </Box>
           {students.map((s, i) => (
