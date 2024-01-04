@@ -62,7 +62,7 @@ function Entry({ student, onChange, ...rest }) {
             }
             setIsLoading(false);
           }}
-        />
+        /><br />
         <Button
           isLoading={isLoading}
           disabled={isLoading}
