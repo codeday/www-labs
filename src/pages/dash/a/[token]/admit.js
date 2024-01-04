@@ -33,11 +33,11 @@ function Entry({ student, onChange, ...rest }) {
       <Box as="td">
         <Link href={`mailto:${student.email}`}>{student.name}</Link><br />
         <Link href={`student/${student.id}`} target="_blank">#{student.id}</Link><br />
+        {student.status}<br />
         {student.profile?.location?.country}<br />
         {student.profile?.schoolType}
         {student.partnerCode && (<><br />Partner Code: {student.partnerCode}</>)}
       </Box>
-      <Box as="td">{student.status}</Box>
       <Box as="td">
         {Math.round(student.admissionRatingAverage, 2)} (of {student.admissionRatingCount || 0})<br />
         {student.trackRecommendation.map((rec) => `${Math.floor(rec.weight * 100)}% ${rec.track[0]}`).join(' / ')}
@@ -176,9 +176,8 @@ export default function AdminAdmit() {
 
         <Box as="table" w="100%">
           <Box as="tr" fontWeight="bold" borderBottomColor="black" borderBottomWidth={1}>
-            <Box w="15%" as="td">Name</Box>
-            <Box w="10%" as="td">Status</Box>
-            <Box w="10%" as="td">Rating</Box>
+            <Box w="20%" as="td">Name</Box>
+            <Box w="15%" as="td">Rating</Box>
             <Box w="35%" as="td">Interview Notes</Box>
             <Box w="10%" as="td">&nbsp;</Box>
             <Box w="20%" as="td">&nbsp;</Box>
