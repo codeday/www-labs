@@ -12,6 +12,7 @@ query TopStudentsByTrack ($track: LabsTrack!, $includeRejected: Boolean!) {
       email
       admissionRatingAverage
       admissionRatingCount
+      interviewNotes
       profile
       partnerCode
       trackRecommendation {

@@ -17,6 +17,11 @@ import {
 } from './admit.gql';
 import { useColorMode } from '@chakra-ui/react';
 
+const nl2br = (str) => str && str
+  .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/(https?:\/\/[^\s\(\)]+)/g, (url) => `<a href="${url}" style="text-decoration: underline" target="_blank">${url}</a>`)
+  .replace(/\n/g, '<br />');
+
 function Entry({ student, onChange, ...rest }) {
   const fetch = useFetcher();
   const { success, error } = useToasts();
@@ -33,14 +38,18 @@ function Entry({ student, onChange, ...rest }) {
         {student.partnerCode && (<><br />Partner Code: {student.partnerCode}</>)}
       </Box>
       <Box as="td">{student.status}</Box>
-      <Box as="td">{Math.round(student.admissionRatingAverage, 2)} (of {student.admissionRatingCount})</Box>
       <Box as="td">
+        {Math.round(student.admissionRatingAverage, 2)} (of {student.admissionRatingCount || 0})<br />
         {student.trackRecommendation.map((rec) => `${Math.floor(rec.weight * 100)}% ${rec.track[0]}`).join(' / ')}
+      </Box>
+      <Box as="td">
+        <div dangerouslySetInnerHTML={{ __html: nl2br(student.interviewNotes) }} />
       </Box>
       <Box as="td">
         <SelectTrack
           disabled={isLoading}
           track={track}
+          size="sm"
           onChange={async (e) => {
             setIsLoading(true);
             try {
@@ -60,11 +69,12 @@ function Entry({ student, onChange, ...rest }) {
           isLoading={isLoading}
           disabled={isLoading}
           colorScheme="purple"
+          size="xs"
           onClick={async () => {
             setIsLoading(true);
             try {
-              await fetch(StudentTrackChallenge, { id: student.id });
-              success('Challenge sent.');
+              await fetch(StudentTrackInterview, { id: student.id });
+              success('Interview request sent.');
               onChange();
             } catch (ex) {
               error(ex.toString());
@@ -78,6 +88,7 @@ function Entry({ student, onChange, ...rest }) {
           isLoading={isLoading}
           disabled={isLoading}
           colorScheme="green"
+          size="xs"
           onClick={async () => {
             setIsLoading(true);
             try {
@@ -96,6 +107,7 @@ function Entry({ student, onChange, ...rest }) {
           isLoading={isLoading}
           disabled={isLoading}
           colorScheme="red"
+          size="xs"
           onClick={async () => {
             setIsLoading(true);
             try {
@@ -143,7 +155,7 @@ export default function AdminAdmit() {
 
   return (
     <Page title="Admissions">
-      <Content mt={-8}>
+      <Content maxW="container.xl" mt={-8}>
         <Button as="a" href={`/dash/a/${query.token}`}>&laquo; Back</Button>
         <Heading as="h2" fontSize="5xl" mt={4}>Admissions</Heading>
         <Box>
@@ -164,12 +176,12 @@ export default function AdminAdmit() {
 
         <Box as="table" w="100%">
           <Box as="tr" fontWeight="bold" borderBottomColor="black" borderBottomWidth={1}>
-            <Box as="td">Name</Box>
-            <Box as="td">Status</Box>
-            <Box as="td">Rating</Box>
-            <Box as="td">Track Rating</Box>
-            <Box as="td">&nbsp;</Box>
-            <Box as="td">&nbsp;</Box>
+            <Box w="15%" as="td">Name</Box>
+            <Box w="10%" as="td">Status</Box>
+            <Box w="10%" as="td">Rating</Box>
+            <Box w="35%" as="td">Interview Notes</Box>
+            <Box w="10%" as="td">&nbsp;</Box>
+            <Box w="20%" as="td">&nbsp;</Box>
           </Box>
           {students.map((s, i) => (
             <Entry
