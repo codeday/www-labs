@@ -34,8 +34,9 @@ function Entry({ student, onChange, ...rest }) {
         <Link href={`mailto:${student.email}`}>{student.name}</Link><br />
         <Link href={`student/${student.id}`} target="_blank">#{student.id}</Link><br />
         {student.status}<br />
-        {student.profile?.location?.country}<br />
-        {student.profile?.schoolType}
+        {student.minHours} hours<br />
+        {student.timezone} {student.profile?.location?.country || student?.profile?.country}<br />
+        {student.profile?.yearsToGraduation ? <>{student.profile.yearsToGraduation} years to graduation<br /></>: ''}
         {student.partnerCode && (<><br />Partner Code: {student.partnerCode}</>)}
       </Box>
       <Box as="td">

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import TagPicker from './Dashboard/TagPicker';
 import { api, apiFetch, useToasts } from '@codeday/topo/utils';
 import { ApplyFormQuery, ApplyMutation } from './ApplyForm.gql';
+import TimezoneSelect from 'react-timezone-select';
 
 const PROFILE_INFO_SCHEMA = {
   "type": "object",
@@ -71,6 +72,9 @@ export default function ApplyForm({
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [selectedTechnologies, setSelectedTechnologies] = useState([]);
   const [profile, setProfile] = useState({});
+  const [selectedTimezone, setSelectedTimezone] = useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone
+  );
   
   const [basicErrors, setBasicErrors] = useState(null);
   const [profileErrors, setProfileErrors] = useState(null);
@@ -127,6 +131,12 @@ export default function ApplyForm({
         />
       )}
 
+      <Heading as="h3" fontSize="xl" mt={8}>Which timezone do you plan to work from during the program?</Heading>
+      <TimezoneSelect
+        value={selectedTimezone}
+        onChange={setSelectedTimezone}
+      />
+
       <Heading as="h3" fontSize="xl" mt={8}>Interests</Heading>
       <TagPicker
         onlyType="INTEREST"
@@ -159,6 +169,7 @@ export default function ApplyForm({
                 tags: [...selectedInterests, ...selectedTechnologies].map(e => e.id),
                 profile: profile,
                 track,
+                timezone: selectedTimezone.value,
               },
               { 'X-Labs-Authorization': `Bearer ${token}` },
             );
