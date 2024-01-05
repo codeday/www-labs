@@ -66,18 +66,43 @@ export default function OfferAccept() {
       </Content>
       <Content mt={-8} display={{ base: 'none', sm: 'block' }}>
         <Heading as="h2" fontSize="3xl" mb={4}>Agreement for {student.givenName} {student.surname}</Heading>
+
+        <Heading as="h3" fontSize="md" mb={4} mt={8}>Certifications</Heading>
         <ConfirmAll
           fontSize="lg"
           toConfirm={[
-            `I am available from ${starts.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)} to ${ends.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}.`,
-            `I am available for the ENTIRE ${student.weeks || 6} weeks. I'm not planning to take more than 2-3 days of vacation.`,
-            `I understand Labs is intended to give me an education similar to a internship, but it's not a paid internship.`,
+            `I am available for the ENTIRE ${student.weeks} weeks (${starts.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)} to ${ends.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}).`,
+            ...(student.event.certificationStatements || []),
             `I will spend at least ${student.minHours || 30} HOURS PER WEEK on this, for each of the ${student.weeks || ''} weeks, as described in the time management plan below.`,
           ]}
           onUpdate={setConfirmed}
         />
 
-        <Heading as="h3" fontSize="md" mb={4} mt={8}>Signature:</Heading>
+        <Heading as="h3" fontSize="md" mb={2} mt={8}>Timezone</Heading>
+        <Text mb={2}>I will be working from the following timezone during {student.event.name}:</Text>
+        <Box color="black">
+          <TimezoneSelect
+            value={selectedTimezone}
+            onChange={setSelectedTimezone}
+          />
+        </Box>
+
+        <Heading as="h3" fontSize="md" mb={2} mt={8}>Time Management Plan</Heading>
+        <Text mb={2}>I plan to work the following times each week:</Text>
+        <Box bg="blue.50" borderColor="blue.200" borderWidth={2} borderRadius={2} p={4} mb={8} color="blue.800">
+          <List ml={8} styleType="disc">
+            <ListItem>You don't need to follow this exact schedule every week, but do your best to provide general availability.</ListItem>
+            <ListItem>We will use the availability you provide as part of our matching process.</ListItem>
+            <ListItem>You cannot create slots less than 90 minutes. We find that students who split their time up in small chunks are not successful.</ListItem>
+            <ListItem><strong>You have accounted for {Math.round(timeManagementHours)} of your {student.minHours || 30} hours.</strong></ListItem>
+          </List>
+        </Box>
+        <TimeManagementPlan
+          starts={starts.toJSDate()}
+          onChange={(hours, plan) => { setTimeManagementHours(hours); setTimeManagementPlan(plan); }}
+        />
+
+        <Heading as="h3" fontSize="md" mb={4} mt={8}>Signature</Heading>
         <Box
           borderWidth={1}
           d="inline-block"
@@ -88,28 +113,6 @@ export default function OfferAccept() {
             onEnd={() => {setIsSigned(true)}}
           />
         </Box>
-
-        <Heading as="h3" fontSize="md" mb={2} mt={8}>Timezone:</Heading>
-        <Text mb={2}>Which timezone will you be working from during CodeDay Labs?</Text>
-        <Box color="black">
-          <TimezoneSelect
-            value={selectedTimezone}
-            onChange={setSelectedTimezone}
-          />
-        </Box>
-
-        <Heading as="h3" fontSize="md" mb={2} mt={8}>Time Management Plan:</Heading>
-        <Text mb={2}>Please indicate when you plan to work each week.</Text>
-        <List ml={8} styleType="disc" mb={8}>
-          <ListItem>You don't need to follow this exact schedule every week, but do your best to provide general availability.</ListItem>
-          <ListItem>We will use the availability you provide as part of our matching process.</ListItem>
-          <ListItem>You cannot create slots less than 90 minutes. We find that students who split their time up in small chunks are not successful.</ListItem>
-          <ListItem><strong>You have accounted for {Math.round(timeManagementHours)} of your {student.minHours || 30} hours.</strong></ListItem>
-        </List>
-        <TimeManagementPlan
-          starts={starts.toJSDate()}
-          onChange={(hours, plan) => { setTimeManagementHours(hours); setTimeManagementPlan(plan); }}
-        />
 
         <Box mt={4}>
           <Button
