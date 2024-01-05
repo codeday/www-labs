@@ -1,6 +1,6 @@
 #import "./Dashboard/TagPicker.gql"
 
-mutation ApplyMutation($givenName: String!, $surname: String!, $email: String!, $timezone: String!, $track: LabsTrack!, $minHours: Int!, $partnerCode: String, $tags: [String!], $profile: LabsJSONObject) {
+mutation ApplyMutation($givenName: String!, $surname: String!, $email: String!, $timezone: String, $track: LabsTrack!, $minHours: Int!, $partnerCode: String, $tags: [String!], $profile: LabsJSONObject) {
   labs {
     applyStudent(data:{
       givenName: $givenName
