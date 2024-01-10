@@ -9,6 +9,8 @@ import Email from '@codeday/topocons/Icon/Email';
 import Bolt from '@codeday/topocons/Icon/Bolt';
 import Goal from '@codeday/topocons/Icon/Goal';
 import HeadGroup from '@codeday/topocons/Icon/HeadGroup';
+import UiWarning from '@codeday/topocons/Icon/UiWarning';
+import ShootingStar from '@codeday/topocons/Icon/ShootingStar';
 import Page from '../../../../components/Page';
 import { Icon } from '@chakra-ui/react';
 
@@ -36,9 +38,11 @@ export default function AdminDashboard() {
           gap={4}
         >
           <ActionButton icon={FaceVeryHappy} href={`/dash/a/${query.token}/admit`}>Admissions</ActionButton>
-          <ActionButton icon={Agreement} href={`/dash/a/${query.token}/partner`}>Partner Students</ActionButton>
-          <ActionButton icon={FileDoc} href={`/dash/a/${query.token}/csv`}>Admitted CSV</ActionButton>
+          <ActionButton icon={Agreement} href={`/dash/a/${query.token}/partner`}>Partner Admissions</ActionButton>
+          <ActionButton icon={ShootingStar} href={`/dash/a/${query.token}/partners`}>Partners</ActionButton>
+          <ActionButton icon={UiWarning} href={`/dash/a/${query.token}/activities`}>Activities</ActionButton>
           <ActionButton icon={Email} href={`/dash/a/${query.token}/email`}>Send Email</ActionButton>
+          <ActionButton icon={FileDoc} href={`/dash/a/${query.token}/csv`}>Admitted CSV</ActionButton>
           <ActionButton icon={Goal} href={`/api/matchingPrefs?token=${query.token}`}>Matching Prefs</ActionButton>
           <ActionButton icon={HeadGroup} href={`/api/projectCapacities?token=${query.token}`}>Matching Capacities</ActionButton>
           <ActionButton icon={UiTrash} href={`/dash/a/${query.token}/delete`}>Delete Mentor</ActionButton>

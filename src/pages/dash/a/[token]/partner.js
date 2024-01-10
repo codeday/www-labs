@@ -50,7 +50,7 @@ function Entry({ student, ...rest }) {
   )
 }
 
-export default function AdminPartner() {
+export default function AdminPartnerAdmissions() {
   const { query } = useRouter();
   const [partnerCode, setPartnerCode] = useState();
   const { success, error } = useToasts();
@@ -60,7 +60,7 @@ export default function AdminPartner() {
   const fetch = useFetcher();
 
   return (
-    <Page title="Partner Students">
+    <Page title="Partner Admissions">
       <Content mt={-8}>
         <Button as="a" href={`/dash/a/${query.token}`}>&laquo; Back</Button>
         <Heading as="h2" fontSize="5xl" mt={4}>Partner Students</Heading>

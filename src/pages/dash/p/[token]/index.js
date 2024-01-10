@@ -172,7 +172,7 @@ export default function PartnerPage({ students, event, hidePartner }) {
                       <StatusEntry
                         type="meta"
                         title="Onboarding Assignments"
-                        caution={1-(s.trainingSubmissions.filter((ts) => ts.submission).length / Math.min(3, s.trainingSubmissions.length))}
+                        caution={1-(s.trainingSubmissions.filter((ts) => ts.submission).length / Math.min(2, s.trainingSubmissions.length))}
                       >
                             <List styleType="disc" ml={6}>
                               {s.trainingSubmissions.map((ts) => (

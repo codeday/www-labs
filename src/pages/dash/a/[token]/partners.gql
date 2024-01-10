@@ -1,0 +1,9 @@
+query PartnersQuery {
+  labs {
+    partners {
+      partnerCode
+      studentCount
+      token
+    }
+  }
+}

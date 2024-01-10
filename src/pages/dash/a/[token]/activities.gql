@@ -1,0 +1,17 @@
+query GetActivitiesQuery {
+  labs {
+    activities
+  }
+}
+
+query GetActivitySchemaQuery($functionName: String!) {
+  labs {
+    activitySchema(functionName: $functionName)
+  }
+}
+
+mutation RunActivityMutation ($functionName: String!, $args: LabsJSONObject!) {
+  labs {
+    runActivity(functionName: $functionName, args: $args)
+  }
+}
