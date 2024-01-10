@@ -116,7 +116,9 @@ export default function PartnerPage({ students, event, hidePartner }) {
                 <Box mb={8}>
                   <a name={`s-${s.id}`} />
                   <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
-                  <Text>Mentored by {s.projects.flatMap((p) => p.mentors).flatMap((m) => m.name).join(', ')}</Text>
+                  {s.projects && s.projects.length > 0 && (
+                    <Text>Mentored by {s.projects.flatMap((p) => p.mentors).flatMap((m) => m.name).join(', ')}</Text>
+                  )}
 
                   <StandupRatings
                     mb={4}
@@ -150,22 +152,24 @@ export default function PartnerPage({ students, event, hidePartner }) {
                     </StatusEntry>
 
                     {/* Show project details or preference submission */}
-                    <StatusEntry
-                      title="Project"
-                      type="meta"
-                      caution={(s.hasProjectPreferences || s.skipPreferences || (s.projects && s.projects.length > 0)) ? 0 : 1}
-                    >
-                      {s.projects && s.projects.length > 0 ? (
-                        s.projects.map((p) => (
-                          <Match match={p} key={p.id} />
-                        ))
-                      ) : (
-                        <>
-                          <Text>Preferences Submitted: {s.hasProjectPreferences ? 'yes' : 'no'}</Text>
-                          <Text>Matched: no</Text>
-                        </>
-                      )}
-                    </StatusEntry>
+                    {s.status === 'ACCEPTED' && (
+                      <StatusEntry
+                        title="Project"
+                        type="meta"
+                        caution={(s.hasProjectPreferences || s.skipPreferences || (s.projects && s.projects.length > 0)) ? 0 : 1}
+                      >
+                        {s.projects && s.projects.length > 0 ? (
+                          s.projects.map((p) => (
+                            <Match match={p} key={p.id} />
+                          ))
+                        ) : (
+                          <>
+                            <Text>Preferences Submitted: {s.hasProjectPreferences ? 'yes' : 'no'}</Text>
+                            <Text>Matched: no</Text>
+                          </>
+                        )}
+                      </StatusEntry>
+                    )}
 
                     {/* Show onboarding assignments if project is assigned */}
                     {s.projects && s.projects.length > 0 && s.trainingSubmissions.length > 0 && (
@@ -246,7 +250,7 @@ export default function PartnerPage({ students, event, hidePartner }) {
                       ))
                     }
 
-                    {(s.artifacts.length > 0 || event.artifactTypes.length > 0) && (
+                    {(s.artifacts.length > 0 || event.artifactTypes.length > 0) && s.projects && s.projects.length > 0 && (
                       <StatusEntry
                         type="meta"
                         caution={0}

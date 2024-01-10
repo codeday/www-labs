@@ -17,7 +17,7 @@ export default function StudentList({ students }) {
         <ListItem key={s.id}>
           <SummaryBadge
             mr={2}
-            statusEvents={[
+            statusEvents={s.status !== 'ACCEPTED' ? [] : [
               { caution: s.timeManagementPlan || s.timezone ? 0 : 0.1 },
               { caution: (s.hasProjectPreferences || s.skipPreferences || (s.projects && s.projects.length > 0)) ? 0 : 1 },
               { caution: s.trainingSubmissions.length === 0 ? 0 : Math.max(0, 1-(s.trainingSubmissions.filter((ts) => ts.submission).length / Math.min(2, s.trainingSubmissions.length))) },
