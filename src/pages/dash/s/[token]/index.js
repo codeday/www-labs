@@ -13,7 +13,10 @@ import { MiniCalendar } from '../../../../components/Dashboard/MiniCalendar';
 
 export default function Dashboard() {
   const { query } = useRouter();
-  const { isValidating, data, error } = useSwr(print(StudentDashboardQuery));
+  const { isValidating, data, error } = useSwr(print(StudentDashboardQuery), {}, { 
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
   const { colorMode } = useColorMode();
   const dark = colorMode === 'dark';
   const bg = dark ? 900 : 50;
@@ -73,11 +76,23 @@ export default function Dashboard() {
     </Page>
   );
 
+  const dueSurveys = (data.labs.surveys || [])
+    .flatMap((s) => s.occurrences
+      .sort((a, b) => DateTime.fromISO(a.dueAt) > DateTime.fromISO(b.dueAt) ? -1 : 1)
+      .slice(0,1)
+    ).filter((o) => (
+      o.surveyResponses
+        .filter((r) => r.authorStudentId === data?.labs?.student?.id)
+        .length == 0
+    ));
+
+  const isOnboardingWeek = DateTime.now() > DateTime.fromISO(data.labs.event.startsAt)
+      && DateTime.now() < DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 });
 
   if (data?.labs?.student?.projects && data.labs.student.projects.length > 0) return (
     <Page title="Student Dashboard">
       <Content>
-        <Heading as="h2" mb={8} fontSize="4xl">Student Dashboard</Heading>
+        <Heading as="h2" mb={8} fontSize="4xl">{data.labs.student.name}'s Dashboard</Heading>
         <Grid templateColumns={{ base: '1fr', md: '2fr 1fr' }} gap={8}>
           <Box>
             {data.labs.student.projects.map((p) => (
@@ -89,11 +104,19 @@ export default function Dashboard() {
             ))}
           </Box>
           <Box>
-            {data?.labs?.surveys && (
+            {(dueSurveys.length > 0 || isOnboardingWeek) && (
               <Box p={4} pt={3} mb={8} bg={`red.${bg}`} borderColor={`red.${borderColor}`} borderWidth={4} color={`red.${color}`} rounded="sm">
                 <Text mb={0} color="red.700" fontSize="sm">[ACTION REQUIRED]</Text>
                 <Heading as="h3" fontSize="md" mb={2}>Due Check-Ins, Reflections, &amp; Surveys</Heading>
                 <List styleType="disc" pl={6}>
+                  {isOnboardingWeek && (
+                    <ListItem>
+                      <Link href={`/dash/s/${query?.token}/onboarding`}>
+                        <Text d="inline" fontWeight="bold">Onboarding Assignments</Text>
+                        <Text fontSize="sm">due {DateTime.fromISO(data.labs.event.startsAt).plus({days: 6}).toLocaleString(DateTime.DATE_MED)}</Text>
+                      </Link>
+                    </ListItem>
+                  )}
                   {data.labs.surveys.flatMap((s) => s.occurrences.sort((a, b) => DateTime.fromISO(a.dueAt) > DateTime.fromISO(b.dueAt) ? -1 : 1).slice(0,1).map((o) => {
                     if (o.surveyResponses.filter((r) => r.authorStudentId === data?.labs?.student?.id).length > 0) return <></>;
                     return (

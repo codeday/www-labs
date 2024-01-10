@@ -32,6 +32,7 @@ query StudentDashboardQuery {
       status
       track
       weeks
+      name
       projects {
         id
         ...Match
