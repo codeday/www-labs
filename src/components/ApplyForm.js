@@ -169,6 +169,7 @@ export default function ApplyForm({
                 tags: [...selectedInterests, ...selectedTechnologies].map(e => e.id),
                 profile: profile,
                 track,
+                partnerCode: basicData.partnerCode || partnerCode || null,
                 timezone: selectedTimezone?.value || Intl.DateTimeFormat().resolvedOptions().timeZone || null,
               },
               { 'X-Labs-Authorization': `Bearer ${token}` },
