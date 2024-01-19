@@ -19,6 +19,7 @@ import StudentList from '../../../../components/Dashboard/StatusOverview/Student
 import StandupRatings from '../../../../components/Dashboard/StandupRatings';
 import { useRouter } from 'next/router';
 import SurveyDetails from '../../../../components/Dashboard/SurveyDetails';
+import { StudentCsv } from '../../../../components/Dashboard/StudentCsv';
 
 export default function PartnerPage({ students, event, hidePartner }) {
   const { query } = useRouter();
@@ -65,7 +66,10 @@ export default function PartnerPage({ students, event, hidePartner }) {
               <option value="meta">Show metadata</option>
             </Select>
 
-            <Heading as="h3" fontSize="md" bold>Students</Heading>
+            <Heading as="h3" fontSize="md" bold>
+              Students
+              <StudentCsv pl={2} textColor="current.textLight" students={studentsWithTrainingInfo} />
+            </Heading>
             <StudentList students={studentsWithTrainingInfo} />
 
             {!hidePartner && (

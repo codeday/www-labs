@@ -11,6 +11,7 @@ query PartnerStudentsAbout {
       }
     }
     students {
+      createdAt
       id
       name
       email
