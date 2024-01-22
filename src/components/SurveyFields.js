@@ -1,6 +1,7 @@
 import { Box, Text, List, ListItem } from '@codeday/topo/Atom';
 
 export default function SurveyFields({ content, displayFn, ...rest }) {
+
   const displayFnRunnable = displayFn
     ? (new Function(`{ return ${displayFn} }`)).call(null)
     : (a) => a;

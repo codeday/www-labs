@@ -246,7 +246,7 @@ export default function PartnerPage({ students, event, hidePartner }) {
                           key={sr.id}
                           type={getReflectionType(sr, s)}
                           date={DateTime.fromISO(sr.surveyOccurence.dueAt)}
-                          title={(sr.authorMentor || sr.authorStudent).name}
+                          title={(sr.authorMentor || sr.authorStudent)?.name}
                           caution={sr.caution}
                         >
                           <SurveyDetails token={query.token} id={sr.id} />
