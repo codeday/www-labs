@@ -1,6 +1,6 @@
 export function getReflectionType(sr, s) {
   if (sr.project) return 'project';
-  if (!(sr.authorMentor || sr.authorStudent)) 'peer';
+  if (!(sr.authorMentor || sr.authorStudent)) return 'peer';
   if ((sr.authorMentor || sr.authorStudent).id === s.id) return 'self';
   if (sr.mentor && sr.authorStudent) return 'mentee';
   if (sr.student && sr.authorMentor) return 'mentor';
