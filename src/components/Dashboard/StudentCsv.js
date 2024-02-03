@@ -25,10 +25,13 @@ export function StudentCsv({ students, ...props }) {
     'email',
     'status',
     'mentors',
+    'issueUrl',
+    'description',
     'timeCommitment',
     'timezone',
     'hasProjectPreferences',
     'hasSlack',
+    'hasRepliedToEmail',
     ...TIME_MANAGEMENT_DAYS.map(d => `${d}Availability`),
   ];
 
@@ -49,10 +52,13 @@ export function StudentCsv({ students, ...props }) {
     s.email,
     s.status,
     s.projects.flatMap(p => p.mentors).map(m => m.name).join('; '),
+    s.projects.map(p => p.issueUrl).join('; '),
+    s.projects.map(p => p.description).join('; ').replace(/\n/g, ' '),
     s.minHours,
     s.timezone,
     s.hasProjectPreferences ? 'yes' : 'no',
     s.slackId ? 'yes' : 'no',
+    s.emailCount > 0 ? 'yes' : 'no',
     ...flatTimeManagement(s.timeManagementPlan),
   ]);
 

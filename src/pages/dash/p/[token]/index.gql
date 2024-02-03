@@ -22,6 +22,8 @@ query PartnerStudentsAbout {
       hasProjectPreferences
       projects {
         id
+        description
+        issueUrl
         ...Match
         mentors {
           name
