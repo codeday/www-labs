@@ -4,6 +4,9 @@ fragment StudentHeader on LabsStudent {
   surname
   track
   minHours
+  timezone
+  partnerCode
+  resumeUrl
   tags {
     mentorDisplayName
   }

@@ -20,13 +20,13 @@ function LongAnswer({ title, text }) {
 export default function StudentApplication({ student, ...props }) {
   const factors = [
     ...(
-      student.profile.fteIn <= 12
-        ? [`They are looking for a full-time job ${student.profile?.fteIn > 0 ? `in ~${student.profile?.fteIn}mo` : 'now'}.`]
+      student.profile.yearsToGraduation <= 1
+        ? [`They are looking for a full-time job ${student.profile?.yearsToGraduation > 0 ? `in ~${student.profile?.yearsToGraduation} year` : 'now'}.`]
         : []
     ),
     ...(
-      student.profile?.pronouns !== 'he/him'
-      || ['Black', 'Latino/a/e* or Hispanic', 'Native American'].includes(student.profile?.ethnicity)
+      (student.profile?.pronouns && student.profile.pronouns !== 'he/him')
+      || ['Black', 'Latino/a/e* or Hispanic', 'Native American'].includes([...(student.profile?.ethnicities || []), ...(student.profile?.ethnicity || [])])
         ? ['They are a member of an group significantly underrepresented in tech.']
         : []
     )
@@ -55,12 +55,20 @@ export default function StudentApplication({ student, ...props }) {
         </Box>
       )}
       <LongAnswer
-        title={`A past project they're proud of:`}
+        title={`An educational achievement they're most proud of:`}
+        text={student.profile?.proud}
+      />
+      <LongAnswer
+        title={`A past coding project they've worked on:`}
         text={student.profile?.pastProject}
       />
       <LongAnswer
-        title={`If accepted, they look forward to:`}
-        text={student.profile?.lookForward}
+        title={`A time they solved a difficult problem:`}
+        text={student.profile?.solveProblem}
+      />
+      <LongAnswer
+        title={`What they hope to gain from this experience:`}
+        text={student.profile?.lookForward || student.profile?.goals}
       />
       <LongAnswer
         title={`Anything else?`}

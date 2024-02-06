@@ -18,7 +18,7 @@ export default function StudentHeader({ student, anonymous, ...props }) {
   const links = {
     github: student.profile?.github,
     linkedin: student.profile?.linkedin,
-    resume: student.profile?.resume,
+    resume: student.resumeUrl,
   };
 
   return (
@@ -32,9 +32,15 @@ export default function StudentHeader({ student, anonymous, ...props }) {
             <Text as="span" fontSize="md" ml={2}>({student.profile?.pronouns})</Text>
           </Heading>
         )}
-        <Text fontSize="lg" bold mb={0}>{student.profile?.schoolYear}, {student.profile?.schoolName}</Text>
+        <Text fontSize="lg" bold mb={0}>
+          {[
+            student.profile?.yearsToGraduation && `${student.profile.yearsToGraduation} years to graduation`,
+            student.partnerCode && `partner ${student.partnerCode}`,
+            student.timezone,
+          ].filter(Boolean).join(', ')}
+        </Text>
         {!anonymous && (
-          <Text fontSize="md">Ethnicity: {student.profile?.ethnicity}</Text>
+          <Text fontSize="md">Ethnicity: {student.profile?.ethnicities ? student.profile.ethnicities.join('/') : student.profile?.ethnicity}</Text>
         )}
         <Text fontSize="md" bold color="blue.800" mb={0}>
           {Object.keys(links).filter((k) => links[k]).map((k) => (
@@ -44,8 +50,7 @@ export default function StudentHeader({ student, anonymous, ...props }) {
       </Box>
       <Box fontSize="sm" textAlign="right">
         <Text mb={0}>
-          <Text as="span" bold>id: </Text><Text as="span" fontFamily="mono">{student.id}</Text> /{' '}
-          <Text as="span" bold>app: </Text><Text as="span" fontFamily="mono">#{student.profile?.appId}</Text>
+          <Text as="span" bold>id: </Text><Text as="span" fontFamily="mono">{student.id}</Text>
         </Text>
         <Text mb={0}>
           <Text as="span" bold>application track: </Text><TrackBadge track={student.track} />

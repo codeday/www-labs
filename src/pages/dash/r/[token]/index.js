@@ -36,7 +36,7 @@ export default function ReviewPage() {
 
   useEffect(() => {
     if (studentResp) {
-      setRecommendedTrack(null);
+      setRecommendedTrack(studentResp?.labs?.nextStudentNeedingRating?.track);
       setRating(null);
     }
   }, [studentResp]);
