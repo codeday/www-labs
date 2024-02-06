@@ -1,6 +1,6 @@
-import { Box, Button, Heading, Spinner, Text } from '@codeday/topo/Atom';
+import { Box, Button, Heading, Spinner, Text, Link } from '@codeday/topo/Atom';
 import { Form } from '@rjsf/chakra-ui';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import TagPicker from './Dashboard/TagPicker';
 import { api, apiFetch, useToasts } from '@codeday/topo/utils';
 import { ApplyFormQuery, ApplyMutation } from './ApplyForm.gql';
@@ -75,6 +75,8 @@ export default function ApplyForm({
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
+  const uploadRef = useRef();
+  const [resume, setResume] = useState(null);
   
   const [basicErrors, setBasicErrors] = useState(null);
   const [profileErrors, setProfileErrors] = useState(null);
@@ -118,6 +120,31 @@ export default function ApplyForm({
         showErrorList={false}
         liveValidate
       />
+
+      <Heading as="h3" fontSize="md" fontWeight="normal" mb={1}>Resume/CV</Heading>
+      <Box mb={6}>
+        <input
+          ref={uploadRef}
+          type="file"
+          accept="application/pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          onChange={(e) => {
+            if (e.target.files.length > 0) {
+              setResume(e.target.files[0]);
+            }
+          }}
+          style={{ display: 'none' }}
+        />
+        <Button mr={2} display="inline-block" onClick={() => uploadRef.current?.click()}>
+          Upload Resume
+        </Button>
+        {resume && (
+          <Text display="inline-block" color="current.textLight">
+            {resume.name}
+            <Link ml={2} onClick={() => setResume(null)}>(remove)</Link>
+          </Text>
+        )}
+      </Box>
+
       {hasProfile && (
         <Form
           schema={event.studentApplicationSchema}
@@ -171,6 +198,7 @@ export default function ApplyForm({
                 track,
                 partnerCode: basicData.partnerCode || partnerCode || null,
                 timezone: selectedTimezone?.value || Intl.DateTimeFormat().resolvedOptions().timeZone || null,
+                resume,
               },
               { 'X-Labs-Authorization': `Bearer ${token}` },
             );
