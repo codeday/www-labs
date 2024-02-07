@@ -37,6 +37,7 @@ export default function StudentHeader({ student, anonymous, ...props }) {
             student.profile?.yearsToGraduation && `${student.profile.yearsToGraduation} years to graduation`,
             student.partnerCode && `partner ${student.partnerCode}`,
             student.timezone,
+            student.profile?.school,
           ].filter(Boolean).join(', ')}
         </Text>
         {!anonymous && (
