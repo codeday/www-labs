@@ -7,16 +7,11 @@ import CheckLoggedIn from '../../../../components/CheckLoggedIn';
 import { LabsApplyInformationQuery } from './track.gql';
 import ApplyForm from '../../../../components/ApplyForm';
 
-const TRACK_NAMES = {
-  beginner: 'Beginner',
-  advanced: 'Intermediate/Advanced',
-}
-
 export default function ApplyTrack({ track, partnerCode, eventId }) {
   return (
-    <Page slug={`/apply/${track}`} title={`Apply for ${TRACK_NAMES[track] || track} (${partnerCode})`}>
+    <Page slug={`/apply/${track}`} title={`Student Application`}>
       <Content mt={-8}>
-        <Heading as="h2" fontSize="4xl" marginBottom={12}>Student Application: {TRACK_NAMES[track] || track}</Heading>
+        <Heading as="h2" fontSize="4xl" mb={4} mt={-8}>Student Application</Heading>
         <CheckLoggedIn>
           {(session) => (
             <ApplyForm
