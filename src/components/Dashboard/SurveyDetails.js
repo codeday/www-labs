@@ -24,6 +24,10 @@ export default function SurveyDetails({ token, id }) {
     return <Spinner />;
   }
 
+  if (!sr.response || Object.keys(sr.response).length === 0) {
+    return <>No information was shared with you.</>
+  }
+
   return (
     <SurveyFields
       content={sr.response}

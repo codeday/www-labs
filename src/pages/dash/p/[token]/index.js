@@ -7,8 +7,7 @@ import {
   Select,
 } from '@chakra-ui/react'
 import Page from '../../../../components/Page';
-import { PartnerStudentsAbout, AssociatePartnerCodeMutation } from './index.gql';
-import SurveyFields from '../../../../components/SurveyFields';
+import { PartnerStudentsAbout, PartnerStudentsAboutLimited, AssociatePartnerCodeMutation } from './index.gql';
 import { useFetcher } from '../../../../dashboardFetch';
 import { Match } from '../../../../components/Dashboard/Match';
 import { getReflectionType } from '../../../../utils';
@@ -129,6 +128,7 @@ export default function PartnerPage({ students, event, hidePartner }) {
                     mt={4}
                     ratings={s.standupRatings}
                     token={query.token}
+                    allowChanges={!hidePartner}
                   />
 
                   <StatusEntryCollection onlyType={filter}>
@@ -219,7 +219,7 @@ export default function PartnerPage({ students, event, hidePartner }) {
                     )}
 
                     {/* Show any staff notes */}
-                    {s.notes.map(n => (
+                    {s.notes?.map?.(n => (
                       <StatusEntry
                         key={n.id}
                         type="staff"
@@ -299,6 +299,19 @@ export default function PartnerPage({ students, event, hidePartner }) {
 
 export async function getServerSideProps({ params: { token } }) {
   const result = await apiFetch(PartnerStudentsAbout, {}, {
+    'X-Labs-Authorization': `Bearer ${token}`,
+  });
+
+  return {
+    props: {
+      students: result?.labs?.students,
+      event: result?.labs?.event,
+    },
+  };
+}
+
+export async function getServerSidePropsLimited({ params: { token } }) {
+  const result = await apiFetch(PartnerStudentsAboutLimited, {}, {
     'X-Labs-Authorization': `Bearer ${token}`,
   });
 

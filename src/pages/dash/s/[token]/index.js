@@ -157,6 +157,14 @@ export default function Dashboard() {
                   </Link>
                 </ListItem>
                 <ListItem>
+                  <Link
+                    href={`/dash/s/${query.token}/feedback`}
+                    target="_blank"
+                  >
+                    Review Feedback
+                  </Link>
+                </ListItem>
+                <ListItem>
                   <Link href={`/dash/s/${query?.token}/help`}>
                     Book Coding Help Meeting
                   </Link>

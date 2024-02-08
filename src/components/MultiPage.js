@@ -1,4 +1,4 @@
-import { isValidElement, useReducer, useRef } from "react";
+import React, { Children, isValidElement, useReducer, useRef } from "react";
 import { Box, Button } from '@codeday/topo/Atom';
 import { useColorModeValue } from "@chakra-ui/react";
 
@@ -35,7 +35,11 @@ function PageStepper({ current, count, title, ...props }) {
   )
 }
 
-export default function MultiPage({ children, submitButton, props }) {
+export default function MultiPage({ children: _children, submitButton, props }) {
+  const children = Children
+    .toArray(_children)
+    .filter(c => c);
+
   const [page, changePage] = useReducer((_prev, action) => {
     return (_prev + (action === 'next' ? 1 : -1)) % children.length;
   }, 0);

@@ -1,5 +1,5 @@
 import { Box, Button, Heading, Spinner, Text, Link } from '@codeday/topo/Atom';
-import { Form } from '@rjsf/chakra-ui';
+import Form from './RsjForm';
 import { useRef, useState } from 'react';
 import TagPicker from './Dashboard/TagPicker';
 import Timestamp from './Timestamp';
@@ -78,7 +78,7 @@ export default function ApplyForm({
   );
   const uploadRef = useRef();
   const [resume, setResume] = useState(null);
-  
+
   const [basicErrors, setBasicErrors] = useState(null);
   const [profileErrors, setProfileErrors] = useState(null);
 
@@ -93,12 +93,15 @@ export default function ApplyForm({
   const applicationsStartAt = useIso(event?.studentApplicationsStartAt);
   const applicationsEndAt = useIso(event?.studentApplicationsEndAt);
   const applicationsOpen = useDateBetween(applicationsStartAt, applicationsEndAt);
+  const applicationCloseSoon = useDateBetween(applicationsEndAt?.minus?.({ days: 3 }));
 
   if (applicationId) return (
     <Box {...props}>
       <Text><center>Thank you! Your application was received with ID {applicationId}.</center></Text>
     </Box>
   );
+
+  if (!event || !tags || applicationsOpen === null) return <Box {...props}><Spinner /></Box>;
 
   if (!applicationsOpen) return (
     <Box {...props}>
@@ -111,8 +114,6 @@ export default function ApplyForm({
       </Text>
     </Box>
   )
-
-  if (!event || !tags) return <Box {...props}><Spinner /></Box>;
 
   const hasProfile = event.studentApplicationSchema && Object.entries(event.studentApplicationSchema).length > 0;
 
@@ -127,6 +128,15 @@ export default function ApplyForm({
 
   return (
     <Box {...props}>
+      <Box
+        mb={4}
+        color={applicationCloseSoon ? 'white' : 'gray.500'}
+        bg={applicationCloseSoon ? 'red.700' : 'transparent'}
+        p={applicationCloseSoon ? 2 : 0}
+        rounded="sm"
+      >
+        Application closes <Timestamp ts={applicationsEndAt} />
+      </Box>
       <MultiPage
         submitButton={
           <>
@@ -181,14 +191,14 @@ export default function ApplyForm({
             liveValidate
           />
 
-          <Heading as="h3" fontSize="md" fontWeight="normal" mt={8}>Which timezone do you plan to work from during the program?</Heading>
+          <Heading as="h3" fontSize="md" mt={8}>Which timezone do you plan to work from during the program?</Heading>
           <TimezoneSelect
             value={selectedTimezone}
             onChange={setSelectedTimezone}
           />
         </MultiPagePage>
         <MultiPagePage title="Profile">
-          <Heading as="h3" fontSize="md" fontWeight="normal" mb={1}>Resume/CV</Heading>
+          <Heading as="h3" fontSize="md" mb={1}>Upload your Resume/CV, if you have one:</Heading>
           <Box mb={6}>
             <input
               ref={uploadRef}
@@ -202,7 +212,7 @@ export default function ApplyForm({
               style={{ display: 'none' }}
             />
             <Button mr={2} display="inline-block" onClick={() => uploadRef.current?.click()}>
-              Upload Resume
+              Upload
             </Button>
             {resume && (
               <Text display="inline-block" color="current.textLight">
@@ -226,7 +236,7 @@ export default function ApplyForm({
           )}
         </MultiPagePage>
         <MultiPagePage title="Interests">
-            <Heading as="h3" fontSize="md" fontWeight="normal">Interests</Heading>
+            <Heading as="h3" fontSize="md" mb={2}>In which of these topics are you interested?<Text display="inline" color="red.300">*</Text></Heading>
             <TagPicker
               onlyType="INTEREST"
               display="student"
@@ -236,7 +246,7 @@ export default function ApplyForm({
               disabled={isLoading}
             />
 
-            <Heading as="h3" fontSize="md" fontWeight="normal" mt={8}>Preferred Technologies<Text display="inline" color="red.500">*</Text></Heading>
+            <Heading as="h3" fontSize="md" mb={2} mt={8}>Which technologies are you comfortable using?<Text display="inline" color="red.300">*</Text></Heading>
             <TagPicker
               onlyType="TECHNOLOGY"
               display="student"

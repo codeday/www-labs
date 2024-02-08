@@ -83,6 +83,83 @@ query PartnerStudentsAbout {
   }
 }
 
+query PartnerStudentsAboutLimited {
+  labs {
+    event {
+      name
+      artifactTypes {
+        id
+        name
+        personType
+      }
+    }
+    students {
+      createdAt
+      id
+      name
+      email
+      timeManagementPlan
+      minHours
+      timezone
+      status
+      hasProjectPreferences
+      projects {
+        id
+        description
+        issueUrl
+        ...Match
+        mentors {
+          name
+        }
+        tags {
+          id
+          mentorDisplayName
+          trainingLink
+        }
+      }
+      emailCount
+      slackId
+      tagTrainingSubmissions {
+        url
+        createdAt
+        tag {
+          id
+        }
+      }
+      standupRatings {
+        id
+        dueAt
+        rating
+        humanRated
+      }
+      artifacts {
+        id
+        createdAt
+        name
+        link
+        artifactTypeId
+      }
+      surveyResponsesAbout {
+        id
+        surveyOccurence {
+          id
+          survey {
+            id
+            name
+          }
+          dueAt
+        }
+        authorMentor { id name }
+        authorStudent { id name }
+        mentor { id }
+        student { id }
+        caution
+      }
+    }
+  }
+}
+
+
 mutation AssociatePartnerCodeMutation ($where: LabsIdOrUsernameOrEmailInput!) {
   labs {
     associatePartnerCode(where: $where) {

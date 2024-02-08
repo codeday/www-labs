@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDateTime } from "./useDateTime";
 import { DateTime } from "luxon";
+import { useClientEffect } from "./useClientEffect";
 
 function isBetween(d, after, before) {
   if (after && before) return d > after && d < before;
@@ -10,8 +11,10 @@ function isBetween(d, after, before) {
 }
 
 export function useDateBetween(after, before) {
-  const [result, setResult] = useState(
-    () => isBetween(DateTime.now(), after, before)
+  const [result, setResult] = useState(isBetween(DateTime.now(), after, before));
+  useClientEffect(
+    () => setResult(isBetween(DateTime.now(), after, before)),
+    [after, before]
   );
 
   useDateTime(

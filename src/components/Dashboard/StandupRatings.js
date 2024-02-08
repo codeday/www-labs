@@ -37,7 +37,7 @@ const RATINGS = {
   },
 };
 
-function StandupRating({ rating: _rating, token, ...props }) {
+function StandupRating({ rating: _rating, token, allowChanges, ...props }) {
   const [rating, setRating] = useState(_rating.rating);
   const [humanRated, setHumanRated] = useState(_rating.humanRated);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -88,6 +88,7 @@ function StandupRating({ rating: _rating, token, ...props }) {
           textAlign="center"
           pl={1}
           pr={1}
+          disabled={!allowChanges}
           {...props}
         >
           {ratingStr}
@@ -97,7 +98,7 @@ function StandupRating({ rating: _rating, token, ...props }) {
   )
 }
 
-export default function StandupRatings({ ratings, token, ...props }) {
+export default function StandupRatings({ ratings, token, allowChanges, ...props }) {
   return (
     <HStack {...props}>
       <Tooltip label="Standups are scored by AI, which may make mistakes, and poor scores may be representative of poor writing rather than a lack of work. We recommend reaching out only after several bad scores.">
@@ -110,7 +111,7 @@ export default function StandupRatings({ ratings, token, ...props }) {
           Standups:
         </Box>
       </Tooltip>
-      {ratings.slice(-25).map(r => <StandupRating key={r.dueAt} rating={r} token={token} />)}
+      {ratings.slice(-25).map(r => <StandupRating allowChanges={allowChanges} key={r.dueAt} rating={r} token={token} />)}
     </HStack>
   )
 }
