@@ -95,9 +95,9 @@ export default function ApplyForm({
   const applicationsOpen = useDateBetween(applicationsStartAt, applicationsEndAt);
   const applicationCloseSoon = useDateBetween(applicationsEndAt?.minus?.({ days: 3 }));
 
-  if (applicationId) return (
+  if (applicationId || labs?.applicationId) return (
     <Box {...props}>
-      <Text><center>Thank you! Your application was received with ID {applicationId}.</center></Text>
+      <Text><center>Your application was received with ID {applicationId || labs.applicationId}.</center></Text>
     </Box>
   );
 
@@ -160,8 +160,7 @@ export default function ApplyForm({
                 );
                 setApplicationId(result.labs.applyStudent.id);
               } catch (ex) {
-                error('Error', ex.toString());
-                console.error(ex);
+                error('Error', ex?.response?.errors?.[0]?.message || ex);
               }
               setIsLoading(false);
             }}

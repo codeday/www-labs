@@ -38,6 +38,7 @@ query ApplyFormQuery {
       studentApplicationSchema
       studentApplicationUi
     }
+    applicationId
     tags {
       ...TagPicker
     }
