@@ -65,7 +65,7 @@ export default function Onboarding({ student }) {
           <Box borderWidth={1} borderColor="blue.700" color="blue.900" bg="blue.50" p={4} rounded="sm" mb={8}>
             You need to complete the Git and IDE onboarding, plus at least
             {requiredTrainingCount} other{requiredTrainingCount !== 1 ? 's' : ''} by the end of the week.<br /><br />
-            Please spend at least 20 hours this week on onboarding, in order to prepare yourself for your project. Some
+            Please spend 10-20 hours this week on onboarding, in order to prepare yourself for your project. Some
             assignments are shorter, so you may need to do more than 3.<br /><br />
             Please do not choose assignments for technologies you are already very familiar with. Beyond that, it's up
             to you how you'd like to prioritize the assignments, but we recommend you choose the technologies you're
