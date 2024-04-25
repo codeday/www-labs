@@ -44,3 +44,9 @@ query ApplyFormQuery {
     }
   }
 }
+
+mutation CancelApplyMutation {
+  labs {
+    cancelApplication
+  }
+}

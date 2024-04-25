@@ -4,10 +4,11 @@ import { useRef, useState } from 'react';
 import TagPicker from './Dashboard/TagPicker';
 import Timestamp from './Timestamp';
 import { apiFetch, useToasts } from '@codeday/topo/utils';
-import { ApplyFormQuery, ApplyMutation } from './ApplyForm.gql';
+import { ApplyFormQuery, ApplyMutation, CancelApplyMutation } from './ApplyForm.gql';
 import TimezoneSelect from './TimezoneSelect';
 import { useApiFetch, useClientEffect, useDateBetween, useIso } from '../utils';
 import MultiPage, { MultiPagePage } from './MultiPage';
+import DangerButton from './DangerButton';
 
 const PROFILE_INFO_SCHEMA = {
   "type": "object",
@@ -96,8 +97,16 @@ export default function ApplyForm({
   const applicationCloseSoon = useDateBetween(applicationsEndAt?.minus?.({ days: 3 }));
 
   if (applicationId || labs?.applicationId) return (
-    <Box {...props}>
-      <Text><center>Your application was received with ID {applicationId || labs.applicationId}.</center></Text>
+    <Box {...props} textAlign="center">
+      <Text>Your application was received with ID {applicationId || labs.applicationId}.</Text>
+      <DangerButton
+        onClick={async () => {
+          await apiFetch(CancelApplyMutation, {}, { 'X-Labs-Authorization': `Bearer ${token}`});
+          window.location.reload();
+        }}
+      >
+        Cancel my application
+      </DangerButton>
     </Box>
   );
 
