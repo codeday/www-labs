@@ -1,0 +1,17 @@
+mutation AddProjectPr($prUrl:String!, $project:String!) {
+  labs {
+    addProjectPr(project:$project, prUrl:$prUrl) { id }
+  }
+}
+query PrUrlStatus {
+  labs {
+    student {
+      projects {
+        id
+        prUrl
+        mentors { name }
+        description
+      }
+    }
+  }
+}
