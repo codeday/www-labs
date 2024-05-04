@@ -1,16 +1,11 @@
 
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
-import { DateTime } from 'luxon';
+import { useState } from 'react';
 import { Box, Button, Text, Heading, Spinner, TextInput as Input, HStack } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
-import SignatureCanvas from 'react-signature-canvas';
-import TimezoneSelect from '../../../../components/TimezoneSelect';
-import TimeManagementPlan from '../../../../components/TimeManagementPlan';
 import Page from '../../../../components/Page';
-import ConfirmAll from '../../../../components/ConfirmAll';
 import { useFetcher, useSwr } from '../../../../dashboardFetch';
 import { AddProjectPr, PrUrlStatus } from './add-pr.gql'
 
@@ -29,7 +24,7 @@ function ProjectPr({ hasMultipleProjects, project, ...props }) {
         </>
       )}
       <HStack>
-        <Input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://github.com/..." />
+        <Input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="Pull Request link, e.g. https://github.com/..." />
         <Button
           isLoading={isLoading}
           onClick={async () => {
@@ -67,7 +62,7 @@ export default function AddPr() {
   return (
     <Page title="Add PR">
       <Content mt={-8} display={{ base: 'none', sm: 'block' }}>
-        <Heading as="h2" fontSize="3xl" mb={4}>Add PR</Heading>
+        <Heading as="h2" fontSize="3xl" mb={4}>Add PR (Pull Request)</Heading>
         {student.projects.map(p => (
           <ProjectPr project={p} hasMultipleProjects={student.projects.length > 1 || true} mb={2} />
         ))}
