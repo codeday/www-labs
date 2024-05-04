@@ -9,6 +9,11 @@ import Page from '../../../../components/Page';
 import { useFetcher, useSwr } from '../../../../dashboardFetch';
 import { AddProjectPr, PrUrlStatus } from './add-pr.gql'
 
+const nl2br = (str) => str && str
+  .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/(https?:\/\/[^\s\(\)]+)/g, (url) => `<a href="${url}" style="text-decoration: underline" target="_blank">${url}</a>`)
+  .replace(/\n/g, '<br />');
+
 function ProjectPr({ hasMultipleProjects, project, ...props }) {
   const { error, success } = useToasts();
   const fetch = useFetcher();
@@ -19,8 +24,10 @@ function ProjectPr({ hasMultipleProjects, project, ...props }) {
     <Box {...props}>
       {hasMultipleProjects && (
         <>
-          <Text>Your project with {project.mentors.map(m => m.name).join('/')} with the description:</Text>
-          <Text mb={2} ml={2} pl={2} borderLeftWidth={2}>{project.description}</Text>
+          <Text>PR for your project with {project.mentors.map(m => m.name).join('/')} with the description:</Text>
+          <Text mb={4} ml={2} pl={2} fontSize="sm" borderLeftWidth={2}>
+            <div dangerouslySetInnerHTML={{ __html: nl2br(project.description) }} />
+          </Text>
         </>
       )}
       <HStack>
@@ -41,6 +48,7 @@ function ProjectPr({ hasMultipleProjects, project, ...props }) {
           Save
         </Button>
       </HStack>
+      <Text fontSize="sm">(If you created something new, provide the open-source repository link instead of a pull request link.)</Text>
     </Box>
   );
 }
