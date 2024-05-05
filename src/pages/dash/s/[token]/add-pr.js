@@ -69,7 +69,7 @@ export default function AddPr() {
 
   return (
     <Page title="Add PR">
-      <Content mt={-8} display={{ base: 'none', sm: 'block' }}>
+      <Content mt={-8}>
         <Heading as="h2" fontSize="3xl" mb={4}>Add PR (Pull Request)</Heading>
         {student.projects.map(p => (
           <ProjectPr project={p} hasMultipleProjects={student.projects.length > 1 || true} mb={2} />
