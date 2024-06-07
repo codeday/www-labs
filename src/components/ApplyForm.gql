@@ -50,3 +50,9 @@ mutation CancelApplyMutation {
     cancelApplication
   }
 }
+
+mutation ChangePartnerCodeApplicationMutation ($partnerCode: String!) {
+  labs {
+    changePartnerCodeApplication(partnerCode: $partnerCode)
+  }
+}

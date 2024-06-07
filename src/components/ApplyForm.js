@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import TagPicker from './Dashboard/TagPicker';
 import Timestamp from './Timestamp';
 import { apiFetch, useToasts } from '@codeday/topo/utils';
-import { ApplyFormQuery, ApplyMutation, CancelApplyMutation } from './ApplyForm.gql';
+import { ApplyFormQuery, ApplyMutation, CancelApplyMutation, ChangePartnerCodeApplicationMutation } from './ApplyForm.gql';
 import TimezoneSelect from './TimezoneSelect';
 import { useApiFetch, useClientEffect, useDateBetween, useIso } from '../utils';
 import MultiPage, { MultiPagePage } from './MultiPage';
@@ -66,7 +66,7 @@ export default function ApplyForm({
   partnerCode,
   ...props
 }) {
-  const { error } = useToasts();
+  const { error, success } = useToasts();
   const [token, setToken] = useState(null);
   const [applicationId, setApplicationId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -99,6 +99,27 @@ export default function ApplyForm({
   if (applicationId || labs?.applicationId) return (
     <Box {...props} textAlign="center">
       <Text>Your application was received with ID {applicationId || labs.applicationId}.</Text>
+      <Button
+        mr={2}
+        onClick={async () => {
+          const partnerCode = prompt('Enter the parner code:');
+          if (!partnerCode) return;
+          try {
+            await apiFetch(
+              ChangePartnerCodeApplicationMutation,
+              {
+                partnerCode
+              },
+              { 'X-Labs-Authorization': `Bearer ${token}`}
+            );
+            success('Partner code changed!');
+          } catch (ex) {
+            error(ex.response.errors[0].message);
+          }
+        }}
+      >
+        Add/change partner code
+      </Button>
       <DangerButton
         onClick={async () => {
           await apiFetch(CancelApplyMutation, {}, { 'X-Labs-Authorization': `Bearer ${token}`});

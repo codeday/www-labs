@@ -5,10 +5,10 @@ import { apiFetch } from '@codeday/topo/utils';
 export function useFetcher(variables) {
   const { query } = useRouter();
   if (!query.token) return () => { throw Error('No token specified') };
-  return (q, v, h) => apiFetch(q, { ...v, ...variables }, {
+  return (q, v, h) => { console.log(h); return apiFetch(q, { ...v, ...variables }, {
     'X-Labs-Authorization': `Bearer ${query.token}`,
     ...h
-  });
+  });}
 }
 
 export function useSwr(query, variables, options) {
