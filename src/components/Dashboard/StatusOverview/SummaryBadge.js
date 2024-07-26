@@ -8,9 +8,7 @@ function avg(numbers) {
 
 function getRecentAverageCaution (statusEvents) {
   // If there are no events, return ok.
-  console.log('a');
   if (!statusEvents || statusEvents.length === 0) return 0;
-  console.log('b');
 
   const noDates = statusEvents.filter(e => !e.date);
   const withDates = statusEvents

@@ -15,7 +15,7 @@ function flatTimeManagement (timeManagementPlan) {
   ));
 }
 
-export function StudentCsv({ students, ...props }) {
+export function StudentCsv({ students, onlyAccepted, ...props }) {
   const ref = useRef();
 
   const csvHeaders = [
@@ -23,6 +23,7 @@ export function StudentCsv({ students, ...props }) {
     'id',
     'name',
     'email',
+    'username',
     'status',
     'mentors',
     'issueUrl',
@@ -36,6 +37,7 @@ export function StudentCsv({ students, ...props }) {
   ];
 
   const csvData = students
+  .filter(s => !s.onlyAccepted || s.status === 'ACCEPTED')
   .map(s => ({ createdAtDate: DateTime.fromISO(s.createdAt), ...s }))
   .sort((a, b) => {
     const mentorA = a.projects?.[0]?.mentors?.[0]?.name || '';
@@ -50,6 +52,7 @@ export function StudentCsv({ students, ...props }) {
     s.id,
     s.name,
     s.email,
+    s.username,
     s.status,
     s.projects.flatMap(p => p.mentors).map(m => m.name).join('; '),
     s.projects.map(p => p.issueUrl).join('; '),

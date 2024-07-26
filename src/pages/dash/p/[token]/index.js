@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { apiFetch, useToasts } from '@codeday/topo/utils';
-import { Box, Grid, Heading, List, Link, ListItem, Text, TextInput as Input, Button } from '@codeday/topo/Atom';
+import { Box, Grid, Heading, List, Link, ListItem, Text, TextInput as Input, Button, Checkbox } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { DateTime } from 'luxon';
 import {
@@ -22,6 +22,7 @@ import { StudentCsv } from '../../../../components/Dashboard/StudentCsv';
 
 export default function PartnerPage({ students, event, hidePartner }) {
   const { query } = useRouter();
+  const [showAll, setShowAll] = useState(false);
   const [newStudentEmail, setNewStudentEmail] = useState('');
   const [newStudentUsername, setNewStudentUsername] = useState('');
   const [filter, setFilter] = useState('all');
@@ -56,7 +57,7 @@ export default function PartnerPage({ students, event, hidePartner }) {
         <Grid templateColumns={{ base: '1fr', md: '1fr 3fr' }} gap={8}>
           <Box>
 
-            <Select onChange={(e) => setFilter(e.target.value)} mb={4}>
+            <Select onChange={(e) => setFilter(e.target.value)}>
               <option value="all">Show all</option>
               <option value="peer">Show peer reflections</option>
               <option value="self">Show self-reflections</option>
@@ -64,10 +65,18 @@ export default function PartnerPage({ students, event, hidePartner }) {
               <option value="notes">Show notes</option>
               <option value="meta">Show metadata</option>
             </Select>
+            <Checkbox isChecked={showAll} onChange={(e) => setShowAll(!showAll)} mb={4}>
+              Show all
+            </Checkbox>
 
             <Heading as="h3" fontSize="md" bold>
               Students
-              <StudentCsv pl={2} textColor="current.textLight" students={studentsWithTrainingInfo} />
+              <StudentCsv
+                pl={2}
+                textColor="current.textLight"
+                students={studentsWithTrainingInfo}
+                onlyAccepted={!showAll}
+              />
             </Heading>
             <StudentList students={studentsWithTrainingInfo} />
 
@@ -115,6 +124,7 @@ export default function PartnerPage({ students, event, hidePartner }) {
           <Box>
 
             {studentsWithTrainingInfo
+              .filter((s) => showAll || s.status === 'ACCEPTED')
               .map((s) => (
                 <Box mb={8}>
                   <a name={`s-${s.id}`} />

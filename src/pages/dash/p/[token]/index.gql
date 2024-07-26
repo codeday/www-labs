@@ -15,6 +15,7 @@ query PartnerStudentsAbout {
       id
       name
       email
+      username
       timeManagementPlan
       minHours
       timezone
@@ -98,6 +99,7 @@ query PartnerStudentsAboutLimited {
       id
       name
       email
+      username
       timeManagementPlan
       minHours
       timezone
