@@ -104,8 +104,19 @@ export default function Dashboard() {
             ))}
           </Box>
           <Box>
+
+            <Button as="a" size="lg" mb={4} colorScheme="blue" w="100%" rounded="sm" href={`/dash/s/${query?.token}/help`}>
+              Book Coding Help Meeting
+            </Button>
+
+            {!data.labs.student.slackId && (
+              <Button as="a" size="md" mb={4} colorScheme="yellow" w="100%" rounded="sm" href={`/api/link-slack?token=${query?.token}&r=s`}>
+                Link Slack Account
+              </Button>
+            )}
+
             {(dueSurveys.length > 0 || isOnboardingWeek) && (
-              <Box p={4} pt={3} mb={8} bg={`red.${bg}`} borderColor={`red.${borderColor}`} borderWidth={4} color={`red.${color}`} rounded="sm">
+              <Box p={4} pt={3} mb={4} bg={`red.${bg}`} borderColor={`red.${borderColor}`} borderWidth={4} color={`red.${color}`} rounded="sm">
                 <Text mb={0} color="red.700" fontSize="sm">[ACTION REQUIRED]</Text>
                 <Heading as="h3" fontSize="md" mb={2}>Due Check-Ins, Reflections, &amp; Surveys</Heading>
                 <List styleType="disc" pl={6}>
@@ -169,6 +180,13 @@ export default function Dashboard() {
                     Book Coding Help Meeting
                   </Link>
                 </ListItem>
+                {data.labs.student.slackId && (
+                  <ListItem>
+                    <Link href={`/api/link-slack?token=${query?.token}&r=s`}>
+                      Re-Link Slack Account
+                    </Link>
+                  </ListItem>
+                )}
                 {data.labs.resources.map(r => (
                     <ListItem key={r.id}>
                       <Link href={r.link} target="_blank">{r.name}</Link>
@@ -179,17 +197,55 @@ export default function Dashboard() {
 
             <MiniCalendar
               events={[
+                ...(!data.labs.event.matchingStartsAt ? [] : [
+                  {
+                    date: DateTime.fromISO(data.labs.event.matchingStartsAt),
+                    name: `Project descriptions finalized`,
+                  },
+                  {
+                    date: DateTime.fromISO(data.labs.event.matchingStartsAt),
+                    name: `Student match preferences open`,
+                  }
+                ]),
+                ...(!data.labs.event.matchingDueAt ? [] : [
+                  {
+                    date: DateTime.fromISO(data.labs.event.matchingDueAt),
+                    name: `Student match preferences due`,
+                  }
+                ]),
                 {
-                  date: DateTime.fromISO(data.labs.event.startsAt).minus({ days: 3 }),
+                  date: data.labs.event.matchingEndsAt
+                    ? DateTime.fromISO(data.labs.event.matchingEndsAt)
+                    : DateTime.fromISO(data.labs.event.startsAt).minus({ days: 3 }),
                   name: `Introduction emails sent`,
                 },
                 {
                   date: DateTime.fromISO(data.labs.event.startsAt),
-                  name: `Student onboarding week`,
+                  name: `Onboarding week (no mentor meetings)`,
                 },
                 {
-                  date: DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
-                  name: `${data.labs.event.name} mentoring starts`,
+                  date: data.labs.event.projectWorkStartsAt
+                    ? DateTime.fromISO(data.labs.event.projectWorkStartsAt)
+                    : DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
+                  name: `Onboarding assignments due`,
+                },
+                {
+                  date: data.labs.event.projectWorkStartsAt
+                    ? DateTime.fromISO(data.labs.event.projectWorkStartsAt)
+                    : DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
+                  name: `Project work begins`,
+                },
+                {
+                  date: data.labs.event.projectWorkStartsAt
+                    ? DateTime.fromISO(data.labs.event.projectWorkStartsAt)
+                    : DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
+                  name: `Mentor meetings begin`,
+                },
+                {
+                  date: data.labs.event.projectWorkStartsAt
+                    ? DateTime.fromISO(data.labs.event.projectWorkStartsAt)
+                    : DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
+                  name: `Slack standups begin`,
                 },
                 {
                   date: DateTime.fromISO(data.labs.event.startsAt)

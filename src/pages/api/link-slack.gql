@@ -1,0 +1,7 @@
+query SlackWorkspaceIdQuery {
+  labs {
+    event {
+      slackWorkspaceId
+    }
+  }
+}

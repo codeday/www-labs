@@ -6,7 +6,11 @@ query DashboardQuery {
   labs {
     event {
       name
+      matchingStartsAt
+      matchingDueAt
+      matchingEndsAt
       startsAt
+      projectWorkStartsAt
     }
     students {
       name
@@ -22,6 +26,7 @@ query DashboardQuery {
       name
       givenName
       surname
+      slackId
       ...MentorManagerDetails
       ...MentorProfile
       projects {

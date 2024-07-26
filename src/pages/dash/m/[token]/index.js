@@ -82,6 +82,17 @@ export default function MentorDashboard() {
             )}
           </Box>
           <Box>
+
+            <Button as="a" size="md" mb={4} colorScheme="blue" w="100%" rounded="sm" href={`/dash/m/${query.token}/students`}>
+              Review Student Feedback
+            </Button>
+
+            {!data.labs.mentor.slackId && (
+              <Button as="a" size="md" mb={4} colorScheme="yellow" w="100%" rounded="sm" href={`/api/link-slack?token=${query?.token}&r=m`}>
+                Link Slack Account
+              </Button>
+            )}
+
             {dueSurveys.length !== 0 && (
               <Box p={4} pt={3} mb={8} bg={`red.${bg}`} borderColor={`red.${borderColor}`} borderWidth={4} color={`red.${color}`} rounded="sm">
                 <Text mb={0} color="red.700" fontSize="sm">[ACTION REQUIRED]</Text>
@@ -112,6 +123,13 @@ export default function MentorDashboard() {
                     Review Student Feedback
                   </Link>
                 </ListItem>
+                {data.labs.mentor.slackId && (
+                  <ListItem>
+                    <Link href={`/api/link-slack?token=${query?.token}&r=m`}>
+                      Re-Link Slack Account
+                    </Link>
+                  </ListItem>
+                )}
                 {data.labs.resources.map(r => (
                     <ListItem key={r.id}>
                       <Link href={r.link} target="_blank">{r.name}</Link>
@@ -122,8 +140,26 @@ export default function MentorDashboard() {
 
             <MiniCalendar
               events={[
+                ...(!data.labs.event.matchingStartsAt ? [] : [
+                  {
+                    date: DateTime.fromISO(data.labs.event.matchingStartsAt),
+                    name: `Project descriptions finalized`,
+                  },
+                  {
+                    date: DateTime.fromISO(data.labs.event.matchingStartsAt),
+                    name: `Student match preferences open`,
+                  }
+                ]),
+                ...(!data.labs.event.matchingDueAt ? [] : [
+                  {
+                    date: DateTime.fromISO(data.labs.event.matchingDueAt),
+                    name: `Student match preferences due`,
+                  }
+                ]),
                 {
-                  date: DateTime.fromISO(data.labs.event.startsAt).minus({ days: 3 }),
+                  date: data.labs.event.matchingEndsAt
+                    ? DateTime.fromISO(data.labs.event.matchingEndsAt)
+                    : DateTime.fromISO(data.labs.event.startsAt).minus({ days: 3 }),
                   name: `Introduction emails sent`,
                 },
                 {
@@ -131,8 +167,10 @@ export default function MentorDashboard() {
                   name: `Student onboarding week`,
                 },
                 {
-                  date: DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
-                  name: `${data.labs.event.name} starts`,
+                  date: data.labs.event.projectWorkStartsAt
+                    ? DateTime.fromISO(data.labs.event.projectWorkStartsAt)
+                    : DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
+                  name: `Mentor meetings start`,
                 },
                 ...data.labs.students.map(s => ({
                   date: DateTime.fromISO(data.labs.event.startsAt)

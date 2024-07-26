@@ -23,6 +23,10 @@ module.exports = {
       secret: process.env.GQL_SECRET,
       audience: process.env.GQL_AUDIENCE,
     },
+    slack: {
+      clientId: process.env.SLACK_CLIENT_ID,
+      secret: process.env.SLACK_CLIENT_SECRET,
+    }
   },
   publicRuntimeConfig: {
     appUrl: process.env.APP_URL,
