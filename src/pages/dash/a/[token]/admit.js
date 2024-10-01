@@ -81,7 +81,7 @@ function Entry({ student, onChange, ...rest }) {
             setIsLoading(false);
           }}
         >
-          Challenge
+          Interview
         </Button>{' '}
         <Button
           isLoading={isLoading}
