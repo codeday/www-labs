@@ -19,7 +19,7 @@ export function StudentCsv({ students, onlyAccepted, ...props }) {
   const ref = useRef();
 
   const csvHeaders = [
-    'createdAt',
+    'appliedAt',
     'id',
     'name',
     'email',
@@ -33,6 +33,8 @@ export function StudentCsv({ students, onlyAccepted, ...props }) {
     'hasProjectPreferences',
     'hasSlack',
     'hasRepliedToEmail',
+    'partnerAgreement',
+    'eventAgreement',
     ...TIME_MANAGEMENT_DAYS.map(d => `${d}Availability`),
   ];
 
@@ -50,18 +52,20 @@ export function StudentCsv({ students, onlyAccepted, ...props }) {
   .map(s => [
     s.createdAtDate.toLocaleString(DateTime.DATETIME_MED).replace(/,/g, ''),
     s.id,
-    s.name,
+    s.name.replace(/"/g, '""'),
     s.email,
     s.username,
     s.status,
-    s.projects.flatMap(p => p.mentors).map(m => m.name).join('; '),
-    s.projects.map(p => p.issueUrl).join('; '),
-    s.projects.map(p => p.description).join('; ').replace(/\n/g, ' '),
+    s.projects.flatMap(p => p.mentors).map(m => m.name).join('; ').replace(/"/g, '""'),
+    s.projects.map(p => p.issueUrl).join('; ').replace(/"/g, '""'),
+    s.projects.map(p => p.description).join('; ').replace(/\n/g, ' ').replace(/"/g, '""'),
     s.minHours,
     s.timezone,
     s.hasProjectPreferences ? 'yes' : 'no',
     s.slackId ? 'yes' : 'no',
     s.emailCount > 0 ? 'yes' : 'no',
+    s.partnerContractData ? JSON.stringify(s.partnerContractData).replace(/"/g, '""') : '',
+    s.eventContractData ? JSON.stringify(s.eventContractData).replace(/"/g, '""') : '',
     ...flatTimeManagement(s.timeManagementPlan),
   ]);
 

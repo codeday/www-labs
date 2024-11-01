@@ -21,6 +21,8 @@ query PartnerStudentsAbout {
       timezone
       status
       hasProjectPreferences
+      partnerContractData
+      eventContractData
       projects {
         id
         description

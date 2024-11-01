@@ -1,6 +1,8 @@
 import { Form } from '@rjsf/chakra-ui';
 import { ChakraProvider, Heading, extendTheme, useTheme } from '@chakra-ui/react';
 import { Box } from '@codeday/topo/Atom';
+import validator from '@rjsf/validator-ajv8';
+
 
 function FieldTemplate(props) {
   const {classNames, help, description, rawErrors, children} = props;
@@ -39,6 +41,7 @@ function ObjectFieldTemplate(props) {
 }
 
 export default function RsjForm({ ...props }) {
+  
   const baseTheme = useTheme();
   const theme = extendTheme(
     baseTheme,
@@ -59,6 +62,7 @@ export default function RsjForm({ ...props }) {
     <Form
       FieldTemplate={FieldTemplate}
       ObjectFieldTemplate={ObjectFieldTemplate}
+      validator={validator}
       {...props}
     />
   </ChakraProvider>

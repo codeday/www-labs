@@ -36,10 +36,10 @@ function getRecentAverageCaution (statusEvents) {
   return avg(considerEvents.map(e => e.caution));
 }
 
-export default function SummaryBadge({ statusEvents, ...props }) {
+export default function SummaryBadge({ statusEvents, disabled, ...props }) {
   const caution = getRecentAverageCaution(statusEvents);
   const cautionString = cautionFloatToString(caution);
-  const color = cautionStringToColor(cautionString);
+  const color = disabled ? 'gray' : cautionStringToColor(cautionString);
 
   return (
     <Box
@@ -48,11 +48,11 @@ export default function SummaryBadge({ statusEvents, ...props }) {
       w="0.5em"
       h="0.5em"
       mb="0.1em"
-      backgroundColor={cautionString === 'ok' || !cautionString ? 'transparent' : `${color}.500`}
+      backgroundColor={cautionString === 'ok' || !cautionString || disabled ? 'transparent' : `${color}.500`}
       borderColor={`${color}.500`}
       borderWidth={1}
-      aria-label={cautionString}
-      opacity={cautionString === 'ok' || !cautionString ? 0.4 : 1}
+      aria-label={disabled ? 'Inactive' : cautionString}
+      opacity={cautionString === 'ok' || !cautionString || disabled ? 0.4 : 1}
       {...props}
     />
   )

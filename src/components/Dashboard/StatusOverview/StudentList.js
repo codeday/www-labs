@@ -9,13 +9,14 @@ function standupRatingToCaution(rating) {
   return 0;
 }
 
-export default function StudentList({ students }) {
-  const visibleStudents = students.filter(s => s.status !== 'CANCELED');
+export default function StudentList({ students, onlyAccepted }) {
+  const visibleStudents = onlyAccepted ? students.filter(s => s.status === 'ACCEPTED') : students;
   return (
     <List styleType="none">
       {visibleStudents.map((s) => (
         <ListItem key={s.id}>
           <SummaryBadge
+            disabled={s.status !== 'ACCEPTED'}
             mr={2}
             statusEvents={s.status !== 'ACCEPTED' ? [] : [
               { caution: s.timeManagementPlan || s.timezone ? 0 : 0.1 },

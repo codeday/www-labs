@@ -8,14 +8,36 @@ query OfferAcceptStatus {
       weeks
       minHours
       hasValidAdmissionOffer
-      event { name startsAt certificationStatements }
+      event {
+        name
+        startsAt
+        certificationStatements
+        contractUi
+        contractSchema
+      }
+      partner {
+        id
+        partnerCode
+        contractSchema
+        contractUi
+      }
     }
   }
 }
 
-mutation AcceptOffer ($timeManagementPlan: LabsJSONObject!, $timezone: String!) {
+mutation AcceptOffer (
+  $timeManagementPlan: LabsJSONObject!,
+  $partnerContractData: LabsJSONObject!,
+  $eventContractData: LabsJSONObject!,
+  $timezone: String!
+) {
   labs {
-    acceptStudentOffer(timeManagementPlan: $timeManagementPlan, timezone: $timezone) {
+    acceptStudentOffer(
+      timeManagementPlan: $timeManagementPlan,
+      partnerContractData: $partnerContractData,
+      eventContractData: $eventContractData,
+      timezone: $timezone
+    ) {
       id
     }
   }

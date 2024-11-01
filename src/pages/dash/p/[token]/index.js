@@ -19,6 +19,7 @@ import StandupRatings from '../../../../components/Dashboard/StandupRatings';
 import { useRouter } from 'next/router';
 import SurveyDetails from '../../../../components/Dashboard/SurveyDetails';
 import { StudentCsv } from '../../../../components/Dashboard/StudentCsv';
+import SurveyFields from '../../../../components/SurveyFields';
 
 export default function PartnerPage({ students, event, hidePartner }) {
   const { query } = useRouter();
@@ -65,8 +66,8 @@ export default function PartnerPage({ students, event, hidePartner }) {
               <option value="notes">Show notes</option>
               <option value="meta">Show metadata</option>
             </Select>
-            <Checkbox isChecked={showAll} onChange={(e) => setShowAll(!showAll)} mb={4}>
-              Show all
+            <Checkbox isChecked={!showAll} onChange={(e) => setShowAll(!showAll)} mb={4}>
+              Only active students
             </Checkbox>
 
             <Heading as="h3" fontSize="md" bold>
@@ -78,7 +79,10 @@ export default function PartnerPage({ students, event, hidePartner }) {
                 onlyAccepted={!showAll}
               />
             </Heading>
-            <StudentList students={studentsWithTrainingInfo} />
+            <StudentList
+              students={studentsWithTrainingInfo}
+              onlyAccepted={!showAll}
+            />
 
             {!hidePartner && (
               <Box mt={8}>
@@ -128,7 +132,24 @@ export default function PartnerPage({ students, event, hidePartner }) {
               .map((s) => (
                 <Box mb={8}>
                   <a name={`s-${s.id}`} />
-                  <Heading as="h4" fontSize="2xl">{s.name} {s.status !== 'ACCEPTED' && `(Status: ${s.status})`}</Heading>
+                  <Heading as="h4" fontSize="2xl">
+                    {s.status !== 'ACCEPTED' && (
+                      <Box
+                        display="inline-block"
+                        mr={2}
+                        px={2}
+                        py={1}
+                        borderWidth={1}
+                        position="relative"
+                        top={-1}
+                        borderRadius={2}
+                        fontSize="xs"
+                      >
+                        {s.status}
+                      </Box>
+                    )}
+                    {s.name}, {s.minHours}hr/wk
+                  </Heading>
                   {s.projects && s.projects.length > 0 && (
                     <Text>Mentored by {s.projects.flatMap((p) => p.mentors).flatMap((m) => m.name).join(', ')}</Text>
                   )}
@@ -145,10 +166,16 @@ export default function PartnerPage({ students, event, hidePartner }) {
                     {/* Show time management plan */}
                     <StatusEntry
                       type="meta"
-                      title={`Time Management Plan (${s.minHours}hr/wk)`}
+                      title={`Admission Agreement`}
                       caution={0}
                     >
-                      <Text><strong>Timezone: </strong>{s.timezone || 'Unknown'}</Text>
+                      <SurveyFields content={s.eventContractData || {}} />
+                      <SurveyFields content={s.partnerContractData || {}} />
+
+                      <Text textTransform="uppercase" fontSize="sm" fontWeight="bold" color="gray.600">Timezone</Text>
+                      <Text>{s.timezone || 'Unknown'}</Text>
+                      
+                      <Text mt={4} textTransform="uppercase" fontSize="sm" fontWeight="bold" color="gray.600">Time Management Plan</Text>
                       {!s.timeManagementPlan ? 'Not collected' : (
                         <List styleType="disc" ml={6}>
                           {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => (
