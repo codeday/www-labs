@@ -78,7 +78,7 @@ export default function OfferAccept() {
         maxWidth="container.md"
         fontFamily="Times New Roman, serif"
         borderWidth={2}
-        p={4}
+        p={8}
       >
         <Heading
           as="h2"
@@ -87,7 +87,7 @@ export default function OfferAccept() {
           textAlign="center"
           fontFamily="Times New Roman, serif"
         >
-          Admissions Agreement<br />{student.givenName} {student.surname}, {student.event.name}
+          {student.event.name} Admission Agreement<br />{student.givenName} {student.surname}
         </Heading>
 
         {student.event.contractSchema && (
@@ -114,34 +114,16 @@ export default function OfferAccept() {
           />
         )}
 
-        <Heading
-          as="h3"
-          fontSize="md"
-          mb={2}
-          mt={8}
-          fontFamily="Times New Roman, serif"
-        >
-          Timezone
-        </Heading>
-        <Text mb={2}>I will be working from the following timezone during {student.event.name}:</Text>
+        <Heading as="h5" mt={8} fontSize="lg">Time Management</Heading>
+        <Text mb={2}>The length of the commitment is {student.weeks} weeks, from {starts.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)} to {ends.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}. You are expected to devote {student.minHours} hours per week on your assigned project. This time will include mentor meetings, TA meetings, team meetings, <strong><em>and significant individual work.</em></strong></Text>
+        <Text mb={2}>The timezone you will be working from between {starts.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)} &mdash; {ends.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}: <Text as="span" color="red.300" fontWeight="bold">*</Text></Text>
         <Box>
           <TimezoneSelect
             value={selectedTimezone}
             onChange={setSelectedTimezone}
           />
         </Box>
-
-        <Heading
-          as="h3"
-          fontSize="md"
-          mb={2}
-          mt={8}
-          fontFamily="Times New Roman, serif"
-        >
-          Weekly Time Management Plan
-        </Heading>
-        <Text mb={2}>During {student.event.name}, I plan to work on my assigned project during the times selected below.</Text>
-        <Text mb={2}>I understand that I may make small deviations from this schedule, but I will do my best to follow it. If I am not regularly following this schedule, I acknowledge that I may be removed from the program.</Text>
+        <Text mb={2} mt={4}>Your planned weekly schedule for {student.minHours || 30} hours of work: <Text as="span" color="red.300" fontWeight="bold">*</Text></Text>
         <TimeManagementPlan
           starts={starts.toJSDate()}
           onChange={(hours, plan) => { setTimeManagementHours(hours); setTimeManagementPlan(plan); }}
@@ -154,34 +136,21 @@ export default function OfferAccept() {
             </Box>
         )}
 
-        <Heading
-          as="h3"
-          fontSize="md"
-          mb={4}
-          mt={8}
-          fontFamily="Times New Roman, serif"
-        >
-          Certifications
-        </Heading>
+        <Heading as="h5" mt={8} fontSize="lg">Commitments and Certifications <Text as="span" color="red.300" fontWeight="bold">*</Text></Heading>
         <ConfirmAll
           fontSize="lg"
           toConfirm={[
             `I am available for the ENTIRE ${student.weeks} weeks (${starts.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)} to ${ends.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}).`,
             ...(student.event.certificationStatements || []),
-            `I will spend at least ${student.minHours || 30} HOURS PER WEEK on this, for each of the ${student.weeks || ''} weeks, as described in the time management plan below.`,
+            `I will spend at least ${student.minHours || 30} HOURS PER WEEK on this, for each of the ${student.weeks || ''} weeks.`,
           ]}
           onUpdate={setConfirmed}
         />
 
-        <Heading
-          as="h3"
-          fontSize="md"
-          mb={4}
-          mt={8}
-          fontFamily="Times New Roman, serif"
-        >
-          Signature
-        </Heading>
+        <Heading as="h5" mt={8} fontSize="lg">Signature <Text as="span" color="red.300" fontWeight="bold">*</Text></Heading>
+        <Text mb={2}>
+          I, <Text as="span" borderBottomWidth={1}>{student.givenName} {student.surname}</Text>, hereby indicate my commitment to participate in {student.event.name} program from {starts.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)} to {ends.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}. I understand that I need to meet specific requirements to participate and will work towards meeting the expectations listed in this agreement. I agree to notify the program immediately should, for any reason, I decide to withdraw my participation.
+        </Text>
         <Box
           borderWidth={1}
           d="inline-block"

@@ -7,7 +7,11 @@ export default function SurveyFields({ content, displayFn, ...rest }) {
     : (a) => a;
 
   const renderedContent = Object.entries(displayFnRunnable({...content}))
-    .filter(([, v]) => Boolean(v) && (!Array.isArray(v) || v.length > 0));
+    .filter(([, v]) => 
+      Boolean(v)
+      && (!Array.isArray(v) || v.length > 0)
+      && (typeof v !== 'object' || Object.entries(v).length > 0)
+    );
 
   return (
     <Box {...rest}>

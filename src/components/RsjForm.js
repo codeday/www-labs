@@ -2,10 +2,11 @@ import { Form } from '@rjsf/chakra-ui';
 import { ChakraProvider, Heading, extendTheme, useTheme } from '@chakra-ui/react';
 import { Box } from '@codeday/topo/Atom';
 import validator from '@rjsf/validator-ajv8';
+import ReactMarkdown from 'react-markdown';
 
 
 function FieldTemplate(props) {
-  const {classNames, help, description, rawErrors, children} = props;
+  const {classNames, help, description, rawErrors, children, schema} = props;
   const errorText = rawErrors
   ?.map?.(e => e === 'is a required property' ? 'required' : e)
   ?.join?.(';')
@@ -13,7 +14,7 @@ function FieldTemplate(props) {
     <Box className={classNames} mb={4}>
       {children}
       <Box fontSize="sm" color="gray.500">
-        {description}
+        {schema.type !== 'object' ? description : null}
         {help}
         <Box color="red.600">{errorText}</Box>
       </Box>
@@ -24,10 +25,12 @@ function FieldTemplate(props) {
 function ObjectFieldTemplate(props) {
   return (
     <div>
-      <Heading as="h5" mt={4} fontSize="lg">{props.title}</Heading>
-      <Box fontSize="sm" color="gray.500">
-        {props.description}
-      </Box>
+      <Heading as="h5" mt={8} mb={2} fontSize="lg">{props.title}</Heading>
+      {props.description && (
+        <Box>
+          <ReactMarkdown className="markdown">{props.description.replace(/\n/g, `  \n`)}</ReactMarkdown>
+        </Box>
+      )}
       <Box
         m={props.title ? 4 : 0}
         mb={props.title ? 8 : 0}
