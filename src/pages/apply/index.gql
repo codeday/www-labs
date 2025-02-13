@@ -1,9 +1,10 @@
-query UpcomingEventsQuery {
+query UpcomingEventsQuery ($partnerCode: String) {
   labs {
-    events(where:{ public:true, state: ACCEPTING_STUDENT_APPLICATIONS }) {
+    events(where:{ public:true, state: ACCEPTING_STUDENT_APPLICATIONS, partnerCode: $partnerCode }) {
       id
       name
       startsAt
+      studentApplicationsEndAt
       defaultWeeks
       hasBeginner
       hasIntermediate

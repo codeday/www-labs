@@ -1,0 +1,12 @@
+query LabsEventInfo {
+    labs {
+        event {
+            id
+            name
+        }
+        otherEventTokens {
+            event { id name }
+            token
+        }
+    }
+}

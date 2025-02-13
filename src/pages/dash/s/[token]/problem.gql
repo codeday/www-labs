@@ -1,0 +1,17 @@
+mutation CreateSupportTicketMutation(
+  $projectId: String!,
+  $type: LabsSupportTicketType!,
+  $description: String
+) {
+  labs {
+    createSupportTicket(projectId: $projectId, type: $type, description: $description)
+  }
+}
+
+query ProjectsQuery {
+  labs {
+    student {
+      projects { id mentors { name } students { name } }
+    }
+  }
+}

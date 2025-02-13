@@ -163,6 +163,12 @@ export default function Dashboard() {
               <Heading as="h3" fontSize="md" mb={2}>Resources</Heading>
               <List styleType="disc" pl={6}>
                 <ListItem>
+                  <Link href={`/dash/s/${query?.token}/problem`}>
+                    Report a Problem
+                  </Link>
+                  <Text fontSize="xs">(e.g., issue already solved, no mentor response)</Text>
+                </ListItem>
+                <ListItem>
                   <Link href={`/dash/s/${query?.token}/onboarding`}>
                     Onboarding Assignments
                   </Link>

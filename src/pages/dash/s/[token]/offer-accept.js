@@ -132,7 +132,7 @@ export default function OfferAccept() {
           <Box
             color="red.600"
           >
-            You must select {(student.minHours || 30 ) - Math.round(timeManagementHours)} additional hours to submit. All slots must be at least 90 minutes.
+            You must select {Math.round(((student.minHours || 30 ) - timeManagementHours) * 10) / 10} additional hours to submit. All slots must be at least 90 minutes.
             </Box>
         )}
 

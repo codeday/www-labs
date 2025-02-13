@@ -2,8 +2,15 @@
 
 query PartnerStudentsAbout {
   labs {
+    partner {
+      partnerCode
+    }
     event {
+      id
       name
+      hasBeginner
+      hasIntermediate
+      hasAdvanced
       artifactTypes {
         id
         name
@@ -88,8 +95,15 @@ query PartnerStudentsAbout {
 
 query PartnerStudentsAboutLimited {
   labs {
+    partner {
+      partnerCode
+    }
     event {
+      id
       name
+      hasBeginner
+      hasIntermediate
+      hasAdvanced
       artifactTypes {
         id
         name
