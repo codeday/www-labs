@@ -1,5 +1,9 @@
 query DashboardQuery {
   labs {
+    event {
+      id
+      name
+    }
     mentors {
       id
       name

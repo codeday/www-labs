@@ -3,7 +3,7 @@ import { decode } from 'jsonwebtoken';
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import { DateTime } from 'luxon';
-import { Box, Grid, Image, Text, Heading, Link, Spinner, Button} from '@codeday/topo/Atom';
+import { Box, Grid, Image, Text, Heading, Link, Spinner, Button, VStack} from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
@@ -75,7 +75,10 @@ export default function MentorDashboard() {
     <Page title="Mentor Manager Dashboard">
       <Content mt={-8}>
         <Grid templateColumns={{ base: '1fr', md: '2fr 1fr' }}>
-          <Heading as="h2" fontSize="3xl" mb={4}>Mentor Manager Dashboard</Heading>
+          <VStack align="left" mb={4}>
+            <Heading as="h2" fontSize="3xl">{data.labs.event.name}</Heading>
+            <Heading as="h3" fontSize="2xl">Mentor Manager Dashboard</Heading>
+          </VStack>
           <Box textAlign="right">
             {isValidating ? <Spinner /> : (
               <>
