@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { Container } from '@chakra-ui/react';
 import { apiFetch } from '@codeday/topo/utils';
 import { LabsEventInfo } from './Page.gql';
+import { DateTime } from 'luxon';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -88,7 +89,7 @@ export default ({
                   document.location.href = `/dash/${route}/${e.target.value}`;
                 }}
               >
-                {eventTokens.map(({ event, token }) => (
+                {eventTokens.sort((a, b) => DateTime.fromISO(b.event.startsAt).toSeconds() - DateTime.fromISO(a.event.startsAt).toSeconds()).map(({ event, token }) => (
                   <option key={event.id} value={token}>{event.name}</option>
                 ))}
               </Select>

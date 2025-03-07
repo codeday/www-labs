@@ -3,9 +3,10 @@ query LabsEventInfo {
         event {
             id
             name
+            startsAt
         }
         otherEventTokens {
-            event { id name }
+            event { id name startsAt }
             token
         }
     }
