@@ -1,0 +1,11 @@
+mutation BulkImportStudents ($file: Upload!) {
+    labs {
+        bulkImportStudents(file: $file) { id }
+    }
+}
+
+mutation ImportMatches ($file: Upload!) {
+    labs {
+        importMatches(file: $file)
+    }
+}
