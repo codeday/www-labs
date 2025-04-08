@@ -114,8 +114,8 @@ export default function OfferAccept() {
           />
         )}
 
-        <Heading as="h5" mt={8} fontSize="lg">Time Management</Heading>
-        <Text mb={2}>The length of the commitment is {student.weeks} weeks, from {starts.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)} to {ends.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}. You are expected to devote {student.minHours} hours per week on your assigned project. This time will include mentor meetings, TA meetings, team meetings, <strong><em>and significant individual work.</em></strong></Text>
+        <Heading as="h5" mt={8} fontSize="lg">Availability and Time Management</Heading>
+        <Text mb={2}>The length of the commitment is {student.weeks} weeks, from {starts.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)} to {ends.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}. You are expected to devote at least {student.minHours} hours per week on your assigned project. This time will include mentor meetings, TA meetings, team meetings, <strong><em>and significant individual work.</em></strong></Text>
         <Text mb={2}>The timezone you will be working from between {starts.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)} &mdash; {ends.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}: <Text as="span" color="red.300" fontWeight="bold">*</Text></Text>
         <Box>
           <TimezoneSelect
@@ -123,7 +123,10 @@ export default function OfferAccept() {
             onChange={setSelectedTimezone}
           />
         </Box>
-        <Text mb={2} mt={4}>Your planned weekly schedule for {student.minHours || 30} hours of work: <Text as="span" color="red.300" fontWeight="bold">*</Text></Text>
+        <Text mb={2} mt={4}>Your availability for meetings and individual work: <Text as="span" color="red.300" fontWeight="bold">*</Text></Text>
+        <Text>Please select <b>ALL</b> times you <b>COULD</b> work on your project. (E.g., all times you do not have work or school.) We will use this availability for matching,
+              so the more times you select, the more projects you will be eligible to match with. You are not required to work during all times you select, you will just need to
+              put in {student.minHours || 30} hours of work during some of the available times you list.</Text>
         <TimeManagementPlan
           starts={starts.toJSDate()}
           onChange={(hours, plan) => { setTimeManagementHours(hours); setTimeManagementPlan(plan); }}
@@ -132,7 +135,7 @@ export default function OfferAccept() {
           <Box
             color="red.600"
           >
-            You must select {Math.round(((student.minHours || 30 ) - timeManagementHours) * 10) / 10} additional hours to submit. All slots must be at least 90 minutes.
+            You must select at least {student.minHours || 30} hours of availability (but more is better). Enter {Math.round(((student.minHours || 30 ) - timeManagementHours) * 10) / 10} additional hours to submit. All slots must be at least 90 minutes.
             </Box>
         )}
 

@@ -1,6 +1,6 @@
 import { Box, Text, List, ListItem } from '@codeday/topo/Atom';
 
-export default function SurveyFields({ content, displayFn, ...rest }) {
+export default function SurveyFields({ content, displayFn, inline, ...rest }) {
 
   const displayFnRunnable = displayFn
     ? (new Function(`{ return ${displayFn} }`)).call(null)
@@ -18,15 +18,20 @@ export default function SurveyFields({ content, displayFn, ...rest }) {
       {renderedContent
         .map(([k, v]) => {
           let renderedVal = v;
-          if (Array.isArray(v)) renderedVal = (
-            <List listStyleType="disc" pl={8}>
-              {v.map((e, i) => (
-                <ListItem key={i}>
-                  {typeof e === 'object' ? <SurveyFields content={e} /> : e.toString()}
-                </ListItem>
-              ))}
-            </List>
-          );
+          if (Array.isArray(v)) {
+            if (inline) renderedVal = v.map((e, i) => (
+              typeof e === 'object' ? <SurveyFields inline={inline} displayFn={displayFn} content={e} /> : e.toString()
+            )).join(', ');
+            else renderedVal = (
+              <List listStyleType="disc" pl={8}>
+                {v.map((e, i) => (
+                  <ListItem key={i}>
+                    {typeof e === 'object' ? <SurveyFields inline={inline} displayFn={displayFn} content={e} /> : e.toString()}
+                  </ListItem>
+                ))}
+              </List>
+            );
+          }
           else if (typeof v === 'object') renderedVal = (
             <SurveyFields
               ml={4}
@@ -35,8 +40,21 @@ export default function SurveyFields({ content, displayFn, ...rest }) {
               borderLeftStyle="dotted"
               pl={4}
               content={v}
+              inline={inline}
+              displayFn={displayFn}
             />
           );
+          if (inline) return (
+            <Text>
+              <b>
+                {k
+                  .replace(/_/g, ' ')
+                  .replace(/([a-z](?=[A-Z]))/g, '$1 ')
+                }:
+              </b>
+              {renderedVal}
+            </Text>
+          )
 
           return (
             <Box key={k} mb={4}>

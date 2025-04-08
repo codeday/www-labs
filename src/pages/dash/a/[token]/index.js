@@ -88,6 +88,7 @@ export default function AdminDashboard() {
           <ActionButton icon={HeadGroup} href={`/api/projectCapacities?token=${query.token}`}>Matching Capacities</ActionButton>
           <ActionButton icon={UiTrash} href={`/dash/a/${query.token}/delete`}>Delete Mentor</ActionButton>
           <ActionButton icon={Bolt} href={`/dash/a/${query.token}/clone`}>Clone</ActionButton>
+          <ActionButton icon={Bolt} href={`/dash/a/${query.token}/match`}>Match Board</ActionButton>
           <ActionButton icon={UiUpload} onClick={() => studentsUploadRef.current?.click()}>Bulk Import Students</ActionButton>
           <ActionButton icon={UiUpload} onClick={() => matchesUploadRef.current?.click()}>Import Matches</ActionButton>
         </Grid>

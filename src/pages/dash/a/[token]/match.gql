@@ -1,0 +1,12 @@
+#import "../../../../components/Dashboard/MatchBoard.gql"
+
+query LabsMatchBoard {
+    labs {
+        projects {
+            ...ProjectMatch
+        }
+        students {
+            ...StudentMatch
+        }
+    }
+}

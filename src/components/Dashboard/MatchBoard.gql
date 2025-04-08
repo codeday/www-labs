@@ -1,0 +1,45 @@
+fragment ProjectMatch on LabsProject {
+  id
+  track
+  description
+  deliverables
+  issueUrl
+  status
+  repository {
+    name
+  }
+  tags {
+    id
+    mentorDisplayName
+    type
+  }
+  mentors {
+    id
+    name
+    timezone
+    profile
+    maxWeeks
+    status
+  }
+  students { id }
+}
+
+fragment StudentMatch on LabsStudent {
+    id
+    name
+    partnerCode
+    partnerContractData
+    timeManagementPlan
+    minHours
+    weeks
+    resumeUrl
+    githubUsername
+    profile
+    timezone
+    status
+    tags {
+      id
+      mentorDisplayName
+      type
+    }
+}

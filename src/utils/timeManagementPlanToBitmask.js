@@ -4,14 +4,14 @@ const DAY_NAMES = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'frid
 const RESOLUTION_MINS = 30;
 const BITS_PER_HOUR = 60/RESOLUTION_MINS;
 
-export function timeManagementPlanToBitmask(timeManagementPlan, timezone) {
+export function timeManagementPlanToBitmask(timeManagementPlan, timezone, returnBits) {
   if (!timeManagementPlan) {
     timeManagementPlan = Object.fromEntries(
       DAY_NAMES.map((n) => [n, [{ start: 60 * 9, end: 60 * 17 }]])
     );
   }
 
-  let bitmask = [].fill(0, 0, BITS_PER_HOUR * 24 * DAY_NAMES.length);
+  let bitmask = Array.from({ length: BITS_PER_HOUR * 24 * DAY_NAMES.length }, () => 0);
 
   // Fill out the array
   for (let dayNumber = 0; dayNumber < DAY_NAMES.length; dayNumber++) {
@@ -47,6 +47,9 @@ export function timeManagementPlanToBitmask(timeManagementPlan, timezone) {
     ];
   }
 
+  if (returnBits) {
+    return bitmask;
+  }
 
   // Convert into actual ints
   const out = new Uint8Array(Math.ceil(bitmask.length / 8));
@@ -65,4 +68,20 @@ export function timeManagementPlanToBitmask(timeManagementPlan, timezone) {
 
 
   return Buffer.from(out).toString('base64');
+}
+
+export function overlapBitmasks(bitmasks, offset) {
+  const countArr = bitmasks.reduce((acc, bitmask) => {
+    for (let i = 0; i < bitmask.length; i++) {
+      if (bitmask[i]) acc[i]++;
+    }
+    return acc;
+  }, Array.from({ length: Math.max(...bitmasks.map(b => b.length)) }, () => 0));
+
+  return countArr.map(
+    c => Math.max(
+      0,
+      (c - (offset || 0)) / (bitmasks.length - (offset || 0))
+    )
+  );
 }
