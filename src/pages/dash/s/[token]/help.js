@@ -14,7 +14,7 @@ export default function Help() {
         <Link href={`/dash/s/${query?.token}`}>&laquo; Back to dashboard</Link>
         <Calendly
           slug="codeday-student-support"
-          meeting="pair-programming-meeting"
+          meeting="cse-session"
           w="100%"
         />
       </Content>
