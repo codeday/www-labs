@@ -13,8 +13,8 @@ export default function Help() {
         <Text>(You may attend on your own, or with teammates.)</Text>
         <Link href={`/dash/s/${query?.token}`}>&laquo; Back to dashboard</Link>
         <Calendly
-          slug="codeday-student-support"
-          meeting="cse-session"
+          slug="d"
+          meeting="cwrj-y2r-3jm"
           w="100%"
         />
       </Content>
