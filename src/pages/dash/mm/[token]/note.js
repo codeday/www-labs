@@ -8,12 +8,23 @@ import { AddNoteMutation } from './note.gql';
 import Autocomplete from "../../../../components/Dashboard/Autocomplete";
 import LiveStudentProjectDetails from '../../../../components/Dashboard/LiveStudentProjectDetails';
 
+const issueTypes = {
+  '': 'Don\'t open a support ticket',
+  IssueSolved: 'Someone solved the issue',
+  IssueCantReplicate: 'Can\'t replicate assigned issue',
+  MaintainerUnsupportive: 'Maintainer doesn\'t want students to work on this issue',
+  MentorUnresponsive: 'Mentor is not responsive',
+  StudentNeedsResource: 'Student needs paid resource',
+  Other: 'Other',
+};
+
 export default function AddNotePage() {
   const { query: { token } } = useRouter();
   const [note, setNote] = useState('');
   const [caution, setCaution] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [students, setStudents] = useState([]);
+  const [supportTicketType, setSupportTicketType] = useState('');
   const { success, error } = useToasts();
 
   return (
@@ -50,6 +61,13 @@ export default function AddNotePage() {
               <option value="1">Very concerned</option>
             </Select>
 
+            <Heading mt={8} as="h3" fontSize="md">Open a support ticket?</Heading>
+            <Select value={supportTicketType} onChange={(e) => setSupportTicketType(e.target.value)}>
+              {Object.entries(issueTypes).map(([key, value]) => (
+                <option value={key}>{value}</option>
+              ))}
+            </Select>
+
             <Button
               mt={8}
               isLoading={isLoading}
@@ -59,7 +77,7 @@ export default function AddNotePage() {
                   for (const s of students) {
                     await apiFetch(
                       AddNoteMutation,
-                      { student: s.id, caution, note },
+                      { student: s.id, caution, note, supportTicketType: supportTicketType ? supportTicketType : null },
                       { 'X-Labs-Authorization': `Bearer ${token}` },
                     );
                     success(`Added note for ${s.name}`);
