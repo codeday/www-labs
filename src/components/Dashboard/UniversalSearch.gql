@@ -1,0 +1,71 @@
+query UniversalSearchQuery(
+  $q: String!
+  $students: Boolean
+  $mentors: Boolean
+  $projects: Boolean
+) {
+  labs {
+    autocomplete(
+      types: { students: $students, mentors: $mentors, projects: $projects }
+      q: $q
+      universal: true
+    ) {
+      type
+      name
+      id
+      eventId
+    }
+  }
+}
+
+fragment UniversalSearchResultFragment on LabsProject {
+  id
+  students {
+    id
+    name
+    email
+    partnerCode
+    track
+    profile
+  }
+  mentors {
+    id
+    name
+    email
+    profile
+  }
+  description
+  deliverables
+  issueUrl
+  tags {
+    mentorDisplayName
+  }
+}
+
+query DetailsFromStudentIdQuery($id: String!) {
+  labs {
+    student(where: { id: $id }) {
+      projects {
+        ...UniversalSearchResultFragment
+      }
+    }
+  }
+}
+
+query DetailsFromProjectIdQuery($id: String!) {
+  labs {
+    projects(where: { id: $id }) {
+      ...UniversalSearchResultFragment
+    }
+  }
+}
+
+query DetailsFromMentorIdQuery($id: String!) {
+  labs {
+    mentor(where: { id: $id }) {
+      projects {
+        ...UniversalSearchResultFragment
+      }
+    }
+  }
+}

@@ -1,23 +1,38 @@
-import { useEffect, useMemo } from 'react';
-import useSwr from 'swr';
-import fetch from 'node-fetch';
-import { signIn } from 'next-auth/client'
-import { Box, Text, Button, Spinner, Divider, Heading, Grid } from '@codeday/topo/Atom';
-import { Content } from '@codeday/topo/Molecule';
-import Page from '../../components/Page';
-import RequestLoginLink from '../../components/Dashboard/RequestLoginLink';
-import { useColorModeValue } from '@chakra-ui/react';
+import { useEffect, useMemo } from "react";
+import useSwr from "swr";
+import fetch from "node-fetch";
+import { signIn } from "next-auth/client";
+import {
+  Box,
+  Text,
+  Button,
+  Spinner,
+  Divider,
+  Heading,
+  Grid,
+} from "@codeday/topo/Atom";
+import { Content } from "@codeday/topo/Molecule";
+import Page from "../../components/Page";
+import RequestLoginLink from "../../components/Dashboard/RequestLoginLink";
+import UniversalSearch from "../../components/Dashboard/UniversalSearch";
+import { useColorModeValue } from "@chakra-ui/react";
 
-const sectionNames = { a: 'Admin', mm: 'Staff', r: 'Reviewer', m: 'Mentor', s: 'Student', osm: 'Open-Source Manager' };
+const sectionNames = {
+  a: "Admin",
+  mm: "Staff",
+  r: "Reviewer",
+  m: "Mentor",
+  s: "Student",
+  osm: "Open-Source Manager",
+};
 
 export default function DashboardLogin() {
-  const { isValidating, data } = useSwr(
-    '/api/dashRedirect',
-    (url) => fetch(url).then((r) => r.json())
+  const { isValidating, data } = useSwr("/api/dashRedirect", (url) =>
+    fetch(url).then((r) => r.json())
   );
 
-  const headerBg = useColorModeValue('gray.200', 'gray.900');
-  const headerFg = useColorModeValue('gray.900', 'white');
+  const headerBg = useColorModeValue("gray.200", "gray.900");
+  const headerFg = useColorModeValue("gray.900", "white");
 
   const result = useMemo(() => {
     if (data?.events && Object.keys(data.events).length > 0) {
@@ -34,17 +49,21 @@ export default function DashboardLogin() {
             {title}
           </Heading>
           <Box p={2}>
-            {Object.entries(tokens).filter(([_, token]) => !!token).map(([k, token]) => (
-              <Button
-                key={k}
-                mr={2}
-                as="a"
-                size="sm"
-                href={`/dash/${k}/${token}`}
-              >
-                {sectionNames[k]}
-              </Button>
-            ))}
+            {Object.entries(tokens)
+              .filter(
+                ([tokenType, token]) => !tokenType.startsWith("_") & !!token
+              )
+              .map(([k, token]) => (
+                <Button
+                  key={k}
+                  mr={2}
+                  as="a"
+                  size="sm"
+                  href={`/dash/${k}/${token}`}
+                >
+                  {sectionNames[k]}
+                </Button>
+              ))}
             {tokens.mm && (
               <Button
                 colorScheme="green"
@@ -61,7 +80,7 @@ export default function DashboardLogin() {
         </Box>
       ));
     } else if (data) {
-      return (<>Sorry, nothing is associated with your account.</>);
+      return <>Sorry, nothing is associated with your account.</>;
     } else if (isValidating) {
       return <Spinner />;
     } else {
@@ -70,11 +89,7 @@ export default function DashboardLogin() {
           <Text mb={4}>
             Students/program staff: Log into your CodeDay account to continue.
           </Text>
-          <Button
-            onClick={() => signIn('auth0')}
-            colorScheme="green"
-            mb={2}
-          >
+          <Button onClick={() => signIn("auth0")} colorScheme="green" mb={2}>
             Sign In
           </Button>
         </>
@@ -86,21 +101,27 @@ export default function DashboardLogin() {
     <Page slug={`/dash`} title={`Dashboard`}>
       {data?.osm && (
         <Content maxW="container.sm" textAlign="center">
-          <Button as="a" href={`/dash/osm/${data.osm}`}>Open-Source Manager</Button>
+          <Button as="a" href={`/dash/osm/${data.osm}`}>
+            Open-Source Manager
+          </Button>
         </Content>
       )}
+
       {Array.isArray(result) ? (
         <Content maxW="container.lg">
-          <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
+          <UniversalSearch data={data} />
+          <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={4}>
             {result}
           </Grid>
         </Content>
-      ) : <Content maxW="container.sm" textAlign="center">{result}</Content>}
+      ) : (
+        <Content maxW="container.sm" textAlign="center">
+          {result}
+        </Content>
+      )}
       <Content maxW="container.sm">
         <Divider mt={8} mb={8} />
-        <Text mb={4}>
-          Mentors: enter your email to receive a login link.
-        </Text>
+        <Text mb={4}>Mentors: enter your email to receive a login link.</Text>
         <RequestLoginLink />
       </Content>
     </Page>

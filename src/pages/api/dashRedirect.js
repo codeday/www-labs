@@ -46,6 +46,7 @@ export default async function (req, res) {
 
   const result = Object.fromEntries(
     events.map((e) => [e.name, {
+      _id: e.id,
       a: isAdmin && makeToken({ typ: 'a', evt: e.id }),
       mm: (isAdmin || isManager) && makeToken({ typ: 'mm', sid: username, tgt: 'u', evt: e.id }),
       r: (isAdmin || isReviewer) && makeToken({ typ: 'r', sid: username, tgt: 'u', evt: e.id }),
