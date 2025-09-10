@@ -2,9 +2,6 @@
 
 query PartnerStudentsAbout {
   labs {
-    partner {
-      partnerCode
-    }
     event {
       id
       name
@@ -95,9 +92,6 @@ query PartnerStudentsAbout {
 
 query PartnerStudentsAboutLimited {
   labs {
-    partner {
-      partnerCode
-    }
     event {
       id
       name

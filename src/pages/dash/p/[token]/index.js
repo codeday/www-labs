@@ -21,7 +21,7 @@ import SurveyDetails from '../../../../components/Dashboard/SurveyDetails';
 import { StudentCsv } from '../../../../components/Dashboard/StudentCsv';
 import SurveyFields from '../../../../components/SurveyFields';
 
-export default function PartnerPage({ students, event, partner, hidePartner }) {
+export default function PartnerPage({ students, event, hidePartner }) {
   const { query } = useRouter();
   const [showAll, setShowAll] = useState(false);
   const [newStudentEmail, setNewStudentEmail] = useState('');
@@ -55,12 +55,7 @@ export default function PartnerPage({ students, event, partner, hidePartner }) {
     <Page>
       <Content>
         <Heading as="h3" fontSize="3xl" mt={-8} mb={4}>{event.name}</Heading>
-        <Text>
-          Application links:
-          {event.hasBeginner && <Link ml={2} href={`/apply/${event.id}/beginner/${partner.partnerCode}`}>beginner</Link>}
-          {event.hasIntermediate && <Link ml={2} href={`/apply/${event.id}/intermediate/${partner.partnerCode}`}>intermediate</Link>}
-          {event.hasAdvanced && <Link ml={2} href={`/apply/${event.id}/advanced/${partner.partnerCode}`}>advanced</Link>}
-        </Text>
+
         <Grid templateColumns={{ base: '1fr', md: '1fr 3fr' }} gap={8}>
           <Box>
 
@@ -349,7 +344,7 @@ export async function getServerSideProps({ params: { token } }) {
     props: {
       students: result?.labs?.students,
       event: result?.labs?.event,
-      partner: result?.labs?.partner,
+
     },
   };
 }
@@ -363,7 +358,7 @@ export async function getServerSidePropsLimited({ params: { token } }) {
     props: {
       students: result?.labs?.students,
       event: result?.labs?.event,
-      partner: result?.labs?.partner,
+
     },
   };
 }
