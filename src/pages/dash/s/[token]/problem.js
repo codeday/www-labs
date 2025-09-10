@@ -70,7 +70,7 @@ function ProblemReporter({ projectId, ...props }) {
         onClick={async () => {
           setIsLoading(true);
           try {
-            await fetch(CreateSupportTicketMutation, { projectId, type, description });
+            await fetch(CreateSupportTicketMutation, { projectId, type, description, preventingProgress });
             success('Thank you for reporting the problem. Expect to hear from us within 24 hours (except weekends).');
           } catch (ex) {
             error(ex.toString());
