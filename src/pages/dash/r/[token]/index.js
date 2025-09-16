@@ -28,9 +28,9 @@ export default function ReviewPage() {
     return fetch(print(StudentNeedingRating));
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     if (typeof window !== 'undefined' && query?.token) {
-      setStudentResp(await next());
+      next().then(setStudentResp);
     }
   }, [typeof window, setStudentResp, query?.token, track]);
 

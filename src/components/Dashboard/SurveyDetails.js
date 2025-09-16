@@ -10,14 +10,14 @@ export default function SurveyDetails({ token, id }) {
   const { isOpen } = useAccordionItemState();
   const [sr, setSr] = useState(false);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (typeof window === 'undefined' || !isOpen || sr) return;
-    const result = await apiFetch(
+    apiFetch(
       SurveyResponseDetails,
       { where: id },
       { 'X-Labs-Authorization': `Bearer ${token}` },
-    );
-    setSr(result.labs.getSurveyResponse);
+    )
+    .then(r => setSr(r.labs.getSurveyResponse));
   }, [typeof window, sr, isOpen]);
 
   if (!sr) {
