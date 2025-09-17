@@ -25,6 +25,7 @@ function ProblemReporter({ projectId, ...props }) {
   const [description, setDescription] = useState('');
   const [consultedTa, setConsultedTa] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [preventingProgress, setPreventingProgress] = useState(false);
 
   const requiresTa = type === 'IssueCantReplicate';
   const requiresDescription = type === 'IssueCantReplicate' || type === 'Other';
@@ -50,11 +51,18 @@ function ProblemReporter({ projectId, ...props }) {
             isChecked={consultedTa}
             onChange={(e) => setConsultedTa(e.target.checked)}
           >
-            I have consulted with a TA about this issue. (REQUIRED.) Please provide TA name in the desciption.
+            I have consulted with a TA about this issue. (REQUIRED.) Please provide TA name in the description.
           </Checkbox>
           <br />
         </>
       )}
+      <Checkbox
+        isChecked={preventingProgress}
+        onChange={(e) => setPreventingProgress(e.target.checked)}
+      >
+        This is preventing me from making progress.
+      </Checkbox>
+      <br />
       <Button
         mt={4}
         isDisabled={(requiresDescription && !description) || (requiresTa && !consultedTa) || !type}
@@ -62,7 +70,7 @@ function ProblemReporter({ projectId, ...props }) {
         onClick={async () => {
           setIsLoading(true);
           try {
-            await fetch(CreateSupportTicketMutation, { projectId, type, description });
+            await fetch(CreateSupportTicketMutation, { projectId, type, description, preventingProgress });
             success('Thank you for reporting the problem. Expect to hear from us within 24 hours (except weekends).');
           } catch (ex) {
             error(ex.toString());

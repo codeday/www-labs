@@ -1,10 +1,11 @@
 mutation CreateSupportTicketMutation(
   $projectId: String!,
   $type: LabsSupportTicketType!,
-  $description: String
+  $description: String,
+  $preventingProgress: Boolean
 ) {
   labs {
-    createSupportTicket(projectId: $projectId, type: $type, description: $description)
+    createSupportTicket(projectId: $projectId, type: $type, description: $description, preventingProgress: $preventingProgress)
   }
 }
 
