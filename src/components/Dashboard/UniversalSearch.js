@@ -104,34 +104,36 @@ export function AutocompleteResultDetails({
   ...props
 }) {
   const [results, setResults] = useState({});
-  useEffect(async () => {
-    try {
-      if (resultType === "STUDENT") {
-        const result = await apiFetch(
-          DetailsFromStudentIdQuery,
-          { id: resultId },
-          { "X-Labs-Authorization": `Bearer ${token}` }
-        );
-        setResults(result?.labs?.student?.projects);
-      } else if (resultType === "MENTOR") {
-        const result = await apiFetch(
-          DetailsFromMentorIdQuery,
-          { id: resultId },
-          { "X-Labs-Authorization": `Bearer ${token}` }
-        );
-        setResults(result?.labs?.mentor?.projects);
-      } else if (resultType === "PROJECT") {
-        const result = await apiFetch(
-          DetailsFromProjectIdQuery,
-          { id: resultId },
-          { "X-Labs-Authorization": `Bearer ${token}` }
-        );
-        setResults(result?.labs?.projects);
+  useEffect(() => {
+    (async () => {
+      try {
+        if (resultType === "STUDENT") {
+          const result = await apiFetch(
+            DetailsFromStudentIdQuery,
+            { id: resultId },
+            { "X-Labs-Authorization": `Bearer ${token}` }
+          );
+          setResults(result?.labs?.student?.projects);
+        } else if (resultType === "MENTOR") {
+          const result = await apiFetch(
+            DetailsFromMentorIdQuery,
+            { id: resultId },
+            { "X-Labs-Authorization": `Bearer ${token}` }
+          );
+          setResults(result?.labs?.mentor?.projects);
+        } else if (resultType === "PROJECT") {
+          const result = await apiFetch(
+            DetailsFromProjectIdQuery,
+            { id: resultId },
+            { "X-Labs-Authorization": `Bearer ${token}` }
+          );
+          setResults(result?.labs?.projects);
+        }
+      } catch (ex) {
+        console.error(ex);
+        setResults(null);
       }
-    } catch (ex) {
-      console.error(ex);
-      setResults(null);
-    }
+    })();
   }, [resultId, resultType]);
 
   return (

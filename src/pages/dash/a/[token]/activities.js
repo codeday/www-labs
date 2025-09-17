@@ -23,15 +23,17 @@ export default function AdminActivities({ activities }) {
   const { success, error } = useToasts();
   const fetch = useFetcher();
 
-  useEffect(async () => {
+  useEffect(() => {
     if (typeof window === 'undefined') return;
     setSchema({});
     setArgs({});
     if (!functionName) return;
     setIsLoading(true);
-    const res = await fetch(GetActivitySchemaQuery, { functionName });
-    setSchema(res.labs.activitySchema);
-    setIsLoading(false);
+    (async () => {
+      const res = await fetch(GetActivitySchemaQuery, { functionName });
+      setSchema(res.labs.activitySchema);
+      setIsLoading(false);
+    })();
   }, [typeof window, functionName]);
 
   return (

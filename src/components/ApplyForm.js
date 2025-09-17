@@ -83,9 +83,10 @@ export default function ApplyForm({
   const [basicErrors, setBasicErrors] = useState(null);
   const [profileErrors, setProfileErrors] = useState(null);
 
-  useClientEffect(async () => {
-    const result = await fetch(`/api/apply?e=${eventId}`);
-    setToken(await result.text());
+  useClientEffect(() => {
+    fetch(`/api/apply?e=${eventId}`)
+      .then(r => r.text())
+      .then(r => setToken(r));
   }, [eventId]);
 
   const { labs } = useApiFetch(ApplyFormQuery, {}, token) || {};

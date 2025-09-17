@@ -5,15 +5,13 @@ import { useClientEffect } from "./useClientEffect";
 export function useApiFetch(query, variables, headersOrToken) {
   const [result, setResult] = useState(null);
 
-
-  useClientEffect(async () => {
-    if (!headersOrToken) return null;
+  useClientEffect(() => {
+    if (!headersOrToken) return;
     const headers = typeof headersOrToken === 'string'
       ? { 'X-Labs-Authorization': `Bearer ${headersOrToken}` }
       : headersOrToken;
-    setResult(
-      await apiFetch(query, variables, headers)
-    );
+    apiFetch(query, variables, headers)
+      .then(r => setResult(r));
   }, [query, JSON.stringify(variables), headersOrToken]);
 
   return result;
