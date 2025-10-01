@@ -10,7 +10,7 @@ export default function TagPicker({ onlyType, display, options, tags, onChange, 
           <Box>
             {disabled ? (
               <>
-                <Box d="inline-block" w={6}>
+                <Box display="inline-block" w={6}>
                   {ids.includes(id) ? '✓' : ' '}
                 </Box>
                 {display === 'mentor' ? mentorDisplayName : studentDisplayName}

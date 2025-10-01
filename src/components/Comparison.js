@@ -10,7 +10,7 @@ export default function Comparison({ leftTop, rightTop, leftBottom, rightBottom,
   return (
     <Box {...props}>
       {/* Desktop View */}
-      <Box d={{ base: 'none', md: 'block' }} mb={8}>
+      <Box display={{ base: 'none', md: 'block' }} mb={8}>
         <Grid templateColumns="1fr 1fr" gap={8}>
           <Box>{leftTop}</Box>
           <Box>{rightTop}</Box>
@@ -40,7 +40,7 @@ export default function Comparison({ leftTop, rightTop, leftBottom, rightBottom,
         { _: 'left', top: leftTop, bottom: leftBottom, elem: rotatedFactors.left },
         { _: 'right', top: rightTop, bottom: rightBottom, elem: rotatedFactors.right }
       ].map(({ top, bottom, elem, _ }) => (
-          <Box d={{ base: 'block', md: 'none' }} mb={8} key={_}>
+          <Box display={{ base: 'block', md: 'none' }} mb={8} key={_}>
             {top}
             <List styleType="disc" stylePos="outside" p={4}>
               {elem.map((factor) => (

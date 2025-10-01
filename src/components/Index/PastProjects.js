@@ -74,7 +74,7 @@ export default function PastProjects(props) {
               fontSize={"xl"}
               textAlign="center"
             >
-              <Box d="inline-block" rounded="sm" p={6} pt={2} pb={2} bg="rgba(0, 0, 0, 0.5)" color="white">
+              <Box display="inline-block" rounded="sm" p={6} pt={2} pb={2} bg="rgba(0, 0, 0, 0.5)" color="white">
                 <MediaPlay />
               </Box>
             </Box>
@@ -96,7 +96,7 @@ export default function PastProjects(props) {
                 top="-3px"
                 color="white"
                 bg={BG_COLORS[project.track] || BG_COLORS['default']}
-                d="inline-block"
+                display="inline-block"
                 rounded="sm"
                 fontSize="md"
               >

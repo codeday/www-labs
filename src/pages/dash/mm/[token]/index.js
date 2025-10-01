@@ -21,7 +21,7 @@ function MentorIndicator({ status }) {
   }[status || 'CANCELED'] || 'red';
 
   return (
-    <Box bg={`${color}.700`} rounded="full" size={3} p={1} d="inline-block" color={`${color}.50`} />
+    <Box bg={`${color}.700`} rounded="full" size={3} p={1} display="inline-block" color={`${color}.50`} />
   );
 }
 
@@ -34,7 +34,7 @@ function ProjectIndicator({ status, track }) {
   }[status || 'CANCELED'] || 'red';
 
   return (
-    <Box bg={`${color}.700`} rounded="sm" fontSize="sm" d="inline-block" p={1} m={1} color={`${color}.50`}>
+    <Box bg={`${color}.700`} rounded="sm" fontSize="sm" display="inline-block" p={1} m={1} color={`${color}.50`}>
       {track[0]}{track.slice(1).toLowerCase()}
     </Box>
   );
@@ -129,7 +129,7 @@ export default function MentorDashboard() {
                 textDecoration={['REJECTED', 'CANCELED'].includes(mentor.status) ? 'line-through' : undefined}
               >
                 <MentorIndicator status={mentor.status} />
-                <Link as="a" href={`/dash/mm/${query.token}/${mentor.id}`} p={3} d="inline-block">
+                <Link as="a" href={`/dash/mm/${query.token}/${mentor.id}`} p={3} display="inline-block">
                   {mentor.name} {mentor.emailCount > 0 && <>&#10003;</>}
                 </Link>
               </Box>
@@ -141,7 +141,7 @@ export default function MentorDashboard() {
               <Box as="td">
                 {mentor.manager && (
                   <>
-                    <Image src={mentor.manager.picture} d="inline-block" h="1.2em" mr={1} alt="" />
+                    <Image src={mentor.manager.picture} display="inline-block" h="1.2em" mr={1} alt="" />
                     {mentor.manager.name}
                   </>
                 )}

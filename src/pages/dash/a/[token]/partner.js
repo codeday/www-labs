@@ -65,7 +65,7 @@ export default function AdminPartnerAdmissions() {
         <Button as="a" href={`/dash/a/${query.token}`}>&laquo; Back</Button>
         <Heading as="h2" fontSize="5xl" mt={4}>Partner Students</Heading>
         <Box mb={8}>
-          <Box d="inline-block">
+          <Box display="inline-block">
             <Input placeholder="Partner Code" value={partnerCode} onChange={(e) => setPartnerCode(e.target.value)} />
           </Box>
           <Button

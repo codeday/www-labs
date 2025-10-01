@@ -35,7 +35,7 @@ export default function Calendar({ primary, ...props }) {
       {primary && (
         <Box textAlign="right" mb={8}>
           Show only:
-          <Box d="inline-block" w="xs">
+          <Box display="inline-block" w="xs">
             <Select ml={2} size="sm" onChange={(e) => setFilterType(e.target.value)}>
               <option value=""></option>
               {Object.keys(COLORS).map((c) => <option key={c} value={c}>{c}</option>)}
@@ -78,7 +78,7 @@ export default function Calendar({ primary, ...props }) {
               <Box textAlign="right">
                 {name && (
                   <Box
-                    d="inline-block"
+                    display="inline-block"
                     rounded="sm"
                     p={1}
                     pl={2}

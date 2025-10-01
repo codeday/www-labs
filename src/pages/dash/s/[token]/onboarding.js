@@ -78,7 +78,7 @@ export default function Onboarding({ student }) {
           </Box>
         )}
         <Box mb={8}>
-          <Text d="block" pr={8} fontWeight="bold">
+          <Text display="block" pr={8} fontWeight="bold">
             REQUIRED: Setting up your development environment
           </Text>
           <Button
@@ -91,7 +91,7 @@ export default function Onboarding({ student }) {
           </Button>
         </Box>
         <Box mb={8}>
-          <Text d="block" pr={8} fontWeight="bold" color={submitted.includes('git') ? 'green.700' : undefined}>
+          <Text display="block" pr={8} fontWeight="bold" color={submitted.includes('git') ? 'green.700' : undefined}>
             REQUIRED: Git
           </Text>
           <Button
@@ -108,7 +108,7 @@ export default function Onboarding({ student }) {
         </Box>
         {trainingOptions.map((t) => (
           <Box mb={8}>
-            <Text d="block" pr={8} fontWeight="bold" color={submitted.includes(t.id) ? 'green.700' : undefined}>
+            <Text display="block" pr={8} fontWeight="bold" color={submitted.includes(t.id) ? 'green.700' : undefined}>
               Project-Specific: {t.studentDisplayName}
             </Text>
             <Button as="a" mr={8} href={t.trainingLink} target="_blank">View Instructions</Button>

@@ -3,7 +3,7 @@ import { Box } from '@codeday/topo/Atom';
 export const Tag = ({ tag, featured }) => (
   <Box
     borderRadius={4}
-    d="inline"
+    display="inline"
     p={2}
     mr={2}
     fontWeight={featured ? 'bold' : undefined}
@@ -20,7 +20,7 @@ export const Tag = ({ tag, featured }) => (
 export const TagList = ({ tags, featured: featuredObj }) => {
   const featured = featuredObj?.map((f) => f.id);
 
-  return <Box d="inlineBlock" lineHeight="3em">
+  return <Box display="inlineBlock" lineHeight="3em">
     {
       (tags || [])
         .sort((a, b) => {

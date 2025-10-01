@@ -49,7 +49,7 @@ export default function ReviewPage() {
       borderColor={colorMode === 'dark' ? 'purple.600' : 'purple.900'}
       borderWidth={1}
       rounded="sm"
-      d="inline-block"
+      display="inline-block"
     >
       <Heading as="h4" fontSize="md">Show me...</Heading>
       <SelectTrack track={track} allowNull onChange={(e) => setTrack(e.target.value)} />

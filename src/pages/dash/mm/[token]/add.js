@@ -28,16 +28,16 @@ export default function MentorManagerAddMentor() {
 
         <Box mb={8}>
           <Heading as="h3" fontSize="lg">Name</Heading>
-          <Box d="inline-block" mr={4}>
+          <Box display="inline-block" mr={4}>
             <Input
               placeholder="Given (First) Name"
               value={mentor.givenName}
               onChange={(e) => setMentor(['givenName', e.target.value])}
             />
           </Box>
-          <Box d="inline-block">
+          <Box display="inline-block">
             <Input
-              d="inline-block"
+              display="inline-block"
               placeholder="Family (Last) Name"
               value={mentor.surname}
               onChange={(e) => setMentor(['surname', e.target.value])}
@@ -48,7 +48,7 @@ export default function MentorManagerAddMentor() {
 
         <Box mb={8}>
           <Heading as="h3" fontSize="lg" mt={4}>Email</Heading>
-          <Box d="inline-block" mr={4}>
+          <Box display="inline-block" mr={4}>
             <Input
               placeholder="Email"
               value={mentor.email}

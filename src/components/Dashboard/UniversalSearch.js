@@ -162,7 +162,7 @@ export function AutocompleteResultDetails({
             </Text>
             {p.students.map((s, i) => (
               <Box key={s.id}>
-                <Text d="inline">{s.name}</Text>
+                <Text display="inline">{s.name}</Text>
                 &nbsp;
                 <Button h="1em" px={1} as="a" href={`mailto:${s.email}`}><Email /></Button>
                 {s.profile.pronouns && <> ({s.profile.pronouns})</>}
@@ -341,7 +341,7 @@ export default function UniversalSearch({
             {selected.map((s) => (
               <ListItem key={s.id}>
                 <Box
-                  d="inline-block"
+                  display="inline-block"
                   cursor="pointer"
                   onClick={() => updateSelected(["remove", s.id])}
                   mr={2}

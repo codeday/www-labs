@@ -96,7 +96,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
           {limited
             ? project.maxStudents
             : (
-              <Box d="inline-block" ml={2}>
+              <Box display="inline-block" ml={2}>
                 <NumberInput
                   defaultValue={project.maxStudents}
                   onChange={(e) => setProject(['maxStudents', Number.parseInt(e)])}
@@ -189,7 +189,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
       {!(project.status === 'MATCHED' && limited) && (
         <Box mt={4}>
           <Button
-            d="inline-block"
+            display="inline-block"
             onClick={save(limited ? { status: 'DRAFT' } : {})}
             isLoading={loading}
             disabled={loading}
@@ -198,9 +198,9 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
           </Button>
 
           {limited && ['DRAFT', 'PROPOSED'].includes(project.status) && (
-            <Box d="inline-block" ml={4} pl={4} borderLeftWidth={1}>
+            <Box display="inline-block" ml={4} pl={4} borderLeftWidth={1}>
               <Button
-                d="inline-block"
+                display="inline-block"
                 colorScheme="green"
                 onClick={save({ status: 'PROPOSED' })}
                 isLoading={loading}

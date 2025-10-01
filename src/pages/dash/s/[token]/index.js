@@ -123,7 +123,7 @@ export default function Dashboard() {
                   {isOnboardingWeek && (
                     <ListItem>
                       <Link href={`/dash/s/${query?.token}/onboarding`}>
-                        <Text d="inline" fontWeight="bold">Onboarding Assignments</Text>
+                        <Text display="inline" fontWeight="bold">Onboarding Assignments</Text>
                         <Text fontSize="sm">due {DateTime.fromISO(data.labs.event.startsAt).plus({days: 6}).toLocaleString(DateTime.DATE_MED)}</Text>
                       </Link>
                     </ListItem>
@@ -133,7 +133,7 @@ export default function Dashboard() {
                     return (
                       <ListItem key={o.id}>
                         <Link href={`/dash/s/${query.token}/survey/${s.id}/${o.id}`} target="_blank">
-                          <Text d="inline" fontWeight="bold">{s.name}</Text>
+                          <Text display="inline" fontWeight="bold">{s.name}</Text>
                           <Text fontSize="sm">due {DateTime.fromISO(o.dueAt).toLocaleString(DateTime.DATE_MED)}</Text>
                         </Link>
                       </ListItem>
@@ -146,7 +146,7 @@ export default function Dashboard() {
             <Box p={4} mb={4} bg={`blue.${bg}`} borderColor={`blue.${borderColor}`} borderWidth={1} color={`blue.${color}`} rounded="sm">
               <Heading as="h3" fontSize="md" mb={4}>Mentor Contact Information</Heading>
               {data.labs.student.projects.map(({ mentors }) => mentors).flat().map((mentor) => (
-                <Box d="inline-block">
+                <Box display="inline-block">
                   {mentor.name}<br />
                   <Link href={`mailto:${mentor.email}`}>{mentor.email}</Link>
                   {mentor.profile?.phone && (

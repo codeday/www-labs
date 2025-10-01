@@ -10,7 +10,7 @@ import { overlapBitmasks, timeManagementPlanToBitmask } from '../../utils';
 const CONDENSE_FACTOR = 4;
 
 function MentorDetails({ mentor, ...rest }) {
-  return <Box mb={2} mt={2} p={2} borderWidth={1} borderRadius={4} d="inline-block" {...rest}>
+  return <Box mb={2} mt={2} p={2} borderWidth={1} borderRadius={4} display="inline-block" {...rest}>
     <Text>{mentor.name} ({mentor.maxWeeks} weeks)</Text>
     <Text fontSize="xs"><b>Timezone:</b> {mentor.timezone}</Text>
   </Box>
@@ -74,7 +74,7 @@ const TimeDisplay = memo(function TimeDisplay({ bitmask }) {
 })
 
 function StudentDetails({ student, displayPartnerContractData, displayTimeOverlap, bitmask, ...rest }) {
-  return <Box borderWidth={1} borderRadius={4} mb={2} d="inline-block" {...rest}>
+  return <Box borderWidth={1} borderRadius={4} mb={2} display="inline-block" {...rest}>
     <Box display="flex" flexDirection="row" justifyContent="space-between">
       <Box
         backgroundColor={randomColor({ luminosity: 'bright', seed: student.partnerCode || 'DIRECT' })}

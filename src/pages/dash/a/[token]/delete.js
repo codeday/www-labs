@@ -23,7 +23,7 @@ export default function AdminDeletMentor() {
 
         <Box mb={8}>
           <Heading as="h3" fontSize="lg" mt={4}>ID</Heading>
-          <Box d="inline-block" mr={4}>
+          <Box display="inline-block" mr={4}>
             <Input
               placeholder="ID"
               value={id}

@@ -67,7 +67,7 @@ export default ({
             <a href="/">
               <Text
                 as="span"
-                d="inline"
+                display="inline"
                 letterSpacing="-2px"
                 fontFamily="heading"
                 position="relative"

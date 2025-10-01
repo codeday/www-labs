@@ -6,7 +6,7 @@ export default function ProjectImagePreview({ project }) {
   return (
     <Box
       as="a"
-      d="block"
+      display="block"
       href={`https://showcase.codeday.org/project/${project.id}`}
       target="_blank"
       rel="noopener"

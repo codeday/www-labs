@@ -135,7 +135,7 @@ export default function Autocomplete({
             {selected.map(s => (
               <ListItem key={s.id}>
                 <Box
-                  d="inline-block"
+                  display="inline-block"
                   cursor="pointer"
                   onClick={() => updateSelected(['remove', s.id])}
                   mr={2}

@@ -7,7 +7,7 @@ function TrackBadge({ track }) {
       bg={{'BEGINNER': 'green.700', 'INTERMEDIATE': 'orange.700', 'ADVANCED': 'pink.700'}[track] || 'gray.100'}
       p={1}
       rounded="sm"
-      d="inline-block"
+      display="inline-block"
     >
       {track.toLowerCase()}
     </Box>

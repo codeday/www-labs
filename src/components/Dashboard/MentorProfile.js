@@ -63,16 +63,16 @@ export default function MentorProfile({
     <Box {...rest}>
       <Box mb={8}>
         <Heading as="h3" fontSize="lg" mt={4}>Name</Heading>
-        <Box d="inline-block" mr={4}>
+        <Box display="inline-block" mr={4}>
           <Input
             placeholder="Given (First) Name"
             value={mentor.givenName}
             onChange={(e) => setMentor(['givenName', e.target.value])}
           />
         </Box>
-        <Box d="inline-block">
+        <Box display="inline-block">
           <Input
-            d="inline-block"
+            display="inline-block"
             placeholder="Family (Last) Name"
             value={mentor.surname}
             onChange={(e) => setMentor(['surname', e.target.value])}
@@ -83,7 +83,7 @@ export default function MentorProfile({
 
       <Box mb={8}>
         <Heading as="h3" fontSize="lg">Pronouns</Heading>
-        <Box d="inline-block" mr={4}>
+        <Box display="inline-block" mr={4}>
           <Input
             placeholder="i.e. they/them"
             value={specialProfile.pronouns}
@@ -94,7 +94,7 @@ export default function MentorProfile({
 
       <Box mb={8}>
         <Heading as="h3" fontSize="lg">Timezone</Heading>
-        <Box d="inline-block" mr={4}>
+        <Box display="inline-block" mr={4}>
           <Select
             defaultValue={timezone}
             onChange={e => setTimezone(parseTimezone(e.currentTarget.value))}
@@ -109,7 +109,7 @@ export default function MentorProfile({
 
       <Box mb={8}>
         <Heading as="h3" fontSize="lg">Job</Heading>
-        <Box d="inline-block" mr={1}>
+        <Box display="inline-block" mr={1}>
           <Input
             placeholder="Role"
             value={specialProfile.role}
@@ -117,7 +117,7 @@ export default function MentorProfile({
           />
         </Box>
         at
-        <Box d="inline-block" ml={1}>
+        <Box display="inline-block" ml={1}>
           <Input
             placeholder="Company"
             value={specialProfile.company}
@@ -130,7 +130,7 @@ export default function MentorProfile({
         <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 2fr) 1fr' }} gap={8} mb={8}>
           <Box>
             <Heading as="h3" fontSize="lg" mt={4}>Mentor Manager</Heading>
-            <Box d="inline-block">
+            <Box display="inline-block">
               <Input
                 placeholder="Manager Username"
                 value={mentor.managerUsername}
@@ -140,7 +140,7 @@ export default function MentorProfile({
               />
             </Box>
             <Button
-              d="inline-block"
+              display="inline-block"
               borderTopLeftRadius={0}
               borderBottomLeftRadius={0}
               onClick={() => setMentor(['managerUsername', session?.user?.nickname])}
@@ -151,7 +151,7 @@ export default function MentorProfile({
 
           <Box>
             <Heading as="h3" fontSize="lg" mt={4}>Max Weeks of Mentorship</Heading>
-            <Box d="inline-block" mr={4}>
+            <Box display="inline-block" mr={4}>
               <NumberInput
                 defaultValue={mentor.maxWeeks - 1}
                 onChange={(e) => setMentor(['maxWeeks', Number.parseInt(e) + 1])}
@@ -179,7 +179,7 @@ export default function MentorProfile({
 
       <Box mb={8}>
         <Heading as="h3" fontSize="lg" mt={4}>Email</Heading>
-        <Box d="inline-block" mr={4}>
+        <Box display="inline-block" mr={4}>
           <Input
             placeholder="Email"
             value={mentor.email}
@@ -190,7 +190,7 @@ export default function MentorProfile({
 
       <Box mb={8}>
         <Heading as="h3" fontSize="lg" mt={4}>Phone</Heading>
-        <Box d="inline-block" mr={4}>
+        <Box display="inline-block" mr={4}>
           <Input
             placeholder="Phone"
             value={specialProfile.phone}
@@ -201,7 +201,7 @@ export default function MentorProfile({
 
       <Box mb={8}>
         <Heading as="h3" fontSize="lg" mt={4}>LinkedIn</Heading>
-        <Box d="inline-block" mr={4}>
+        <Box display="inline-block" mr={4}>
           <Input
             placeholder="URL"
             value={specialProfile.linkedIn}

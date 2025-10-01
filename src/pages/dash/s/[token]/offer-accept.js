@@ -156,7 +156,7 @@ export default function OfferAccept() {
         </Text>
         <Box
           borderWidth={1}
-          d="inline-block"
+          display="inline-block"
         >
           <SignatureCanvas
             penColor='blue'

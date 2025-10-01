@@ -101,7 +101,7 @@ export default function MentorDashboard() {
                   {dueSurveys.map((o) => (
                       <ListItem key={o.id}>
                         <Link textDecor="none" href={`/dash/m/${query.token}/survey/${o.survey.id}/${o.id}`} target="_blank">
-                          <Text textDecor="underline" d="inline" fontWeight="bold">{o.survey.name}</Text>
+                          <Text textDecor="underline" display="inline" fontWeight="bold">{o.survey.name}</Text>
                           <Text fontSize="sm">Due on {DateTime.fromISO(o.dueAt).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}</Text>
                         </Link>
                       </ListItem>

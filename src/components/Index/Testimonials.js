@@ -34,7 +34,7 @@ export default function Testimonials(props) {
               <Box pl={8}>
                 <Text>{testimonial.quote}</Text>
                 <Text mb={0} bold>
-                  <Image src={testimonial.image.url} d="inline-block" mr={4} alt="" rounded="full" height={8} />
+                  <Image src={testimonial.image.url} display="inline-block" mr={4} alt="" rounded="full" height={8} />
                   {testimonial.firstName} {testimonial.lastName}, Labs {testimonial.experience}-Track
                 </Text>
               </Box>
