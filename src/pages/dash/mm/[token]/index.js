@@ -9,7 +9,7 @@ import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
 import { DashboardQuery } from './index.gql';
 import MentorStats from '../../../../components/Dashboard/MentorStats';
-import { useColorMode } from '@chakra-ui/react';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 function MentorIndicator({ status }) {
   const color = {
@@ -44,7 +44,6 @@ export default function MentorDashboard() {
   const { query } = useRouter();
   const { isValidating, data } = useSwr(print(DashboardQuery), {}, { refreshInterval: 1000 * 30 });
   const [lastUpdated, setLastUpdated] = useState(DateTime.local());
-  const { colorMode } = useColorMode();
   useEffect(() => {
     if (typeof window !== 'undefined' && !isValidating) setLastUpdated(DateTime.local());
   }, [typeof window, isValidating]);
@@ -122,7 +121,7 @@ export default function MentorDashboard() {
             <Box as="th" textAlign="center">Projects</Box>
           </Box>
           {sortedMentors.map((mentor, id) => (
-            <Box as="tr" bg={id % 2 === 1 ? ( colorMode === 'dark' ? 'gray.900' : 'gray.50') : undefined} borderBottomWidth={1}>
+            <Box as="tr" bg={id % 2 === 1 ? useColorModeValue('gray.50', 'gray.900') : undefined} borderBottomWidth={1}>
               <Box
                 as="td"
                 bold
