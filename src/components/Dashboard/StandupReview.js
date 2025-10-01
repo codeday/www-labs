@@ -25,14 +25,13 @@ export default function StandupReview({
   const [rating, setRating] = useState(_rating);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (typeof window === 'undefined' || !isOpen || text) return;
-    const result = await apiFetch(
+    apiFetch(
       GetStandupTextQuery,
       { id },
       { 'X-Labs-Authorization': `Bearer ${token}` },
-    );
-    setText(result.labs.getStandup);
+    ).then(r => setText(r.labs.getStandup));
   }, [typeof window, text, isOpen]);
 
   return (
