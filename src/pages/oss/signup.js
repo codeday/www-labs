@@ -8,10 +8,9 @@ import { CognitoForm, Content } from '@codeday/topo/Molecule';
 import Page from '../../components/Page';
 import { useProgramDates } from '../../providers';
 import { IndexQuery } from './index.gql';
-import { useColorMode } from '@codeday/topo/Theme';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 export default function Mentor() {
-  const { colorMode } = useColorMode();
 
   return (
     <Page slug="/oss/signup" title="OSS Project Signup">

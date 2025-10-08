@@ -8,10 +8,9 @@ import { Content } from '@codeday/topo/Molecule';
 import Page from '../../components/Page';
 import { useProgramDates } from '../../providers';
 import { IndexQuery } from './index.gql';
-import { useColorMode } from '@codeday/topo/Theme';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 export default function Mentor() {
-  const { colorMode } = useColorMode();
   const { mentorApplicationFocusAt, mentorApplicationEndsAt, startsAt, endsAt, mentoringStartsAt } = useProgramDates();
   const weeks = Math.round(endsAt.diff(mentoringStartsAt, 'weeks').weeks);
   const { query } = useRouter();
@@ -54,7 +53,7 @@ export default function Mentor() {
             </Button>{' '}
             <Button as="a" href="mailto:labs@codeday.org" variant="ghost" colorScheme="green">Email Us</Button>
           </Box>
-          <Box backgroundColor={ colorMode === 'dark' ? 'red.900' : 'red.50'} padding={6} marginTop="-2rem">
+          <Box backgroundColor={useColorModeValue('red.50', 'red.900')} padding={6} marginTop="-2rem">
             <Heading as="h3" size="lg" paddingBottom={2}>Next Session</Heading>
             <Heading as="h4" size="sm">Project cutoff:</Heading>
             <Text>{mentorApplicationEndsAt?.toLocaleString(f)}</Text>

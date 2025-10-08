@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { Box, Grid, Button, Image, Text, Heading, Link, List, ListItem as Item } from '@codeday/topo/Atom';
 import { CognitoForm, Content } from '@codeday/topo/Molecule';
 import Page from '../../components/Page';
-import { useColorMode } from '@codeday/topo/Theme';
+import { useColorModeValue } from '@codeday/topo/Theme';
 import { useToasts } from '@codeday/topo/utils';
 
 export default function Mentor() {
-  const { colorMode } = useColorMode();
   const { success } = useToasts();
   const [selectedType, setSelectedType] = useState('');
 

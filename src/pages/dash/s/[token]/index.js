@@ -8,7 +8,7 @@ import { useSwr } from '../../../../dashboardFetch';
 import { StudentDashboardQuery } from './index.gql'
 import { Match } from '../../../../components/Dashboard/Match';
 import { DateTime } from 'luxon';
-import { useColorMode } from '@chakra-ui/react';
+import { useColorModeValue } from '@codeday/topo/Theme';
 import { MiniCalendar } from '../../../../components/Dashboard/MiniCalendar';
 
 export default function Dashboard() {
@@ -17,11 +17,9 @@ export default function Dashboard() {
     revalidateOnFocus: false,
     revalidateOnReconnect: false
   });
-  const { colorMode } = useColorMode();
-  const dark = colorMode === 'dark';
-  const bg = dark ? 900 : 50;
-  const borderColor = dark ? 600 : 700;
-  const color = dark ? 50 : 900;
+  const bg = useColorModeValue(50, 900);
+  const borderColor = useColorModeValue(700, 600);
+  const color = useColorModeValue(900, 50);
 
   useEffect(() => {
     if (typeof window === 'undefined' || data?.labs?.student?.status !== 'ACCEPTED' ) return;

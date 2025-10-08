@@ -8,7 +8,7 @@ import Page from '../../../../components/Page';
 import SelectTrack from '../../../../components/Dashboard/SelectTrack';
 import { useFetcher } from '../../../../dashboardFetch';
 import { StudentNeedingRating, StudentNeedingRatingInTrack, SubmitRating } from './index.gql';
-import { useColorMode } from '@codeday/topo/Theme';
+import { useColorModeValue } from '@codeday/topo/Theme';
 import StudentApplication from '../../../../components/Dashboard/StudentApplication';
 import StudentHeader from '../../../../components/Dashboard/StudentHeader';
 
@@ -21,7 +21,6 @@ export default function ReviewPage() {
   const [rating, setRating] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToasts();
-  const { colorMode } = useColorMode();
 
   const next = async () => {
     if (track) return fetch(print(StudentNeedingRatingInTrack), { track });
@@ -45,8 +44,8 @@ export default function ReviewPage() {
     <Box
       p={4}
       mb={8}
-      bg={colorMode === 'dark' ? 'purple.900' : 'purple.50'}
-      borderColor={colorMode === 'dark' ? 'purple.600' : 'purple.900'}
+      bg={useColorModeValue('purple.50', 'purple.900')}
+      borderColor={useColorModeValue('purple.900', 'purple.600')}
       borderWidth={1}
       rounded="sm"
       display="inline-block"

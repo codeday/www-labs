@@ -15,7 +15,7 @@ import {
   StudentReject,
   StudentOfferAdmission
 } from './admit.gql';
-import { useColorMode } from '@chakra-ui/react';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 const nl2br = (str) => str && str
   .replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -134,7 +134,6 @@ export default function AdminAdmit() {
   const [students, setStudents] = useState([]);
   const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { colorMode } = useColorMode();
   const fetch = useFetcher();
   const refresh = async () => {
     setLoading(true);
@@ -185,7 +184,7 @@ export default function AdminAdmit() {
               key={s.id}
               onChange={refresh}
               student={s}
-              bg={i % 2 === 1 ? (colorMode === 'dark' ? 'gray.900' : 'gray.100') : undefined}
+              bg={i % 2 === 1 ? (useColorModeValue('gray.100', 'gray.900')) : undefined}
             />
           ))}
         </Box>

@@ -5,17 +5,17 @@ import { decode, sign } from 'jsonwebtoken';
 import { Box, Button, Spinner, Heading, Link } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import LockIcon from '@codeday/topocons/Icon/Lock';
-import { Accordion, AccordionItem, AccordionButton as AccordionHeader, AccordionPanel, AccordionIcon, useColorMode } from '@chakra-ui/react';
+import { Accordion, AccordionItem, AccordionButton as AccordionHeader, AccordionPanel, AccordionIcon} from '@chakra-ui/react';
 import Page from '../../../../components/Page';
 import { useSwr, useFetcher } from '../../../../dashboardFetch';
 import MentorProfile from '../../../../components/Dashboard/MentorProfile';
 import ProjectEditor from '../../../../components/Dashboard/ProjectEditor';
 import { MentorPageQuery, ProjectAddMutation } from './mentor.gql';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 export default function MentorDashboard({ id, mentorToken }) {
   const { query } = useRouter();
   const { loading, error, data, revalidate } = useSwr(print(MentorPageQuery), { id });
-  const { colorMode } = useColorMode();
   const fetch = useFetcher();
 
   if (!data?.labs?.mentor || loading || error) return <Page title="Mentor Editor"><Content textAlign="center"><Spinner /></Content></Page>
@@ -36,7 +36,7 @@ export default function MentorDashboard({ id, mentorToken }) {
           <AccordionItem>
             <AccordionHeader
               borderBottomWidth={1}
-              bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
+              bg={useColorModeValue('gray.50', 'gray.900')}
               fontWeight="bold"
             >
               Mentor Profile
@@ -53,7 +53,7 @@ export default function MentorDashboard({ id, mentorToken }) {
             <AccordionItem>
               <AccordionHeader
                 borderBottomWidth={1}
-                bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
+                bg={useColorModeValue('gray.50', 'gray.900')}
                 fontWeight="bold"
               >
                 Project {i+1}
@@ -67,7 +67,7 @@ export default function MentorDashboard({ id, mentorToken }) {
           <AccordionItem>
             <AccordionHeader
               borderBottomWidth={1}
-              bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
+              bg={useColorModeValue('gray.50', 'gray.900')}
               fontWeight="bold"
             >
               Create Project

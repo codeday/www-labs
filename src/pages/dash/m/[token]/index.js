@@ -11,16 +11,14 @@ import { DashboardQuery } from './index.gql';
 import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
 import { MiniCalendar } from '../../../../components/Dashboard/MiniCalendar';
-import { useColorMode } from '@chakra-ui/react';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 export default function MentorDashboard() {
   const { query } = useRouter();
   const { loading, error, data } = useSwr(print(DashboardQuery));
-  const { colorMode } = useColorMode();
-  const dark = colorMode === 'dark';
-  const bg = dark ? 900 : 50;
-  const borderColor = dark ? 600 : 700;
-  const color = dark ? 50 : 900;
+  const bg = useColorModeValue(50, 900);
+  const borderColor = useColorModeValue(700, 600);
+  const color = useColorModeValue(900, 50);
 
   const dueSurveys = useMemo(() =>
     (

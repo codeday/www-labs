@@ -11,7 +11,7 @@ import Testimonials from '../../components/Mentor/Testimonials';
 import Page from '../../components/Page';
 import { useProgramDates } from '../../providers';
 import { IndexQuery } from './index.gql';
-import { useColorMode } from '@codeday/topo/Theme';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 const ReactPlayer = dynamic(
   () => import('react-player/lazy'),
@@ -19,12 +19,10 @@ const ReactPlayer = dynamic(
 );
 
 function Highlight({children}) {
-  const { colorMode } = useColorMode();
-  return <Text as="span" bg={ colorMode === 'dark' ? 'yellow.800' : 'yellow.200'} p={1}>{children}</Text>;
+  return <Text as="span" bg={useColorModeValue('yellow.200', 'yellow.800')} p={1}>{children}</Text>;
 }
 
 export default function Mentor() {
-  const { colorMode } = useColorMode();
   const { mentorApplicationFocusAt, mentorApplicationEndsAt, startsAt, endsAt, mentoringStartsAt } = useProgramDates();
   const weeks = Math.round(endsAt.diff(mentoringStartsAt, 'weeks').weeks);
   const { query } = useRouter();
@@ -97,7 +95,7 @@ export default function Mentor() {
             <Button as="a" href="mailto:labs@codeday.org" variant="ghost" colorScheme="green">Email Us</Button>
             <Button as="a" href="/mentor/share" variant="ghost" colorScheme="green">💌 Share With Your Company</Button>
           </Box>
-          <Box backgroundColor={ colorMode === 'dark' ? 'red.900' : 'red.50'} padding={6} marginTop="-2rem">
+          <Box backgroundColor={useColorModeValue('red.50', 'red.900')} padding={6} marginTop="-2rem">
             <Heading as="h3" size="lg" paddingBottom={2}>Next Session</Heading>
             <Text pb={2} fontSize="sm" fontStyle="italic">We run sessions year-round. You can apply now and mentor in a future session if these dates don't work.</Text>
             <Heading as="h4" size="sm">Mentor application due:</Heading>

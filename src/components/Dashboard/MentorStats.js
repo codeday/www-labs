@@ -1,8 +1,7 @@
 import { Box, Grid, Text, Heading, List, ListItem as Item } from '@codeday/topo/Atom';
-import { useColorMode } from '@codeday/topo/Theme';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 export default function MentorStats({ mentors, ...props }) {
-  const { colorMode } = useColorMode();
   const toProjects = (m) => m.reduce((accum, { projects }) => [...accum, ...projects], []);
   const toStudentCount = (p) => p.reduce((accum, { maxStudents }) => accum + maxStudents, 0);
   const readyMentors = mentors.filter(({ status }) => status === 'ACCEPTED');
@@ -12,7 +11,7 @@ export default function MentorStats({ mentors, ...props }) {
     <Grid
       templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
       gap={8}
-      bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
+      bg={useColorModeValue('gray.50', 'gray.900')}
       borderWidth={1}
       p={8}
       mb={8}

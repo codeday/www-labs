@@ -5,13 +5,13 @@ import { useSwr } from '../../../../dashboardFetch';
 import Page from '../../../../components/Page';
 import { GetRepositoryProjects } from './index.gql';
 import { print } from 'graphql';
-import { Accordion, AccordionItem, AccordionButton as AccordionHeader, AccordionPanel, AccordionIcon, useColorMode } from '@chakra-ui/react';
+import { Accordion, AccordionItem, AccordionButton as AccordionHeader, AccordionPanel, AccordionIcon, } from '@chakra-ui/react';
 import ProjectEditor from '../../../../components/Dashboard/ProjectEditor';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 export default function AdminDashboard() {
   const { query } = useRouter();
   const { isValidating, data } = useSwr(print(GetRepositoryProjects), {});
-  const { colorMode } = useColorMode();
 
   if (!data) return <Page><Content><Spinner /></Content></Page>
 
@@ -22,7 +22,7 @@ export default function AdminDashboard() {
           <AccordionItem>
             <AccordionHeader
               borderBottomWidth={1}
-              bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
+              bg={useColorModeValue('gray.50', 'gray.900')}
               fontWeight="bold"
             >
               Create Project
@@ -44,7 +44,7 @@ export default function AdminDashboard() {
             <AccordionItem>
               <AccordionHeader
                 borderBottomWidth={1}
-                bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
+                bg={useColorModeValue('gray.50', 'gray.900')}
                 fontWeight="bold"
               >
                 {r.name} - {r.url}

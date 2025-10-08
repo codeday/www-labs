@@ -1,15 +1,13 @@
-import { useColorMode } from '@chakra-ui/react';
+import { useColorModeValue } from '@codeday/topo/Theme';
 import { Box, Grid, Text, Link, Heading, Image } from '@codeday/topo/Atom';
 
 export default function MentorManagerDetails({ mentor, ...props }) {
-  const { colorMode } = useColorMode();
-  const dark = colorMode === 'dark';
-  const bg = dark ? 900 : 50;
-  const borderColor = dark ? 600 : 700;
-  const color = dark ? 50 : 900;
+  const bg = useColorModeValue('blue.50', 'blue.900');
+  const borderColor = useColorModeValue('blue.700', 'blue.600');
+  const color = useColorModeValue('blue.900', 'blue.50');
 
   return (
-    <Box p={4} borderWidth={1} bg={`blue.${bg}`} borderColor={`blue.${borderColor}`} color={`blue.${color}`} rounded="sm" {...props}>
+    <Box p={4} borderWidth={1} bg={bg} borderColor={borderColor} color={color} rounded="sm" {...props}>
       <Heading as="h3" fontSize="md" mb={4}>Your CodeDay Team Contact</Heading>
       {mentor.manager ? (
         <Grid templateColumns="64px 1fr" gap={4}>

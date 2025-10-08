@@ -2,7 +2,7 @@ import { Text, Heading, Link, Box, Button, List, ListItem as Item } from '@coded
 import truncate from 'truncate';
 import { TagList } from './Tag'
 import ordinal from '../../ordinal';
-import { useColorMode } from '@chakra-ui/react';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 const nl2br = (str) => str && str
   .replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -30,7 +30,6 @@ function TrackBadge({ track }) {
 }
 
 export function Match ({ match, selectedTags, onSelect, onDeselect, isSelected, allowSelect }) {
-  const { colorMode } = useColorMode();
   const selectedTagIds = (selectedTags || []).map((t) => t.id);
   return (
     <Box mb={8} borderColor="gray.200" borderWidth={2} borderRadius={2}>
@@ -38,8 +37,8 @@ export function Match ({ match, selectedTags, onSelect, onDeselect, isSelected, 
           p={4}
           as="h3"
           fontSize="xl"
-          backgroundColor={colorMode === 'dark' ? 'gray.900' : 'gray.100'}
-          borderBottomColor={colorMode === 'dark' ? 'gray.800' : 'gray.200'}
+          backgroundColor={useColorModeValue('gray.100', 'gray.900')}
+          borderBottomColor={useColorModeValue('gray.200', 'gray.800')}
           borderBottomWidth={2}
           mb={4}
         >
@@ -113,15 +112,14 @@ export function Match ({ match, selectedTags, onSelect, onDeselect, isSelected, 
 }
 
 export function MiniMatch ({ match, index, onDeselect }) {
-  const { colorMode } = useColorMode();
   return (
     <Box
       p={4}
       mb={1}
-      borderColor={colorMode === 'dark' ? 'gray.800' : 'gray.200'}
+      borderColor={useColorModeValue('gray.200', 'gray.800')}
       borderWidth={2}
       borderRadius={2}
-      bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}
+      bg={useColorModeValue('gray.50', 'gray.900')}
     >
       <Text fontSize="lg" bold mb={0}>{index+1}<sup>{ordinal(index+1)}</sup> choice: {match.mentors[0].name}</Text>
       <TrackBadge track={match.track} />

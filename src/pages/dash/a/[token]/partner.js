@@ -8,7 +8,7 @@ import Page from '../../../../components/Page';
 import { useFetcher } from '../../../../dashboardFetch';
 import SelectStudentStatus from '../../../../components/Dashboard/SelectStudentStatus';
 import { SaveStudentStatus, FindByPartnerCode } from './partner.gql';
-import { useColorMode } from '@chakra-ui/react';
+import { useColorModeValue } from '@codeday/topo/Theme';
 
 function Entry({ student, ...rest }) {
   const [status, setStatus] = useState(student.status);
@@ -56,7 +56,6 @@ export default function AdminPartnerAdmissions() {
   const { success, error } = useToasts();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { colorMode } = useColorMode();
   const fetch = useFetcher();
 
   return (
@@ -105,7 +104,7 @@ export default function AdminPartnerAdmissions() {
             <Entry
               key={s.id}
               student={s}
-              bg={i % 2 === 1 ? (colorMode === 'dark' ? 'gray.900' : 'gray.100') : undefined}
+              bg={i % 2 === 1 ? (useColorModeValue('gray.100', 'gray.900')) : undefined}
             />
           ))}
         </Box>
