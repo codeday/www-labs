@@ -33,7 +33,7 @@ export default function Share() {
           <Box bg="green.50" borderWidth={1} borderColor="green.800" color="green.900" p={4}>
             <Text>
               <Text as="span" bold>Thanks for applying!</Text> We'll review your application, then reach out to set
-              up a call where we can finalize your project proposal. Usually it only takes a few days before you'll
+              up a call where we can finalize details. Usually it only takes a few days before you'll
               hear from us next.
             </Text>
             <Text>

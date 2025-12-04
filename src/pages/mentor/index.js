@@ -55,7 +55,7 @@ export default function Mentor() {
           src="https://img.codeday.org/w=1024;h=220;fit=crop;crop=faces,edges/q/p/qp1wmuzr9knezo9vtymbcc3ytopxv3fnzr6kdzvmh34wjamjd8dstokuj1sqae749j.jpg"
         />
         <Heading as="h2" size="xl">Help students break into tech as a Labs mentor!</Heading>
-        <Text bold>(1-4 hours a week for 3-12 weeks, flexible schedule)</Text>
+        <Text bold>(1-4 hours a week for 3-{weeks} weeks, flexible schedule)</Text>
       </Content>
       <Content>
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "3fr 1fr" }} gap={6}>
@@ -67,9 +67,9 @@ export default function Mentor() {
                 can do.</Highlight>
             </Text>
             <Text mb={2}>
-              Mentors <Highlight>guide a team of 3 students as they build an real-world project in{' '}
-              3-{weeks} weeks.</Highlight> You propose the project, and lead the students through design,
-              implementation, test, completion, and presentation of the project.
+              Mentors <Highlight>guide a team of 3 students as they make a pull request to an open-source project in{' '}
+              3-{weeks} weeks.</Highlight> CodeDay will assign your students an issue from one of our open-source partner projects.{' '}
+              You lead the students through the engineering process as they design, implement, test, and commit their changes.  
             </Text>
             <Text mb={4}>
               Like a manager in a job, you'll be there for supervision &amp; guidance. Our staff will help students with
