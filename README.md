@@ -16,45 +16,14 @@ cd www-labs
 ```
 
 ### 2. Install a compatible Node.js version
+www-labs supports node 22.X - other versions may work but are not officially supported.
 
-##### Note: This project only works with Node.js versions 14.x-16.x.
-- Below 14: dependencies won't install.
-- 17+: Causes known issue with other dependencies when running environment.
+We recommend using [nvm](https://github.com/nvm-sh/nvm) to manage your node version.
 
-Recommended: use nvm to install.
+After [installing nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) simply run `nvm install` from the www-labs directory to install and switch to the correct node version.
 
-If nvm not installed:
-```bash
-# Update package list
-sudo apt update
-
-# Install curl
-sudo apt install curl
-
-# Download and run the NVM Installation Script
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-
-# After the script finishes either close and reopen your terminal or manually source shell profile
-source ~/.bashrc
-
-# Confirm installation
-nvm --version
-```
-
-Node.js install:
-```bash
-# Find a stable and compatible version
-nvm ls-remote
-
-# Install Node.js version (LTS recommended)
-nvm install xx.xx.x
-
-# Use Node.js version for this project
-nvm use xx.xx.x
-
-# Verify version is correct
-node -v
-```
+>[!TIP]
+> You only need to run `nvm install` the first time you set up the project. Subsequent times you start your environment you only need to run `nvm use`  
 
 ### 3. Install Dependencies
 ```bash
