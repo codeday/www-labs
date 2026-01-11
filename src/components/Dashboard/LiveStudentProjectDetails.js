@@ -12,12 +12,12 @@ export default function LiveStudentProjectDetails({ studentIds, token, ...props 
   const projectDetailsCache = useRef({});
   const [studentsWithProjects, setStudentsWithProjects] = useState({}); 
 
-  useEffect(async () => {
+  useEffect(() => {
     const cachedKeys = Object.keys(projectDetailsCache.current);
     const toFetchIds = studentIds
       .filter(id => !cachedKeys.includes(id));
 
-    const newEntries = await Promise.all(
+    const newEntries = Promise.all(
       toFetchIds
         .map(async (id) => {
           try {
@@ -32,8 +32,8 @@ export default function LiveStudentProjectDetails({ studentIds, token, ...props 
             return [id, null];
           }
         })
-    );
-    const cachedEntries = Object.entries(projectDetailsCache.current)
+    ).then(newEntries => {
+      const cachedEntries = Object.entries(projectDetailsCache.current)
       .filter(([id]) => studentIds.includes(id));
 
     projectDetailsCache.current = Object.fromEntries([
@@ -42,6 +42,8 @@ export default function LiveStudentProjectDetails({ studentIds, token, ...props 
     ].filter(([,e]) => !!e));
 
     setStudentsWithProjects(projectDetailsCache.current);
+    });
+    
   }, [studentIds]);
 
   const allProjects = Object.fromEntries(

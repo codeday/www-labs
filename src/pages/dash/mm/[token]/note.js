@@ -56,15 +56,15 @@ export default function AddNotePage() {
               onChange={(e) => setCaution(Number.parseFloat(e.target.value))}
               value={caution.toString()}
             >
-              <option value="0">No concern / positive note</option>
-              <option value="0.5">Moderate concern</option>
-              <option value="1">Very concerned</option>
+              <option key="0" value="0">No concern / positive note</option>
+              <option key="0.5" value="0.5">Moderate concern</option>
+              <option key="1" value="1">Very concerned</option>
             </Select>
 
             <Heading mt={8} as="h3" fontSize="md">Open a support ticket?</Heading>
             <Select value={supportTicketType} onChange={(e) => setSupportTicketType(e.target.value)}>
               {Object.entries(issueTypes).map(([key, value]) => (
-                <option value={key}>{value}</option>
+                <option key={key} value={key}>{value}</option>
               ))}
             </Select>
 

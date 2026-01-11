@@ -16,15 +16,16 @@ export default function AddInterviewNotePage() {
   const [students, setStudents] = useState([]);
   const { success, error } = useToasts();
 
-  useEffect(async () => {
+  useEffect(() => {
     if (students.length === 0) return setNote('');
 
-    const result = await apiFetch(
+    const result = apiFetch(
       GetInterviewNoteMutation,
       { student: students[0].id },
       { 'X-Labs-Authorization': `Bearer ${token}` },
-    );
-    setNote(result.labs.student.interviewNotes);
+    ).then(result => {
+      setNote(result.labs.student.interviewNotes);
+    });
   }, [students]);
 
   return (

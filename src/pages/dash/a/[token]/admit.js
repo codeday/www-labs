@@ -142,13 +142,9 @@ export default function AdminAdmit() {
     setStats(result?.labs?.statAdmissionsStatus);
     setLoading(false);
   }
-  useEffect(async () => {
+  useEffect(() => {
     if (typeof window === 'undefined' || !fetch || !query.token) return;
-    try {
-      await refresh();
-    } catch (ex) {
-      error(ex.toString());
-    }
+      refresh().catch(ex => error(ex.toString()));
   }, [typeof window, track, includeRejected, query]);
 
   return (
