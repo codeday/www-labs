@@ -84,7 +84,7 @@ export default function Onboarding({ student }) {
           <Button
             as="a"
             mr={8}
-            href="https://www.notion.so/srnd/Setting-Up-Your-Development-Environment-5c51d2e381c2425b890a2a976365389b"
+            href="https://docs.codeday.org/labs/onboarding-assignments/general-knowledge/dev-environment-setup.html"
             target="_blank"
           >
             View Instructions
@@ -97,7 +97,7 @@ export default function Onboarding({ student }) {
           <Button
             as="a"
             mr={8}
-            href="https://www.notion.so/srnd/Git-5ec26af2b3c34129a061c1f26f3cd6f0"
+            href="https://docs.codeday.org/labs/onboarding-assignments/other/git.html"
             target="_blank"
           >
             View Instructions
