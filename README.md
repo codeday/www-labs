@@ -20,7 +20,7 @@ www-labs supports node 22.X - other versions may work but are not officially sup
 
 We recommend using [nvm](https://github.com/nvm-sh/nvm) to manage your node version.
 
-After [installing nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) simply run `nvm install` from the www-labs directory to install and switch to the correct node version.
+After [installing nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) simply run `nvm install` from the `www-labs` directory to install and switch to the correct node version.
 
 >[!TIP]
 > You only need to run `nvm install` the first time you set up the project. Subsequent times you start your environment you only need to run `nvm use`  
