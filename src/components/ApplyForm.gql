@@ -1,58 +1,62 @@
 #import "./Dashboard/TagPicker.gql"
 
 mutation ApplyMutation(
-  $givenName: String!,
-  $surname: String!,
-  $email: String!,
-  $timezone: String,
-  $track: LabsTrack!,
-  $minHours: Int!,
-  $partnerCode: String,
-  $tags: [String!],
-  $profile: LabsJSONObject,
-  $resume: Upload,
+    $givenName: String!
+    $surname: String!
+    $email: String!
+    $timezone: String
+    $track: LabsTrack!
+    $minHours: Int!
+    $partnerCode: String
+    $tags: [String!]
+    $profile: LabsJSONObject
+    $resume: Upload
+    $githubUsername: String!
 ) {
-  labs {
-    applyStudent(data:{
-      givenName: $givenName
-      surname: $surname
-      email: $email
-      track: $track
-      minHours: $minHours
-      partnerCode: $partnerCode
-      tags: $tags
-      profile: $profile
-      timezone: $timezone
-      resume: $resume
-    }) {
-      id
+    labs {
+        applyStudent(
+            data: {
+                givenName: $givenName
+                surname: $surname
+                email: $email
+                track: $track
+                minHours: $minHours
+                partnerCode: $partnerCode
+                tags: $tags
+                profile: $profile
+                timezone: $timezone
+                resume: $resume
+                githubUsername: $githubUsername
+            }
+        ) {
+            id
+        }
     }
-  }
 }
 
 query ApplyFormQuery {
-  labs {
-    event {
-      studentApplicationsStartAt
-      studentApplicationsEndAt
-      studentApplicationSchema
-      studentApplicationUi
+    labs {
+        event {
+            studentApplicationsStartAt
+            studentApplicationsEndAt
+            studentApplicationSchema
+            studentApplicationUi
+        }
+        applicationId
+        tags {
+            ...TagPicker
+        }
     }
-    applicationId
-    tags {
-      ...TagPicker
-    }
-  }
 }
 
 mutation CancelApplyMutation {
-  labs {
-    cancelApplication
-  }
+    labs {
+        cancelApplication
+    }
 }
 
-mutation ChangePartnerCodeApplicationMutation ($partnerCode: String!) {
-  labs {
-    changePartnerCodeApplication(partnerCode: $partnerCode)
-  }
+mutation ChangePartnerCodeApplicationMutation($partnerCode: String!) {
+    labs {
+        changePartnerCodeApplication(partnerCode: $partnerCode)
+    }
 }
