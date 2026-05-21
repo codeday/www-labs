@@ -89,9 +89,9 @@ export default ({
                   document.location.href = `/dash/${route}/${e.target.value}`;
                 }}
               >
-                {eventTokens.sort((a, b) => DateTime.fromISO(b.event.startsAt).toSeconds() - DateTime.fromISO(a.event.startsAt).toSeconds()).map(({ event, token }) => (
+                {/* {eventTokens.sort((a, b) => DateTime.fromISO(b.event.startsAt).toSeconds() - DateTime.fromISO(a.event.startsAt).toSeconds()).map(({ event, token }) => (
                   <option key={event.id} value={token}>{event.name}</option>
-                ))}
+                ))} */}
               </Select>
             ) : (
               <>
