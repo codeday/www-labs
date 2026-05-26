@@ -28,7 +28,11 @@ function StatusTag({ status }) {
   );
 }
 
-function AdmissionAgreementEntry({ student }) {
+// NOTE: These helpers are intentionally plain functions, not React components.
+// StatusEntryCollection's Children API filter (`c.type !== StatusEntry`) does
+// not recurse into rendered output of nested components, so wrapping these in
+// <Component /> form would cause every entry to be silently filtered out.
+function renderAdmissionAgreement(student) {
   return (
     <StatusEntry type="meta" title="Admission Agreement" caution={0}>
       <SurveyFields content={student.eventContractData || {}} />
@@ -52,7 +56,7 @@ function AdmissionAgreementEntry({ student }) {
   );
 }
 
-function ProjectEntry({ student }) {
+function renderProject(student) {
   if (student.status !== 'ACCEPTED') return null;
   const hasProjects = student.projects && student.projects.length > 0;
   const caution = (student.hasProjectPreferences || student.skipPreferences || hasProjects) ? 0 : 1;
@@ -70,7 +74,7 @@ function ProjectEntry({ student }) {
   );
 }
 
-function OnboardingAssignmentsEntry({ student }) {
+function renderOnboardingAssignments(student) {
   if (!(student.projects && student.projects.length > 0 && student.trainingSubmissions.length > 0)) return null;
   const submittedCount = student.trainingSubmissions.filter((ts) => ts.submission).length;
   const caution = 1 - (submittedCount / Math.min(2, student.trainingSubmissions.length));
@@ -92,7 +96,7 @@ function OnboardingAssignmentsEntry({ student }) {
   );
 }
 
-function CommunicationEntry({ student }) {
+function renderCommunication(student) {
   if (!(student.projects && student.projects.length > 0)) return null;
   const caution = (student.emailCount > 0 && student.slackId) ? 0 : 1;
   return (
@@ -105,7 +109,7 @@ function CommunicationEntry({ student }) {
   );
 }
 
-function StaffNotesEntries({ notes }) {
+function renderStaffNotes(notes) {
   if (!notes?.map) return null;
   return notes.map((n) => (
     <StatusEntry
@@ -130,13 +134,14 @@ function compareSurveyResponses(a, b) {
   return 0;
 }
 
-function SurveyFeedbackEntries({ student, token }) {
+function renderSurveyFeedback(student, token) {
+  if (!student.surveyResponsesAbout?.length) return null;
   return [...student.surveyResponsesAbout]
     .sort(compareSurveyResponses)
     .map((sr) => (
       <StatusEntry
         key={sr.id}
-        type={getReflectionType(sr, student)}
+        type={getReflectionType(sr, student) || 'meta'}
         date={DateTime.fromISO(sr.surveyOccurence.dueAt)}
         title={(sr.authorMentor || sr.authorStudent)?.name}
         caution={sr.caution}
@@ -146,16 +151,17 @@ function SurveyFeedbackEntries({ student, token }) {
     ));
 }
 
-
-function ArtifactsEntry({ student, event }) {
-  const hasArtifacts = student.artifacts.length > 0 || event.artifactTypes.length > 0;
+function renderArtifacts(student, event) {
+  const artifacts = student.artifacts || [];
+  const artifactTypes = event.artifactTypes || [];
+  const hasArtifacts = artifacts.length > 0 || artifactTypes.length > 0;
   const hasProjects = student.projects && student.projects.length > 0;
   if (!hasArtifacts || !hasProjects) return null;
   return (
     <StatusEntry type="meta" caution={0} title="Artifacts">
       <List styleType="disc" ml={6}>
-        {event.artifactTypes.filter((at) => at.personType !== 'MENTOR').map((at) => {
-          const artifact = student.artifacts.filter((a) => a.artifactTypeId === at.id)[0];
+        {artifactTypes.filter((at) => at.personType !== 'MENTOR').map((at) => {
+          const artifact = artifacts.filter((a) => a.artifactTypeId === at.id)[0];
           return (
             <ListItem key={at.id}>
               <strong>{at.name}: </strong>
@@ -167,7 +173,7 @@ function ArtifactsEntry({ student, event }) {
             </ListItem>
           );
         })}
-        {student.artifacts.filter((a) => !a.artifactTypeId).map((a) => (
+        {artifacts.filter((a) => !a.artifactTypeId).map((a) => (
           <ListItem key={a.id}>
             <strong>{a.name}: </strong>
             <Link href={a.link} target="_blank">
@@ -205,13 +211,13 @@ export default function PartnerStudentEntry({ student, event, token, filter, hid
       />
 
       <StatusEntryCollection onlyType={filter}>
-        <AdmissionAgreementEntry student={student} />
-        <ProjectEntry student={student} />
-        <OnboardingAssignmentsEntry student={student} />
-        <CommunicationEntry student={student} />
-        <StaffNotesEntries notes={student.notes} />
-        <SurveyFeedbackEntries student={student} token={token} />
-        <ArtifactsEntry student={student} event={event} />
+        {renderAdmissionAgreement(student)}
+        {renderProject(student)}
+        {renderOnboardingAssignments(student)}
+        {renderCommunication(student)}
+        {renderStaffNotes(student.notes)}
+        {renderSurveyFeedback(student, token)}
+        {renderArtifacts(student, event)}
       </StatusEntryCollection>
     </Box>
   );

@@ -35,7 +35,7 @@ export default function StatusEntryTypeBadge({ type, ...props }) {
     },
   }[type]
     || {
-      text: type.toLowerCase(),
+      text: typeof type === 'string' ? type.toLowerCase() : 'other',
       color: 'gray.50',
       bgColor: 'gray.500'
     };
