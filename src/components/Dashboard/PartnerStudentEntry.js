@@ -155,7 +155,7 @@ function ArtifactsEntry({ student, event }) {
     <StatusEntry type="meta" caution={0} title="Artifacts">
       <List styleType="disc" ml={6}>
         {event.artifactTypes.filter((at) => at.personType !== 'MENTOR').map((at) => {
-          const artifact = student.artifacts.filter((a) => a.id === at.id)[0];
+          const artifact = student.artifacts.filter((a) => a.artifactTypeId === at.id)[0];
           return (
             <ListItem key={at.id}>
               <strong>{at.name}: </strong>
