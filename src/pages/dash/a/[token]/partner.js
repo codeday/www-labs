@@ -57,6 +57,7 @@ export default function AdminPartnerAdmissions() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
   const fetch = useFetcher();
+  const altRowBg = useColorModeValue('gray.100', 'gray.900');
 
   return (
     <Page title="Partner Admissions">
@@ -104,7 +105,7 @@ export default function AdminPartnerAdmissions() {
             <Entry
               key={s.id}
               student={s}
-              bg={i % 2 === 1 ? (useColorModeValue('gray.100', 'gray.900')) : undefined}
+              bg={i % 2 === 1 ? altRowBg : undefined}
             />
           ))}
         </Box>
