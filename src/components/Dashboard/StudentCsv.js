@@ -70,21 +70,23 @@ export function StudentCsv({ students, onlyAccepted, ...props }) {
   ]);
 
   return (
-    <Link
-      {...props}
-      onClick={() => {
-        ref && ref.current && ref.current.link.click();
-      }}
-    >
-      <CSVLink
-          ref={ref}
-          style={{ display: "none" }}
-          data={csvData}
-          headers={csvHeaders}
-          filename={'students.csv'}
-        />
+    <>
+      <Link
+        {...props}
+        onClick={() => {
+          ref && ref.current && ref.current.link.click();
+        }}
+      >
         <Icon as={UiDownload} />
         CSV
-    </Link>
+      </Link>
+      <CSVLink
+        ref={ref}
+        style={{ display: 'none' }}
+        data={csvData}
+        headers={csvHeaders}
+        filename={'students.csv'}
+      />
+    </>
   );
 }
