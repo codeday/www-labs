@@ -5,6 +5,7 @@ import { Box, Button, Text, Heading, Spinner, HStack, Textarea, Select, Checkbox
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
+import CenteredMessagePage from '../../../../components/Dashboard/CenteredMessagePage';
 import { useFetcher, useSwr } from '../../../../dashboardFetch';
 import { CreateSupportTicketMutation, ProjectsQuery } from './problem.gql'
 
@@ -32,11 +33,10 @@ function ProblemReporter({ projectId, ...props }) {
 
   return (
     <Box {...props}>
-      {}
       <Heading as="h5" fontSize="md">Issue Type</Heading>
       <Select value={type} onChange={(e) => setType(e.target.value)}>
         {Object.entries(issueTypes).map(([key, value]) => (
-          <option value={key}>{value}</option>
+          <option key={key} value={key}>{value}</option>
         ))}
       </Select>
       <Heading as="h5" fontSize="md" mt={4}>Description</Heading>
@@ -89,11 +89,7 @@ export default function AddPr() {
   const [project, setProject] = useState(null);
 
   if (isValidating || !data?.labs?.student || data.labs.student.projects.length === 0) return (
-    <Page title="Report a Problem">
-      <Content textAlign="center">
-        <Spinner />
-      </Content>
-    </Page>
+    <CenteredMessagePage title="Report a Problem"><Spinner /></CenteredMessagePage>
   );
 
   const student = data.labs.student;
@@ -105,7 +101,7 @@ export default function AddPr() {
         {student.projects.length > 1 && (
           <Select value={project} onChange={(e) => setProject(e.target.value)}>
             {student.projects.map(p => (
-              <option value={p.id}>{[...p.mentors, ...p.students].map(m => m.name).join('/')}</option>
+              <option key={p.id} value={p.id}>{[...p.mentors, ...p.students].map(m => m.name).join('/')}</option>
             ))}
           </Select>
         )}

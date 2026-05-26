@@ -4,7 +4,7 @@ import { Content } from '@codeday/topo/Molecule';
 import Form from '../../../../../../../components/RsjForm';
 import ReactMarkdown from 'react-markdown';
 import Page from '../../../../../../../components/Page';
-import { useSurveyResponses } from '../../../../../../../utils';
+import { randomizeJsonSchemaFormDisplay, useSurveyResponses } from '../../../../../../../utils';
 import { SurveyQuery, SurveyRespondMutation } from './index.gql';
 import { apiFetch } from '@codeday/topo/utils';
 import MultiPage, { MultiPagePage } from '../../../../../../../components/MultiPage';
@@ -85,13 +85,13 @@ export default function SurveyPage({ mentor, survey, token, surveyId, occurrence
             </MultiPagePage>
           )}
           {survey?.projectSchema && projects.map((p) => (
-            <MultiPagePage title="Project Reflection">
+            <MultiPagePage key={p.id} title="Project Reflection">
               <Heading fontSize="2xl">
                 Project Reflection: Your project with {p.students.map(m => m.givenName).join('/')}
               </Heading>
               <Form
                 schema={survey.projectSchema}
-                uiSchema={maybeRandom(survey.projectUi, survey.projectUi)}
+                uiSchema={maybeRandom(survey.projectSchema, survey.projectUi)}
                 onChange={(e) => setResponse({ response: e.formData, project: p.id })}
                 formData={getResponse({ project: p.id })?.response || {}}
                 disabled={isLoading}
@@ -100,7 +100,7 @@ export default function SurveyPage({ mentor, survey, token, surveyId, occurrence
             </MultiPagePage>
           ))}
           {survey?.peerSchema && peerMentors.map((p) => (
-            <MultiPagePage title={`Peer Reflection: ${p.givenName} ${p.surname}`}>
+            <MultiPagePage key={p.id} title={`Peer Reflection: ${p.givenName} ${p.surname}`}>
               <Heading fontSize="2xl">Peer Reflection: {p.givenName} {p.surname}</Heading>
               <Form
                 schema={JSON.parse(JSON.stringify(survey.peerSchema).replace(/{{name}}/g, p.givenName))}
@@ -113,7 +113,7 @@ export default function SurveyPage({ mentor, survey, token, surveyId, occurrence
             </MultiPagePage>
           ))}
           {survey?.menteeSchema && students.map((m) => (
-            <MultiPagePage title={`Mentee Reflection: ${m.givenName} ${m.surname}`}>
+            <MultiPagePage key={m.id} title={`Mentee Reflection: ${m.givenName} ${m.surname}`}>
               <Heading fontSize="2xl">Mentee Reflection: {m.givenName} {m.surname}</Heading>
               <Form
                 schema={JSON.parse(JSON.stringify(survey.menteeSchema).replace(/{{name}}/g, m.givenName))}

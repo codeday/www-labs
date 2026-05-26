@@ -1,276 +1,212 @@
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { DateTime } from 'luxon';
 import { Content } from '@codeday/topo/Molecule';
-import { Text, Heading, Link, Button, Spinner, Box, Grid, List, ListItem } from '@codeday/topo/Atom';
+import { Box, Button, Grid, Heading, Link, List, ListItem, Spinner, Text } from '@codeday/topo/Atom';
 import Page from '../../../../components/Page';
 import { useSwr } from '../../../../dashboardFetch';
-import { StudentDashboardQuery } from './index.gql'
+import { StudentDashboardQuery } from './index.gql';
 import { Match } from '../../../../components/Dashboard/Match';
-import { DateTime } from 'luxon';
-import { useColorModeValue } from '@codeday/topo/Theme';
 import { MiniCalendar } from '../../../../components/Dashboard/MiniCalendar';
+import CenteredMessagePage from '../../../../components/Dashboard/CenteredMessagePage';
+import DashboardStateGate from '../../../../components/Dashboard/DashboardStateGate';
+import ActionRequiredBox from '../../../../components/Dashboard/ActionRequiredBox';
+import DashboardInfoBox from '../../../../components/Dashboard/DashboardInfoBox';
 
-export default function Dashboard() {
-  const { query } = useRouter();
-  const { isValidating, data, error } = useSwr(print(StudentDashboardQuery), {}, { 
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false
-  });
-  const bg = useColorModeValue(50, 900);
-  const borderColor = useColorModeValue(700, 600);
-  const color = useColorModeValue(900, 50);
+const TITLE = 'Student Dashboard';
 
-  useEffect(() => {
-    if (typeof window === 'undefined' || data?.labs?.student?.status !== 'ACCEPTED' ) return;
-    if (
-      (!data?.labs?.student?.projects || data.labs.student.projects.length === 0)
-      && !(data?.labs?.projectPreferences && data.labs.projectPreferences.length > 0)
-    ) window.location = `${window.location.href}/matching`;
-  }, [ data?.labs?.projects, data?.labs?.projectPreferences, typeof window ]);
-
-  if (error?.message && error?.message.includes('{')) {
-    return <Page title="Mentor Dashboard"><Content textAlign="center"><Text>{error.message.split('{')[0]}</Text></Content></Page>
-  }
-
-  if (isValidating || !data?.labs?.student) return (
-    <Page title="Student Dashboard">
-      <Content textAlign="center">
-        <Spinner />
-      </Content>
-    </Page>
-  );
-
-  if (data?.labs?.student?.status === 'OFFERED') return (
-    <Page title="Student Dashboard">
-      <Content textAlign="center">
-        <Text>You were offered admission to CodeDay Labs in the {data.labs.student.track} track:</Text>
-        <Text>
-          <Link href={`/dash/s/${query.token}/offer-accept`}>I accept this offer!</Link>
-        </Text>
-        <Text>
-          <Link href={`/dash/s/${query.token}/withdraw`}>I do NOT accept, and want to withdraw my application.</Link>
-        </Text>
-      </Content>
-    </Page>
-  );
-
-  if (data?.labs?.student?.status !== 'ACCEPTED') return (
-    <Page title="Student Dashboard">
-      <Content textAlign="center">
-        <Text>Your dashboard will become available if you are accepted to CodeDay Labs.</Text>
-      </Content>
-    </Page>
-  );
-
-  if (
-    (data?.labs?.projectPreferences && data.labs.projectPreferences.length > 0)
-    && (!data?.labs?.student?.projects || data.labs.student.projects.length === 0)
-  ) return (
-    <Page title="Student Dashboard">
-      <Content textAlign="center">
-        <Text>Your project preferences have been submitted! Check back once you've been matched.</Text>
-      </Content>
-    </Page>
-  );
-
-  const dueSurveys = (data.labs.surveys || [])
-    .flatMap((s) => s.occurrences
+function dueSurveysFor(surveys, studentId) {
+  return (surveys || [])
+    .flatMap((survey) => survey.occurrences
       .sort((a, b) => DateTime.fromISO(a.dueAt) > DateTime.fromISO(b.dueAt) ? -1 : 1)
-      .slice(0,1)
-    ).filter((o) => (
-      o.surveyResponses
-        .filter((r) => r.authorStudentId === data?.labs?.student?.id)
-        .length == 0
-    ));
+      .slice(0, 1)
+      .map((o) => ({ survey, ...o }))
+    )
+    .filter((o) => (o.surveyResponses || []).filter((r) => r.authorStudentId === studentId).length === 0);
+}
 
-  const isOnboardingWeek = DateTime.now() > DateTime.fromISO(data.labs.event.startsAt)
-      && DateTime.now() < DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 });
+function isOnboardingWeek(event) {
+  const startsAt = DateTime.fromISO(event.startsAt);
+  return DateTime.now() > startsAt && DateTime.now() < startsAt.plus({ weeks: 1 });
+}
 
-  if (data?.labs?.student?.projects && data.labs.student.projects.length > 0) return (
-    <Page title="Student Dashboard">
+function buildStudentCalendarEvents(event, student) {
+  const startsAt = DateTime.fromISO(event.startsAt);
+  const workStartsAt = event.projectWorkStartsAt
+    ? DateTime.fromISO(event.projectWorkStartsAt)
+    : startsAt.plus({ weeks: 1 });
+  return [
+    ...(event.matchingStartsAt ? [
+      { date: DateTime.fromISO(event.matchingStartsAt), name: 'Project descriptions finalized' },
+      { date: DateTime.fromISO(event.matchingStartsAt), name: 'Student match preferences open' },
+    ] : []),
+    ...(event.matchingDueAt ? [
+      { date: DateTime.fromISO(event.matchingDueAt), name: 'Student match preferences due' },
+    ] : []),
+    {
+      date: event.matchingEndsAt ? DateTime.fromISO(event.matchingEndsAt) : startsAt.minus({ days: 3 }),
+      name: 'Introduction emails sent',
+    },
+    { date: startsAt, name: 'Onboarding week (no mentor meetings)' },
+    { date: workStartsAt, name: 'Onboarding assignments due' },
+    { date: workStartsAt, name: 'Project work begins' },
+    { date: workStartsAt, name: 'Mentor meetings begin' },
+    { date: workStartsAt, name: 'Slack standups begin' },
+    { date: startsAt.plus({ weeks: student.weeks }).minus({ days: 3 }), name: 'Your last day' },
+  ];
+}
+
+function DueSurveysBox({ surveys, token, event }) {
+  const showOnboarding = isOnboardingWeek(event);
+  if (!showOnboarding && surveys.length === 0) return null;
+  return (
+    <ActionRequiredBox>
+      {showOnboarding && (
+        <ListItem>
+          <Link href={`/dash/s/${token}/onboarding`}>
+            <Text display="inline" fontWeight="bold">Onboarding Assignments</Text>
+            <Text fontSize="sm">due {DateTime.fromISO(event.startsAt).plus({ days: 6 }).toLocaleString(DateTime.DATE_MED)}</Text>
+          </Link>
+        </ListItem>
+      )}
+      {surveys.map((o) => (
+        <ListItem key={o.id}>
+          <Link href={`/dash/s/${token}/survey/${o.survey.id}/${o.id}`} target="_blank">
+            <Text display="inline" fontWeight="bold">{o.survey.name}</Text>
+            <Text fontSize="sm">due {DateTime.fromISO(o.dueAt).toLocaleString(DateTime.DATE_MED)}</Text>
+          </Link>
+        </ListItem>
+      ))}
+    </ActionRequiredBox>
+  );
+}
+
+function MentorContactsBox({ projects }) {
+  const mentors = projects.flatMap((p) => p.mentors);
+  return (
+    <DashboardInfoBox>
+      <Heading as="h3" fontSize="md" mb={4}>Mentor Contact Information</Heading>
+      {mentors.map((mentor) => (
+        <Box key={mentor.email} display="inline-block">
+          {mentor.name}<br />
+          <Link href={`mailto:${mentor.email}`}>{mentor.email}</Link>
+          {mentor.profile?.phone && (
+            <>
+              <br />
+              <Link href={`tel:${mentor.profile.phone}`}>{mentor.profile.phone}</Link>
+            </>
+          )}
+        </Box>
+      ))}
+    </DashboardInfoBox>
+  );
+}
+
+function StudentResourcesBox({ token, slackId, resources }) {
+  return (
+    <DashboardInfoBox title="Resources">
+      <List styleType="disc" pl={6}>
+        <ListItem>
+          <Link href={`/dash/s/${token}/problem`}>Report a Problem</Link>
+          <Text fontSize="xs">(e.g., issue already solved, no mentor response)</Text>
+        </ListItem>
+        <ListItem><Link href={`/dash/s/${token}/onboarding`}>Onboarding Assignments</Link></ListItem>
+        <ListItem><Link href={`/dash/s/${token}/feedback`} target="_blank">Review Feedback</Link></ListItem>
+        <ListItem><Link href={`/dash/s/${token}/help`}>Book Coding Help Meeting</Link></ListItem>
+        {slackId && (
+          <ListItem><Link href={`/api/link-slack?token=${token}&r=s`}>Re-Link Slack Account</Link></ListItem>
+        )}
+        {resources.map((r) => (
+          <ListItem key={r.id}><Link href={r.link} target="_blank">{r.name}</Link></ListItem>
+        ))}
+      </List>
+    </DashboardInfoBox>
+  );
+}
+
+function StudentDashboardContent({ student, event, surveys, resources, token }) {
+  const dueSurveys = dueSurveysFor(surveys, student.id);
+  return (
+    <Page title={TITLE}>
       <Content>
-        <Heading as="h2" mb={8} fontSize="4xl">{data.labs.student.name}'s Dashboard</Heading>
+        <Heading as="h2" mb={8} fontSize="4xl">{student.name}'s Dashboard</Heading>
         <Grid templateColumns={{ base: '1fr', md: '2fr 1fr' }} gap={8}>
           <Box>
-            {data.labs.student.projects.map((p) => (
-              <Match
-                match={p}
-                selectedTags={[]}
-                allowSelect={false}
-              />
+            {student.projects.map((p) => (
+              <Match key={p.id} match={p} selectedTags={[]} allowSelect={false} />
             ))}
           </Box>
           <Box>
-
-            <Button as="a" size="lg" mb={4} colorScheme="blue" w="100%" rounded="sm" href={`/dash/s/${query?.token}/help`}>
+            <Button as="a" size="lg" mb={4} colorScheme="blue" w="100%" rounded="sm" href={`/dash/s/${token}/help`}>
               Book Coding Help Meeting
             </Button>
-
-            {!data.labs.student.slackId && (
-              <Button as="a" size="md" mb={4} colorScheme="yellow" w="100%" rounded="sm" href={`/api/link-slack?token=${query?.token}&r=s`}>
+            {!student.slackId && (
+              <Button as="a" size="md" mb={4} colorScheme="yellow" w="100%" rounded="sm" href={`/api/link-slack?token=${token}&r=s`}>
                 Link Slack Account
               </Button>
             )}
-
-            {(dueSurveys.length > 0 || isOnboardingWeek) && (
-              <Box p={4} pt={3} mb={4} bg={`red.${bg}`} borderColor={`red.${borderColor}`} borderWidth={4} color={`red.${color}`} rounded="sm">
-                <Text mb={0} color="red.700" fontSize="sm">[ACTION REQUIRED]</Text>
-                <Heading as="h3" fontSize="md" mb={2}>Due Check-Ins, Reflections, &amp; Surveys</Heading>
-                <List styleType="disc" pl={6}>
-                  {isOnboardingWeek && (
-                    <ListItem>
-                      <Link href={`/dash/s/${query?.token}/onboarding`}>
-                        <Text display="inline" fontWeight="bold">Onboarding Assignments</Text>
-                        <Text fontSize="sm">due {DateTime.fromISO(data.labs.event.startsAt).plus({days: 6}).toLocaleString(DateTime.DATE_MED)}</Text>
-                      </Link>
-                    </ListItem>
-                  )}
-                  {data.labs.surveys.flatMap((s) => s.occurrences.sort((a, b) => DateTime.fromISO(a.dueAt) > DateTime.fromISO(b.dueAt) ? -1 : 1).slice(0,1).map((o) => {
-                    if (o.surveyResponses.filter((r) => r.authorStudentId === data?.labs?.student?.id).length > 0) return <></>;
-                    return (
-                      <ListItem key={o.id}>
-                        <Link href={`/dash/s/${query.token}/survey/${s.id}/${o.id}`} target="_blank">
-                          <Text display="inline" fontWeight="bold">{s.name}</Text>
-                          <Text fontSize="sm">due {DateTime.fromISO(o.dueAt).toLocaleString(DateTime.DATE_MED)}</Text>
-                        </Link>
-                      </ListItem>
-                    );
-                  }))}
-                </List>
-              </Box>
-            )}
-
-            <Box p={4} mb={4} bg={`blue.${bg}`} borderColor={`blue.${borderColor}`} borderWidth={1} color={`blue.${color}`} rounded="sm">
-              <Heading as="h3" fontSize="md" mb={4}>Mentor Contact Information</Heading>
-              {data.labs.student.projects.map(({ mentors }) => mentors).flat().map((mentor) => (
-                <Box display="inline-block">
-                  {mentor.name}<br />
-                  <Link href={`mailto:${mentor.email}`}>{mentor.email}</Link>
-                  {mentor.profile?.phone && (
-                    <>
-                      <br />
-                      <Link href={`tel:${mentor.profile.phone}`}>{mentor.profile.phone}</Link>
-                    </>
-                  )}
-                </Box>
-              ))}
-            </Box>
-
-            <Box p={4} mb={4} bg={`blue.${bg}`} borderColor={`blue.${borderColor}`} borderWidth={1} color={`blue.${color}`} rounded="sm">
-              <Heading as="h3" fontSize="md" mb={2}>Resources</Heading>
-              <List styleType="disc" pl={6}>
-                <ListItem>
-                  <Link href={`/dash/s/${query?.token}/problem`}>
-                    Report a Problem
-                  </Link>
-                  <Text fontSize="xs">(e.g., issue already solved, no mentor response)</Text>
-                </ListItem>
-                <ListItem>
-                  <Link href={`/dash/s/${query?.token}/onboarding`}>
-                    Onboarding Assignments
-                  </Link>
-                </ListItem>
-                <ListItem>
-                  <Link
-                    href={`/dash/s/${query.token}/feedback`}
-                    target="_blank"
-                  >
-                    Review Feedback
-                  </Link>
-                </ListItem>
-                <ListItem>
-                  <Link href={`/dash/s/${query?.token}/help`}>
-                    Book Coding Help Meeting
-                  </Link>
-                </ListItem>
-                {data.labs.student.slackId && (
-                  <ListItem>
-                    <Link href={`/api/link-slack?token=${query?.token}&r=s`}>
-                      Re-Link Slack Account
-                    </Link>
-                  </ListItem>
-                )}
-                {data.labs.resources.map(r => (
-                    <ListItem key={r.id}>
-                      <Link href={r.link} target="_blank">{r.name}</Link>
-                    </ListItem>
-                ))}
-              </List>
-            </Box>
-
-            <MiniCalendar
-              events={[
-                ...(!data.labs.event.matchingStartsAt ? [] : [
-                  {
-                    date: DateTime.fromISO(data.labs.event.matchingStartsAt),
-                    name: `Project descriptions finalized`,
-                  },
-                  {
-                    date: DateTime.fromISO(data.labs.event.matchingStartsAt),
-                    name: `Student match preferences open`,
-                  }
-                ]),
-                ...(!data.labs.event.matchingDueAt ? [] : [
-                  {
-                    date: DateTime.fromISO(data.labs.event.matchingDueAt),
-                    name: `Student match preferences due`,
-                  }
-                ]),
-                {
-                  date: data.labs.event.matchingEndsAt
-                    ? DateTime.fromISO(data.labs.event.matchingEndsAt)
-                    : DateTime.fromISO(data.labs.event.startsAt).minus({ days: 3 }),
-                  name: `Introduction emails sent`,
-                },
-                {
-                  date: DateTime.fromISO(data.labs.event.startsAt),
-                  name: `Onboarding week (no mentor meetings)`,
-                },
-                {
-                  date: data.labs.event.projectWorkStartsAt
-                    ? DateTime.fromISO(data.labs.event.projectWorkStartsAt)
-                    : DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
-                  name: `Onboarding assignments due`,
-                },
-                {
-                  date: data.labs.event.projectWorkStartsAt
-                    ? DateTime.fromISO(data.labs.event.projectWorkStartsAt)
-                    : DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
-                  name: `Project work begins`,
-                },
-                {
-                  date: data.labs.event.projectWorkStartsAt
-                    ? DateTime.fromISO(data.labs.event.projectWorkStartsAt)
-                    : DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
-                  name: `Mentor meetings begin`,
-                },
-                {
-                  date: data.labs.event.projectWorkStartsAt
-                    ? DateTime.fromISO(data.labs.event.projectWorkStartsAt)
-                    : DateTime.fromISO(data.labs.event.startsAt).plus({ weeks: 1 }),
-                  name: `Slack standups begin`,
-                },
-                {
-                  date: DateTime.fromISO(data.labs.event.startsAt)
-                    .plus({ weeks: data.labs.student.weeks })
-                    .minus({ days: 3 }),
-                  name: `Your last day`,
-                },
-              ]}
-            />
-
+            <DueSurveysBox surveys={dueSurveys} token={token} event={event} />
+            <MentorContactsBox projects={student.projects} />
+            <StudentResourcesBox token={token} slackId={student.slackId} resources={resources} />
+            <MiniCalendar events={buildStudentCalendarEvents(event, student)} />
           </Box>
         </Grid>
       </Content>
     </Page>
   );
+}
+
+function StudentDashboardInner({ data, token }) {
+  const student = data.labs.student;
+  if (student.status === 'OFFERED') return (
+    <CenteredMessagePage title={TITLE}>
+      <Text>You were offered admission to CodeDay Labs in the {student.track} track:</Text>
+      <Text><Link href={`/dash/s/${token}/offer-accept`}>I accept this offer!</Link></Text>
+      <Text><Link href={`/dash/s/${token}/withdraw`}>I do NOT accept, and want to withdraw my application.</Link></Text>
+    </CenteredMessagePage>
+  );
+  if (student.status !== 'ACCEPTED') return (
+    <CenteredMessagePage title={TITLE}>
+      <Text>Your dashboard will become available if you are accepted to CodeDay Labs.</Text>
+    </CenteredMessagePage>
+  );
+  const hasPreferences = data.labs.projectPreferences?.length > 0;
+  const hasProjects = student.projects?.length > 0;
+  if (hasPreferences && !hasProjects) return (
+    <CenteredMessagePage title={TITLE}>
+      <Text>Your project preferences have been submitted! Check back once you've been matched.</Text>
+    </CenteredMessagePage>
+  );
+  if (hasProjects) return (
+    <StudentDashboardContent
+      student={student}
+      event={data.labs.event}
+      surveys={data.labs.surveys}
+      resources={data.labs.resources}
+      token={token}
+    />
+  );
+  return <CenteredMessagePage title={TITLE}><Spinner /></CenteredMessagePage>;
+}
+
+export default function Dashboard() {
+  const { query } = useRouter();
+  const { isValidating, data, error } = useSwr(print(StudentDashboardQuery), {}, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || data?.labs?.student?.status !== 'ACCEPTED') return;
+    const noProjects = !data.labs.student.projects || data.labs.student.projects.length === 0;
+    const noPreferences = !data?.labs?.projectPreferences || data.labs.projectPreferences.length === 0;
+    if (noProjects && noPreferences) window.location = `${window.location.href}/matching`;
+  }, [data?.labs?.projects, data?.labs?.projectPreferences]);
 
   return (
-    <Page title="Student Dashboard">
-      <Content>
-        <Spinner />
-      </Content>
-    </Page>
-  )
+    <DashboardStateGate title={TITLE} error={error} isLoading={isValidating || !data?.labs?.student}>
+      {data?.labs?.student && <StudentDashboardInner data={data} token={query.token} />}
+    </DashboardStateGate>
+  );
 }

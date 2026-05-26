@@ -1,5 +1,4 @@
 import { useReducer, useState } from 'react';
-import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import { Box, Button, Heading, TextInput as Input } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
@@ -68,7 +67,7 @@ export default function MentorManagerAddMentor() {
           onClick={async () => {
             setLoading(true);
             try {
-              const mentorResp = await fetch(print(MentorAddMutation), { data: mentor });
+              const mentorResp = await fetch(MentorAddMutation, { data: mentor });
               success('Mentor added.');
               window.location = `/dash/mm/${query.token}/${mentorResp.labs.createMentor.id}`;
             } catch (ex) {

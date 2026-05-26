@@ -4,9 +4,11 @@ import getConfig from 'next/config';
 import { decode, sign } from 'jsonwebtoken';
 import { Box, Button, Spinner, Heading, Link } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
+import { useToasts } from '@codeday/topo/utils';
 import LockIcon from '@codeday/topocons/Icon/Lock';
 import { Accordion, AccordionItem, AccordionButton as AccordionHeader, AccordionPanel, AccordionIcon} from '@chakra-ui/react';
 import Page from '../../../../components/Page';
+import CenteredMessagePage from '../../../../components/Dashboard/CenteredMessagePage';
 import { useSwr, useFetcher } from '../../../../dashboardFetch';
 import MentorProfile from '../../../../components/Dashboard/MentorProfile';
 import ProjectEditor from '../../../../components/Dashboard/ProjectEditor';
@@ -17,8 +19,10 @@ export default function MentorDashboard({ id, mentorToken }) {
   const { query } = useRouter();
   const { loading, error, data, revalidate } = useSwr(print(MentorPageQuery), { id });
   const fetch = useFetcher();
+  const { success, error: errorToast } = useToasts();
+  const headerBg = useColorModeValue('gray.50', 'gray.900');
 
-  if (!data?.labs?.mentor || loading || error) return <Page title="Mentor Editor"><Content textAlign="center"><Spinner /></Content></Page>
+  if (!data?.labs?.mentor || loading || error) return <CenteredMessagePage title="Mentor Editor"><Spinner /></CenteredMessagePage>;
   const mentor = data.labs.mentor;
   const mentorPriorParticipation = data.labs.mentorPriorParticipation;
   return (
@@ -36,7 +40,7 @@ export default function MentorDashboard({ id, mentorToken }) {
           <AccordionItem>
             <AccordionHeader
               borderBottomWidth={1}
-              bg={useColorModeValue('gray.50', 'gray.900')}
+              bg={headerBg}
               fontWeight="bold"
             >
               Mentor Profile
@@ -50,10 +54,10 @@ export default function MentorDashboard({ id, mentorToken }) {
             </AccordionPanel>
           </AccordionItem>
           {data?.labs?.mentor?.projects && data?.labs?.mentor?.projects?.map((project, i) => (
-            <AccordionItem>
+            <AccordionItem key={project.id || i}>
               <AccordionHeader
                 borderBottomWidth={1}
-                bg={useColorModeValue('gray.50', 'gray.900')}
+                bg={headerBg}
                 fontWeight="bold"
               >
                 Project {i+1}
@@ -67,7 +71,7 @@ export default function MentorDashboard({ id, mentorToken }) {
           <AccordionItem>
             <AccordionHeader
               borderBottomWidth={1}
-              bg={useColorModeValue('gray.50', 'gray.900')}
+              bg={headerBg}
               fontWeight="bold"
             >
               Create Project
@@ -75,19 +79,19 @@ export default function MentorDashboard({ id, mentorToken }) {
             </AccordionHeader>
             <AccordionPanel>
               {['BEGINNER', 'INTERMEDIATE', 'ADVANCED'].map((e) => (
-
                 <Button
+                  key={e}
                   mr={2}
                   onClick={async () => {
                     try {
-                      await fetch(print(ProjectAddMutation), {
+                      await fetch(ProjectAddMutation, {
                         mentor: mentor.id,
                         data: { track: e }
                       });
                       success('Project added.');
                       revalidate();
                     } catch(ex) {
-                      console.error(ex);
+                      errorToast(ex.toString());
                       revalidate();
                     }
                   }}

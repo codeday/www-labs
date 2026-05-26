@@ -4,25 +4,26 @@ import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import { DateTime } from 'luxon';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
-import { Box, Grid, Text, Heading, Button, Spinner } from '@codeday/topo/Atom';
+import { Box, Grid, Heading, Button, Spinner } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import Page from '../../../../components/Page';
+import CenteredMessagePage from '../../../../components/Dashboard/CenteredMessagePage';
 import { useSwr } from '../../../../dashboardFetch';
 import { DashboardStudents } from './students.gql';
+
+const TITLE = 'Student Dashboard';
 
 export default function StudentDashboard() {
   const { query } = useRouter();
   const { isValidating, data } = useSwr(print(DashboardStudents), {}, { refreshInterval: 1000 * 60 });
   const [lastUpdated, setLastUpdated] = useState(DateTime.local());
   useEffect(() => {
-    if (typeof window !== 'undefined' && !isValidating) setLastUpdated(DateTime.local());
-  }, [typeof window, isValidating]);
-
+    if (!isValidating) setLastUpdated(DateTime.local());
+  }, [isValidating]);
 
   const [gridApi, setGridApi] = useState(null);
-  const [gridColumnApi, setGridColumnApi] = useState(null);
 
-  if (!data?.labs) return <Page title="Student Dashboard"><Content textAlign="center"><Spinner /></Content></Page>;
+  if (!data?.labs) return <CenteredMessagePage title={TITLE}><Spinner /></CenteredMessagePage>;
 
   const { sid: myUsername } = decode(query.token) || {};
 
@@ -58,7 +59,7 @@ export default function StudentDashboard() {
     }));
 
   return (
-    <Page title="Student Dashboard">
+    <Page title={TITLE}>
       <Content mt={-8}>
         <Button as="a" href={`/dash/mm/${query.token}`} mb={8}>&laquo; Back</Button>
         <Grid templateColumns={{ base: '1fr', md: '2fr 1fr' }}>
@@ -86,7 +87,6 @@ export default function StudentDashboard() {
           <AgGridReact
             onGridReady={(params) => {
               setGridApi(params.api);
-              setGridColumnApi(params.columnApi);
             }}
             rowData={rows}
             defaultColDef={{

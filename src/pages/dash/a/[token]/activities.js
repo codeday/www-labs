@@ -34,7 +34,7 @@ export default function AdminActivities({ activities }) {
       setSchema(res.labs.activitySchema);
       setIsLoading(false);
     })();
-  }, [typeof window, functionName]);
+  }, [functionName]);
 
   return (
     <Page title="Activities">

@@ -1,5 +1,4 @@
-import { useReducer, useState } from 'react';
-import { print } from 'graphql';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Button, Heading, TextInput as Input } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
@@ -19,7 +18,7 @@ export default function AdminDeletMentor() {
     <Page title="Delete Mentor">
       <Content mt={-8}>
         <Button as="a" href={`/dash/a/${query.token}`}>&laquo; Back</Button>
-        <Heading as="h2" fontSize="5xl" mb={8} mt={4}>Add Mentor</Heading>
+        <Heading as="h2" fontSize="5xl" mb={8} mt={4}>Delete Mentor</Heading>
 
         <Box mb={8}>
           <Heading as="h3" fontSize="lg" mt={4}>ID</Heading>
@@ -38,7 +37,7 @@ export default function AdminDeletMentor() {
           onClick={async () => {
             setLoading(true);
             try {
-              await fetch(print(MentorDeleteMutation), { id });
+              await fetch(MentorDeleteMutation, { id });
               success('Mentor deleted.');
               setId('');
             } catch (ex) {

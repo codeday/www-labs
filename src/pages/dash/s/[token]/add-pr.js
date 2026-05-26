@@ -6,6 +6,7 @@ import { Box, Button, Text, Heading, Spinner, TextInput as Input, HStack } from 
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
+import CenteredMessagePage from '../../../../components/Dashboard/CenteredMessagePage';
 import { useFetcher, useSwr } from '../../../../dashboardFetch';
 import { AddProjectPr, PrUrlStatus } from './add-pr.gql'
 
@@ -58,11 +59,7 @@ export default function AddPr() {
   const { query } = useRouter();
 
   if (isValidating || !data?.labs?.student) return (
-    <Page title="Add PR">
-      <Content textAlign="center">
-        <Spinner />
-      </Content>
-    </Page>
+    <CenteredMessagePage title="Add PR"><Spinner /></CenteredMessagePage>
   );
 
   const student = data.labs.student;
@@ -72,7 +69,7 @@ export default function AddPr() {
       <Content mt={-8}>
         <Heading as="h2" fontSize="3xl" mb={4}>Add PR (Pull Request)</Heading>
         {student.projects.map(p => (
-          <ProjectPr project={p} hasMultipleProjects={student.projects.length > 1 || true} mb={2} />
+          <ProjectPr key={p.id} project={p} hasMultipleProjects={student.projects.length > 1 || true} mb={2} />
         ))}
       </Content>
     </Page>
