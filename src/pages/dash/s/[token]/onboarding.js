@@ -107,7 +107,7 @@ export default function Onboarding({ student }) {
           )}
         </Box>
         {trainingOptions.map((t) => (
-          <Box mb={8}>
+          <Box key={t.id} mb={8}>
             <Text display="block" pr={8} fontWeight="bold" color={submitted.includes(t.id) ? 'green.700' : undefined}>
               Project-Specific: {t.studentDisplayName}
             </Text>

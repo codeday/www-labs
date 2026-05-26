@@ -187,7 +187,7 @@ function StudentDashboardInner({ data, token }) {
       token={token}
     />
   );
-  return <Page title={TITLE}><Content><Spinner /></Content></Page>;
+  return <CenteredMessagePage title={TITLE}><Spinner /></CenteredMessagePage>;
 }
 
 export default function Dashboard() {
@@ -202,7 +202,7 @@ export default function Dashboard() {
     const noProjects = !data.labs.student.projects || data.labs.student.projects.length === 0;
     const noPreferences = !data?.labs?.projectPreferences || data.labs.projectPreferences.length === 0;
     if (noProjects && noPreferences) window.location = `${window.location.href}/matching`;
-  }, [data?.labs?.projects, data?.labs?.projectPreferences, typeof window]);
+  }, [data?.labs?.projects, data?.labs?.projectPreferences]);
 
   return (
     <DashboardStateGate title={TITLE} error={error} isLoading={isValidating || !data?.labs?.student}>
