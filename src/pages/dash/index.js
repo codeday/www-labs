@@ -1,124 +1,77 @@
-import { useEffect, useMemo } from "react";
-import useSwr from "swr";
-import fetch from "node-fetch";
-import { signIn } from "next-auth/client";
-import {
-  Box,
-  Text,
-  Button,
-  Spinner,
-  Divider,
-  Heading,
-  Grid,
-} from "@codeday/topo/Atom";
-import { Content } from "@codeday/topo/Molecule";
-import Page from "../../components/Page";
-import RequestLoginLink from "../../components/Dashboard/RequestLoginLink";
-import UniversalSearch from "../../components/Dashboard/UniversalSearch";
-import { useColorModeValue } from "@chakra-ui/react";
+import useSwr from 'swr';
+import fetch from 'node-fetch';
+import { signIn } from 'next-auth/client';
+import { Text, Button, Spinner, Divider, Grid } from '@codeday/topo/Atom';
+import { Content } from '@codeday/topo/Molecule';
+import Page from '../../components/Page';
+import EventCard from '../../components/Dashboard/EventCard';
+import RequestLoginLink from '../../components/Dashboard/RequestLoginLink';
+import UniversalSearch from '../../components/Dashboard/UniversalSearch';
 
-const sectionNames = {
-  a: "Admin",
-  mm: "Staff",
-  r: "Reviewer",
-  m: "Mentor",
-  s: "Student",
-  osm: "Open-Source Manager",
-};
+function hasEvents(data) {
+  return !!(data?.events && Object.keys(data.events).length > 0);
+}
+
+function SignInPrompt() {
+  return (
+    <>
+      <Text mb={4}>
+        Students/program staff: Log into your CodeDay account to continue.
+      </Text>
+      <Button onClick={() => signIn('auth0')} colorScheme="green" mb={2}>
+        Sign In
+      </Button>
+    </>
+  );
+}
+
+function OsmShortcut({ token }) {
+  return (
+    <Content maxW="container.sm" textAlign="center">
+      <Button as="a" href={`/dash/osm/${token}`}>
+        Open-Source Manager
+      </Button>
+    </Content>
+  );
+}
+
+function EventsList({ data }) {
+  return (
+    <Content maxW="container.lg">
+      <UniversalSearch data={data} />
+      <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
+        {Object.entries(data.events).map(([title, tokens]) => (
+          <EventCard key={title} title={title} tokens={tokens} />
+        ))}
+      </Grid>
+    </Content>
+  );
+}
+
+function CenteredMessage({ children }) {
+  return (
+    <Content maxW="container.sm" textAlign="center">
+      {children}
+    </Content>
+  );
+}
+
+function DashboardBody({ isValidating, data }) {
+  if (hasEvents(data)) return <EventsList data={data} />;
+  if (data) return <CenteredMessage>Sorry, nothing is associated with your account.</CenteredMessage>;
+  if (isValidating) return <CenteredMessage><Spinner /></CenteredMessage>;
+  return <CenteredMessage><SignInPrompt /></CenteredMessage>;
+}
 
 export default function DashboardLogin() {
-  const { isValidating, data } = useSwr("/api/dashRedirect", (url) =>
+  const { isValidating, data } = useSwr('/api/dashRedirect', (url) =>
     fetch(url).then((r) => r.json())
   );
 
-  const headerBg = useColorModeValue("gray.200", "gray.900");
-  const headerFg = useColorModeValue("gray.900", "white");
-
-  const result = useMemo(() => {
-    if (data?.events && Object.keys(data.events).length > 0) {
-      return Object.entries(data.events).map(([title, tokens]) => (
-        <Box rounded="sm" borderWidth={1}>
-          <Heading
-            p={2}
-            as="h3"
-            fontSize="lg"
-            backgroundColor={headerBg}
-            color={headerFg}
-            roundedTop="sm"
-          >
-            {title}
-          </Heading>
-          <Box p={2}>
-            {Object.entries(tokens)
-              .filter(
-                ([tokenType, token]) => !tokenType.startsWith("_") & !!token
-              )
-              .map(([k, token]) => (
-                <Button
-                  key={k}
-                  mr={2}
-                  as="a"
-                  size="sm"
-                  href={`/dash/${k}/${token}`}
-                >
-                  {sectionNames[k]}
-                </Button>
-              ))}
-            {tokens.mm && (
-              <Button
-                colorScheme="green"
-                mr={2}
-                as="a"
-                size="sm"
-                href={`/dash/mm/${tokens.mm}/note`}
-                color="green.900"
-              >
-                Add Student Note
-              </Button>
-            )}
-          </Box>
-        </Box>
-      ));
-    } else if (data) {
-      return <>Sorry, nothing is associated with your account.</>;
-    } else if (isValidating) {
-      return <Spinner />;
-    } else {
-      return (
-        <>
-          <Text mb={4}>
-            Students/program staff: Log into your CodeDay account to continue.
-          </Text>
-          <Button onClick={() => signIn("auth0")} colorScheme="green" mb={2}>
-            Sign In
-          </Button>
-        </>
-      );
-    }
-  }, [isValidating, data, headerBg, headerFg]);
-
   return (
-    <Page slug={`/dash`} title={`Dashboard`}>
-      {data?.osm && (
-        <Content maxW="container.sm" textAlign="center">
-          <Button as="a" href={`/dash/osm/${data.osm}`}>
-            Open-Source Manager
-          </Button>
-        </Content>
-      )}
-
-      {Array.isArray(result) ? (
-        <Content maxW="container.lg">
-          <UniversalSearch data={data} />
-          <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={4}>
-            {result}
-          </Grid>
-        </Content>
-      ) : (
-        <Content maxW="container.sm" textAlign="center">
-          {result}
-        </Content>
-      )}
+    <Page slug="/dash" title="Dashboard">
+      {data?.osm && <OsmShortcut token={data.osm} />}
+      <DashboardBody isValidating={isValidating} data={data} />
       <Content maxW="container.sm">
         <Divider mt={8} mb={8} />
         <Text mb={4}>Mentors: enter your email to receive a login link.</Text>
