@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 import { Box, Grid, Image, Text, Heading, Link, Spinner, Button, VStack} from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import Page from '../../../../components/Page';
+import CenteredMessagePage from '../../../../components/Dashboard/CenteredMessagePage';
 import { useSwr } from '../../../../dashboardFetch';
 import { DashboardQuery } from './index.gql';
 import MentorStats from '../../../../components/Dashboard/MentorStats';
@@ -44,11 +45,12 @@ export default function MentorDashboard() {
   const { query } = useRouter();
   const { isValidating, data } = useSwr(print(DashboardQuery), {}, { refreshInterval: 1000 * 30 });
   const [lastUpdated, setLastUpdated] = useState(DateTime.local());
+  const altRowBg = useColorModeValue('gray.50', 'gray.900');
   useEffect(() => {
     if (typeof window !== 'undefined' && !isValidating) setLastUpdated(DateTime.local());
-  }, [typeof window, isValidating]);
+  }, [isValidating]);
 
-  if (!data?.labs) return <Page title="Mentor Manager Dashboard"><Content textAlign="center"><Spinner /></Content></Page>;
+  if (!data?.labs) return <CenteredMessagePage title="Mentor Manager Dashboard"><Spinner /></CenteredMessagePage>;
 
   const { sid: myUsername } = decode(query.token) || {};
 
@@ -66,7 +68,7 @@ export default function MentorDashboard() {
       if (a.status === 'APPLIED' && b.status !== 'APPLIED') return -1;
       if (a.status !== 'APPLIED' && b.status === 'APPLIED') return 1;
       if (a.status === 'SCHEDULED' && b.status !== 'SCHEDULED') return -1;
-      if (a.status !== 'SCHEDULD' && b.status === 'SCHEDULED') return 1;
+      if (a.status !== 'SCHEDULED' && b.status === 'SCHEDULED') return 1;
       return a.status > b.status ? 1 : -1;
     });
 
@@ -121,7 +123,7 @@ export default function MentorDashboard() {
             <Box as="th" textAlign="center">Projects</Box>
           </Box>
           {sortedMentors.map((mentor, id) => (
-            <Box as="tr" bg={id % 2 === 1 ? useColorModeValue('gray.50', 'gray.900') : undefined} borderBottomWidth={1}>
+            <Box as="tr" key={mentor.id} bg={id % 2 === 1 ? altRowBg : undefined} borderBottomWidth={1}>
               <Box
                 as="td"
                 bold
@@ -146,8 +148,8 @@ export default function MentorDashboard() {
                 )}
               </Box>
               <Box as="td" textAlign="center" pb={2} pt={2} verticalAlign="bottom">
-                {!['CANCELED', 'REJECTED', 'APPLIED', 'SCHEDULED'].includes(mentor.status) && mentor.projects.map(({ status, track }) => (
-                  <ProjectIndicator status={status} track={track} />
+                {!['CANCELED', 'REJECTED', 'APPLIED', 'SCHEDULED'].includes(mentor.status) && mentor.projects.map(({ status, track }, i) => (
+                  <ProjectIndicator key={i} status={status} track={track} />
                 ))}
               </Box>
             </Box>
