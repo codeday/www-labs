@@ -1,28 +1,30 @@
-import { useRouter } from 'next/router';
-import { Content } from '@codeday/topo/Molecule';
-import { Box, Button, Grid, Heading, Link, List, ListItem, Spinner } from '@codeday/topo/Atom';
+import { Box, Link, List, ListItem, Spinner } from '@codeday/topo/Atom';
 import { useSwr } from '../../../../dashboardFetch';
 import Page from '../../../../components/Page';
+import CenteredMessagePage from '../../../../components/Dashboard/CenteredMessagePage';
 import { GetRepositoryProjects } from './index.gql';
 import { print } from 'graphql';
+import { Content } from '@codeday/topo/Molecule';
 import { Accordion, AccordionItem, AccordionButton as AccordionHeader, AccordionPanel, AccordionIcon, } from '@chakra-ui/react';
 import ProjectEditor from '../../../../components/Dashboard/ProjectEditor';
 import { useColorModeValue } from '@codeday/topo/Theme';
 
-export default function AdminDashboard() {
-  const { query } = useRouter();
-  const { isValidating, data } = useSwr(print(GetRepositoryProjects), {});
+const TITLE = 'Open Source Manager Dashboard';
 
-  if (!data) return <Page><Content><Spinner /></Content></Page>
+export default function AdminDashboard() {
+  const { data } = useSwr(print(GetRepositoryProjects), {});
+  const headerBg = useColorModeValue('gray.50', 'gray.900');
+
+  if (!data) return <CenteredMessagePage title={TITLE}><Spinner /></CenteredMessagePage>;
 
   return (
-    <Page title="Open Source Manager Dashboard">
+    <Page title={TITLE}>
       <Content>
         <Accordion borderWidth={1} borderTopWidth={0} defaultIndex={0} allowToggle={true}>
           <AccordionItem>
             <AccordionHeader
               borderBottomWidth={1}
-              bg={useColorModeValue('gray.50', 'gray.900')}
+              bg={headerBg}
               fontWeight="bold"
             >
               Create Project
@@ -41,10 +43,10 @@ export default function AdminDashboard() {
             </AccordionPanel>
           </AccordionItem>
           {data.labs.repositories.map(r => (
-            <AccordionItem>
+            <AccordionItem key={r.id}>
               <AccordionHeader
                 borderBottomWidth={1}
-                bg={useColorModeValue('gray.50', 'gray.900')}
+                bg={headerBg}
                 fontWeight="bold"
               >
                 {r.name} - {r.url}
@@ -60,7 +62,7 @@ export default function AdminDashboard() {
                     </Box>
                   </Box>
                   {r.projects.map(p => (
-                    <Box as="tr">
+                    <Box as="tr" key={p.id}>
                       <Box as="td">
                         {p.complete ? 'DONE' : p.status}
                       </Box>
@@ -72,12 +74,12 @@ export default function AdminDashboard() {
                       <Box as="td">
                         <List>
                           {p.mentors.map(m => (
-                            <ListItem>
+                            <ListItem key={m.email}>
                               <Link as="a" href={`mailto:${m.email}`}>{m.name} (mentor)</Link>
                             </ListItem>
                           ))}
                           {p.students.map(s => (
-                            <ListItem>
+                            <ListItem key={s.email}>
                               <Link as="a" href={`mailto:${s.email}`}>{s.name}</Link>
                             </ListItem>
                           ))}
