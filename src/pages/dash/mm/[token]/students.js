@@ -3,7 +3,7 @@ import { decode } from 'jsonwebtoken';
 import { print } from 'graphql';
 import { useRouter } from 'next/router';
 import { DateTime } from 'luxon';
-import {AgGridColumn, AgGridReact} from 'ag-grid-react';
+import { AgGridReact } from 'ag-grid-react';
 import { Box, Grid, Heading, Button, Spinner } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import Page from '../../../../components/Page';
@@ -96,27 +96,28 @@ export default function StudentDashboard() {
               floatingFilter: true,
               resizable: true,
             }}
-          >
-            <AgGridColumn field="manager" sortable={true} filter="agTextColumnFilter"></AgGridColumn>
-            <AgGridColumn field="mentor" sortable={true} filter="agTextColumnFilter"></AgGridColumn>
-            <AgGridColumn field="mentorEmail"></AgGridColumn>
-            <AgGridColumn field="projectId"></AgGridColumn>
-            <AgGridColumn field="studentId"></AgGridColumn>
-            <AgGridColumn field="mentorPhone"></AgGridColumn>
-            <AgGridColumn field="projectTrack" sortable={true}></AgGridColumn>
-            <AgGridColumn field="student" filter="agTextColumnFilter"></AgGridColumn>
-            <AgGridColumn field="studentEmail"></AgGridColumn>
-            <AgGridColumn field="studentPhone"></AgGridColumn>
-            <AgGridColumn field="studentTrack" sortable={true}></AgGridColumn>
-            <AgGridColumn field="partnerCode" sortable={true}></AgGridColumn>
-            <AgGridColumn field="weeks" sortable={true}></AgGridColumn>
-            <AgGridColumn field="maxWeeks" sortable={true}></AgGridColumn>
-            <AgGridColumn field="trainingCount"></AgGridColumn>
-            <AgGridColumn field="training"></AgGridColumn>
-            <AgGridColumn field="schoolYear"></AgGridColumn>
-            <AgGridColumn field="ethnicity"></AgGridColumn>
-            <AgGridColumn field="pronouns"></AgGridColumn>
-          </AgGridReact>
+            columnDefs={[
+              { field: 'manager', sortable: true, filter: 'agTextColumnFilter' },
+              { field: 'mentor', sortable: true, filter: 'agTextColumnFilter' },
+              { field: 'mentorEmail' },
+              { field: 'projectId' },
+              { field: 'studentId' },
+              { field: 'mentorPhone' },
+              { field: 'projectTrack', sortable: true },
+              { field: 'student', filter: 'agTextColumnFilter' },
+              { field: 'studentEmail' },
+              { field: 'studentPhone' },
+              { field: 'studentTrack', sortable: true },
+              { field: 'partnerCode', sortable: true },
+              { field: 'weeks', sortable: true },
+              { field: 'maxWeeks', sortable: true },
+              { field: 'trainingCount' },
+              { field: 'training' },
+              { field: 'schoolYear' },
+              { field: 'ethnicity' },
+              { field: 'pronouns' },
+            ]}
+          />
         </div>
       </Content>
     </Page>

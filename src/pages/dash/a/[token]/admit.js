@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { DateTime } from 'luxon';
-import { AgGridColumn, AgGridReact } from 'ag-grid-react';
+import { AgGridReact } from 'ag-grid-react';
 import { Box, Button, Checkbox, Heading, Link, Select, Spinner, Text } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
@@ -83,7 +83,7 @@ function DropdownSaveCellRenderer({ value, data, colDef, context }) {
   };
 
   return (
-    <Box d="flex" alignItems="center" style={{ gap: '4px' }}>
+    <Box display="flex" alignItems="center" style={{ gap: '4px' }}>
       <Select
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
@@ -125,7 +125,7 @@ function StatusCellRenderer({ value, data, colDef, context }) {
   };
 
   return (
-    <Box d="flex" alignItems="center" style={{ gap: '4px' }}>
+    <Box display="flex" alignItems="center" style={{ gap: '4px' }}>
       <Box flex={1}>
         <DropdownSaveCellRenderer value={value} data={data} colDef={colDef} context={context} />
       </Box>
@@ -173,7 +173,7 @@ function TrackRecCellRenderer({ data }) {
   recs.forEach((rec) => { weights[rec.track] = rec.weight; });
 
   return (
-    <Box d="flex" style={{ gap: '3px' }} alignItems="center">
+    <Box display="flex" style={{ gap: '3px' }} alignItems="center">
       {['BEGINNER', 'INTERMEDIATE', 'ADVANCED'].map((t) => (
         <Box
           as="span"
@@ -238,26 +238,20 @@ export default function AdminAdmit() {
               resizable: true,
               width: 150,
             }}
-            frameworkComponents={{
-              idCellRenderer: IdCellRenderer,
-              dropdownSaveCellRenderer: DropdownSaveCellRenderer,
-              statusCellRenderer: StatusCellRenderer,
-              ratingCellRenderer: RatingCellRenderer,
-              trackRecCellRenderer: TrackRecCellRenderer,
-            }}
-          >
-            <AgGridColumn field="id" headerName="ID" cellRenderer="idCellRenderer" width={120} />
-            <AgGridColumn field="name" headerName="Name" width={180} />
-            <AgGridColumn field="status" headerName="Status" cellRenderer="statusCellRenderer" width={230} filter={false} />
-            <AgGridColumn field="track" headerName="Track" cellRenderer="dropdownSaveCellRenderer" width={200} filter={false} />
-            <AgGridColumn field="admissionRatingAverage" headerName="Avg Rating" cellRenderer="ratingCellRenderer" width={120} filter="agNumberColumnFilter" />
-            <AgGridColumn headerName="Track Rec" cellRenderer="trackRecCellRenderer" width={90} filter={false} sortable={false} />
-            <AgGridColumn field="admissionRatingCount" headerName="# Ratings" width={110} filter="agNumberColumnFilter" />
-            <AgGridColumn field="interviewNotes" headerName="Interview Notes" width={300} />
-            <AgGridColumn field="partnerCode" headerName="Partner Code" width={140} />
-            <AgGridColumn field="minHours" headerName="Min Hours" width={110} filter="agNumberColumnFilter" />
-            <AgGridColumn field="timezoneOffset" headerName="Timezone (UTC)" width={130} filter="agNumberColumnFilter" />
-          </AgGridReact>
+            columnDefs={[
+              { field: 'id', headerName: 'ID', cellRenderer: IdCellRenderer, width: 120 },
+              { field: 'name', headerName: 'Name', width: 180 },
+              { field: 'status', headerName: 'Status', cellRenderer: StatusCellRenderer, width: 230, filter: false },
+              { field: 'track', headerName: 'Track', cellRenderer: DropdownSaveCellRenderer, width: 200, filter: false },
+              { field: 'admissionRatingAverage', headerName: 'Avg Rating', cellRenderer: RatingCellRenderer, width: 120, filter: 'agNumberColumnFilter' },
+              { headerName: 'Track Rec', cellRenderer: TrackRecCellRenderer, width: 90, filter: false, sortable: false },
+              { field: 'admissionRatingCount', headerName: '# Ratings', width: 110, filter: 'agNumberColumnFilter' },
+              { field: 'interviewNotes', headerName: 'Interview Notes', width: 300 },
+              { field: 'partnerCode', headerName: 'Partner Code', width: 140 },
+              { field: 'minHours', headerName: 'Min Hours', width: 110, filter: 'agNumberColumnFilter' },
+              { field: 'timezoneOffset', headerName: 'Timezone (UTC)', width: 130, filter: 'agNumberColumnFilter' },
+            ]}
+          />
         </Box>
       </Content>
     </Page>
