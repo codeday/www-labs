@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { DateTime } from 'luxon';
 import { AgGridReact } from 'ag-grid-react';
-import { themeQuartz } from 'ag-grid-community';
 import { Box, Button, Checkbox, Heading, Link, Select, Spinner, Text } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
@@ -233,9 +232,8 @@ export default function AdminAdmit() {
         </Box>
         <Box mb={4}>Current held spots: {heldSpotsCount(stats)}</Box>
 
-        <Box h={700} w="100%">
+        <Box className="ag-theme-quartz" h={700} w="100%">
           <AgGridReact
-            theme={themeQuartz}
             rowData={rows}
             context={context}
             rowGroupPanelShow="always"

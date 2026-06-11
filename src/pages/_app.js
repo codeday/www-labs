@@ -6,6 +6,8 @@ import { RandomProvider } from '../providers/random';
 import { AllEnterpriseModule } from 'ag-grid-enterprise';
 import { AgGridProvider } from 'ag-grid-react';
 import 'react-responsive-modal/styles.css';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-quartz.css';
 import '../custom.css';
 
 const agGridModules = [AllEnterpriseModule];
