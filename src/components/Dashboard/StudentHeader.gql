@@ -2,6 +2,7 @@ fragment StudentHeader on LabsStudent {
   id
   givenName
   surname
+  email
   track
   minHours
   timezone

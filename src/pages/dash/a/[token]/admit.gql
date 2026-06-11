@@ -1,10 +1,10 @@
-query TopStudentsByTrack ($track: LabsTrack!, $includeRejected: Boolean!) {
+query TopStudentsByTrack ($includeAll: Boolean) {
   labs {
-    statAdmissionsStatus(track: $track) {
+    statAdmissionsStatus {
       key
       value
     }
-    studentsTopRated(track: $track, take: 60, includeRejected: $includeRejected) {
+    studentsTopRated(take: 1000, includeAll: $includeAll) {
       id
       name
       status
@@ -44,6 +44,14 @@ mutation StudentTrackChallenge ($id: String!) {
 mutation StudentTrackInterview ($id: String!) {
   labs {
     editStudent(where: { id: $id }, data: { status: TRACK_INTERVIEW }) {
+      id
+    }
+  }
+}
+
+mutation StudentChangeStatus ($id: String!, $status: LabsStudentStatus!) {
+  labs {
+    editStudent(where: { id: $id }, data: { status: $status }) {
       id
     }
   }

@@ -40,6 +40,9 @@ export default function StudentHeader({ student, anonymous, ...props }) {
             student.profile?.school,
           ].filter(Boolean).join(', ')}
         </Text>
+        {student.email && (
+          <Text fontSize="md"><Link as="a" href={`mailto:${student.email}`}>{student.email}</Link></Text>
+        )}
         {!anonymous && (
           <Text fontSize="md">Ethnicity: {student.profile?.ethnicities ? student.profile.ethnicities.join('/') : student.profile?.ethnicity}</Text>
         )}
