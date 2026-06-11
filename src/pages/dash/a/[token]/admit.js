@@ -56,13 +56,13 @@ function ratingColor(avg) {
 }
 
 function IdCellRenderer({ value, data, node, context }) {
-  if (node.group) return null;
+  if (node?.group) return null;
   const href = `/dash/a/${context.token}/student/${value}`;
   return <Link href={href} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">{value}</Link>;
 }
 
 function DropdownSaveCellRenderer({ value, data, node, colDef, context }) {
-  if (node.group) return null;
+  if (node?.group) return null;
   const field = colDef.field;
   const isTrack = field === 'track';
   const options = isTrack ? TRACK_OPTIONS : STATUS_OPTIONS;
@@ -113,7 +113,7 @@ function DropdownSaveCellRenderer({ value, data, node, colDef, context }) {
 }
 
 function StatusCellRenderer({ value, data, node, colDef, context }) {
-  if (node.group) return null;
+  if (node?.group) return null;
   const [offering, setOffering] = useState(false);
 
   const handleOffer = async () => {
@@ -152,7 +152,7 @@ function StatusCellRenderer({ value, data, node, colDef, context }) {
 }
 
 function RatingCellRenderer({ value, node }) {
-  if (node.group) return null;
+  if (node?.group) return null;
   const bg = ratingColor(value);
   return (
     <Box
@@ -173,7 +173,7 @@ const TRACK_COLORS = { BEGINNER: 'teal.500', INTERMEDIATE: 'green.500', ADVANCED
 const TRACK_LABELS = { BEGINNER: 'B', INTERMEDIATE: 'I', ADVANCED: 'A' };
 
 function TrackRecCellRenderer({ data, node }) {
-  if (node.group) return null;
+  if (node?.group) return null;
   const recs = data.trackRecommendation || [];
   const weights = {};
   recs.forEach((rec) => { weights[rec.track] = rec.weight; });
