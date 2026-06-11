@@ -204,9 +204,9 @@ export default function AdminAdmit() {
   const { query } = useRouter();
   const fetchGql = useFetcher();
   const { success, error } = useToasts();
-  const [includeRejected, setIncludeRejected] = useState(false);
+  const [includeAll, setIncludeAll] = useState(false);
   const { students, stats, loading, refresh } = useTopStudents({
-    includeRejected,
+    includeAll,
     token: query.token,
   });
 
@@ -228,7 +228,7 @@ export default function AdminAdmit() {
         <Button as="a" href={`/dash/a/${query.token}`}>&laquo; Back</Button>
         <Heading as="h2" fontSize="5xl" mt={4}>Admissions</Heading>
         <Box mb={4}>
-          <Checkbox onClick={(e) => setIncludeRejected(e.target.checked)}>Include Rejected</Checkbox>
+          <Checkbox onChange={(e) => setIncludeAll(e.target.checked)}>Show all students</Checkbox>
           {loading && <Spinner ml={4} />}
         </Box>
         <Box mb={4}>Current held spots: {heldSpotsCount(stats)}</Box>

@@ -1,10 +1,10 @@
-query TopStudentsByTrack ($includeRejected: Boolean!) {
+query TopStudentsByTrack ($includeAll: Boolean) {
   labs {
     statAdmissionsStatus {
       key
       value
     }
-    studentsTopRated(take: 200, includeRejected: $includeRejected) {
+    studentsTopRated(take: 1000, includeAll: $includeAll) {
       id
       name
       status
