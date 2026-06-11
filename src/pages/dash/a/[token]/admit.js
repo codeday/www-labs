@@ -76,8 +76,8 @@ function DropdownSaveCellRenderer({ value, data, node, colDef, context }) {
       } else {
         await context.fetch(StudentChangeStatus, { id: data.id, status: selected });
       }
+      if (node) node.setDataValue(field, selected);
       context.success(`Updated ${data.name}`);
-      context.refresh();
     } catch (ex) {
       context.error(ex.toString());
     }
@@ -119,8 +119,8 @@ function StatusCellRenderer({ value, data, node, colDef, context }) {
     setOffering(true);
     try {
       await context.fetch(StudentOfferAdmission, { id: data.id });
+      if (node) node.setDataValue('status', 'OFFERED');
       context.success(`Offered admission to ${data.name}`);
-      context.refresh();
     } catch (ex) {
       context.error(ex.toString());
     }
@@ -216,10 +216,9 @@ export default function AdminAdmit() {
   const context = useMemo(() => ({
     token: query.token,
     fetch: fetchGql,
-    refresh,
     success,
     error,
-  }), [query.token, fetchGql, refresh, success, error]);
+  }), [query.token, fetchGql, success, error]);
 
   return (
     <Page title="Admissions">
