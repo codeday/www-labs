@@ -1,4 +1,5 @@
 module.exports = {
+  transpilePackages: ['ag-grid-community', 'ag-grid-enterprise', 'ag-grid-react'],
   redirects: () => [
     {
       source: '/volunteer',
