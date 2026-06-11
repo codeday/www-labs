@@ -47,11 +47,11 @@ function tzToOffset(tz) {
 
 function ratingColor(avg) {
   if (avg == null || avg === 0) return undefined;
-  if (avg < 2) return '#e53e3e';
-  if (avg < 4) return '#dd6b20';
-  if (avg < 6) return '#d69e2e';
-  if (avg < 8) return '#805ad5';
-  return '#3182ce';
+  if (avg < 2) return 'red.500';
+  if (avg < 4) return 'orange.500';
+  if (avg < 6) return 'yellow.500';
+  if (avg < 8) return 'purple.500';
+  return 'blue.500';
 }
 
 function IdCellRenderer({ value, data, context }) {
@@ -164,7 +164,7 @@ function RatingCellRenderer({ value }) {
   );
 }
 
-const TRACK_COLORS = { BEGINNER: '#319795', INTERMEDIATE: '#38a169', ADVANCED: '#a0aec0' };
+const TRACK_COLORS = { BEGINNER: 'teal.500', INTERMEDIATE: 'green.500', ADVANCED: 'gray.500' };
 const TRACK_LABELS = { BEGINNER: 'B', INTERMEDIATE: 'I', ADVANCED: 'A' };
 
 function TrackRecCellRenderer({ data }) {
@@ -176,16 +176,15 @@ function TrackRecCellRenderer({ data }) {
     <Box d="flex" style={{ gap: '3px' }} alignItems="center">
       {['BEGINNER', 'INTERMEDIATE', 'ADVANCED'].map((t) => (
         <Box
+          as="span"
           key={t}
           bg={TRACK_COLORS[t]}
           opacity={weights[t] || 0}
           color="white"
-          fontSize="xs"
           fontWeight="bold"
-          px={1}
-          py="1px"
+          px={2}
+          py="2px"
           borderRadius="sm"
-          lineHeight="1.4"
         >
           {TRACK_LABELS[t]}
         </Box>
