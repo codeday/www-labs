@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { DateTime } from 'luxon';
 import { AgGridReact } from 'ag-grid-react';
@@ -67,6 +67,8 @@ function DropdownSaveCellRenderer({ value, data, node, colDef, context }) {
   const options = isTrack ? TRACK_OPTIONS : STATUS_OPTIONS;
   const [selected, setSelected] = useState(value);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => { setSelected(value); }, [value]);
 
   const handleSave = async () => {
     setSaving(true);
