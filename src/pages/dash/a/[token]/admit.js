@@ -6,7 +6,6 @@ import { Box, Button, Checkbox, Heading, Spinner } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
-import SelectTrack from '../../../../components/Dashboard/SelectTrack';
 import useTopStudents from '../../../../components/Dashboard/useTopStudents';
 import { useFetcher } from '../../../../dashboardFetch';
 import { StudentChangeTrack, StudentChangeStatus } from './admit.gql';
@@ -110,10 +109,29 @@ function DropdownSaveCellRenderer({ value, data, colDef, context }) {
   );
 }
 
-function RatingCellRenderer({ value }) {
-  const color = ratingColor(value);
+function TrackCellRenderer({ value, data, colDef, context }) {
+  const trackSummary = (data.trackRecommendation || [])
+    .map((rec) => `${Math.floor(rec.weight * 100)}% ${rec.track[0]}`)
+    .join(' / ');
+
   return (
-    <span style={{ color, fontWeight: color ? 'bold' : 'normal' }}>
+    <div>
+      <DropdownSaveCellRenderer value={value} data={data} colDef={colDef} context={context} />
+      {trackSummary && <div style={{ fontSize: '10px', color: '#666', marginTop: '2px' }}>{trackSummary}</div>}
+    </div>
+  );
+}
+
+function RatingCellRenderer({ value }) {
+  const bg = ratingColor(value);
+  return (
+    <span style={{
+      backgroundColor: bg,
+      color: bg ? 'white' : undefined,
+      fontWeight: bg ? 'bold' : 'normal',
+      padding: bg ? '2px 6px' : undefined,
+      borderRadius: bg ? '3px' : undefined,
+    }}>
       {value != null ? Math.round(value * 100) / 100 : ''}
     </span>
   );
@@ -123,10 +141,8 @@ export default function AdminAdmit() {
   const { query } = useRouter();
   const fetchGql = useFetcher();
   const { success, error } = useToasts();
-  const [filterTrack, setFilterTrack] = useState('BEGINNER');
   const [includeRejected, setIncludeRejected] = useState(false);
   const { students, stats, loading, refresh } = useTopStudents({
-    track: filterTrack,
     includeRejected,
     token: query.token,
   });
@@ -150,8 +166,7 @@ export default function AdminAdmit() {
         <Button as="a" href={`/dash/a/${query.token}`}>&laquo; Back</Button>
         <Heading as="h2" fontSize="5xl" mt={4}>Admissions</Heading>
         <Box mb={4}>
-          <SelectTrack track={filterTrack} onChange={(e) => setFilterTrack(e.target.value)} />
-          <Checkbox ml={4} onClick={(e) => setIncludeRejected(e.target.checked)}>Include Rejected</Checkbox>
+          <Checkbox onClick={(e) => setIncludeRejected(e.target.checked)}>Include Rejected</Checkbox>
           {loading && <Spinner ml={4} />}
         </Box>
         <Box mb={4}>Current held spots: {heldSpotsCount(stats)}</Box>
@@ -170,14 +185,15 @@ export default function AdminAdmit() {
             frameworkComponents={{
               idCellRenderer: IdCellRenderer,
               dropdownSaveCellRenderer: DropdownSaveCellRenderer,
+              trackCellRenderer: TrackCellRenderer,
               ratingCellRenderer: RatingCellRenderer,
             }}
+            rowHeight={50}
           >
             <AgGridColumn field="id" headerName="ID" cellRenderer="idCellRenderer" width={120} />
             <AgGridColumn field="name" headerName="Name" width={180} />
             <AgGridColumn field="status" headerName="Status" cellRenderer="dropdownSaveCellRenderer" width={200} filter={false} />
-            <AgGridColumn field="track" headerName="Track" cellRenderer="dropdownSaveCellRenderer" width={200} filter={false} />
-            <AgGridColumn field="email" headerName="Email" width={220} />
+            <AgGridColumn field="track" headerName="Track" cellRenderer="trackCellRenderer" width={220} filter={false} />
             <AgGridColumn field="admissionRatingAverage" headerName="Avg Rating" cellRenderer="ratingCellRenderer" width={120} filter="agNumberColumnFilter" />
             <AgGridColumn field="admissionRatingCount" headerName="# Ratings" width={110} filter="agNumberColumnFilter" />
             <AgGridColumn field="interviewNotes" headerName="Interview Notes" width={300} />
