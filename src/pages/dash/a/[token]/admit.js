@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { DateTime } from 'luxon';
 import { AgGridReact } from 'ag-grid-react';
+import { themeQuartz } from 'ag-grid-community';
 import { Box, Button, Checkbox, Heading, Link, Select, Spinner, Text } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
@@ -227,10 +228,13 @@ export default function AdminAdmit() {
         </Box>
         <Box mb={4}>Current held spots: {heldSpotsCount(stats)}</Box>
 
-        <Box className="ag-theme-alpine" h={700} w="100%">
+        <Box h={700} w="100%">
           <AgGridReact
+            theme={themeQuartz}
             rowData={rows}
             context={context}
+            rowGroupPanelShow="always"
+            groupDefaultExpanded={-1}
             defaultColDef={{
               sortable: true,
               filter: 'agTextColumnFilter',
@@ -243,11 +247,11 @@ export default function AdminAdmit() {
               { field: 'name', headerName: 'Name', width: 180 },
               { field: 'status', headerName: 'Status', cellRenderer: StatusCellRenderer, width: 230, filter: false },
               { field: 'track', headerName: 'Track', cellRenderer: DropdownSaveCellRenderer, width: 200, filter: false },
-              { field: 'admissionRatingAverage', headerName: 'Avg Rating', cellRenderer: RatingCellRenderer, width: 120, filter: 'agNumberColumnFilter' },
+              { field: 'admissionRatingAverage', headerName: 'Avg Rating', cellRenderer: RatingCellRenderer, width: 120, filter: 'agNumberColumnFilter', sort: 'desc' },
               { headerName: 'Track Rec', cellRenderer: TrackRecCellRenderer, width: 90, filter: false, sortable: false },
               { field: 'admissionRatingCount', headerName: '# Ratings', width: 110, filter: 'agNumberColumnFilter' },
               { field: 'interviewNotes', headerName: 'Interview Notes', width: 300 },
-              { field: 'partnerCode', headerName: 'Partner Code', width: 140 },
+              { field: 'partnerCode', headerName: 'Partner Code', width: 140, rowGroup: true, hide: true },
               { field: 'minHours', headerName: 'Min Hours', width: 110, filter: 'agNumberColumnFilter' },
               { field: 'timezoneOffset', headerName: 'Timezone (UTC)', width: 130, filter: 'agNumberColumnFilter' },
             ]}
