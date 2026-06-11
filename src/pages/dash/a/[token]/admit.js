@@ -8,7 +8,7 @@ import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
 import useTopStudents from '../../../../components/Dashboard/useTopStudents';
 import { useFetcher } from '../../../../dashboardFetch';
-import { StudentChangeTrack, StudentChangeStatus } from './admit.gql';
+import { StudentChangeTrack, StudentChangeStatus, StudentOfferAdmission } from './admit.gql';
 
 const HELD_SPOT_STATUSES = ['OFFERED', 'ACCEPTED', 'TRACK_CHALLENGE', 'TRACK_INTERVIEW'];
 
@@ -110,30 +110,65 @@ function DropdownSaveCellRenderer({ value, data, colDef, context }) {
 }
 
 function TrackCellRenderer({ value, data, colDef, context }) {
+  const [offering, setOffering] = useState(false);
+
+  const handleOffer = async () => {
+    setOffering(true);
+    try {
+      await context.fetch(StudentOfferAdmission, { id: data.id });
+      context.success(`Offered admission to ${data.name}`);
+      context.refresh();
+    } catch (ex) {
+      context.error(ex.toString());
+    }
+    setOffering(false);
+  };
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+      <div style={{ flex: 1 }}>
+        <DropdownSaveCellRenderer value={value} data={data} colDef={colDef} context={context} />
+      </div>
+      <button
+        onClick={handleOffer}
+        disabled={offering}
+        style={{
+          fontSize: '11px',
+          padding: '2px 6px',
+          cursor: offering ? 'default' : 'pointer',
+          opacity: offering ? 0.5 : 1,
+          backgroundColor: '#38a169',
+          color: 'white',
+          border: 'none',
+          borderRadius: '3px',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {offering ? '...' : 'Offer'}
+      </button>
+    </div>
+  );
+}
+
+function RatingCellRenderer({ value, data }) {
+  const bg = ratingColor(value);
   const trackSummary = (data.trackRecommendation || [])
     .map((rec) => `${Math.floor(rec.weight * 100)}% ${rec.track[0]}`)
     .join(' / ');
 
   return (
     <div>
-      <DropdownSaveCellRenderer value={value} data={data} colDef={colDef} context={context} />
+      <span style={{
+        backgroundColor: bg,
+        color: bg ? 'white' : undefined,
+        fontWeight: bg ? 'bold' : 'normal',
+        padding: bg ? '2px 6px' : undefined,
+        borderRadius: bg ? '3px' : undefined,
+      }}>
+        {value != null ? Math.round(value * 100) / 100 : ''}
+      </span>
       {trackSummary && <div style={{ fontSize: '10px', color: '#666', marginTop: '2px' }}>{trackSummary}</div>}
     </div>
-  );
-}
-
-function RatingCellRenderer({ value }) {
-  const bg = ratingColor(value);
-  return (
-    <span style={{
-      backgroundColor: bg,
-      color: bg ? 'white' : undefined,
-      fontWeight: bg ? 'bold' : 'normal',
-      padding: bg ? '2px 6px' : undefined,
-      borderRadius: bg ? '3px' : undefined,
-    }}>
-      {value != null ? Math.round(value * 100) / 100 : ''}
-    </span>
   );
 }
 
@@ -188,7 +223,7 @@ export default function AdminAdmit() {
               trackCellRenderer: TrackCellRenderer,
               ratingCellRenderer: RatingCellRenderer,
             }}
-            rowHeight={50}
+            rowHeight={42}
           >
             <AgGridColumn field="id" headerName="ID" cellRenderer="idCellRenderer" width={120} />
             <AgGridColumn field="name" headerName="Name" width={180} />
