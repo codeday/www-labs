@@ -49,6 +49,14 @@ mutation StudentTrackInterview ($id: String!) {
   }
 }
 
+mutation StudentChangeStatus ($id: String!, $status: LabsStudentStatus!) {
+  labs {
+    editStudent(where: { id: $id }, data: { status: $status }) {
+      id
+    }
+  }
+}
+
 mutation StudentReject ($id: String!) {
   labs {
     editStudent(where: { id: $id }, data: { status: REJECTED }) {
