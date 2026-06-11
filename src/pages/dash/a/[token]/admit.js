@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { DateTime } from 'luxon';
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
-import { Box, Button, Checkbox, Heading, Spinner } from '@codeday/topo/Atom';
+import { Box, Button, Checkbox, Heading, Link, Select, Spinner, Text } from '@codeday/topo/Atom';
 import { Content } from '@codeday/topo/Molecule';
 import { useToasts } from '@codeday/topo/utils';
 import Page from '../../../../components/Page';
@@ -56,7 +56,7 @@ function ratingColor(avg) {
 
 function IdCellRenderer({ value, data, context }) {
   const href = `/dash/a/${context.token}/student/${value}`;
-  return <a href={href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#3182ce' }}>{value}</a>;
+  return <Link href={href} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">{value}</Link>;
 }
 
 function DropdownSaveCellRenderer({ value, data, colDef, context }) {
@@ -83,29 +83,29 @@ function DropdownSaveCellRenderer({ value, data, colDef, context }) {
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-      <select
+    <Box d="flex" alignItems="center" style={{ gap: '4px' }}>
+      <Select
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
-        style={{ flex: 1, fontSize: '12px', padding: '2px' }}
+        size="xs"
+        flex={1}
+        fontSize="xs"
       >
         {Object.entries(options).map(([k, v]) => (
           <option key={k} value={k}>{v}</option>
         ))}
-      </select>
-      <button
+      </Select>
+      <Button
         onClick={handleSave}
         disabled={saving || selected === value}
-        style={{
-          fontSize: '11px',
-          padding: '2px 6px',
-          cursor: saving || selected === value ? 'default' : 'pointer',
-          opacity: saving || selected === value ? 0.5 : 1,
-        }}
+        size="xs"
+        fontSize="xs"
+        px={2}
+        opacity={saving || selected === value ? 0.5 : 1}
       >
         {saving ? '...' : 'Save'}
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 }
 
@@ -125,44 +125,42 @@ function StatusCellRenderer({ value, data, colDef, context }) {
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-      <div style={{ flex: 1 }}>
+    <Box d="flex" alignItems="center" style={{ gap: '4px' }}>
+      <Box flex={1}>
         <DropdownSaveCellRenderer value={value} data={data} colDef={colDef} context={context} />
-      </div>
-      <button
+      </Box>
+      <Button
         onClick={handleOffer}
         disabled={offering}
-        style={{
-          fontSize: '9px',
-          padding: '1px 4px',
-          lineHeight: '1.2',
-          cursor: offering ? 'default' : 'pointer',
-          opacity: offering ? 0.5 : 1,
-          backgroundColor: '#38a169',
-          color: 'white',
-          border: 'none',
-          borderRadius: '2px',
-          whiteSpace: 'nowrap',
-        }}
+        size="xs"
+        fontSize="2xs"
+        px={1}
+        py={0}
+        lineHeight="1.2"
+        colorScheme="green"
+        opacity={offering ? 0.5 : 1}
+        whiteSpace="nowrap"
       >
         {offering ? '..' : 'Offer'}
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 }
 
 function RatingCellRenderer({ value }) {
   const bg = ratingColor(value);
   return (
-    <span style={{
-      backgroundColor: bg,
-      color: bg ? 'white' : undefined,
-      fontWeight: bg ? 'bold' : 'normal',
-      padding: bg ? '2px 6px' : undefined,
-      borderRadius: bg ? '3px' : undefined,
-    }}>
+    <Box
+      as="span"
+      bg={bg}
+      color={bg ? 'white' : undefined}
+      fontWeight={bg ? 'bold' : 'normal'}
+      px={bg ? 2 : 0}
+      py={bg ? '2px' : 0}
+      borderRadius={bg ? 'sm' : undefined}
+    >
       {value != null ? Math.round(value * 100) / 100 : ''}
-    </span>
+    </Box>
   );
 }
 
@@ -175,25 +173,24 @@ function TrackRecCellRenderer({ data }) {
   recs.forEach((rec) => { weights[rec.track] = rec.weight; });
 
   return (
-    <div style={{ display: 'flex', gap: '3px', alignItems: 'center' }}>
+    <Box d="flex" style={{ gap: '3px' }} alignItems="center">
       {['BEGINNER', 'INTERMEDIATE', 'ADVANCED'].map((t) => (
-        <div
+        <Box
           key={t}
-          style={{
-            backgroundColor: TRACK_COLORS[t],
-            opacity: weights[t] || 0,
-            color: 'white',
-            fontSize: '10px',
-            fontWeight: 'bold',
-            padding: '1px 5px',
-            borderRadius: '2px',
-            lineHeight: '1.4',
-          }}
+          bg={TRACK_COLORS[t]}
+          opacity={weights[t] || 0}
+          color="white"
+          fontSize="xs"
+          fontWeight="bold"
+          px={1}
+          py="1px"
+          borderRadius="sm"
+          lineHeight="1.4"
         >
           {TRACK_LABELS[t]}
-        </div>
+        </Box>
       ))}
-    </div>
+    </Box>
   );
 }
 
@@ -231,7 +228,7 @@ export default function AdminAdmit() {
         </Box>
         <Box mb={4}>Current held spots: {heldSpotsCount(stats)}</Box>
 
-        <div className="ag-theme-alpine" style={{ height: 700, width: '100%' }}>
+        <Box className="ag-theme-alpine" h={700} w="100%">
           <AgGridReact
             rowData={rows}
             context={context}
@@ -262,7 +259,7 @@ export default function AdminAdmit() {
             <AgGridColumn field="minHours" headerName="Min Hours" width={110} filter="agNumberColumnFilter" />
             <AgGridColumn field="timezoneOffset" headerName="Timezone (UTC)" width={130} filter="agNumberColumnFilter" />
           </AgGridReact>
-        </div>
+        </Box>
       </Content>
     </Page>
   );
