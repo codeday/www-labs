@@ -85,6 +85,7 @@ export default function StudentDashboard() {
       <Content maxWidth="100%">
         <div className="ag-theme-alpine" style={{height: 700, width: '100%'}}>
           <AgGridReact
+            theme="legacy"
             onGridReady={(params) => {
               setGridApi(params.api);
             }}

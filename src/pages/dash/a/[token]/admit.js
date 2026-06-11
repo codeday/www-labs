@@ -234,6 +234,7 @@ export default function AdminAdmit() {
 
         <Box className="ag-theme-quartz" h={700} w="100%">
           <AgGridReact
+            theme="legacy"
             rowData={rows}
             context={context}
             rowGroupPanelShow="always"
