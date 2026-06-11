@@ -1,44 +1,46 @@
 query OfferAcceptStatus {
-  labs {
-    student {
-      id
-      givenName
-      surname
-      status
-      weeks
-      minHours
-      hasValidAdmissionOffer
-      event {
-        name
-        startsAt
-        certificationStatements
-        contractUi
-        contractSchema
-      }
-      partner {
-        id
-        partnerCode
-        contractSchema
-        contractUi
-      }
+    labs {
+        student {
+            id
+            givenName
+            surname
+            status
+            weeks
+            minHours
+            hasValidAdmissionOffer
+            event {
+                name
+                startsAt
+                certificationStatements
+                contractUi
+                contractSchema
+                contractUiNoPartner
+                contractSchemaNoPartner
+            }
+            partner {
+                id
+                partnerCode
+                contractSchema
+                contractUi
+            }
+        }
     }
-  }
 }
 
-mutation AcceptOffer (
-  $timeManagementPlan: LabsJSONObject!,
-  $partnerContractData: LabsJSONObject!,
-  $eventContractData: LabsJSONObject!,
-  $timezone: String!
+mutation AcceptOffer(
+    $timeManagementPlan: LabsJSONObject!
+    $partnerContractData: LabsJSONObject!
+    $eventContractData: LabsJSONObject!
+    $timezone: String!
 ) {
-  labs {
-    acceptStudentOffer(
-      timeManagementPlan: $timeManagementPlan,
-      partnerContractData: $partnerContractData,
-      eventContractData: $eventContractData,
-      timezone: $timezone
-    ) {
-      id
+    labs {
+        acceptStudentOffer(
+            timeManagementPlan: $timeManagementPlan
+            partnerContractData: $partnerContractData
+            eventContractData: $eventContractData
+            timezone: $timezone
+        ) {
+            id
+        }
     }
-  }
 }
