@@ -109,7 +109,7 @@ function DropdownSaveCellRenderer({ value, data, colDef, context }) {
   );
 }
 
-function TrackCellRenderer({ value, data, colDef, context }) {
+function StatusCellRenderer({ value, data, colDef, context }) {
   const [offering, setOffering] = useState(false);
 
   const handleOffer = async () => {
@@ -133,41 +133,66 @@ function TrackCellRenderer({ value, data, colDef, context }) {
         onClick={handleOffer}
         disabled={offering}
         style={{
-          fontSize: '11px',
-          padding: '2px 6px',
+          fontSize: '9px',
+          padding: '1px 4px',
+          lineHeight: '1.2',
           cursor: offering ? 'default' : 'pointer',
           opacity: offering ? 0.5 : 1,
           backgroundColor: '#38a169',
           color: 'white',
           border: 'none',
-          borderRadius: '3px',
+          borderRadius: '2px',
           whiteSpace: 'nowrap',
         }}
       >
-        {offering ? '...' : 'Offer'}
+        {offering ? '..' : 'Offer'}
       </button>
     </div>
   );
 }
 
-function RatingCellRenderer({ value, data }) {
+function RatingCellRenderer({ value }) {
   const bg = ratingColor(value);
-  const trackSummary = (data.trackRecommendation || [])
-    .map((rec) => `${Math.floor(rec.weight * 100)}% ${rec.track[0]}`)
-    .join(' / ');
+  return (
+    <span style={{
+      backgroundColor: bg,
+      color: bg ? 'white' : undefined,
+      fontWeight: bg ? 'bold' : 'normal',
+      padding: bg ? '2px 6px' : undefined,
+      borderRadius: bg ? '3px' : undefined,
+    }}>
+      {value != null ? Math.round(value * 100) / 100 : ''}
+    </span>
+  );
+}
+
+const TRACK_COLORS = { BEGINNER: '#319795', INTERMEDIATE: '#38a169', ADVANCED: '#a0aec0' };
+const TRACK_LABELS = { BEGINNER: 'B', INTERMEDIATE: 'I', ADVANCED: 'A' };
+
+function TrackRecCellRenderer({ data }) {
+  const recs = data.trackRecommendation || [];
+  const weights = {};
+  recs.forEach((rec) => { weights[rec.track] = rec.weight; });
 
   return (
-    <div>
-      <span style={{
-        backgroundColor: bg,
-        color: bg ? 'white' : undefined,
-        fontWeight: bg ? 'bold' : 'normal',
-        padding: bg ? '2px 6px' : undefined,
-        borderRadius: bg ? '3px' : undefined,
-      }}>
-        {value != null ? Math.round(value * 100) / 100 : ''}
-      </span>
-      {trackSummary && <div style={{ fontSize: '10px', color: '#666', marginTop: '2px' }}>{trackSummary}</div>}
+    <div style={{ display: 'flex', gap: '3px', alignItems: 'center' }}>
+      {['BEGINNER', 'INTERMEDIATE', 'ADVANCED'].map((t) => (
+        <div
+          key={t}
+          style={{
+            backgroundColor: TRACK_COLORS[t],
+            opacity: weights[t] || 0,
+            color: 'white',
+            fontSize: '10px',
+            fontWeight: 'bold',
+            padding: '1px 5px',
+            borderRadius: '2px',
+            lineHeight: '1.4',
+          }}
+        >
+          {TRACK_LABELS[t]}
+        </div>
+      ))}
     </div>
   );
 }
@@ -220,16 +245,17 @@ export default function AdminAdmit() {
             frameworkComponents={{
               idCellRenderer: IdCellRenderer,
               dropdownSaveCellRenderer: DropdownSaveCellRenderer,
-              trackCellRenderer: TrackCellRenderer,
+              statusCellRenderer: StatusCellRenderer,
               ratingCellRenderer: RatingCellRenderer,
+              trackRecCellRenderer: TrackRecCellRenderer,
             }}
-            rowHeight={42}
           >
             <AgGridColumn field="id" headerName="ID" cellRenderer="idCellRenderer" width={120} />
             <AgGridColumn field="name" headerName="Name" width={180} />
-            <AgGridColumn field="status" headerName="Status" cellRenderer="dropdownSaveCellRenderer" width={200} filter={false} />
-            <AgGridColumn field="track" headerName="Track" cellRenderer="trackCellRenderer" width={220} filter={false} />
+            <AgGridColumn field="status" headerName="Status" cellRenderer="statusCellRenderer" width={230} filter={false} />
+            <AgGridColumn field="track" headerName="Track" cellRenderer="dropdownSaveCellRenderer" width={200} filter={false} />
             <AgGridColumn field="admissionRatingAverage" headerName="Avg Rating" cellRenderer="ratingCellRenderer" width={120} filter="agNumberColumnFilter" />
+            <AgGridColumn headerName="Track Rec" cellRenderer="trackRecCellRenderer" width={90} filter={false} sortable={false} />
             <AgGridColumn field="admissionRatingCount" headerName="# Ratings" width={110} filter="agNumberColumnFilter" />
             <AgGridColumn field="interviewNotes" headerName="Interview Notes" width={300} />
             <AgGridColumn field="partnerCode" headerName="Partner Code" width={140} />
