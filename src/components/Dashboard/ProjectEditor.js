@@ -22,6 +22,7 @@ import { useToasts } from '@codeday/topo/utils';
 import { useFetcher } from '../../dashboardFetch';
 import SelectTrack from './SelectTrack';
 import SelectProjectStatus from './SelectProjectStatus';
+import SelectAttendanceTracking from './SelectAttendanceTracking';
 import { EditProject, CreateProject } from './ProjectEditor.gql';
 import TagPicker from './TagPicker';
 
@@ -48,6 +49,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
           deliverables: project.deliverables || "",
           issueUrl: project.issueUrl || null,
           repositoryId: repositories ? (project.repositoryId || null) : undefined,
+          attendanceTracking: project.attendanceTracking || 'SLACK_HUDDLE',
           tags: (project.tags || []).map(({ id }) => id),
           ...(limited ? {} : {
             status: project.status,
@@ -68,7 +70,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
   return (
     <Box {...rest}>
       <Grid
-        templateColumns={limited ? 'repeat(3, 1fr)' : '1fr' }
+        templateColumns={limited ? `repeat(${hideStatus ? 3 : 4}, 1fr)` : '1fr'}
         gap={4}
         color={limited ? 'current.textLight' : undefined}
         textAlign={limited ? 'center' : undefined}
@@ -115,7 +117,20 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
             )
           }
         </Text>
+        <Text>
+          <Text as="span" bold>Attendance Tracking: </Text>
+          <SelectAttendanceTracking
+            ml={2}
+            attendanceTracking={project.attendanceTracking}
+            onChange={(e) => setProject(['attendanceTracking', e.target.value])}
+          />
+        </Text>
       </Grid>
+
+      <Text mt={-2} mb={4} fontSize="sm" color="current.textLight">
+        If your team doesn't meet over Slack, turn attendance tracking off so students aren't
+        falsely flagged as absent.
+      </Text>
 
       {project.affinePartner?.partnerCode && (
         <Text mb={8}>
@@ -186,32 +201,43 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
         disabled={project.status === 'MATCHED' && limited}
       />
 
-      {!(project.status === 'MATCHED' && limited) && (
-        <Box mt={4}>
+      <Box mt={4}>
+        {project.status === 'MATCHED' && limited ? (
           <Button
             display="inline-block"
-            onClick={save(limited ? { status: 'DRAFT' } : {})}
+            onClick={save({})}
             isLoading={loading}
             disabled={loading}
           >
-            { limited ? 'Save Draft' : 'Save' }
+            Save Attendance Setting
           </Button>
+        ) : (
+          <>
+            <Button
+              display="inline-block"
+              onClick={save(limited ? { status: 'DRAFT' } : {})}
+              isLoading={loading}
+              disabled={loading}
+            >
+              {limited ? 'Save Draft' : 'Save'}
+            </Button>
 
-          {limited && ['DRAFT', 'PROPOSED'].includes(project.status) && (
-            <Box display="inline-block" ml={4} pl={4} borderLeftWidth={1}>
-              <Button
-                display="inline-block"
-                colorScheme="green"
-                onClick={save({ status: 'PROPOSED' })}
-                isLoading={loading}
-                disabled={loading}
-              >
-                Save &amp; Submit
-              </Button>
-            </Box>
-          )}
-        </Box>
-      )}
+            {limited && ['DRAFT', 'PROPOSED'].includes(project.status) && (
+              <Box display="inline-block" ml={4} pl={4} borderLeftWidth={1}>
+                <Button
+                  display="inline-block"
+                  colorScheme="green"
+                  onClick={save({ status: 'PROPOSED' })}
+                  isLoading={loading}
+                  disabled={loading}
+                >
+                  Save &amp; Submit
+                </Button>
+              </Box>
+            )}
+          </>
+        )}
+      </Box>
       {tagInfo.filter((t) => !!t.trainingLink).length > 0 && (
         <Box>
           <Heading as="h3" fontSize="xl" mt={8} mb={4}>Onboarding Week</Heading>

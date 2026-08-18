@@ -8,6 +8,7 @@ fragment ProjectEditor on LabsProject {
   issueUrl
   repositoryId
   affinePartnerId
+  attendanceTracking
   affinePartner {
     partnerCode
   }
