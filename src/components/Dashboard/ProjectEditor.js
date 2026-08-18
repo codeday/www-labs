@@ -22,6 +22,7 @@ import { useToasts } from '@codeday/topo/utils';
 import { useFetcher } from '../../dashboardFetch';
 import SelectTrack from './SelectTrack';
 import SelectProjectStatus from './SelectProjectStatus';
+import SelectAttendanceTracking from './SelectAttendanceTracking';
 import { EditProject, CreateProject } from './ProjectEditor.gql';
 import TagPicker from './TagPicker';
 
@@ -48,6 +49,7 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
           deliverables: project.deliverables || "",
           issueUrl: project.issueUrl || null,
           repositoryId: repositories ? (project.repositoryId || null) : undefined,
+          attendanceTracking: project.attendanceTracking || 'SLACK_HUDDLE',
           tags: (project.tags || []).map(({ id }) => id),
           ...(limited ? {} : {
             status: project.status,
@@ -115,7 +117,20 @@ export default function ProjectEditor({ tags, project: originalProject, limited,
             )
           }
         </Text>
+        <Text>
+          <Text as="span" bold>Attendance Tracking: </Text>
+          <SelectAttendanceTracking
+            ml={2}
+            attendanceTracking={project.attendanceTracking}
+            onChange={(e) => setProject(['attendanceTracking', e.target.value])}
+          />
+        </Text>
       </Grid>
+
+      <Text mt={-2} mb={4} fontSize="sm" color="current.textLight">
+        If your team doesn't meet over Slack, turn attendance tracking off so students aren't
+        falsely flagged as absent.
+      </Text>
 
       {project.affinePartner?.partnerCode && (
         <Text mb={8}>
