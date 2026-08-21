@@ -1,0 +1,22 @@
+query GetSurveyQuery($id: String!) {
+  labs {
+    survey(survey: $id) {
+      id
+      name
+      personType
+      occurrences {
+        id
+        visibleAt
+        dueAt
+        surveyResponses {
+          id
+          caution
+          authorMentor { id name }
+          authorStudent { id name }
+          mentor { id name }
+          student { id name }
+        }
+      }
+    }
+  }
+}
