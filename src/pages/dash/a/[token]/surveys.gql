@@ -1,0 +1,24 @@
+query GetSurveysQuery {
+  labs {
+    surveys {
+      id
+      name
+      personType
+      selfSchema
+      selfUi
+      peerSchema
+      peerUi
+      menteeSchema
+      menteeUi
+      mentorSchema
+      mentorUi
+      projectSchema
+      projectUi
+      occurrences {
+        id
+        visibleAt
+        dueAt
+      }
+    }
+  }
+}

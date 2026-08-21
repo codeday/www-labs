@@ -12,6 +12,7 @@ import HeadGroup from '@codeday/topocons/Icon/HeadGroup';
 import UiWarning from '@codeday/topocons/Icon/UiWarning';
 import ShootingStar from '@codeday/topocons/Icon/ShootingStar';
 import UiUpload from '@codeday/topocons/Icon/UiUpload';
+import Survey from '@codeday/topocons/Icon/Survey';
 import Page from '../../../../components/Page';
 import { Icon } from '@chakra-ui/react';
 import { BulkImportStudents, ImportMatches } from './index.gql';
@@ -91,6 +92,7 @@ export default function AdminDashboard() {
           <ActionButton icon={Bolt} href={`/dash/a/${query.token}/match`}>Match Board</ActionButton>
           <ActionButton icon={UiUpload} onClick={() => studentsUploadRef.current?.click()}>Bulk Import Students</ActionButton>
           <ActionButton icon={UiUpload} onClick={() => matchesUploadRef.current?.click()}>Import Matches</ActionButton>
+          <ActionButton icon={Survey} href={`/dash/a/${query.token}/surveys`}>Surveys</ActionButton>
         </Grid>
       </Content>
     </Page>
